@@ -531,7 +531,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     const cam = { th: .78, ph: 1.12, r: 4, tx: 0, ty: .45, tz: 0 }, goal = { ...cam };
     root._cam = goal;
     let autoRot = true, lastInput = performance.now() - 9000, showDims = false, explode = 0, explodeGoal = 0;
-    function fitR() { const asp = stage.clientWidth / Math.max(1, stage.clientHeight); const base = 1.5 + 1.5 * Math.max(dims.L, dims.D * 1.35, 1.3); return base * (asp < 1.1 ? Math.pow(1.1 / asp, .75) : 1); }
+    function fitR() { const sw = stage.clientWidth, sh = stage.clientHeight, asp = sw && sh ? sw / sh : 1.4; const base = 1.5 + 1.5 * Math.max(dims.L, dims.D * 1.35, 1.3); return base * (asp < 1.1 ? Math.pow(1.1 / asp, .75) : 1); }
     const VIEWS = {
       hero: () => ({ th: .78, ph: 1.12, r: fitR(), tx: 0, ty: .42, tz: 0 }),
       front: () => ({ th: 0, ph: 1.38, r: fitR() * .95, tx: 0, ty: .5, tz: 0 }),
@@ -555,7 +555,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
       goal.tx += (-dx * right.x + dy * upv.x) * k; goal.ty += (-dx * right.y + dy * upv.y) * k; goal.tz += (-dx * right.z + dy * upv.z) * k; clampT();
     }
     function twoState() { const [a, b] = [...ptrs.values()]; return { d: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, r: goal.r }; }
-    const touched = () => { lastInput = performance.now(); const hnt = $('.mrc-hint'); if (hnt) hnt.style.opacity = 0; $$('[data-view]').forEach(b => b.classList.remove('on')); };
+    const touched = () => { moved = true; lastInput = performance.now(); const hnt = $('.mrc-hint'); if (hnt) hnt.style.opacity = 0; $$('[data-view]').forEach(b => b.classList.remove('on')); };
     el.addEventListener('pointerdown', e => {
       if (e.isPrimary) ptrs.clear();
       ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY, btn: e.button, shift: e.shiftKey });
@@ -603,9 +603,12 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
     }));
     addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('is-full')) $('[data-tool="full"]').click(); });
 
+    let sized = false, moved = false;
     function resize() {
       const w = stage.clientWidth, h = stage.clientHeight; if (!w || !h) return;
       renderer.setSize(w, h, false); camera.aspect = w / h; camera.updateProjectionMatrix();
+      if (!sized) { sized = true; Object.assign(cam, VIEWS.hero(), { th: 1.9, r: fitR() * 1.35 }); }
+      if (!moved) { const th = goal.th; setView('hero'); goal.th = th; }
       const f = fitR(); if (Math.abs(goal.r - f) > .01 && performance.now() - lastInput > 1500) goal.r = Math.min(goal.r, f * 1.8);
     }
     new ResizeObserver(resize).observe(stage);
@@ -656,6 +659,8 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
       G.top.position.y = .32 * ex; G.scr.position.y = .62 * ex; G.fL.position.x = -.38 * ex; G.fR.position.x = .38 * ex; G.tray.position.y = -.06 * ex; G.ctr.position.y = .1 * ex * 0;
       G.chairs.visible = ex < .05;
       if (autoRot && performance.now() - lastInput > 5000 && !explodeGoal) goal.th += dt * .14;
+      for (const p of ['th', 'ph', 'r', 'tx', 'ty', 'tz']) if (!Number.isFinite(cam[p])) cam[p] = goal[p];
+      if (!Number.isFinite(dt) || dt < 0) dt = 0;
       const k = Math.min(1, dt * 6.5);
       for (const p of ['th', 'ph', 'r', 'tx', 'ty', 'tz']) cam[p] += (goal[p] - cam[p]) * k;
       const sp = Math.sin(cam.ph);
