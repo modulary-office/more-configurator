@@ -1,0 +1,14 @@
+{
+  "name": "more-configurator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MORE by MODULARY – 3D product configurator (Duo Bench)",
+  "type": "module",
+  "scripts": {
+    "build": "esbuild src/duo-bench.js --minify --format=esm --outfile=dist/duo-bench.min.js && esbuild src/duo-bench.css --minify --outfile=dist/duo-bench.min.css",
+    "dev": "npx http-server . -p 8080 -c-1"
+  },
+  "devDependencies": {
+    "esbuild": "^0.20.2"
+  }
+}
