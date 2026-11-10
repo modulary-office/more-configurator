@@ -1,0 +1,21 @@
+{ "_note": "דקורים למשטחים. kind: wood / solid / stone / marble. base ו-dark בצבעי HEX.", "items": [
+  { "id": "oak", "he": "אלון טבעי", "kind": "wood", "base": "#D8B98D", "dark": "#A9824F" },
+  { "id": "split", "he": "אלון מבוקע", "kind": "wood", "base": "#C9A274", "dark": "#86603A", "cracks": true },
+  { "id": "smoked", "he": "אלון מעושן", "kind": "wood", "base": "#8C6C4F", "dark": "#55402D" },
+  { "id": "walnut", "he": "אגוז אמריקאי", "kind": "wood", "base": "#73513A", "dark": "#3E2A1D" },
+  { "id": "ash", "he": "אש לבן", "kind": "wood", "base": "#E6DAC6", "dark": "#C7B597" },
+  { "id": "white", "he": "לבן ארקטי", "kind": "solid", "base": "#F2F1EC" },
+  { "id": "cashmere", "he": "קשמיר", "kind": "solid", "base": "#D4C7B5" },
+  { "id": "lgrey", "he": "אפור בהיר", "kind": "solid", "base": "#C5C4C0" },
+  { "id": "graphite", "he": "גרפיט", "kind": "solid", "base": "#3E3F42" },
+  { "id": "black", "he": "שחור", "kind": "solid", "base": "#1E1E20" },
+  { "id": "concrete", "he": "דמוי בטון", "kind": "stone", "base": "#A8A39B" },
+  { "id": "marble", "he": "דמוי שיש", "kind": "marble", "base": "#EEEBE5" },
+  { "id": "sage", "he": "ירוק מרווה", "kind": "solid", "base": "#9AA793" },
+  { "id": "terra", "he": "טרקוטה", "kind": "solid", "base": "#B76B4E" },
+  { "id": "blush", "he": "ורוד אבקה", "kind": "solid", "base": "#DDB8AC" },
+  { "id": "navy", "he": "כחול לילה", "kind": "solid", "base": "#2C3649" },
+  { "id": "olive", "he": "זית", "kind": "solid", "base": "#6F6E4C" },
+  { "id": "sand", "he": "חול", "kind": "stone", "base": "#CDBB9E" }
+ ]
+}

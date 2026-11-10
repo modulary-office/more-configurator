@@ -1,0 +1,57 @@
+{
+  "id": "duo-bench",
+  "name": "Duo Bench",
+  "family": "bench",
+  "codePrefix": "MB",
+  "subtitle": "בנו את העמדה שלכם: מידות, פלטה, צבע רגליים ובד מחיצה. התצוגה מתעדכנת בזמן אמת.",
+  "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הפלטות, הצבעים והבדים.",
+
+  "defaults": { "layout": "double", "n": 2, "w": 120, "d": 120, "top": "oak", "edge": "match", "prof": "straight", "ral": "2001", "hw": "alu", "sh": 40, "fab": "petrol", "tray": false, "power": false, "chairs": false },
+
+  "sections": [
+    { "id": "size", "title": "מידות ותצורה", "controls": [
+      { "type": "seg", "key": "layout", "label": "סוג עמדה", "options": [ { "v": "double", "label": "דו־צדדי (Bench)" }, { "v": "single", "label": "חד־צדדי" } ] },
+      { "type": "stepper", "key": "n", "label": "עמדות בכל צד", "out": "seats", "min": 1, "max": 4, "dots": true },
+      { "type": "seg", "key": "w", "label": "רוחב עמדה", "num": true, "options": [ { "v": 120 }, { "v": 140 }, { "v": 160 } ],
+        "custom": { "label": "אחר", "min": 100, "max": 180, "step": 1, "unit": "ס״מ", "inputLabel": "רוחב עמדה בס״מ" } },
+      { "type": "seg", "key": "d", "label": "עומק", "num": true, "optionsBy": { "key": "layout", "map": { "double": [120, 140, 160], "single": [60, 70, 80] } } }
+    ] },
+    { "id": "top", "title": "פלטה", "controls": [
+      { "type": "swatch", "key": "top", "label": "גימור", "catalog": "decors", "style": "decor", "out": "{he}" },
+      { "type": "seg", "key": "edge", "label": "קנט", "options": [ { "v": "match", "label": "תואם לפלטה" }, { "v": "black", "label": "שחור" }, { "v": "legs", "label": "כצבע הרגליים" } ] },
+      { "type": "seg", "key": "prof", "label": "פרופיל קנט", "options": [ { "v": "straight", "label": "ישר" }, { "v": "bevel", "label": "מדוקק" } ] }
+    ] },
+    { "id": "frame", "title": "רגליים ופרזול", "controls": [
+      { "type": "swatch", "key": "ral", "label": "צבע שלד לפי RAL", "catalog": "ral", "style": "ral", "out": "RAL {id} · {he}" },
+      { "type": "seg", "key": "hw", "label": "פרזול: רגליות ותפסני מחיצה", "options": [ { "v": "match", "label": "כמו הרגליים" }, { "v": "alu", "label": "אלומיניום", "hex": "#B8BBBD", "metal": true }, { "v": "black", "label": "שחור", "hex": "#1A1A1C" }, { "v": "white", "label": "לבן", "hex": "#EDEDE8" } ] }
+    ] },
+    { "id": "screen", "title": "מחיצות", "controls": [
+      { "type": "seg", "key": "sh", "label": "גובה מעל הפלטה", "num": true, "options": [ { "v": 0, "label": "ללא" }, { "v": 30, "label": "30 ס״מ" }, { "v": 40, "label": "40 ס״מ" }, { "v": 50, "label": "50 ס״מ" } ] },
+      { "type": "swatch", "key": "fab", "label": "בד אקוסטי", "catalog": "fabrics", "style": "fabric", "out": "{he}" }
+    ] },
+    { "id": "extra", "title": "תוספות", "controls": [
+      { "type": "toggle", "key": "tray", "title": "מגש כבלים", "sub": "תעלה מתחת לפלטה לאורך כל העמדה" },
+      { "type": "toggle", "key": "power", "title": "קופסת חשמל ותקשורת", "sub": "שקע נשלף בכל עמדה" },
+      { "type": "toggle", "key": "chairs", "title": "הצגת כיסאות", "sub": "להמחשת קנה מידה בלבד" }
+    ] }
+  ],
+
+  "pricing": {
+    "_help": "כל הסכומים בשקלים. המחיר מוצג ללקוח רק כשהסכום הכולל גדול מ-0. הכללים מחושבים לפי הסדר. ראו README.",
+    "currency": "₪",
+    "label": "מחיר משוער",
+    "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+    "rules": [
+      { "type": "fixed", "label": "מחיר בסיס", "amount": 0 },
+      { "type": "unit", "label": "לכל עמדה", "per": "seats", "amount": 0 },
+      { "type": "option", "label": "פלטה לפי מ״ר", "key": "top", "per": "areaM2", "amounts": { "oak": 0, "split": 0, "smoked": 0, "walnut": 0, "ash": 0, "white": 0, "cashmere": 0, "lgrey": 0, "graphite": 0, "black": 0, "concrete": 0, "marble": 0, "sage": 0, "terra": 0, "blush": 0, "navy": 0, "olive": 0, "sand": 0 } },
+      { "type": "option", "label": "קנט מדוקק", "key": "prof", "per": "lengthM", "amounts": { "straight": 0, "bevel": 0 } },
+      { "type": "option", "label": "צבע RAL מיוחד", "key": "ral", "amounts": { "9005": 0, "9016": 0, "7016": 0 }, "otherwise": 0 },
+      { "type": "unit", "label": "מחיצות", "per": "screens", "amount": 0, "when": { "sh": [30, 40, 50] } },
+      { "type": "unit", "label": "מגש כבלים לפי מטר", "per": "lengthM", "amount": 0, "when": { "tray": true } },
+      { "type": "unit", "label": "קופסת חשמל", "per": "powerBoxes", "amount": 0, "when": { "power": true } },
+      { "type": "customSize", "label": "תוספת מידה מיוחדת", "key": "w", "percent": 0, "amount": 0 },
+      { "type": "qtyDiscount", "label": "הנחת כמות", "by": "seats", "tiers": [ { "from": 8, "percent": 0 }, { "from": 12, "percent": 0 } ] }
+    ]
+  }
+}

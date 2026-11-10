@@ -1,0 +1,19 @@
+{ "_note": "בדים אקוסטיים ובדי ריפוד.", "items": [
+  { "id": "petrol", "he": "פטרול מעושן", "hex": "#5D7C7E" },
+  { "id": "melange", "he": "אפור מלאנז׳", "hex": "#9C9B97" },
+  { "id": "graphite", "he": "גרפיט", "hex": "#4A4C50" },
+  { "id": "sage", "he": "מרווה", "hex": "#93A28C" },
+  { "id": "bottle", "he": "ירוק בקבוק", "hex": "#2F4E3C" },
+  { "id": "olive", "he": "זית", "hex": "#727440" },
+  { "id": "mustard", "he": "חרדל", "hex": "#C9A03A" },
+  { "id": "terracotta", "he": "טרקוטה", "hex": "#B4643F" },
+  { "id": "rust", "he": "חלודה", "hex": "#8E4426" },
+  { "id": "rose", "he": "ורוד עתיק", "hex": "#C3938B" },
+  { "id": "bordeaux", "he": "בורדו", "hex": "#6B2833" },
+  { "id": "navy", "he": "נייבי", "hex": "#263248" },
+  { "id": "sky", "he": "תכלת", "hex": "#8DAFC4" },
+  { "id": "sand", "he": "חול", "hex": "#CDBC9F" },
+  { "id": "cream", "he": "קרם", "hex": "#E7DFCF" },
+  { "id": "yellow", "he": "צהוב MORE", "hex": "#E9C843" }
+ ]
+}
