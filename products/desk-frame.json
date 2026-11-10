@@ -1,0 +1,2126 @@
+{
+ "id": "desk-frame",
+ "name": "שלד לשולחן",
+ "family": "desk",
+ "codePrefix": "MDF",
+ "subtitle": "שלדי מתכת לשולחנות, בלי פלטה או עם פלטה לבחירה. מגיעים בלבן, שחור, גרפיט או כל גוון RAL.",
+ "note": "השלדים בייבוא, בצבעי לבן, שחור, גרפיט וכחול, או בכל גוון RAL בתוספת. הגוונים במסך להמחשה.",
+ "model": {
+  "frames": {
+   "intel": {
+    "he": "אינטל",
+    "type": "posts"
+   },
+   "rose": {
+    "he": "רוז",
+    "type": "loop"
+   },
+   "lotus": {
+    "he": "לוטוס",
+    "type": "trapez"
+   },
+   "x": {
+    "he": "איקס",
+    "type": "xleg"
+   },
+   "verona": {
+    "he": "ורונה",
+    "type": "angled"
+   },
+   "latte": {
+    "he": "לאטה",
+    "type": "splay"
+   },
+   "arco": {
+    "he": "ארקו",
+    "type": "posts"
+   },
+   "quadro": {
+    "he": "קואדרו",
+    "type": "loop"
+   },
+   "joy-open": {
+    "he": "ג׳וי פתוח",
+    "type": "posts"
+   },
+   "joy-closed": {
+    "he": "ג׳וי חלון סגור",
+    "type": "loop"
+   },
+   "bari": {
+    "he": "בארי",
+    "type": "splay"
+   },
+   "venice": {
+    "he": "ונציה",
+    "type": "zigzag"
+   },
+   "play": {
+    "he": "פלאי",
+    "type": "tripod"
+   },
+   "barcelona": {
+    "he": "ברצלונה",
+    "type": "aframe"
+   },
+   "gesher": {
+    "he": "גשר",
+    "type": "bow"
+   },
+   "spider": {
+    "he": "ספיידר",
+    "type": "bow"
+   },
+   "electric": {
+    "he": "חשמלי מתכוונן",
+    "type": "electric"
+   }
+  },
+  "tops": {
+   "m28": {
+    "he": "מלמין 28 מ״מ, קנט ישר",
+    "t": 28,
+    "edge": "straight"
+   },
+   "m17": {
+    "he": "מלמין 17 מ״מ, קנט ישר",
+    "t": 17,
+    "edge": "straight"
+   },
+   "b24": {
+    "he": "מלמין 24 מ״מ, קנט משופע",
+    "t": 24,
+    "edge": "bevel"
+   },
+   "f28": {
+    "he": "סנדוויץ׳ פורמייקה 28 מ״מ",
+    "t": 28,
+    "edge": "straight"
+   },
+   "mdf28": {
+    "he": "MDF פורמייקה 28 מ״מ, קנט אפוקסי",
+    "t": 28,
+    "edge": "epoxy"
+   },
+   "v30": {
+    "he": "MDF פורניר 30 מ״מ, קנט משופע",
+    "t": 30,
+    "edge": "bevel"
+   }
+  }
+ },
+ "defaults": {
+  "frame": "intel",
+  "layout": "single",
+  "n": 2,
+  "w": 160,
+  "d": 80,
+  "top": "none",
+  "decor": "oak",
+  "fcolor": "9016",
+  "motor": "single",
+  "holes": false,
+  "tray": false
+ },
+ "sections": [
+  {
+   "id": "frame",
+   "title": "שלד",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "frame",
+     "label": "דגם שלד",
+     "layout": "wrap",
+     "options": [
+      {
+       "v": "intel",
+       "label": "אינטל"
+      },
+      {
+       "v": "rose",
+       "label": "רוז"
+      },
+      {
+       "v": "lotus",
+       "label": "לוטוס"
+      },
+      {
+       "v": "x",
+       "label": "איקס"
+      },
+      {
+       "v": "verona",
+       "label": "ורונה"
+      },
+      {
+       "v": "latte",
+       "label": "לאטה"
+      },
+      {
+       "v": "arco",
+       "label": "ארקו"
+      },
+      {
+       "v": "quadro",
+       "label": "קואדרו"
+      },
+      {
+       "v": "joy-open",
+       "label": "ג׳וי פתוח"
+      },
+      {
+       "v": "joy-closed",
+       "label": "ג׳וי חלון סגור"
+      },
+      {
+       "v": "bari",
+       "label": "בארי"
+      },
+      {
+       "v": "venice",
+       "label": "ונציה"
+      },
+      {
+       "v": "play",
+       "label": "פלאי"
+      },
+      {
+       "v": "barcelona",
+       "label": "ברצלונה"
+      },
+      {
+       "v": "gesher",
+       "label": "גשר"
+      },
+      {
+       "v": "spider",
+       "label": "ספיידר"
+      },
+      {
+       "v": "electric",
+       "label": "חשמלי מתכוונן"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "motor",
+     "label": "מנוע",
+     "showWhen": {
+      "frame": "electric"
+     },
+     "options": [
+      {
+       "v": "single",
+       "label": "מנוע יחיד"
+      },
+      {
+       "v": "dual",
+       "label": "שני מנועים"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "size",
+   "title": "תצורה ומידות",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "layout",
+     "label": "תצורה",
+     "layout": "list",
+     "optionsBy": {
+      "key": "frame",
+      "map": {
+       "intel": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "pair",
+         "label": "זוג שולחנות מול מול"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "rose": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "pair",
+         "label": "זוג שולחנות מול מול"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "lotus": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "pair",
+         "label": "זוג שולחנות מול מול"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "x": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        }
+       ],
+       "verona": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "latte": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "arco": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "quadro": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "joy-open": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "joy-closed": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "bari": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "pair",
+         "label": "זוג שולחנות מול מול"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "venice": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        }
+       ],
+       "play": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        }
+       ],
+       "barcelona": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "pair",
+         "label": "זוג שולחנות מול מול"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "gesher": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "pair",
+         "label": "זוג שולחנות מול מול"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "spider": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        },
+        {
+         "v": "row",
+         "label": "שורת שולחנות"
+        },
+        {
+         "v": "bench",
+         "label": "בנץ׳ ארבע עמדות"
+        }
+       ],
+       "electric": [
+        {
+         "v": "single",
+         "label": "שולחן יחיד"
+        }
+       ]
+      }
+     }
+    },
+    {
+     "type": "stepper",
+     "key": "n",
+     "label": "שולחנות בשורה",
+     "min": 2,
+     "max": 6,
+     "showWhen": {
+      "layout": "row"
+     }
+    },
+    {
+     "type": "seg",
+     "key": "w",
+     "label": "אורך",
+     "num": true,
+     "optionsBy": {
+      "key": [
+       "layout",
+       "frame"
+      ],
+      "map": {
+       "single|intel": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|intel": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "pair|intel": [
+        180
+       ],
+       "bench|intel": [
+        300,
+        330,
+        360
+       ],
+       "single|rose": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|rose": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "pair|rose": [
+        180
+       ],
+       "bench|rose": [
+        300,
+        330,
+        360
+       ],
+       "single|lotus": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|lotus": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "pair|lotus": [
+        180
+       ],
+       "bench|lotus": [
+        300,
+        330,
+        360
+       ],
+       "single|x": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|x": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "single|verona": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|verona": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "bench|verona": [
+        300,
+        330,
+        360
+       ],
+       "single|latte": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|latte": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "bench|latte": [
+        300,
+        330,
+        360
+       ],
+       "single|arco": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|arco": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "bench|arco": [
+        300,
+        330,
+        360
+       ],
+       "single|quadro": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|quadro": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "bench|quadro": [
+        300,
+        330,
+        360
+       ],
+       "single|joy-open": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|joy-open": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "bench|joy-open": [
+        300,
+        330,
+        360
+       ],
+       "single|joy-closed": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|joy-closed": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "bench|joy-closed": [
+        300,
+        330,
+        360
+       ],
+       "single|bari": [
+        160,
+        180,
+        200
+       ],
+       "row|bari": [
+        160,
+        180,
+        200
+       ],
+       "pair|bari": [
+        180
+       ],
+       "bench|bari": [
+        300,
+        330,
+        360
+       ],
+       "single|venice": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|venice": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "single|play": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|play": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "single|barcelona": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|barcelona": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "pair|barcelona": [
+        240
+       ],
+       "bench|barcelona": [
+        360
+       ],
+       "single|gesher": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|gesher": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "pair|gesher": [
+        180
+       ],
+       "bench|gesher": [
+        300,
+        330,
+        360
+       ],
+       "single|spider": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|spider": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "bench|spider": [
+        300,
+        330,
+        360
+       ],
+       "single|electric": [
+        120,
+        140,
+        160,
+        180
+       ],
+       "row|electric": [
+        120,
+        140,
+        160,
+        180
+       ]
+      }
+     },
+     "custom": {
+      "label": "אחר",
+      "min": 100,
+      "max": 400,
+      "step": 1,
+      "unit": "ס״מ",
+      "inputLabel": "אורך בס״מ"
+     }
+    },
+    {
+     "type": "seg",
+     "key": "d",
+     "label": "עומק",
+     "num": true,
+     "optionsBy": {
+      "key": [
+       "layout",
+       "frame"
+      ],
+      "map": {
+       "single|intel": [
+        60,
+        70,
+        80
+       ],
+       "row|intel": [
+        60,
+        70,
+        80
+       ],
+       "pair|intel": [
+        118,
+        138
+       ],
+       "bench|intel": [
+        118,
+        138
+       ],
+       "single|rose": [
+        60,
+        70,
+        80
+       ],
+       "row|rose": [
+        60,
+        70,
+        80
+       ],
+       "pair|rose": [
+        118,
+        138
+       ],
+       "bench|rose": [
+        118,
+        138
+       ],
+       "single|lotus": [
+        60,
+        70,
+        80
+       ],
+       "row|lotus": [
+        60,
+        70,
+        80
+       ],
+       "pair|lotus": [
+        118,
+        138
+       ],
+       "bench|lotus": [
+        118,
+        138
+       ],
+       "single|x": [
+        70,
+        80
+       ],
+       "row|x": [
+        70,
+        80
+       ],
+       "single|verona": [
+        70,
+        80,
+        90
+       ],
+       "row|verona": [
+        70,
+        80,
+        90
+       ],
+       "bench|verona": [
+        118,
+        138
+       ],
+       "single|latte": [
+        60,
+        70,
+        80
+       ],
+       "row|latte": [
+        60,
+        70,
+        80
+       ],
+       "bench|latte": [
+        118,
+        138
+       ],
+       "single|arco": [
+        60,
+        70,
+        80
+       ],
+       "row|arco": [
+        60,
+        70,
+        80
+       ],
+       "bench|arco": [
+        118,
+        138
+       ],
+       "single|quadro": [
+        60,
+        70,
+        80
+       ],
+       "row|quadro": [
+        60,
+        70,
+        80
+       ],
+       "bench|quadro": [
+        118,
+        138
+       ],
+       "single|joy-open": [
+        70,
+        80
+       ],
+       "row|joy-open": [
+        70,
+        80
+       ],
+       "bench|joy-open": [
+        118,
+        138
+       ],
+       "single|joy-closed": [
+        70,
+        80
+       ],
+       "row|joy-closed": [
+        70,
+        80
+       ],
+       "bench|joy-closed": [
+        118,
+        138
+       ],
+       "single|bari": [
+        70,
+        80
+       ],
+       "row|bari": [
+        70,
+        80
+       ],
+       "pair|bari": [
+        138,
+        158
+       ],
+       "bench|bari": [
+        138,
+        158
+       ],
+       "single|venice": [
+        70,
+        80,
+        90
+       ],
+       "row|venice": [
+        70,
+        80,
+        90
+       ],
+       "single|play": [
+        80
+       ],
+       "row|play": [
+        80
+       ],
+       "single|barcelona": [
+        80
+       ],
+       "row|barcelona": [
+        80
+       ],
+       "pair|barcelona": [
+        120
+       ],
+       "bench|barcelona": [
+        138
+       ],
+       "single|gesher": [
+        80
+       ],
+       "row|gesher": [
+        80
+       ],
+       "pair|gesher": [
+        118,
+        138
+       ],
+       "bench|gesher": [
+        118,
+        138
+       ],
+       "single|spider": [
+        70,
+        80
+       ],
+       "row|spider": [
+        70,
+        80
+       ],
+       "bench|spider": [
+        118,
+        138
+       ],
+       "single|electric": [
+        60,
+        70,
+        80
+       ],
+       "row|electric": [
+        60,
+        70,
+        80
+       ]
+      }
+     }
+    }
+   ]
+  },
+  {
+   "id": "top",
+   "title": "פלטה",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "top",
+     "label": "סוג פלטה",
+     "layout": "list",
+     "options": [
+      {
+       "v": "none",
+       "label": "ללא פלטה (שלד בלבד)"
+      },
+      {
+       "v": "m28",
+       "label": "מלמין 28 מ״מ, קנט ישר"
+      },
+      {
+       "v": "m17",
+       "label": "מלמין 17 מ״מ, קנט ישר"
+      },
+      {
+       "v": "b24",
+       "label": "מלמין 24 מ״מ, קנט משופע"
+      },
+      {
+       "v": "f28",
+       "label": "סנדוויץ׳ פורמייקה 28 מ״מ"
+      },
+      {
+       "v": "mdf28",
+       "label": "MDF פורמייקה 28 מ״מ, קנט אפוקסי"
+      },
+      {
+       "v": "v30",
+       "label": "MDF פורניר 30 מ״מ, קנט משופע"
+      }
+     ]
+    },
+    {
+     "type": "swatch",
+     "key": "decor",
+     "label": "גימור",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}",
+     "showWhen": {
+      "top": [
+       "m28",
+       "m17",
+       "b24",
+       "f28",
+       "mdf28",
+       "v30"
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "id": "color",
+   "title": "צבע שלד",
+   "controls": [
+    {
+     "type": "swatch",
+     "key": "fcolor",
+     "label": "צבע",
+     "catalog": "frame-colors",
+     "style": "ral",
+     "out": "RAL {id} · {he}"
+    }
+   ]
+  },
+  {
+   "id": "extra",
+   "title": "תוספות",
+   "controls": [
+    {
+     "type": "toggle",
+     "key": "holes",
+     "title": "פתחי כבלים CNC",
+     "sub": "פתח לכל פלטה",
+     "showWhen": {
+      "top": [
+       "m28",
+       "m17",
+       "b24",
+       "f28",
+       "mdf28",
+       "v30"
+      ]
+     }
+    },
+    {
+     "type": "toggle",
+     "key": "tray",
+     "title": "תעלת תקשורת",
+     "sub": "תעלה לכבלים מתחת לפלטה"
+    }
+   ]
+  }
+ ],
+ "pricing": {
+  "_help": "מחירי ספק לפני מע״מ (שלדים: מחירון ייבוא מתכת Modulartech ינואר 2026; פלטות: מחירון ריהוט משרדי). markup = רווח, vat = מע״מ.",
+  "currency": "₪",
+  "label": "מחיר",
+  "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+  "markup": 100,
+  "vat": 18,
+  "roundTo": 10,
+  "customQuote": true,
+  "rules": [
+   {
+    "type": "table",
+    "label": "שלד",
+    "dims": [
+     "d"
+    ],
+    "rows": [
+     {
+      "d": 60,
+      "price": 249,
+      "when": {
+       "frame": "intel",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 249,
+      "when": {
+       "frame": "intel",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 249,
+      "when": {
+       "frame": "intel",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 800,
+      "when": {
+       "frame": "intel",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 138,
+      "price": 900,
+      "when": {
+       "frame": "intel",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 118,
+      "price": 950,
+      "when": {
+       "frame": "intel",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1100,
+      "when": {
+       "frame": "intel",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 60,
+      "price": 249,
+      "when": {
+       "frame": "rose",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 249,
+      "when": {
+       "frame": "rose",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 249,
+      "when": {
+       "frame": "rose",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 800,
+      "when": {
+       "frame": "rose",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 138,
+      "price": 900,
+      "when": {
+       "frame": "rose",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 118,
+      "price": 950,
+      "when": {
+       "frame": "rose",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1100,
+      "when": {
+       "frame": "rose",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 60,
+      "price": 249,
+      "when": {
+       "frame": "lotus",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 249,
+      "when": {
+       "frame": "lotus",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 249,
+      "when": {
+       "frame": "lotus",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 800,
+      "when": {
+       "frame": "lotus",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 138,
+      "price": 900,
+      "when": {
+       "frame": "lotus",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 118,
+      "price": 950,
+      "when": {
+       "frame": "lotus",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1100,
+      "when": {
+       "frame": "lotus",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 70,
+      "price": 249,
+      "when": {
+       "frame": "x",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 249,
+      "when": {
+       "frame": "x",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 290,
+      "when": {
+       "frame": "verona",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 290,
+      "when": {
+       "frame": "verona",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 90,
+      "price": 390,
+      "when": {
+       "frame": "verona",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1100,
+      "when": {
+       "frame": "verona",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1250,
+      "when": {
+       "frame": "verona",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 60,
+      "price": 390,
+      "when": {
+       "frame": "latte",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 430,
+      "when": {
+       "frame": "latte",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 450,
+      "when": {
+       "frame": "latte",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1250,
+      "when": {
+       "frame": "latte",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1400,
+      "when": {
+       "frame": "latte",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 60,
+      "price": 400,
+      "when": {
+       "frame": "arco",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 440,
+      "when": {
+       "frame": "arco",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 480,
+      "when": {
+       "frame": "arco",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1150,
+      "when": {
+       "frame": "arco",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1300,
+      "when": {
+       "frame": "arco",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 60,
+      "price": 400,
+      "when": {
+       "frame": "quadro",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 440,
+      "when": {
+       "frame": "quadro",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 480,
+      "when": {
+       "frame": "quadro",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1150,
+      "when": {
+       "frame": "quadro",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1300,
+      "when": {
+       "frame": "quadro",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 70,
+      "price": 400,
+      "when": {
+       "frame": "joy-open",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 400,
+      "when": {
+       "frame": "joy-open",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1250,
+      "when": {
+       "frame": "joy-open",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1390,
+      "when": {
+       "frame": "joy-open",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 70,
+      "price": 450,
+      "when": {
+       "frame": "joy-closed",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 450,
+      "when": {
+       "frame": "joy-closed",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1250,
+      "when": {
+       "frame": "joy-closed",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1390,
+      "when": {
+       "frame": "joy-closed",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 70,
+      "price": 530,
+      "when": {
+       "frame": "bari",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 530,
+      "when": {
+       "frame": "bari",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 138,
+      "price": 1050,
+      "when": {
+       "frame": "bari",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 158,
+      "price": 1250,
+      "when": {
+       "frame": "bari",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1250,
+      "when": {
+       "frame": "bari",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 158,
+      "price": 1400,
+      "when": {
+       "frame": "bari",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 70,
+      "price": 530,
+      "when": {
+       "frame": "venice",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 530,
+      "when": {
+       "frame": "venice",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 90,
+      "price": 600,
+      "when": {
+       "frame": "venice",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 650,
+      "when": {
+       "frame": "play",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 750,
+      "when": {
+       "frame": "barcelona",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 120,
+      "price": 1550,
+      "when": {
+       "frame": "barcelona",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 138,
+      "price": 2200,
+      "when": {
+       "frame": "barcelona",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 80,
+      "price": 750,
+      "when": {
+       "frame": "gesher",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1100,
+      "when": {
+       "frame": "gesher",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 138,
+      "price": 1300,
+      "when": {
+       "frame": "gesher",
+       "layout": "pair"
+      }
+     },
+     {
+      "d": 118,
+      "price": 1550,
+      "when": {
+       "frame": "gesher",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 2200,
+      "when": {
+       "frame": "gesher",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 70,
+      "price": 850,
+      "when": {
+       "frame": "spider",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 850,
+      "when": {
+       "frame": "spider",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 118,
+      "price": 1250,
+      "when": {
+       "frame": "spider",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 138,
+      "price": 3200,
+      "when": {
+       "frame": "spider",
+       "layout": "bench"
+      }
+     },
+     {
+      "d": 60,
+      "price": 800,
+      "when": {
+       "frame": "electric",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 70,
+      "price": 800,
+      "when": {
+       "frame": "electric",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     },
+     {
+      "d": 80,
+      "price": 800,
+      "when": {
+       "frame": "electric",
+       "layout": [
+        "single",
+        "row"
+       ]
+      }
+     }
+    ]
+   },
+   {
+    "type": "option",
+    "label": "רוכבים (שולחנות נוספים בשורה)",
+    "key": "frame",
+    "per": "riders",
+    "amounts": {
+     "intel": 240,
+     "rose": 240,
+     "lotus": 240,
+     "verona": 270,
+     "latte": 410,
+     "arco": 390,
+     "quadro": 390,
+     "joy-closed": 400,
+     "bari": 470,
+     "venice": 490,
+     "barcelona": 690,
+     "gesher": 690,
+     "spider": 750
+    },
+    "when": {
+     "layout": "row"
+    }
+   },
+   {
+    "type": "option",
+    "label": "מנוע כפול",
+    "key": "motor",
+    "amounts": {
+     "single": 0,
+     "dual": 150
+    },
+    "when": {
+     "frame": "electric"
+    }
+   },
+   {
+    "type": "option",
+    "label": "צבע RAL מיוחד לשלד",
+    "key": "fcolor",
+    "per": "units",
+    "amounts": {
+     "9016": 0,
+     "9005": 0,
+     "7024": 0,
+     "5013": 0
+    },
+    "otherwise": 70,
+    "when": {
+     "layout": [
+      "single",
+      "row"
+     ]
+    }
+   },
+   {
+    "type": "option",
+    "label": "צבע RAL מיוחד לבנץ׳",
+    "key": "fcolor",
+    "amounts": {
+     "9016": 0,
+     "9005": 0,
+     "7024": 0,
+     "5013": 0
+    },
+    "otherwise": 120,
+    "when": {
+     "layout": [
+      "pair",
+      "bench"
+     ]
+    }
+   },
+   {
+    "type": "tiers",
+    "label": "פלטה: מלמין 28 מ״מ, קנט ישר",
+    "by": "perBoard",
+    "per": "tops",
+    "when": {
+     "top": "m28"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 350
+     },
+     {
+      "upTo": 2,
+      "amount": 215
+     },
+     {
+      "upTo": 3,
+      "amount": 160
+     },
+     {
+      "upTo": 4,
+      "amount": 135
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "פלטה: מלמין 17 מ״מ, קנט ישר",
+    "by": "perBoard",
+    "per": "tops",
+    "when": {
+     "top": "m17"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 250
+     },
+     {
+      "upTo": 2,
+      "amount": 155
+     },
+     {
+      "upTo": 3,
+      "amount": 125
+     },
+     {
+      "upTo": 4,
+      "amount": 110
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "פלטה: מלמין 24 מ״מ, קנט משופע",
+    "by": "perBoard",
+    "per": "tops",
+    "when": {
+     "top": "b24"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 450
+     },
+     {
+      "upTo": 2,
+      "amount": 280
+     },
+     {
+      "upTo": 3,
+      "amount": 225
+     },
+     {
+      "upTo": 4,
+      "amount": 195
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "פלטה: סנדוויץ׳ פורמייקה 28 מ״מ",
+    "by": "perBoard",
+    "per": "tops",
+    "when": {
+     "top": "f28"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 585
+     },
+     {
+      "upTo": 2,
+      "amount": 325
+     },
+     {
+      "upTo": 3,
+      "amount": 235
+     },
+     {
+      "upTo": 4,
+      "amount": 190
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "פלטה: MDF פורמייקה 28 מ״מ, קנט אפוקסי",
+    "by": "perBoard",
+    "per": "tops",
+    "when": {
+     "top": "mdf28"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 800
+     },
+     {
+      "upTo": 2,
+      "amount": 600
+     },
+     {
+      "upTo": 3,
+      "amount": 600
+     },
+     {
+      "upTo": 4,
+      "amount": 600
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "פלטה: MDF פורניר 30 מ״מ, קנט משופע",
+    "by": "perBoard",
+    "per": "tops",
+    "when": {
+     "top": "v30"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 1200
+     },
+     {
+      "upTo": 2,
+      "amount": 780
+     },
+     {
+      "upTo": 3,
+      "amount": 780
+     },
+     {
+      "upTo": 4,
+      "amount": 780
+     }
+    ]
+   },
+   {
+    "type": "unit",
+    "label": "פתחי כבלים CNC",
+    "per": "holes",
+    "amount": 50
+   },
+   {
+    "type": "unit",
+    "label": "תעלת תקשורת",
+    "per": "units",
+    "amount": 195,
+    "when": {
+     "tray": true
+    }
+   }
+  ]
+ }
+}

@@ -2,11 +2,18 @@
 
 export const controlsOf = product => product.sections.flatMap(s => s.controls.map(c => ({ ...c, section: s.id })));
 
-/* option values currently allowed for a seg control (resolves optionsBy) */
-export function optionValues(c, S) {
-  if (c.optionsBy) return (c.optionsBy.map[S[c.optionsBy.key]] || []).slice();
-  return (c.options || []).map(o => o.v);
+/* options currently offered by a seg control. optionsBy.key may be one key or several (map keys joined
+   with "|", "*" as a wildcard: "bench|bari", "single|*", "*|venice", "*"). Entries are values or {v, label}. */
+const keysOf = c => [].concat(c.optionsBy.key);
+export const driverOf = (c, S) => keysOf(c).map(k => String(S[k])).join('|');
+export function optionList(c, S) {
+  if (!c.optionsBy) return (c.options || []).map(o => ({ v: o.v, label: o.label ?? String(o.v), hex: o.hex }));
+  const vals = keysOf(c).map(k => String(S[k])), M = c.optionsBy.map;
+  const tries = [vals.join('|'), ...vals.map((_, i) => vals.map((v, j) => (j === i ? v : '*')).join('|')), vals.map(() => '*').join('|'), '*'];
+  const hit = tries.find(t => M[t]);
+  return (hit ? M[hit] : []).map(o => (o && typeof o === 'object' ? { v: o.v, label: o.label ?? String(o.v) } : { v: o, label: String(o) }));
 }
+export function optionValues(c, S) { return optionList(c, S).map(o => o.v); }
 
 /* a value outside the listed options that the control's custom range accepts */
 export const isCustom = (c, S, v = S[c.key]) => !!c.custom && !optionValues(c, S).includes(v);
@@ -35,15 +42,27 @@ export function catItems(c, cat) {
 export function sanitize(product, cat, input) {
   const S = { ...product.defaults };
   const ctrls = controlsOf(product);
-  /* drivers first (e.g. layout before d), so dependent option lists resolve correctly */
-  const ordered = [...ctrls.filter(c => !c.optionsBy), ...ctrls.filter(c => c.optionsBy)];
+  /* drivers before the controls that depend on them (frame → layout → depth) */
+  const ordered = [], left = ctrls.slice();
+  for (let guard = 0; left.length && guard < 10; guard++)
+    for (let i = left.length - 1; i >= 0; i--) {
+      const c = left[i], deps = c.optionsBy ? keysOf(c) : [];
+      if (deps.every(d => !left.some(o => o.key === d && o !== c))) { ordered.push(c); left.splice(i, 1); }
+    }
+  ordered.push(...left);
   if (input && typeof input === 'object') for (const c of ordered) {
     if (!(c.key in input)) continue;
     const r = validOne(c, S, input[c.key], cat);
     if (r.ok) S[c.key] = r.v;
   }
   /* defaults themselves must be consistent (e.g. d must exist for the chosen layout) */
-  for (const c of ordered) { const r = validOne(c, S, S[c.key], cat); if (!r.ok) S[c.key] = c.type === 'seg' ? optionValues(c, S)[0] : product.defaults[c.key]; }
+  for (const c of ordered) {
+    const fromInput = input && typeof input === 'object' && c.key in input;
+    /* a default that is not one of the listed options for the current choice snaps to the first option
+       (a typed custom size is only kept when it came from the link itself) */
+    if (c.optionsBy && !fromInput && !optionValues(c, S).includes(S[c.key])) { S[c.key] = optionValues(c, S)[0]; continue; }
+    const r = validOne(c, S, S[c.key], cat); if (!r.ok) S[c.key] = c.type === 'seg' ? optionValues(c, S)[0] : product.defaults[c.key];
+  }
   return S;
 }
 

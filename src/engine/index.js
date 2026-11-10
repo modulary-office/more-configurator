@@ -4,14 +4,15 @@
    and hands the 3D part to the product's family (families/*.js). */
 import { ico } from './icons.js';
 import { thumbTop, fabThumb } from './textures.js';
-import { controlsOf, optionValues, isCustom, sanitize, readHash, writeHash, catItems } from './state.js';
+import { controlsOf, optionValues, optionList, driverOf, isCustom, sanitize, readHash, writeHash, catItems } from './state.js';
 import { price, fmtPrice } from './pricing.js';
 import { createViewer } from './viewer.js';
 import { bench } from '../families/bench.js';
 import { cabinet } from '../families/cabinet.js';
+import { desk } from '../families/desk.js';
 
-const FAMILIES = { bench, cabinet };
-const VERSION = '1.2.1';
+const FAMILIES = { bench, cabinet, desk };
+const VERSION = '1.3.0';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -138,8 +139,8 @@ function start(mount, product, cat, family) {
     $$('.mrc-seg[data-k]').forEach(g => {
       const c = ctrlByKey[g.dataset.k];
       if (c.optionsBy) {
-        const drv = String(S[c.optionsBy.key]);
-        if (g.dataset.dep !== drv) { g.dataset.dep = drv; g.innerHTML = optionValues(c, S).map(v => `<button data-v="${esc(v)}">${esc(v)}</button>`).join('') + (c.custom ? `<button data-v="custom" class="mrc-cbtn">${esc(c.custom.label || 'אחר')}</button>` : ''); }
+        const drv = driverOf(c, S);
+        if (g.dataset.dep !== drv) { g.dataset.dep = drv; g.innerHTML = optionList(c, S).map(o => `<button data-v="${esc(o.v)}">${esc(o.label)}</button>`).join('') + (c.custom ? `<button data-v="custom" class="mrc-cbtn">${esc(c.custom.label || 'אחר')}</button>` : ''); }
       }
       const cust = isCustom(c, S);
       $$('button', g).forEach(b => b.classList.toggle('on', b.dataset.v === 'custom' ? cust : String(S[c.key]) === b.dataset.v));
@@ -179,12 +180,15 @@ function start(mount, product, cat, family) {
   $$('.mrc-sh').forEach(b => b.addEventListener('click', () => openSec(b.parentNode.dataset.sec)));
 
   /* dependent option lists: keep the same position when the driver changes (e.g. depth when layout flips) */
-  function remapDependents(k, before) {
-    ctrls.filter(c => c.optionsBy && c.optionsBy.key === k).forEach(c => {
+  function remapDependents(k, before, depth = 0) {
+    if (depth > 5) return;
+    const prev = { ...S, [k]: before };
+    ctrls.filter(c => c.optionsBy && [].concat(c.optionsBy.key).includes(k)).forEach(c => {
       const now = optionValues(c, S);
-      if (now.includes(S[c.key])) return;
-      const was = (c.optionsBy.map[before] || []).indexOf(S[c.key]);
-      S[c.key] = now[Math.max(0, was)];
+      if (now.includes(S[c.key]) || (c.custom && isCustom(c, S) && S[c.key] >= c.custom.min && S[c.key] <= c.custom.max)) return;
+      const was = optionValues(c, prev).indexOf(S[c.key]), old = S[c.key];
+      S[c.key] = now[Math.min(now.length - 1, Math.max(0, was))];
+      if (S[c.key] !== old) remapDependents(c.key, old, depth + 1);
     });
   }
 
