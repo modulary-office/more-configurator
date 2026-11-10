@@ -1,0 +1,411 @@
+{
+ "id": "credenza",
+ "name": "שלוחת מנהל",
+ "family": "cabinet",
+ "codePrefix": "MCR",
+ "subtitle": "שלוחה בגובה 65 ס״מ עם גב מלא, בשילוב מגירות, דלתות ותאים פתוחים.",
+ "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
+ "model": {
+  "kind": "cabinet",
+  "fronts": {
+   "doorDrawers80": {
+    "t": "cols",
+    "cols": [
+     {
+      "k": "door",
+      "w": 1
+     },
+     {
+      "k": "drawers",
+      "n": 3,
+      "w": 1
+     }
+    ]
+   },
+   "doorsDrawers": {
+    "t": "cols",
+    "cols": [
+     {
+      "k": "doors",
+      "w": 2
+     },
+     {
+      "k": "drawers",
+      "n": 3,
+      "w": 1
+     }
+    ]
+   },
+   "slideDrawers": {
+    "t": "cols",
+    "cols": [
+     {
+      "k": "slide",
+      "w": 2
+     },
+     {
+      "k": "drawers",
+      "n": 3,
+      "w": 1
+     }
+    ]
+   },
+   "cpu": {
+    "t": "cols",
+    "cols": [
+     {
+      "k": "drawers",
+      "n": 3,
+      "w": 1
+     },
+     {
+      "k": "door",
+      "w": 1
+     },
+     {
+      "k": "cpu",
+      "w": 1
+     }
+    ]
+   },
+   "drawersOpen": {
+    "t": "cols",
+    "cols": [
+     {
+      "k": "drawers",
+      "n": 3,
+      "w": 1
+     },
+     {
+      "k": "drawers",
+      "n": 3,
+      "w": 1
+     },
+     {
+      "k": "open",
+      "n": 2,
+      "w": 1
+     }
+    ]
+   },
+   "full": {
+    "t": "cols",
+    "cols": [
+     {
+      "k": "drawers",
+      "n": 3,
+      "w": 1
+     },
+     {
+      "k": "door",
+      "w": 1
+     },
+     {
+      "k": "open",
+      "n": 2,
+      "w": 1
+     },
+     {
+      "k": "cubby",
+      "n": 2,
+      "w": 0.8
+     }
+    ]
+   }
+  }
+ },
+ "defaults": {
+  "front": "doorsDrawers",
+  "w": 120,
+  "h": 65,
+  "d": 40,
+  "body": "graphite",
+  "face": "oak",
+  "handle": "bar",
+  "base": "none",
+  "back": true,
+  "softclose": false
+ },
+ "sections": [
+  {
+   "id": "fronts",
+   "title": "תצורה",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "front",
+     "label": "סוג",
+     "options": [
+      {
+       "v": "doorDrawers80",
+       "label": "דלת + מגירות · 80 ס״מ"
+      },
+      {
+       "v": "doorsDrawers",
+       "label": "דלתות פתיחה + מגירות · 120 ס״מ"
+      },
+      {
+       "v": "slideDrawers",
+       "label": "דלתות הזזה + מגירות · 120 ס״מ"
+      },
+      {
+       "v": "cpu",
+       "label": "מגירות + תא למחשב · 120 ס״מ"
+      },
+      {
+       "v": "drawersOpen",
+       "label": "מגירות + תאים פתוחים בקצה · 180 ס״מ"
+      },
+      {
+       "v": "full",
+       "label": "מגירות + דלת + 2 תאים + כוורת · 220 ס״מ"
+      }
+     ],
+     "layout": "list"
+    },
+    {
+     "type": "seg",
+     "key": "handle",
+     "label": "ידיות",
+     "options": [
+      {
+       "v": "bar",
+       "label": "ידית מוט"
+      },
+      {
+       "v": "integral",
+       "label": "פרופיל אינטגרלי"
+      },
+      {
+       "v": "none",
+       "label": "ללא (לחיצה)"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "size",
+   "title": "מידות",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "w",
+     "label": "רוחב",
+     "num": true,
+     "optionsBy": {
+      "key": "front",
+      "map": {
+       "doorDrawers80": [
+        80
+       ],
+       "doorsDrawers": [
+        120
+       ],
+       "slideDrawers": [
+        120
+       ],
+       "cpu": [
+        120
+       ],
+       "drawersOpen": [
+        180
+       ],
+       "full": [
+        220
+       ]
+      }
+     },
+     "custom": {
+      "label": "אחר",
+      "step": 1,
+      "unit": "ס״מ",
+      "min": 60,
+      "max": 260,
+      "inputLabel": "רוחב בס״מ"
+     }
+    },
+    {
+     "type": "seg",
+     "key": "d",
+     "label": "עומק",
+     "num": true,
+     "options": [
+      {
+       "v": 40
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "finish",
+   "title": "גימור",
+   "controls": [
+    {
+     "type": "swatch",
+     "key": "body",
+     "label": "גוף",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}"
+    },
+    {
+     "type": "swatch",
+     "key": "face",
+     "label": "חזיתות",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}"
+    }
+   ]
+  },
+  {
+   "id": "extra",
+   "title": "תוספות",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "base",
+     "label": "בסיס",
+     "options": [
+      {
+       "v": "none",
+       "label": "ללא"
+      },
+      {
+       "v": "plinth",
+       "label": "צוקל"
+      },
+      {
+       "v": "legs",
+       "label": "רגלי אלומיניום"
+      },
+      {
+       "v": "wheels",
+       "label": "גלגלים"
+      }
+     ]
+    },
+    {
+     "type": "toggle",
+     "key": "softclose",
+     "title": "טריקה שקטה DTC",
+     "sub": "לכל מגירה"
+    }
+   ]
+  }
+ ],
+ "pricing": {
+  "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
+  "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
+  "currency": "₪",
+  "label": "מחיר",
+  "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+  "markup": 100,
+  "vat": 18,
+  "roundTo": 10,
+  "rules": [
+   {
+    "type": "table",
+    "label": "שלוחה לפי מידה",
+    "dims": [
+     "w"
+    ],
+    "rows": [
+     {
+      "w": 80,
+      "price": 650,
+      "when": {
+       "front": "doorDrawers80"
+      }
+     },
+     {
+      "w": 120,
+      "price": 750,
+      "when": {
+       "front": "doorsDrawers"
+      }
+     },
+     {
+      "w": 120,
+      "price": 750,
+      "when": {
+       "front": "slideDrawers"
+      }
+     },
+     {
+      "w": 120,
+      "price": 700,
+      "when": {
+       "front": "cpu"
+      }
+     },
+     {
+      "w": 180,
+      "price": 1200,
+      "when": {
+       "front": "drawersOpen"
+      }
+     },
+     {
+      "w": 220,
+      "price": 1500,
+      "when": {
+       "front": "full"
+      }
+     }
+    ]
+   },
+   {
+    "type": "unit",
+    "label": "טריקה שקטה",
+    "per": "drawers",
+    "amount": 100,
+    "when": {
+     "softclose": true
+    }
+   },
+   {
+    "type": "fixed",
+    "label": "ידיות אינטגרליות",
+    "amount": 80,
+    "when": {
+     "handle": "integral"
+    }
+   },
+   {
+    "type": "fixed",
+    "label": "צוקל",
+    "amount": 55,
+    "when": {
+     "base": "plinth"
+    }
+   },
+   {
+    "type": "fixed",
+    "label": "רגלי אלומיניום",
+    "amount": 100,
+    "when": {
+     "base": "legs"
+    }
+   },
+   {
+    "type": "fixed",
+    "label": "גלגלים",
+    "amount": 100,
+    "when": {
+     "base": "wheels"
+    }
+   },
+   {
+    "type": "customSize",
+    "label": "תוספת מידה מיוחדת",
+    "keys": [
+     "w"
+    ],
+    "percent": 0
+   }
+  ]
+ }
+}

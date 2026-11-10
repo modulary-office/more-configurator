@@ -8,9 +8,10 @@ import { controlsOf, optionValues, isCustom, sanitize, readHash, writeHash, catI
 import { price, fmtPrice } from './pricing.js';
 import { createViewer } from './viewer.js';
 import { bench } from '../families/bench.js';
+import { cabinet } from '../families/cabinet.js';
 
-const FAMILIES = { bench };
-const VERSION = '1.1.0';
+const FAMILIES = { bench, cabinet };
+const VERSION = '1.2.0';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -18,22 +19,26 @@ const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;'
 const fill = (tpl, item) => tpl.replace(/\{(\w+)\}/g, (_, k) => item[k] ?? '');
 
 async function getJSON(path) {
+  /* a page may carry the data inline (demo pages, offline previews) */
+  const inline = window.MRCFG_DATA && window.MRCFG_DATA[path];
+  if (inline) return JSON.parse(JSON.stringify(inline));
   const r = await fetch(new URL(path, ROOT), { cache: 'force-cache' });
   if (!r.ok) throw new Error(`MORE configurator: cannot load ${path} (${r.status})`);
   return r.json();
 }
 
 async function boot() {
-  if (window.__mrcfg) return; window.__mrcfg = 1;
   const mount = document.getElementById('mrcfg-mount');
-  if (!mount) return;
+  if (!mount || document.getElementById('mrcfg') || mount.dataset.booting) return;
+  mount.dataset.booting = '1';
   const productId = (mount.dataset.product || 'duo-bench').replace(/[^a-z0-9-]/gi, '');
   let product, cat = {};
   try {
     product = await getJSON(`products/${productId}.json`);
     const needed = [...new Set(controlsOf(product).filter(c => c.catalog).map(c => c.catalog))];
     await Promise.all(needed.map(async n => { cat[n] = await getJSON(`catalogs/${n.replace(/[^a-z0-9-]/gi, '')}.json`); }));
-  } catch (e) { console.error(e); mount.textContent = 'לא ניתן לטעון את הקונפיגורטור כרגע.'; return; }
+  } catch (e) { console.error(e); delete mount.dataset.booting; mount.textContent = 'לא ניתן לטעון את הקונפיגורטור כרגע.'; return; }
+  delete mount.dataset.booting;
   const family = FAMILIES[product.family];
   if (!family) { console.error('MORE configurator: unknown family', product.family); return; }
   start(mount, product, cat, family);
@@ -55,9 +60,10 @@ function start(mount, product, cat, family) {
 
   const segButtons = c => (c.optionsBy ? '' : c.options.map(o => `<button data-v="${esc(o.v)}">${esc(o.label ?? o.v)}</button>`).join(''))
     + (c.custom ? `<button data-v="custom" class="mrc-cbtn">${esc(c.custom.label || 'אחר')}</button>` : '');
-  const ctrlHTML = c => {
+  const ctrlHTML = c => c.showWhen ? `<div class="mrc-ctl" data-ctl="${c.key}">${ctrlInner(c)}</div>` : ctrlInner(c);
+  const ctrlInner = c => {
     switch (c.type) {
-      case 'seg': return `<div class="mrc-lbl">${esc(c.label)}</div><div class="mrc-seg" data-k="${c.key}">${segButtons(c)}</div>`
+      case 'seg': return `<div class="mrc-lbl">${esc(c.label)}</div><div class="mrc-seg${c.layout ? ' ' + c.layout : ''}" data-k="${c.key}">${segButtons(c)}</div>`
         + (c.custom ? `<div class="mrc-custom" data-ck="${c.key}" hidden><label><span>${esc(c.custom.inputLabel || c.label)}</span><input type="number" inputmode="numeric" min="${c.custom.min}" max="${c.custom.max}" step="${c.custom.step || 1}"></label><em>${esc(c.custom.unit || '')}</em><button type="button" data-apply="${c.key}">עדכון</button><small>${c.custom.min}–${c.custom.max} ${esc(c.custom.unit || '')}</small></div>` : '');
       case 'stepper': return `<div class="mrc-lbl">${esc(c.label)} <b data-out="${c.out || c.key + '-lbl'}"></b></div><div class="mrc-step" data-sk="${c.key}"><button data-step="-1" aria-label="פחות">−</button><output data-out="${c.key}"></output><button data-step="1" aria-label="יותר">+</button></div>`;
       case 'swatch': return `<div class="mrc-lbl">${esc(c.label)} <b data-out="${c.key}"></b></div><div class="mrc-sw${c.style === 'decor' ? ' sq' : c.style === 'ral' ? ' ral' : ''}" data-k="${c.key}"></div>`;
@@ -126,7 +132,9 @@ function start(mount, product, cat, family) {
 
   /* ---------------- refresh ---------------- */
   const metrics = () => F.metrics();
+  const shown = c => !c.showWhen || Object.entries(c.showWhen).every(([k, v]) => Array.isArray(v) ? v.includes(S[k]) : S[k] === v);
   function refreshUI() {
+    $$('.mrc-ctl[data-ctl]').forEach(el => { el.hidden = !shown(ctrlByKey[el.dataset.ctl]); });
     $$('.mrc-seg[data-k]').forEach(g => {
       const c = ctrlByKey[g.dataset.k];
       if (c.optionsBy) {
@@ -246,7 +254,18 @@ function start(mount, product, cat, family) {
   try { api = createViewer({ root, stage, $, $$, S, product, cat, family, ui }); } catch (e) { console.error(e); $('.mrc-loading div').textContent = 'התצוגה התלת־ממדית אינה נתמכת בדפדפן זה'; }
 
   /* small public hook for debugging / later cart integration */
-  root.mrcfg = { state: S, code, price: priceNow, summary: summaryText };
+  root.mrcfg = { state: S, code, price: priceNow, summary: summaryText, product: product.id,
+    destroy: () => { api && api.destroy && api.destroy(); root.remove(); } };
 }
 
+/* switch the configurator on the page to another product (demo pages) */
+window.MRCFG = {
+  load(id, name) {
+    const old = document.getElementById('mrcfg'); if (old && old.mrcfg) old.mrcfg.destroy(); else if (old) old.remove();
+    const mount = document.getElementById('mrcfg-mount'); if (!mount) return;
+    mount.dataset.product = id; if (name !== undefined) mount.dataset.name = name;
+    try { history.replaceState(null, '', location.pathname + location.search); } catch (e) {}
+    return boot();
+  }
+};
 boot();

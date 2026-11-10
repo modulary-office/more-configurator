@@ -55,11 +55,14 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   root._cam = goal;
   let autoRot = true, lastInput = performance.now() - 9000, explode = 0, explodeGoal = 0;
   function fitR() { const sw = stage.clientWidth, sh = stage.clientHeight, asp = sw && sh ? sw / sh : 1.4; const base = 1.5 + 1.5 * P.fitSpan(); return base * (asp < 1.1 ? Math.pow(1.1 / asp, .75) : 1); }
+  /* families may set their own look-at height (tall cabinets) and hero angle */
+  const TY = d => (P.targetY ? P.targetY() : d);
+  const HERO = P.hero || { th: .78, ph: 1.12 };
   const VIEWS = {
-    hero: () => ({ th: .78, ph: 1.12, r: fitR(), tx: 0, ty: .42, tz: 0 }),
-    front: () => ({ th: 0, ph: 1.38, r: fitR() * .95, tx: 0, ty: .5, tz: 0 }),
-    side: () => ({ th: Math.PI / 2, ph: 1.36, r: fitR() * .8, tx: 0, ty: .5, tz: 0 }),
-    top: () => ({ th: 0, ph: .04, r: fitR() * 1.05, tx: 0, ty: .4, tz: 0 })
+    hero: () => ({ th: HERO.th, ph: HERO.ph, r: fitR(), tx: 0, ty: TY(.42), tz: 0 }),
+    front: () => ({ th: 0, ph: 1.38, r: fitR() * .95, tx: 0, ty: TY(.5), tz: 0 }),
+    side: () => ({ th: Math.PI / 2, ph: 1.36, r: fitR() * .8, tx: 0, ty: TY(.5), tz: 0 }),
+    top: () => ({ th: 0, ph: .04, r: fitR() * 1.05, tx: 0, ty: TY(.4), tz: 0 })
   };
   for (const [k, f] of Object.entries(P.views || {})) VIEWS[k] = () => f(fitR);
   function setView(v) { Object.assign(goal, (VIEWS[v] || VIEWS.hero)()); $$('[data-view]').forEach(b => b.classList.toggle('on', b.dataset.view === v)); }
@@ -69,7 +72,7 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   const el = renderer.domElement, ptrs = new Map(); let g0 = null, lastTap = 0;
   const phoneLayout = () => matchMedia('(max-width:980px)').matches && matchMedia('(pointer:coarse)').matches && Math.min(screen.width, screen.height) < 600;
   const rMin = () => fitR() * .3, rMax = () => fitR() * 2.6;
-  const clampT = () => { const { lx, lz } = P.clampBox(); goal.tx = Math.max(-lx, Math.min(lx, goal.tx)); goal.tz = Math.max(-lz, Math.min(lz, goal.tz)); goal.ty = Math.max(.05, Math.min(1.4, goal.ty)); };
+  const clampT = () => { const { lx, lz } = P.clampBox(); goal.tx = Math.max(-lx, Math.min(lx, goal.tx)); goal.tz = Math.max(-lz, Math.min(lz, goal.tz)); goal.ty = Math.max(.05, Math.min(P.maxY ? P.maxY() : 1.4, goal.ty)); };
   function pan(dx, dy) {
     const h = stage.clientHeight || 1, k = 2 * cam.r * Math.tan(camera.fov * Math.PI / 360) / h;
     const right = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0), upv = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1);
@@ -190,5 +193,10 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   P.build(); resize(); Object.assign(cam, VIEWS.hero(), { th: 1.9, r: fitR() * 1.35 }); setView('hero');
   raf = requestAnimationFrame(loop);
   setTimeout(() => $('.mrc-loading').classList.add('done'), 250);
-  return { update, focus, snap };
+  function destroy() {
+    visible = false; cancelAnimationFrame(raf);
+    scene.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) [].concat(o.material).forEach(m => { if (m.map) m.map.dispose(); m.dispose(); }); });
+    renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {}
+  }
+  return { update, focus, snap, destroy };
 }

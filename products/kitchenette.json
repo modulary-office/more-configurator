@@ -1,0 +1,296 @@
+{
+ "id": "kitchenette",
+ "name": "מטבחון",
+ "family": "cabinet",
+ "codePrefix": "MCM",
+ "subtitle": "מטבחון משרדי לפי מטר רץ: ארונות תחתונים עם משטח, ואפשרות לארונות עליונים עם קלפה.",
+ "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
+ "model": {
+  "kind": "kitchen",
+  "h": 90,
+  "d": 60,
+  "variantKey": "finish",
+  "hero": {
+   "th": 0.5,
+   "ph": 1.25
+  }
+ },
+ "defaults": {
+  "w": 240,
+  "finish": "formica",
+  "body": "concrete",
+  "face": "sage",
+  "ral": "9016",
+  "handle": "bar",
+  "upper": true,
+  "flap": "dtc",
+  "base": "plinth",
+  "dtc": false,
+  "softclose": false
+ },
+ "sections": [
+  {
+   "id": "size",
+   "title": "אורך",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "w",
+     "label": "אורך",
+     "num": true,
+     "options": [
+      {
+       "v": 120
+      },
+      {
+       "v": 180
+      },
+      {
+       "v": 240
+      },
+      {
+       "v": 300
+      }
+     ],
+     "custom": {
+      "label": "אחר",
+      "step": 1,
+      "unit": "ס״מ",
+      "min": 80,
+      "max": 400,
+      "inputLabel": "אורך בס״מ"
+     }
+    }
+   ]
+  },
+  {
+   "id": "fronts",
+   "title": "חזיתות",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "finish",
+     "label": "גימור חזיתות",
+     "options": [
+      {
+       "v": "formica",
+       "label": "סנדוויץ׳ + פורמיקה"
+      },
+      {
+       "v": "epoxy",
+       "label": "צבע אפוקסי + ידיות אינטגרליות"
+      }
+     ],
+     "layout": "list"
+    },
+    {
+     "type": "seg",
+     "key": "handle",
+     "label": "ידיות",
+     "options": [
+      {
+       "v": "bar",
+       "label": "ידית מוט"
+      },
+      {
+       "v": "integral",
+       "label": "פרופיל אינטגרלי"
+      },
+      {
+       "v": "none",
+       "label": "ללא (לחיצה)"
+      }
+     ],
+     "showWhen": {
+      "finish": "formica"
+     }
+    }
+   ]
+  },
+  {
+   "id": "finish",
+   "title": "צבעים",
+   "controls": [
+    {
+     "type": "swatch",
+     "key": "body",
+     "label": "משטח וגוף",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}"
+    },
+    {
+     "type": "swatch",
+     "key": "face",
+     "label": "חזיתות",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}",
+     "showWhen": {
+      "finish": "formica"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "ral",
+     "label": "צבע חזיתות לפי RAL",
+     "catalog": "ral",
+     "style": "ral",
+     "out": "RAL {id} · {he}",
+     "showWhen": {
+      "finish": "epoxy"
+     }
+    }
+   ]
+  },
+  {
+   "id": "extra",
+   "title": "תוספות",
+   "controls": [
+    {
+     "type": "toggle",
+     "key": "upper",
+     "title": "ארונות עליונים",
+     "sub": "קלפה עם מנגנון הרמה DTC"
+    },
+    {
+     "type": "seg",
+     "key": "flap",
+     "label": "מנגנון קלפה",
+     "options": [
+      {
+       "v": "dtc",
+       "label": "DTC"
+      },
+      {
+       "v": "hk",
+       "label": "DTC HK"
+      },
+      {
+       "v": "micro",
+       "label": "מיקרו"
+      }
+     ],
+     "showWhen": {
+      "upper": true
+     }
+    },
+    {
+     "type": "seg",
+     "key": "base",
+     "label": "בסיס",
+     "options": [
+      {
+       "v": "plinth",
+       "label": "4 רגליים + צוקל"
+      },
+      {
+       "v": "none",
+       "label": "ללא"
+      }
+     ]
+    },
+    {
+     "type": "toggle",
+     "key": "dtc",
+     "title": "מגירות שליפה כפולה DTC",
+     "sub": "לכל מגירה"
+    },
+    {
+     "type": "toggle",
+     "key": "softclose",
+     "title": "טריקה שקטה למגירות",
+     "sub": "דפנות מתכת DTC"
+    }
+   ]
+  }
+ ],
+ "pricing": {
+  "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
+  "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
+  "currency": "₪",
+  "label": "מחיר",
+  "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+  "markup": 100,
+  "vat": 18,
+  "roundTo": 10,
+  "rules": [
+   {
+    "type": "unit",
+    "label": "תחתון סנדוויץ׳ + פורמיקה למטר",
+    "per": "lengthM",
+    "amount": 900,
+    "when": {
+     "finish": "formica"
+    }
+   },
+   {
+    "type": "unit",
+    "label": "תחתון צבע אפוקסי למטר",
+    "per": "lengthM",
+    "amount": 1500,
+    "when": {
+     "finish": "epoxy"
+    }
+   },
+   {
+    "type": "unit",
+    "label": "עליון קלפה DTC למטר",
+    "per": "lengthM",
+    "amount": 900,
+    "when": {
+     "upper": true
+    }
+   },
+   {
+    "type": "option",
+    "label": "מתקן קלפה",
+    "key": "flap",
+    "per": "upperUnits",
+    "amounts": {
+     "dtc": 0,
+     "hk": 220,
+     "micro": 250
+    },
+    "when": {
+     "upper": true
+    }
+   },
+   {
+    "type": "unit",
+    "label": "רגליים וצוקל למטר",
+    "per": "lengthM",
+    "amount": 75,
+    "when": {
+     "base": "plinth"
+    }
+   },
+   {
+    "type": "unit",
+    "label": "מגירות DTC",
+    "per": "drawers",
+    "amount": 100,
+    "when": {
+     "dtc": true
+    }
+   },
+   {
+    "type": "unit",
+    "label": "טריקה שקטה",
+    "per": "drawers",
+    "amount": 200,
+    "when": {
+     "softclose": true
+    }
+   },
+   {
+    "type": "customSize",
+    "label": "תוספת מידה מיוחדת",
+    "keys": [
+     "w"
+    ],
+    "percent": 0
+   }
+  ]
+ }
+}

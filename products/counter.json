@@ -1,0 +1,293 @@
+{
+ "id": "counter",
+ "name": "דלפק קבלה",
+ "family": "cabinet",
+ "codePrefix": "MCK",
+ "subtitle": "דלפק קבלה עם רוכב, ישר או פינתי, עם פסי קישוט לבחירה. גובה 117 ס״מ.",
+ "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
+ "model": {
+  "kind": "counter",
+  "h": 117,
+  "d": 80,
+  "variantKey": "style",
+  "hotspots": [
+   [
+    "size",
+    "מידות"
+   ],
+   [
+    "finish",
+    "גימור"
+   ]
+  ]
+ },
+ "defaults": {
+  "style": "plain",
+  "w": 180,
+  "w2": 120,
+  "body": "white",
+  "face": "oak"
+ },
+ "sections": [
+  {
+   "id": "fronts",
+   "title": "דגם",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "style",
+     "label": "סוג",
+     "options": [
+      {
+       "v": "plain",
+       "label": "דלפק + רוכב, מלמין 28 מ״מ"
+      },
+      {
+       "v": "alu",
+       "label": "פסי קישוט אלומיניום – ישר"
+      },
+      {
+       "v": "alucorner",
+       "label": "פסי קישוט אלומיניום – פינתי"
+      },
+      {
+       "v": "strips",
+       "label": "פסי קישוט מלמין"
+      }
+     ],
+     "layout": "list"
+    }
+   ]
+  },
+  {
+   "id": "size",
+   "title": "מידות",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "w",
+     "label": "אורך",
+     "num": true,
+     "optionsBy": {
+      "key": "style",
+      "map": {
+       "plain": [
+        120,
+        180,
+        240,
+        300,
+        480
+       ],
+       "alu": [
+        160,
+        240
+       ],
+       "alucorner": [
+        180,
+        240
+       ],
+       "strips": [
+        240,
+        300,
+        480
+       ]
+      }
+     },
+     "custom": {
+      "label": "אחר",
+      "step": 1,
+      "unit": "ס״מ",
+      "min": 100,
+      "max": 500,
+      "inputLabel": "אורך בס״מ"
+     }
+    },
+    {
+     "type": "seg",
+     "key": "w2",
+     "label": "אורך כנף פינתית",
+     "num": true,
+     "options": [
+      {
+       "v": 120
+      }
+     ],
+     "custom": {
+      "label": "אחר",
+      "step": 1,
+      "unit": "ס״מ",
+      "min": 80,
+      "max": 240,
+      "inputLabel": "כנף בס״מ"
+     },
+     "showWhen": {
+      "style": "alucorner"
+     }
+    }
+   ]
+  },
+  {
+   "id": "finish",
+   "title": "גימור",
+   "controls": [
+    {
+     "type": "swatch",
+     "key": "body",
+     "label": "חזית ודפנות",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}"
+    },
+    {
+     "type": "swatch",
+     "key": "face",
+     "label": "משטח ורוכב",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}"
+    }
+   ]
+  }
+ ],
+ "pricing": {
+  "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
+  "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
+  "currency": "₪",
+  "label": "מחיר",
+  "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+  "markup": 100,
+  "vat": 18,
+  "roundTo": 10,
+  "rules": [
+   {
+    "type": "table",
+    "label": "דלפק + רוכב",
+    "dims": [
+     "w"
+    ],
+    "rows": [
+     {
+      "w": 120,
+      "price": 1250,
+      "when": {
+       "style": "plain"
+      }
+     },
+     {
+      "w": 180,
+      "price": 2100,
+      "when": {
+       "style": "plain"
+      }
+     },
+     {
+      "w": 240,
+      "price": 2200,
+      "when": {
+       "style": "plain"
+      }
+     },
+     {
+      "w": 300,
+      "price": 3450,
+      "when": {
+       "style": "plain"
+      }
+     },
+     {
+      "w": 480,
+      "price": 3880,
+      "when": {
+       "style": "plain"
+      }
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "label": "פסי קישוט אלומיניום",
+    "dims": [
+     "w"
+    ],
+    "rows": [
+     {
+      "w": 160,
+      "price": 1800,
+      "when": {
+       "style": "alu"
+      }
+     },
+     {
+      "w": 240,
+      "price": 2100,
+      "when": {
+       "style": "alu"
+      }
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "label": "פינתי אלומיניום",
+    "dims": [
+     "run"
+    ],
+    "rows": [
+     {
+      "run": 300,
+      "price": 2880,
+      "when": {
+       "style": "alucorner"
+      }
+     },
+     {
+      "run": 360,
+      "price": 3300,
+      "when": {
+       "style": "alucorner"
+      }
+     }
+    ]
+   },
+   {
+    "type": "table",
+    "label": "פסי קישוט מלמין",
+    "dims": [
+     "w"
+    ],
+    "rows": [
+     {
+      "w": 240,
+      "price": 3750,
+      "when": {
+       "style": "strips"
+      }
+     },
+     {
+      "w": 300,
+      "price": 4680,
+      "when": {
+       "style": "strips"
+      }
+     },
+     {
+      "w": 480,
+      "price": 7500,
+      "when": {
+       "style": "strips"
+      }
+     }
+    ]
+   },
+   {
+    "type": "customSize",
+    "label": "תוספת מידה מיוחדת",
+    "keys": [
+     "w",
+     "w2"
+    ],
+    "percent": 0
+   }
+  ]
+ }
+}

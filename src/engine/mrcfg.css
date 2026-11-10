@@ -140,3 +140,9 @@
 #mrcfg .mrc-custom em{font-style:normal;font-size:13px;color:#5c5850}
 #mrcfg .mrc-custom button{padding:9px 14px;border-radius:9px;background:var(--ink);color:#fff;font-size:13px;font-weight:600}
 #mrcfg .mrc-custom small{flex-basis:100%;font-size:11px;color:#5c5850}
+
+/* ---- engine 1.2: long option lists, conditional controls ---- */
+#mrcfg .mrc-seg.list{flex-direction:column}
+#mrcfg .mrc-seg.list button{text-align:right;padding:10px 12px;white-space:normal;line-height:1.35}
+#mrcfg .mrc-seg.wrap{flex-wrap:wrap}
+#mrcfg .mrc-seg.wrap button{flex:1 0 22%}
