@@ -19,16 +19,16 @@
 ## הטמעה בדף מוצר
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.2.0/dist/mrcfg.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.2.1/dist/mrcfg.min.css">
 <div id="mrcfg-mount" data-product="duo-bench" data-name="Duo Bench" data-quote="/contact/"></div>
-<script type="module" src="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.2.0/dist/mrcfg.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.2.1/dist/mrcfg.min.js"></script>
 ```
 
 - `data-product` – שם קובץ המוצר בתיקייה `products` (בלי `.json`).
 - `data-name` – לא חובה. גובר על השם שבקובץ המוצר.
 - `data-quote` – כתובת דף יצירת הקשר. הסיכום נשלח אליה כפרמטר `subject`.
 
-המאגר חייב להיות ציבורי כדי ש־jsDelivr יגיש אותו. בכל Release חדש מעדכנים את מספר הגרסה (`@v1.2.0`) בשתי השורות.
+המאגר חייב להיות ציבורי כדי ש־jsDelivr יגיש אותו. בכל Release חדש מעדכנים את מספר הגרסה (`@v1.2.1`) בשתי השורות.
 
 ## מחירים
 
@@ -75,6 +75,8 @@
 
 בקבצים האלה הסכומים הם **מחירי הספק לפני מע״מ**, כמו במחירון. בראש `pricing` שלוש הגדרות:
 `markup` – אחוז רווח (100 = פי 2), `vat` – מע״מ באחוזים, `roundTo` – עיגול (10 = לעשרות). המחיר ללקוח = מחירון × (1 + רווח) × (1 + מע״מ), מעוגל.
+
+כרגע מוגדר בכל מוצרי הארונות `"customQuote": true`: מידה שהלקוח מקליד (כפתור "אחר") לא מקבלת מחיר אוטומטי, ובמקומו מוצג "לפי הצעת מחיר". כדי להחזיר תמחור אוטומטי למידות מיוחדות, מוחקים את השורה הזו או משנים ל־false.
 
 כלל מסוג `table` מחזיק את שורות המחירון לפי מידה. מידה שמופיעה במחירון מקבלת את המחיר שלה. מידה אחרת מחושבת מהמידות הסמוכות (למשל רוחב 175 בין 160 ל־200). אם במחירון יש רק מידה אחת, המחיר משתנה ביחס ישר למידה.
 

@@ -11,7 +11,7 @@ import { bench } from '../families/bench.js';
 import { cabinet } from '../families/cabinet.js';
 
 const FAMILIES = { bench, cabinet };
-const VERSION = '1.2.0';
+const VERSION = '1.2.1';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -155,14 +155,15 @@ function start(mount, product, cat, family) {
     product.sections.forEach(s => { const e = $(`[data-val="${s.id}"]`), v = F.sectionValue(s.id); if (e && v !== undefined) e.innerHTML = v; });
     $('[data-out="code"]').textContent = code();
     const p = priceNow(), pe = $('[data-out="price"]');
-    pe.hidden = !p.total;
-    if (p.total) pe.innerHTML = `<span>${esc(product.pricing.label || 'מחיר משוער')}</span><b>${fmtPrice(p.total, product.pricing.currency)}</b>${product.pricing.note ? `<small>${esc(product.pricing.note)}</small>` : ''}`;
+    pe.hidden = !p.total && !p.quote;
+    if (p.quote) pe.innerHTML = `<span>${esc(product.pricing.label || 'מחיר')}</span><b class="mrc-quote">לפי הצעת מחיר</b><small>מידה מיוחדת מתומחרת אישית. לחצו על "בקשת הצעת מחיר" ונחזור אליכם.</small>`;
+    else if (p.total) pe.innerHTML = `<span>${esc(product.pricing.label || 'מחיר משוער')}</span><b>${fmtPrice(p.total, product.pricing.currency)}</b>${product.pricing.note ? `<small>${esc(product.pricing.note)}</small>` : ''}`;
   }
   const code = () => F.code();
   const priceNow = () => price(product, S, metrics());
   function summaryText() {
     const p = priceNow();
-    return [NAME, ...F.summary(), p.total ? `${product.pricing.label || 'מחיר משוער'}: ${fmtPrice(p.total, product.pricing.currency)}` : '', `קוד: ${code()}`].filter(Boolean).join(' | ');
+    return [NAME, ...F.summary(), p.quote ? 'מידה מיוחדת – לתמחור' : p.total ? `${product.pricing.label || 'מחיר משוער'}: ${fmtPrice(p.total, product.pricing.currency)}` : '', `קוד: ${code()}`].filter(Boolean).join(' | ');
   }
 
   let toastT;

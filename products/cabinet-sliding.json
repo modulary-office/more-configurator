@@ -188,6 +188,7 @@
   "markup": 100,
   "vat": 18,
   "roundTo": 10,
+  "customQuote": true,
   "rules": [
    {
     "type": "table",
@@ -210,12 +211,12 @@
      {
       "w": 120,
       "h": 210,
-      "price": 1180
+      "price": 1050
      },
      {
       "w": 120,
       "h": 240,
-      "price": 1050
+      "price": 1180
      }
     ]
    },
@@ -273,16 +274,6 @@
      "plastic": 0,
      "alu": 120
     }
-   },
-   {
-    "type": "customSize",
-    "label": "תוספת מידה מיוחדת",
-    "keys": [
-     "w",
-     "h",
-     "d"
-    ],
-    "percent": 0
    }
   ]
  }

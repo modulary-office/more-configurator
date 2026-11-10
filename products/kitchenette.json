@@ -214,6 +214,7 @@
   "markup": 100,
   "vat": 18,
   "roundTo": 10,
+  "customQuote": true,
   "rules": [
    {
     "type": "unit",
@@ -282,14 +283,6 @@
     "when": {
      "softclose": true
     }
-   },
-   {
-    "type": "customSize",
-    "label": "תוספת מידה מיוחדת",
-    "keys": [
-     "w"
-    ],
-    "percent": 0
    }
   ]
  }

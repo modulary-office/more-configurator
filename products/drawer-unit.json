@@ -232,6 +232,7 @@
   "markup": 100,
   "vat": 18,
   "roundTo": 10,
+  "customQuote": true,
   "rules": [
    {
     "type": "table",
@@ -309,16 +310,6 @@
     "when": {
      "handle": "integral"
     }
-   },
-   {
-    "type": "customSize",
-    "label": "תוספת מידה מיוחדת",
-    "keys": [
-     "w",
-     "h",
-     "d"
-    ],
-    "percent": 0
    }
   ]
  }

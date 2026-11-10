@@ -158,6 +158,7 @@
   "markup": 100,
   "vat": 18,
   "roundTo": 10,
+  "customQuote": true,
   "rules": [
    {
     "type": "table",
@@ -278,15 +279,6 @@
       }
      }
     ]
-   },
-   {
-    "type": "customSize",
-    "label": "תוספת מידה מיוחדת",
-    "keys": [
-     "w",
-     "w2"
-    ],
-    "percent": 0
    }
   ]
  }

@@ -16,7 +16,8 @@
                   interpolated (or extrapolated) from the neighbouring rows, one dimension at a time. A dimension
                   with only one row in the list scales in proportion (e.g. a 175 cm wide cabinet from the 80 cm price).
 
-   Product-level: "markup" (% on top of the list, e.g. 100 = ×2), "vat" (% added, e.g. 18), "roundTo" (e.g. 10).
+   Product-level: "markup" (% on top of the list, e.g. 100 = ×2), "vat" (% added, e.g. 18), "roundTo" (e.g. 10),
+   "customQuote": true – a typed (non-standard) size shows no price; the customer asks for a quote instead.
 */
 import { controlsOf, isCustom } from './state.js';
 
@@ -52,6 +53,7 @@ export function tablePrice(rows, dims, t) {
 export function price(product, S, metrics) {
   const P = product.pricing; if (!P || !Array.isArray(P.rules)) return { total: 0, lines: [] };
   const ctrls = controlsOf(product);
+  if (P.customQuote && ctrls.some(c => c.custom && isCustom(c, S))) return { total: 0, list: 0, lines: [], quote: true };
   let sub = 0; const lines = [];
   const m = k => (k in metrics ? num(metrics[k]) : num(S[k]));
   for (const r of P.rules) {

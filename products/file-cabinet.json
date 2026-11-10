@@ -192,6 +192,7 @@
   "markup": 100,
   "vat": 18,
   "roundTo": 10,
+  "customQuote": true,
   "rules": [
    {
     "type": "table",
@@ -251,16 +252,6 @@
     "when": {
      "base": "plinth"
     }
-   },
-   {
-    "type": "customSize",
-    "label": "תוספת מידה מיוחדת",
-    "keys": [
-     "w",
-     "h",
-     "d"
-    ],
-    "percent": 0
    }
   ]
  }

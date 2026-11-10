@@ -305,6 +305,7 @@
   "markup": 100,
   "vat": 18,
   "roundTo": 10,
+  "customQuote": true,
   "rules": [
    {
     "type": "table",
@@ -397,14 +398,6 @@
     "when": {
      "base": "wheels"
     }
-   },
-   {
-    "type": "customSize",
-    "label": "תוספת מידה מיוחדת",
-    "keys": [
-     "w"
-    ],
-    "percent": 0
    }
   ]
  }
