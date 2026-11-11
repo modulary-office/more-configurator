@@ -107,7 +107,8 @@
     "t": 30,
     "edge": "bevel"
    }
-  }
+  },
+  "ret": "credenza"
  },
  "defaults": {
   "frame": "barcelona",

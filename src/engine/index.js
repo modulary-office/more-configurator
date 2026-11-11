@@ -81,13 +81,6 @@ function start(mount, product, cat, family) {
     <div class="mrc-steps">
       ${product.sections.map(secHTML).join('\n      ')}
     </div>
-    <div class="mrc-foot">
-      <div class="mrc-price" data-out="price" hidden></div>
-      <div class="mrc-code"><span data-out="summary"></span><code data-out="code"></code></div>
-      <button class="mrc-cta" data-act="quote">${ico.send}בקשת הצעת מחיר לתצורה הזו</button>
-      <div class="mrc-row"><button class="mrc-ghost" data-act="share">${ico.share}שיתוף התצורה</button><button class="mrc-ghost" data-act="snap">${ico.cam}שמירת תמונה</button></div>
-      <p class="mrc-note">${esc(product.note || '')}</p>
-    </div>
   </aside>
   <div class="mrc-stage">
     <div class="mrc-grid"></div>
@@ -101,6 +94,13 @@ function start(mount, product, cat, family) {
     <div class="mrc-toast"></div>
     <div class="mrc-loading"><div><svg viewBox="0 0 64 64"><path d="M14 50L24 14 32 30 40 14 50 50" fill="none" stroke="#1C1C1A" stroke-width="3" stroke-linejoin="round" stroke-dasharray="140" stroke-dashoffset="140"><animate attributeName="stroke-dashoffset" values="140;0;0;-140" dur="2s" repeatCount="indefinite"/></path></svg>טוען תצוגה תלת־ממדית…</div></div>
   </div>
+  <div class="mrc-foot">
+      <div class="mrc-price" data-out="price" hidden></div>
+      <div class="mrc-code"><span data-out="summary"></span><code data-out="code"></code></div>
+      <button class="mrc-cta" data-act="quote">${ico.send}בקשת הצעת מחיר לתצורה הזו</button>
+      <div class="mrc-row"><button class="mrc-ghost" data-act="share">${ico.share}שיתוף התצורה</button><button class="mrc-ghost" data-act="snap">${ico.cam}שמירת תמונה</button></div>
+      <p class="mrc-note">${esc(product.note || '')}</p>
+    </div>
 </div>`;
   const host = document.querySelector('div.product');
   if (host && host.parentNode && !mount.closest('.mrc-wrap')) host.parentNode.insertBefore(root, host); else mount.appendChild(root);

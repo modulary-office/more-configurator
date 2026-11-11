@@ -3,7 +3,7 @@
  "name": "שולחן עבודה",
  "family": "desk",
  "codePrefix": "MDW",
- "subtitle": "שולחן עבודה על שלד מתכת: בחרו דגם שלד, מידות, פלטה וצבע. אפשר גם שורת שולחנות או זוג מול זוג.",
+ "subtitle": "שולחן עבודה על שלד מתכת: בחרו דגם שלד, מידות, פלטה וצבע. אפשר גם שורת שולחנות, זוג מול זוג, או שלוחה רתומה עם יחידת מגירות.",
  "note": "השלדים בייבוא, בצבעי לבן, שחור, גרפיט וכחול, או בכל גוון RAL בתוספת. הגוונים במסך להמחשה.",
  "model": {
   "frames": {
@@ -107,7 +107,8 @@
     "t": 30,
     "edge": "bevel"
    }
-  }
+  },
+  "ret": "attached"
  },
  "defaults": {
   "frame": "intel",
@@ -120,7 +121,15 @@
   "fcolor": "9005",
   "motor": "single",
   "holes": false,
-  "tray": false
+  "tray": false,
+  "ret": "none",
+  "rw": 90,
+  "rped": "dr",
+  "rbody": "white",
+  "rfaceOn": false,
+  "rface": "oak",
+  "rinset": "over",
+  "rhandle": "h"
  },
  "sections": [
   {
@@ -1022,6 +1031,168 @@
    ]
   },
   {
+   "id": "ret",
+   "title": "שלוחה רתומה",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "ret",
+     "label": "שלוחה בגובה השולחן",
+     "showWhen": {
+      "layout": "single"
+     },
+     "options": [
+      {
+       "v": "none",
+       "label": "ללא"
+      },
+      {
+       "v": "right",
+       "label": "מימין"
+      },
+      {
+       "v": "left",
+       "label": "משמאל"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "rw",
+     "label": "אורך הקסקט",
+     "num": true,
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": 90,
+       "label": "90 ס״מ"
+      },
+      {
+       "v": 120,
+       "label": "120 ס״מ"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "rped",
+     "label": "מתחת לקסקט",
+     "layout": "list",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": "dr",
+       "label": "יחידת מגירות 40×45"
+      },
+      {
+       "v": "drd",
+       "label": "מגירות + יחידה עם דלת"
+      }
+     ]
+    },
+    {
+     "type": "swatch",
+     "key": "rbody",
+     "label": "צבע גוף",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     }
+    },
+    {
+     "type": "toggle",
+     "key": "rfaceOn",
+     "title": "חזיתות בצבע אחר",
+     "sub": "צבע שונה לדלתות ולמגירות",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "rface",
+     "label": "צבע חזיתות",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ],
+      "rfaceOn": true
+     }
+    },
+    {
+     "type": "seg",
+     "key": "rinset",
+     "label": "חזיתות",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": "over",
+       "label": "על הגוף"
+      },
+      {
+       "v": "inset",
+       "label": "שקועות בגוף"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "rhandle",
+     "label": "פתיחה",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": "h",
+       "label": "ידיות ח רוכבות"
+      },
+      {
+       "v": "touch",
+       "label": "פתיחה בלחיצה (טאץ׳)"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "top",
    "title": "פלטה",
    "controls": [
@@ -1872,6 +2043,43 @@
     ]
    },
    {
+    "type": "fixed",
+    "label": "יחידת מגירות לשלוחה",
+    "amount": 350,
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ]
+    }
+   },
+   {
+    "type": "fixed",
+    "label": "יחידה עם דלת",
+    "amount": 300,
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ],
+     "rped": "drd"
+    }
+   },
+   {
+    "type": "fixed",
+    "label": "זוג פלחי חיבור",
+    "amount": 0,
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ]
+    }
+   },
+   {
     "type": "option",
     "label": "רוכבים (שולחנות נוספים בשורה)",
     "key": "frame",
@@ -2120,6 +2328,198 @@
     "when": {
      "tray": true
     }
+   },
+   {
+    "type": "tiers",
+    "label": "קסקט: מלמין 28 מ״מ, קנט ישר",
+    "by": "retPB",
+    "per": "retTop",
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ],
+     "top": "m28"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 350
+     },
+     {
+      "upTo": 2,
+      "amount": 215
+     },
+     {
+      "upTo": 3,
+      "amount": 160
+     },
+     {
+      "upTo": 4,
+      "amount": 135
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "קסקט: מלמין 17 מ״מ, קנט ישר",
+    "by": "retPB",
+    "per": "retTop",
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ],
+     "top": "m17"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 250
+     },
+     {
+      "upTo": 2,
+      "amount": 155
+     },
+     {
+      "upTo": 3,
+      "amount": 125
+     },
+     {
+      "upTo": 4,
+      "amount": 110
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "קסקט: מלמין 24 מ״מ, קנט משופע",
+    "by": "retPB",
+    "per": "retTop",
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ],
+     "top": "b24"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 450
+     },
+     {
+      "upTo": 2,
+      "amount": 280
+     },
+     {
+      "upTo": 3,
+      "amount": 225
+     },
+     {
+      "upTo": 4,
+      "amount": 195
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "קסקט: סנדוויץ׳ פורמייקה 28 מ״מ",
+    "by": "retPB",
+    "per": "retTop",
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ],
+     "top": "f28"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 585
+     },
+     {
+      "upTo": 2,
+      "amount": 325
+     },
+     {
+      "upTo": 3,
+      "amount": 235
+     },
+     {
+      "upTo": 4,
+      "amount": 190
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "קסקט: MDF פורמייקה 28 מ״מ, קנט אפוקסי",
+    "by": "retPB",
+    "per": "retTop",
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ],
+     "top": "mdf28"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 800
+     },
+     {
+      "upTo": 2,
+      "amount": 600
+     },
+     {
+      "upTo": 3,
+      "amount": 600
+     },
+     {
+      "upTo": 4,
+      "amount": 600
+     }
+    ]
+   },
+   {
+    "type": "tiers",
+    "label": "קסקט: MDF פורניר 30 מ״מ, קנט משופע",
+    "by": "retPB",
+    "per": "retTop",
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ],
+     "top": "v30"
+    },
+    "tiers": [
+     {
+      "upTo": 1,
+      "amount": 1200
+     },
+     {
+      "upTo": 2,
+      "amount": 780
+     },
+     {
+      "upTo": 3,
+      "amount": 780
+     },
+     {
+      "upTo": 4,
+      "amount": 780
+     }
+    ]
    }
   ]
  }

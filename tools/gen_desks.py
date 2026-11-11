@@ -117,21 +117,42 @@ RET_PRICE = {120: 750, 140: 900, 160: 1050, 180: 1200, 200: 1350}   # credenza l
 md = P['manager-desk']
 md['defaults'].update({"ret": "left", "rw": 160, "rarr": "dd", "rbody": "graphite", "rfaceOn": True, "rface": "walnut", "rinset": "over", "rhandle": "h"})
 sel = {"layout": "single", "ret": ["right", "left"]}
+def finish_controls():
+    return [sw("rbody", "צבע גוף", "decors", "decor", sel),
+        {"type": "toggle", "key": "rfaceOn", "title": "חזיתות בצבע אחר", "sub": "צבע שונה לדלתות ולמגירות", "showWhen": sel},
+        sw("rface", "צבע חזיתות", "decors", "decor", {**sel, "rfaceOn": True}),
+        {"type": "seg", "key": "rinset", "label": "חזיתות", "showWhen": sel, "options": [{"v": "over", "label": "על הגוף"}, {"v": "inset", "label": "שקועות בגוף"}]},
+        {"type": "seg", "key": "rhandle", "label": "פתיחה", "showWhen": sel, "options": [{"v": "h", "label": "ידיות ח רוכבות"}, {"v": "touch", "label": "פתיחה בלחיצה (טאץ׳)"}]}]
+md['model']['ret'] = 'credenza'
 md['sections'].insert(2, {"id": "ret", "title": "שלוחה", "controls": [
     {"type": "seg", "key": "ret", "label": "שלוחה בצורת L", "showWhen": {"layout": "single"}, "options": [
         {"v": "none", "label": "ללא"}, {"v": "right", "label": "מימין"}, {"v": "left", "label": "משמאל"}]},
     {"type": "seg", "key": "rw", "label": "אורך השלוחה", "num": True, "showWhen": sel, "options": [{"v": w, "label": f"{w}"} for w in RW]},
     {"type": "seg", "key": "rarr", "label": "סידור", "layout": "list", "showWhen": sel, "options": [
         {"v": "dd", "label": "דלתות + מגירות"}, {"v": "ddd", "label": "מגירות + דלתות + מגירות"}, {"v": "dod", "label": "דלתות + תא פתוח + מגירות"},
-        {"v": "od", "label": "תאים פתוחים + מגירות"}, {"v": "dr", "label": "מגירות בלבד"}]},
-    sw("rbody", "צבע גוף", "decors", "decor", sel),
-    {"type": "toggle", "key": "rfaceOn", "title": "חזיתות בצבע אחר", "sub": "צבע שונה לדלתות ולמגירות", "showWhen": sel},
-    sw("rface", "צבע חזיתות", "decors", "decor", {**sel, "rfaceOn": True}),
-    {"type": "seg", "key": "rinset", "label": "חזיתות", "showWhen": sel, "options": [{"v": "over", "label": "על הגוף"}, {"v": "inset", "label": "שקועות בגוף"}]},
-    {"type": "seg", "key": "rhandle", "label": "פתיחה", "showWhen": sel, "options": [{"v": "h", "label": "ידיות ח רוכבות"}, {"v": "touch", "label": "פתיחה בלחיצה (טאץ׳)"}]}]})
+        {"v": "od", "label": "תאים פתוחים + מגירות"}, {"v": "dr", "label": "מגירות בלבד"}]}] + finish_controls()})
 md['pricing']['rules'].insert(1, {"type": "table", "label": "שלוחה 65 ס״מ", "dims": ["rw"],
     "rows": [{"rw": w, "price": p} for w, p in RET_PRICE.items()], "when": sel})
 md['subtitle'] = 'שולחן מנהל על שלד מתכת מעוצב, עם פלטה בקנט משופע או פורניר, ושלוחה בצורת L שהשלד רוכב עליה.'
+
+# office desk: attached return (שלוחה רתומה) at desk height – a 90 or 120 × 45 top fixed to the desk with two plates,
+# resting on a 40×45 drawer pedestal (height = 75 minus the top), optionally with a door unit beside it
+od = P['office-desk']
+od['model']['ret'] = 'attached'
+od['defaults'].update({"ret": "none", "rw": 90, "rped": "dr", "rbody": "white", "rfaceOn": False, "rface": "oak", "rinset": "over", "rhandle": "h"})
+od['sections'].insert(2, {"id": "ret", "title": "שלוחה רתומה", "controls": [
+    {"type": "seg", "key": "ret", "label": "שלוחה בגובה השולחן", "showWhen": {"layout": "single"}, "options": [
+        {"v": "none", "label": "ללא"}, {"v": "right", "label": "מימין"}, {"v": "left", "label": "משמאל"}]},
+    {"type": "seg", "key": "rw", "label": "אורך הקסקט", "num": True, "showWhen": sel, "options": [{"v": 90, "label": "90 ס״מ"}, {"v": 120, "label": "120 ס״מ"}]},
+    {"type": "seg", "key": "rped", "label": "מתחת לקסקט", "layout": "list", "showWhen": sel, "options": [
+        {"v": "dr", "label": "יחידת מגירות 40×45"}, {"v": "drd", "label": "מגירות + יחידה עם דלת"}]}] + finish_controls()})
+r = od['pricing']['rules']
+r.insert(1, {"type": "fixed", "label": "יחידת מגירות לשלוחה", "amount": 350, "when": sel})
+r.insert(2, {"type": "fixed", "label": "יחידה עם דלת", "amount": 300, "when": {**sel, "rped": "drd"}})
+r.insert(3, {"type": "fixed", "label": "זוג פלחי חיבור", "amount": 0, "when": sel})
+for tid, (lab, t, edge, p) in TOPS.items():
+    r.append({"type": "tiers", "label": "קסקט: " + lab, "by": "retPB", "per": "retTop", "when": {**sel, "top": tid}, "tiers": [{"upTo": i + 1, "amount": a} for i, a in enumerate(p)]})
+od['subtitle'] = 'שולחן עבודה על שלד מתכת: בחרו דגם שלד, מידות, פלטה וצבע. אפשר גם שורת שולחנות, זוג מול זוג, או שלוחה רתומה עם יחידת מגירות.'
 
 for k, p in P.items():
     json.dump(p, open(os.path.join(OUT, k + '.json'), 'w', encoding='utf8'), ensure_ascii=False, indent=1)
