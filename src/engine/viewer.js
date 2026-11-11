@@ -158,6 +158,15 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
     c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `MORE-${ui.code()}.png`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); ui.toast('התמונה נשמרה'); }, 'image/png');
   }
 
+  /* small picture for a project item: the current view on the cream ground, JPEG */
+  function thumb(maxW = 640) {
+    renderFrame(0);
+    const src = renderer.domElement, k = Math.min(1, maxW / src.width), w = Math.round(src.width * k), h = Math.round(src.height * k), c = document.createElement('canvas');
+    c.width = w; c.height = h; const x = c.getContext('2d');
+    x.fillStyle = '#F3EEE5'; x.fillRect(0, 0, w, h); x.drawImage(src, 0, 0, w, h);
+    try { return c.toDataURL('image/jpeg', .82); } catch (e) { return ''; }
+  }
+
   /* loop */
   const v3 = new THREE.Vector3(); let prev = performance.now(), visible = true, raf = 0;
   const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
@@ -198,5 +207,5 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
     scene.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) [].concat(o.material).forEach(m => { if (m.map) m.map.dispose(); m.dispose(); }); });
     renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {}
   }
-  return { update, focus, snap, destroy };
+  return { update, focus, snap, thumb, destroy };
 }

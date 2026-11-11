@@ -7,12 +7,13 @@ import { thumbTop, fabThumb } from './textures.js';
 import { controlsOf, optionValues, optionList, driverOf, isCustom, sanitize, readHash, writeHash, catItems } from './state.js';
 import { price, fmtPrice } from './pricing.js';
 import { createViewer } from './viewer.js';
+import * as project from './project.js';
 import { bench } from '../families/bench.js';
 import { cabinet } from '../families/cabinet.js';
 import { desk } from '../families/desk.js';
 
 const FAMILIES = { bench, cabinet, desk };
-const VERSION = '1.3.0';
+const VERSION = '1.5.0';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -97,8 +98,8 @@ function start(mount, product, cat, family) {
   <div class="mrc-foot">
       <div class="mrc-price" data-out="price" hidden></div>
       <div class="mrc-code"><span data-out="summary"></span><code data-out="code"></code></div>
-      <button class="mrc-cta" data-act="quote">${ico.send}בקשת הצעת מחיר לתצורה הזו</button>
-      <div class="mrc-row"><button class="mrc-ghost" data-act="share">${ico.share}שיתוף התצורה</button><button class="mrc-ghost" data-act="snap">${ico.cam}שמירת תמונה</button></div>
+      <div class="mrc-ctas"><button class="mrc-cta" data-act="add">${ico.plus}הוספה לפרויקט</button><button class="mrc-ghost mrc-quote-btn" data-act="quote">${ico.send}בקשת הצעת מחיר לתצורה הזו</button></div>
+      <div class="mrc-row"><button class="mrc-ghost" data-act="project">${ico.folder}הפרויקט שלי <span class="mrc-cnt" data-out="pcount"></span></button><button class="mrc-ghost" data-act="share">${ico.share}שיתוף</button><button class="mrc-ghost" data-act="snap">${ico.cam}תמונה</button></div>
       <p class="mrc-note">${esc(product.note || '')}</p>
     </div>
 </div>`;
@@ -228,6 +229,8 @@ function start(mount, product, cat, family) {
     }
     if (b.dataset.t) { S[b.dataset.t] = !S[b.dataset.t]; change(b.dataset.t); return; }
     if (b.dataset.act === 'quote') { location.href = QUOTE_URL + (QUOTE_URL.includes('?') ? '&' : '?') + 'subject=' + encodeURIComponent('בקשת הצעת מחיר: ' + summaryText()); return; }
+    if (b.dataset.act === 'add') { addToProject(); return; }
+    if (b.dataset.act === 'project') { project.openDrawer({ quoteUrl: QUOTE_URL }); return; }
     if (b.dataset.act === 'share') { share(); return; }
     if (b.dataset.act === 'snap') { api && api.snap(); return; }
   });
@@ -250,6 +253,35 @@ function start(mount, product, cat, family) {
     else if (navigator.clipboard) navigator.clipboard.writeText(url).then(done, () => prompt('העתיקו את הקישור:', url));
     else prompt('העתיקו את הקישור:', url);
   }
+  /* every choice in words, for the project, the presentation and the production sheet */
+  function specRows() {
+    const rows = [];
+    for (const sec of product.sections) for (const c of sec.controls) {
+      if (!shown(c)) continue;
+      const v = S[c.key]; let txt = '';
+      if (c.type === 'seg') { const o = optionList(c, S).find(o => String(o.v) === String(v)); txt = o ? (o.label ?? o.v) : `${v}${c.custom && c.custom.unit ? ' ' + c.custom.unit : ''} (מידה מיוחדת)`; }
+      else if (c.type === 'swatch') { const it = itemOf(c); txt = it ? (c.style === 'ral' ? `RAL ${it.id} · ${it.he}` : `${it.he}${it.code || it.id ? ` (${it.code || it.id})` : ''}`) : String(v); }
+      else if (c.type === 'toggle') txt = v ? 'כן' : 'לא';
+      else if (c.type === 'stepper') txt = String(v);
+      else continue;
+      rows.push([c.label || c.title || sec.title, String(txt).replace(/<[^>]+>/g, '')]);
+    }
+    return rows;
+  }
+  function addToProject() {
+    const p = priceNow();
+    project.addItem({ product: product.id, name: NAME, code: code(), lines: F.summary().map(x => String(x).replace(/<[^>]+>/g, '').trim()).filter(x => x && !/^[·\s]+$/.test(x)), spec: specRows(),
+      price: p.quote ? 0 : (p.total || 0), quote: !!p.quote, currency: product.pricing && product.pricing.currency, url: location.href.split('#')[0] + '#' + (location.hash.slice(1) || ''),
+      img: api && api.thumb ? api.thumb() : '' });
+    const n = project.count();
+    toast(`נוסף לפרויקט · ${n} ${n === 1 ? 'פריט' : 'פריטים'}`);
+    pcount();
+  }
+  const pcount = () => { const n = project.count(), e = $('[data-out="pcount"]'); if (e) e.textContent = n ? `(${n})` : ''; };
+  addEventListener('mrcfg-project', pcount);
+  pcount();
+  if (project.isAdmin()) root.dataset.admin = '1';
+
   refreshUI();
   openSec(product.sections[0].id, false);
 
@@ -259,12 +291,14 @@ function start(mount, product, cat, family) {
   try { api = createViewer({ root, stage, $, $$, S, product, cat, family, ui }); } catch (e) { console.error(e); $('.mrc-loading div').textContent = 'התצוגה התלת־ממדית אינה נתמכת בדפדפן זה'; }
 
   /* small public hook for debugging / later cart integration */
-  root.mrcfg = { state: S, code, price: priceNow, summary: summaryText, product: product.id,
+  root.mrcfg = { state: S, code, price: priceNow, summary: summaryText, spec: specRows, add: addToProject, product: product.id,
     destroy: () => { api && api.destroy && api.destroy(); root.remove(); } };
 }
 
 /* switch the configurator on the page to another product (demo pages) */
 window.MRCFG = {
+  project,
+  openProject(opts) { project.openDrawer(opts); },
   load(id, name) {
     const old = document.getElementById('mrcfg'); if (old && old.mrcfg) old.mrcfg.destroy(); else if (old) old.remove();
     const mount = document.getElementById('mrcfg-mount'); if (!mount) return;

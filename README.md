@@ -19,16 +19,16 @@
 ## הטמעה בדף מוצר
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.3.0/dist/mrcfg.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.5.0/dist/mrcfg.min.css">
 <div id="mrcfg-mount" data-product="duo-bench" data-name="Duo Bench" data-quote="/contact/"></div>
-<script type="module" src="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.3.0/dist/mrcfg.min.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@v1.5.0/dist/mrcfg.min.js"></script>
 ```
 
 - `data-product` – שם קובץ המוצר בתיקייה `products` (בלי `.json`).
 - `data-name` – לא חובה. גובר על השם שבקובץ המוצר.
 - `data-quote` – כתובת דף יצירת הקשר. הסיכום נשלח אליה כפרמטר `subject`.
 
-המאגר חייב להיות ציבורי כדי ש־jsDelivr יגיש אותו. בכל Release חדש מעדכנים את מספר הגרסה (`@v1.3.0`) בשתי השורות.
+המאגר חייב להיות ציבורי כדי ש־jsDelivr יגיש אותו. בכל Release חדש מעדכנים את מספר הגרסה (`@v1.5.0`) בשתי השורות.
 
 ## מחירים
 
@@ -93,6 +93,18 @@
 תצורות: שולחן יחיד, שורת שולחנות (רוכבים), זוג מול זוג, בנץ׳ ארבע עמדות – לפי מה שקיים לכל דגם.
 מחיר הפלטה נקבע לפי כמה פלטות יוצאות מלוח 280×210 (אחת עד ארבע), כמו במחירון. צבע RAL שאינו לבן, שחור, גרפיט או כחול: ‎+70 לשלד, ‎+120 לבנץ׳.
 את הנתונים מייצר הסקריפט שבתיקיית הכלים; אפשר גם לערוך את קובצי ה־JSON ישירות.
+
+## פרויקטים (גרסה 1.5)
+
+בכל קונפיגורטור יש כפתור **"הוספה לפרויקט"**. הפריט נשמר עם כל הבחירות, כמות, הערה ותמונה של התצורה.
+הכפתור **"הפרויקט שלי"** פותח חלונית צד: שם פרויקט ושם לקוח, כמה פרויקטים במקביל, כמויות, הערות, סכום משוער.
+
+- **מצגת ללקוח (PDF):** עמוד שער, עמוד לכל פריט (תמונה, מפרט, מחיר אם בוחרים להציג), ועמוד ריכוז. נפתח בחלון חדש ונשמר דרך "שמירה כ־PDF".
+- **שליחת בקשה אלינו:** פותח את דף יצירת הקשר עם רשימת הפריטים המלאה.
+- **מפרט הזמנה לייצור (PDF):** כל הבחירות של כל פריט, קודי דקור וצבעי RAL, כמויות. מוצג רק אחרי כניסה פעם אחת לכתובת עם `?mrcfg-admin=1` (ו־`?mrcfg-admin=0` מבטל).
+
+הפרויקטים נשמרים בדפדפן של הגולש בלבד (localStorage). שמירה בשרת, הזמנה, תשלום וחיבור ל־CRM יגיעו בשלבים הבאים.
+מקוד אחר בעמוד: `MRCFG.openProject()` פותח את החלונית, `MRCFG.project.active()` מחזיר את הפרויקט הפעיל.
 
 ## מידה שהלקוח מקליד
 
