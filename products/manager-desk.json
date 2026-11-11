@@ -122,7 +122,13 @@
   "holes": false,
   "tray": false,
   "ret": "left",
-  "rw": 120
+  "rw": 160,
+  "rarr": "dd",
+  "rbody": "graphite",
+  "rfaceOn": true,
+  "rface": "walnut",
+  "rinset": "over",
+  "rhandle": "h"
  },
  "sections": [
   {
@@ -1063,12 +1069,147 @@
      },
      "options": [
       {
-       "v": 80,
-       "label": "80 ס״מ"
+       "v": 120,
+       "label": "120"
       },
       {
-       "v": 120,
-       "label": "120 ס״מ"
+       "v": 140,
+       "label": "140"
+      },
+      {
+       "v": 160,
+       "label": "160"
+      },
+      {
+       "v": 180,
+       "label": "180"
+      },
+      {
+       "v": 200,
+       "label": "200"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "rarr",
+     "label": "סידור",
+     "layout": "list",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": "dd",
+       "label": "דלתות + מגירות"
+      },
+      {
+       "v": "ddd",
+       "label": "מגירות + דלתות + מגירות"
+      },
+      {
+       "v": "dod",
+       "label": "דלתות + תא פתוח + מגירות"
+      },
+      {
+       "v": "od",
+       "label": "תאים פתוחים + מגירות"
+      },
+      {
+       "v": "dr",
+       "label": "מגירות בלבד"
+      }
+     ]
+    },
+    {
+     "type": "swatch",
+     "key": "rbody",
+     "label": "צבע גוף",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     }
+    },
+    {
+     "type": "toggle",
+     "key": "rfaceOn",
+     "title": "חזיתות בצבע אחר",
+     "sub": "צבע שונה לדלתות ולמגירות",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "rface",
+     "label": "צבע חזיתות",
+     "catalog": "decors",
+     "style": "decor",
+     "out": "{he}",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ],
+      "rfaceOn": true
+     }
+    },
+    {
+     "type": "seg",
+     "key": "rinset",
+     "label": "חזיתות",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": "over",
+       "label": "על הגוף"
+      },
+      {
+       "v": "inset",
+       "label": "שקועות בגוף"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "rhandle",
+     "label": "פתיחה",
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": "h",
+       "label": "ידיות ח רוכבות"
+      },
+      {
+       "v": "touch",
+       "label": "פתיחה בלחיצה (טאץ׳)"
       }
      ]
     }
@@ -1926,18 +2067,30 @@
    },
    {
     "type": "table",
-    "label": "שלוחה 65 ס״מ (דלתות ומגירות)",
+    "label": "שלוחה 65 ס״מ",
     "dims": [
      "rw"
     ],
     "rows": [
      {
-      "rw": 80,
-      "price": 650
-     },
-     {
       "rw": 120,
       "price": 750
+     },
+     {
+      "rw": 140,
+      "price": 900
+     },
+     {
+      "rw": 160,
+      "price": 1050
+     },
+     {
+      "rw": 180,
+      "price": 1200
+     },
+     {
+      "rw": 200,
+      "price": 1350
      }
     ],
     "when": {

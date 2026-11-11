@@ -110,16 +110,27 @@ P = {
   'desk-frame': product('desk-frame', 'שלד לשולחן', 'MDF', 'שלדי מתכת לשולחנות, בלי פלטה או עם פלטה לבחירה. מגיעים בלבן, שחור, גרפיט או כל גוון RAL.', {"top": "none", "fcolor": "9016"}),
   'bench-desk': product('bench-desk', 'עמדות עבודה משותפות', 'MDB', 'שולחנות בנץ׳ לארבע עמדות או זוג שולחנות מול מול, על שלד מתכת משותף.', {"frame": "arco", "layout": "bench", "w": 330, "d": 138, "fcolor": "7024", "decor": "white"}),
 }
-# manager desk: optional L-return (שלוחה) – a 65 cm credenza that replaces one leg; the frame rides on its top
+# manager desk: optional L-return (שלוחה) – a 65 cm credenza that replaces one leg; the frame rides on its top.
+# (an 80 cm return at desk height belongs to the office desk, as an attached return)
+RW = [120, 140, 160, 180, 200]
+RET_PRICE = {120: 750, 140: 900, 160: 1050, 180: 1200, 200: 1350}   # credenza list: 120 → 750, 180 → 1200; in between by length
 md = P['manager-desk']
-md['defaults'].update({"ret": "left", "rw": 120})
+md['defaults'].update({"ret": "left", "rw": 160, "rarr": "dd", "rbody": "graphite", "rfaceOn": True, "rface": "walnut", "rinset": "over", "rhandle": "h"})
+sel = {"layout": "single", "ret": ["right", "left"]}
 md['sections'].insert(2, {"id": "ret", "title": "שלוחה", "controls": [
     {"type": "seg", "key": "ret", "label": "שלוחה בצורת L", "showWhen": {"layout": "single"}, "options": [
         {"v": "none", "label": "ללא"}, {"v": "right", "label": "מימין"}, {"v": "left", "label": "משמאל"}]},
-    {"type": "seg", "key": "rw", "label": "אורך השלוחה", "num": True, "showWhen": {"layout": "single", "ret": ["right", "left"]}, "options": [
-        {"v": 80, "label": "80 ס״מ"}, {"v": 120, "label": "120 ס״מ"}]}]})
-md['pricing']['rules'].insert(1, {"type": "table", "label": "שלוחה 65 ס״מ (דלתות ומגירות)", "dims": ["rw"],
-    "rows": [{"rw": 80, "price": 650}, {"rw": 120, "price": 750}], "when": {"layout": "single", "ret": ["right", "left"]}})
+    {"type": "seg", "key": "rw", "label": "אורך השלוחה", "num": True, "showWhen": sel, "options": [{"v": w, "label": f"{w}"} for w in RW]},
+    {"type": "seg", "key": "rarr", "label": "סידור", "layout": "list", "showWhen": sel, "options": [
+        {"v": "dd", "label": "דלתות + מגירות"}, {"v": "ddd", "label": "מגירות + דלתות + מגירות"}, {"v": "dod", "label": "דלתות + תא פתוח + מגירות"},
+        {"v": "od", "label": "תאים פתוחים + מגירות"}, {"v": "dr", "label": "מגירות בלבד"}]},
+    sw("rbody", "צבע גוף", "decors", "decor", sel),
+    {"type": "toggle", "key": "rfaceOn", "title": "חזיתות בצבע אחר", "sub": "צבע שונה לדלתות ולמגירות", "showWhen": sel},
+    sw("rface", "צבע חזיתות", "decors", "decor", {**sel, "rfaceOn": True}),
+    {"type": "seg", "key": "rinset", "label": "חזיתות", "showWhen": sel, "options": [{"v": "over", "label": "על הגוף"}, {"v": "inset", "label": "שקועות בגוף"}]},
+    {"type": "seg", "key": "rhandle", "label": "פתיחה", "showWhen": sel, "options": [{"v": "h", "label": "ידיות ח רוכבות"}, {"v": "touch", "label": "פתיחה בלחיצה (טאץ׳)"}]}]})
+md['pricing']['rules'].insert(1, {"type": "table", "label": "שלוחה 65 ס״מ", "dims": ["rw"],
+    "rows": [{"rw": w, "price": p} for w, p in RET_PRICE.items()], "when": sel})
 md['subtitle'] = 'שולחן מנהל על שלד מתכת מעוצב, עם פלטה בקנט משופע או פורניר, ושלוחה בצורת L שהשלד רוכב עליה.'
 
 for k, p in P.items():
