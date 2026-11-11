@@ -35,6 +35,7 @@
   .mdf-cats li{flex:0 0 27%;scroll-snap-align:start}
   .mdf-cats a{font-size:13px;padding:10px 4px}.mdf-cats svg{width:38px;height:38px}
 }
+@media (max-width:767px){.mdf .mdf-btn{top:12px!important;bottom:auto!important;width:42px!important;height:42px!important}.mdf .mdf-sound{left:12px!important}.mdf .mdf-pause{left:62px!important}}
 @media (prefers-reduced-motion:reduce){.mdf-cats svg,.mdf-cats a{transition:none}}
 </style>
 <script>
@@ -56,6 +57,9 @@
     new IntersectionObserver(function(es){ es.forEach(function(e){ visible=e.intersectionRatio>=0.35; if(visible){ v.preload='auto'; play(); } else v.pause(); }); },{threshold:[0,.35,.6]}).observe(root.querySelector('.mdf-video'));
   } else { visible=true; play(); }
   /* at the end the logo holds for 3 s, then the film plays again (only while on screen) */
+  /* some phones only start muted video after the first touch or scroll */
+  ['touchstart','scroll','click'].forEach(function(ev){ window.addEventListener(ev,function once(){ window.removeEventListener(ev,once); if(v.paused) play(); },{passive:true}); });
+  v.addEventListener('loadeddata',function(){ if(v.paused) play(); },{once:true});
   v.addEventListener('ended',function(){ clearTimeout(loopT); loopT=setTimeout(function(){ v.currentTime=0; play(); },3000); });
   bP.addEventListener('click',function(){ if(!v.paused){ userPaused=true; v.pause(); setPaused(true); } else { userPaused=false; forced=true; setPaused(false); play(); } });
   bS.addEventListener('click',function(){ v.muted=!v.muted; bS.classList.toggle('on',!v.muted); bS.setAttribute('aria-pressed',String(!v.muted)); bS.setAttribute('aria-label',v.muted?'הפעלת סאונד':'השתקה'); if(!v.muted){ if(v.currentTime>2) v.currentTime=0; userPaused=false; forced=true; setPaused(false); play(); } });
