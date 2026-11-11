@@ -10,7 +10,7 @@
 .mdf{--y:#F8DC55;--ink:#1C1C1A;--paper:#F4F2ED;direction:rtl}
 .mdf-video{position:relative;width:100%;aspect-ratio:16/9;background:var(--paper);overflow:hidden;line-height:0}
 .mdf-v{display:block;width:100%;height:100%;object-fit:cover;background:var(--paper)}
-@media (max-width:767px){.mdf-video{aspect-ratio:9/16;max-height:calc(100svh - 70px)}}
+@media (max-width:767px){.mdf:not(.mdf-wideonly) .mdf-video{aspect-ratio:9/16;max-height:calc(100svh - 70px)}}
 .mdf .mdf-btn{position:absolute!important;bottom:16px!important;top:auto!important;width:46px!important;height:46px!important;min-width:0!important;min-height:0!important;padding:0!important;margin:0!important;border-radius:50%!important;border:1.5px solid var(--ink)!important;background:rgba(244,242,237,.92)!important;color:var(--ink)!important;display:grid!important;place-items:center;cursor:pointer;z-index:2;box-shadow:0 4px 14px rgba(28,28,26,.12)!important;transition:background .2s,transform .2s;line-height:0!important}
 .mdf .mdf-sound{left:16px!important;right:auto!important}.mdf .mdf-pause{left:70px!important;right:auto!important}
 .mdf .mdf-btn:hover,.mdf .mdf-btn:focus-visible{background:var(--y)!important;transform:scale(1.06)}
@@ -41,8 +41,9 @@
 (function(){
   var root=document.querySelector('[data-mdf]'); if(!root) return;
   var v=root.querySelector('video'), bS=root.querySelector('.mdf-sound'), bP=root.querySelector('.mdf-pause');
-  var SRC={wide:'__WIDE__',tall:'__TALL__',posterWide:'__PW__',posterTall:'__PT__'};
-  var mq=matchMedia('(max-width:767px)'), tall=mq.matches;
+  var SRC={wide:'/wp-content/uploads/2026/11/MODULARY_film_16x9.mp4',tall:'',posterWide:'/wp-content/uploads/2026/11/poster_16x9.jpg',posterTall:''};
+  var mq=matchMedia('(max-width:767px)'), tall=mq.matches && !!SRC.tall;
+  if(!SRC.tall) root.classList.add('mdf-wideonly');
   v.muted=true; v.defaultMuted=true; v.setAttribute('muted','');
   v.poster=tall?SRC.posterTall:SRC.posterWide; v.src=tall?SRC.tall:SRC.wide;
   var still=function(){ return !!window.MR_STILL || matchMedia('(prefers-reduced-motion: reduce)').matches; };
