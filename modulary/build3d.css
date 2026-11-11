@@ -10,4 +10,4 @@
 /* MODULARY: no list prices here – every configuration goes to a quote */
 #mrcfg .mrc-price{display:none!important}
 @media (max-width:980px){.mb3d-nav{grid-template-columns:1fr 1fr}}
-@media (max-width:600px){.mb3d-nav{grid-template-columns:1fr;padding:12px}.mb3d-g>div{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.mb3d-g>div::-webkit-scrollbar{display:none}.mb3d-nav a{white-space:nowrap}}
+@media (max-width:600px){.mb3d-nav{grid-template-columns:minmax(0,1fr);padding:12px}.mb3d-g{min-width:0}.mb3d-g>div{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none}.mb3d-g>div::-webkit-scrollbar{display:none}.mb3d-nav a{white-space:nowrap}}
