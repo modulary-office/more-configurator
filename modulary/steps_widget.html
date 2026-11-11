@@ -1,0 +1,39 @@
+<ol class="mc-steps mc-steps--anim" data-mcsteps>
+<li><span class="mcs-ic" aria-hidden="true"><svg viewBox="0 0 64 64"><rect class="k" x="10" y="8" width="34" height="44" rx="2"/><path class="k d1" d="M17 18h20M17 18v16h20V18M27 18v16"/><path class="k d2" d="M17 42h12"/><g class="fly"><path class="y" d="M40 34l18-8-6 18-4-6z"/><path class="k" d="M40 34l18-8-6 18-4-6zM48 38l10-12"/></g></svg></span><h3>שולחים שרטוט או רשימת צרכים</h3><p>תוכנית קומה, תמונת השראה או רשימת עמדות. גם הערכה ראשונית מספיקה כדי להתחיל.</p></li>
+<li><span class="mcs-ic" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="b1"><path class="y" d="M8 12h26v14H18l-6 6v-6H8z"/><path class="k" d="M8 12h26v14H18l-6 6v-6H8z"/></g><g class="b2"><path class="w" d="M56 26H30v14h16l6 6v-6h4z"/><path class="k" d="M56 26H30v14h16l6 6v-6h4zM36 33h14"/></g><path class="k" d="M10 54h44M18 54v-6h28v6"/></svg></span><h3>פגישת תכנון</h3><p>בוחרים יחד דגמים, מידות, חומרים וגוונים, ומתאימים לתקציב.</p></li>
+<li><span class="mcs-ic" aria-hidden="true"><svg viewBox="0 0 64 64"><rect class="k" x="10" y="14" width="44" height="40" rx="3"/><path class="y" d="M10 14h44v9H10z"/><path class="k" d="M10 23h44M22 9v9M42 9v9"/><path class="k ck" d="M22 38l7 7 14-14"/></svg></span><h3>הצעת מחיר ולוח זמנים</h3><p>הצעה מפורטת לפי פריטים, עם מועד אספקה מוסכם מראש.</p></li>
+<li><span class="mcs-ic" aria-hidden="true"><svg viewBox="0 0 64 64"><g class="truck"><path class="y" d="M6 20h30v20H6z"/><path class="k" d="M6 20h30v20H6zM36 28h10l8 8v4H36z"/><g class="wh"><circle class="k w" cx="16" cy="44" r="4.5"/><path class="k" d="M16 40.5v7"/></g><g class="wh wh2"><circle class="k w" cx="46" cy="44" r="4.5"/><path class="k" d="M46 40.5v7"/></g></g><path class="k road" d="M2 54h60"/></svg></span><h3>ייצור, הובלה והרכבה</h3><p>הצוות שלנו מוביל ומרכיב בכל הארץ, ומוסר את החלל מוכן לעבודה.</p></li>
+</ol>
+<style>
+.mc-steps--anim .mcs-ic{display:block;width:64px;height:64px;margin:0 0 12px}
+.mc-steps--anim .mcs-ic svg{width:64px;height:64px;overflow:visible}
+.mc-steps--anim .k{fill:none;stroke:#1C1C1A;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.mc-steps--anim .y{fill:#F8DC55}.mc-steps--anim .w{fill:#fff}
+.mc-steps--anim .d1,.mc-steps--anim .d2,.mc-steps--anim .ck{stroke-dasharray:120;stroke-dashoffset:0}
+.mc-steps--anim .wh{transform-box:fill-box;transform-origin:center}
+/* motion runs only while the steps are on screen */
+.mc-steps--anim.on .d1{animation:mcsDraw 3.2s ease-in-out infinite}
+.mc-steps--anim.on .d2{animation:mcsDraw 3.2s .4s ease-in-out infinite}
+.mc-steps--anim.on .fly{animation:mcsFly 3.2s ease-in-out infinite}
+.mc-steps--anim.on .b1{animation:mcsPop 3s ease-in-out infinite;transform-origin:20px 22px}
+.mc-steps--anim.on .b2{animation:mcsPop 3s 1.5s ease-in-out infinite;transform-origin:44px 36px}
+.mc-steps--anim.on .ck{animation:mcsCheck 3s ease-in-out infinite}
+.mc-steps--anim.on .truck{animation:mcsDrive 3s ease-in-out infinite}
+.mc-steps--anim.on .wh{animation:mcsSpin .7s linear infinite}
+.mc-steps--anim.on .road{stroke-dasharray:6 6;animation:mcsRoad .5s linear infinite}
+@keyframes mcsDraw{0%{stroke-dashoffset:120}40%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-120}}
+@keyframes mcsFly{0%,45%{transform:translate(0,0);opacity:1}70%{transform:translate(14px,-12px);opacity:0}71%{transform:translate(-6px,6px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes mcsPop{0%,10%{transform:scale(.6);opacity:0}22%{transform:scale(1.06);opacity:1}30%,55%{transform:scale(1)}65%,100%{transform:scale(.6);opacity:0}}
+@keyframes mcsCheck{0%,15%{stroke-dashoffset:120}45%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
+@keyframes mcsDrive{0%{transform:translateX(-4px)}50%{transform:translateX(4px)}100%{transform:translateX(-4px)}}
+@keyframes mcsSpin{to{transform:rotate(360deg)}}
+@keyframes mcsRoad{to{stroke-dashoffset:-12}}
+.mc-steps--anim li:hover .mcs-ic svg{transform:scale(1.06);transition:transform .25s}
+@media (prefers-reduced-motion:reduce){.mc-steps--anim *{animation:none!important}}
+html.a11y-still .mc-steps--anim *{animation:none!important}
+</style>
+<script>
+(function(){var el=document.querySelector('[data-mcsteps]');if(!el)return;
+if(!('IntersectionObserver' in window)){el.classList.add('on');return;}
+new IntersectionObserver(function(es){es.forEach(function(e){el.classList.toggle('on',e.isIntersecting);});},{threshold:.2}).observe(el);})();
+</script>
