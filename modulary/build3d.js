@@ -1,5 +1,6 @@
-/* MODULARY – "בונים בתלת־ממד": one page, every configurator product.
-   Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>. */
+/* MODULARY / MORE – "בונים בתלת־ממד": one page, every configurator product.
+   Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>.
+   #mb3d data attributes: data-quote (contact URL), data-brand (title suffix), data-prices="on" to show list prices. */
 const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@8a76ba6/dist/';
 const GROUPS = [
   ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן']]],
@@ -10,14 +11,15 @@ const GROUPS = [
 const ALL = GROUPS.flatMap(g => g[1].map(p => p[0]));
 const host = document.getElementById('mb3d');
 if (host) {
+  const QUOTE = host.dataset.quote || '/צור-קשר/', BRAND = host.dataset.brand || 'מודולרי';
   const q = new URLSearchParams(location.search).get('p');
   const id = ALL.includes(q) ? q : 'office-desk';
   const name = GROUPS.flatMap(g => g[1]).find(p => p[0] === id)[1];
   const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = ENGINE + 'mrcfg.min.css'; document.head.appendChild(css);
   host.innerHTML = `<nav class="mb3d-nav" aria-label="בחירת מוצר">${GROUPS.map(([g, ps]) => `<div class="mb3d-g"><span>${g}</span><div>${ps.map(([pid, he]) =>
     `<a href="?p=${pid}#mb3d"${pid === id ? ' aria-current="page"' : ''}>${he}</a>`).join('')}</div></div>`).join('')}</nav>
-    <div id="mrcfg-mount" data-product="${id}" data-quote="/צור-קשר/"></div>
+    <div id="mrcfg-mount" data-product="${id}" data-quote="${QUOTE}"></div>
     <p class="mb3d-note">המידות, הגימורים והגוונים במסך להמחשה. אחרי שבניתם, שלחו לנו את התצורה ונחזור עם הצעת מחיר מדויקת.</p>`;
   import(ENGINE + 'mrcfg.min.js').catch(() => { const m = document.getElementById('mrcfg-mount'); if (m) m.textContent = 'לא ניתן לטעון את הקונפיגורטור כרגע.'; });
-  document.title = name + ' – בונים בתלת־ממד | מודולרי';
+  document.title = name + ' – בונים בתלת־ממד | ' + BRAND;
 }
