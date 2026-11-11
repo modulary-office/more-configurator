@@ -1,0 +1,83 @@
+<!-- MODULARY: accessibility toolbar (same as MORE) – IS 5568 / WCAG 2.0 AA -->
+<style>
+#pojo-a11y-toolbar{display:none!important}
+.mra-btn{position:fixed;right:0;top:46%;z-index:99990;width:46px;height:52px;border:0;border-radius:12px 0 0 12px;background:#1C1C1A;color:#F8DC55;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.18);padding:0}
+.mra-btn svg{width:26px;height:26px;fill:currentColor}
+.mra-btn:focus-visible{outline:3px solid #F8DC55;outline-offset:2px}
+.mra-panel{position:fixed;right:12px;top:50%;transform:translateY(-50%);z-index:99991;width:min(330px,calc(100vw - 24px));max-height:calc(100vh - 40px);overflow:auto;background:#fff;color:#1C1C1A;border:2px solid #1C1C1A;border-radius:16px;box-shadow:0 24px 60px rgba(0,0,0,.28);padding:16px;direction:rtl;font-size:16px;line-height:1.4}
+.mra-panel[hidden]{display:none}
+.mra-panel h2{font-size:19px!important;margin:0 0 10px!important;display:flex;justify-content:space-between;align-items:center;color:#1C1C1A!important}
+.mra-panel .mra-x{background:none;border:1px solid #1C1C1A;border-radius:8px;width:36px;height:36px;font-size:20px;cursor:pointer;color:#1C1C1A;padding:0}
+.mra-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.mra-grid button{min-height:64px;border:1.5px solid #1C1C1A;border-radius:12px;background:#FBF8F2;color:#1C1C1A;font-size:14px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:6px;text-transform:none;letter-spacing:0}
+.mra-grid button[aria-pressed="true"]{background:#1C1C1A;color:#F8DC55}
+.mra-grid button span{font-size:20px;line-height:1}
+.mra-row{display:flex;gap:8px;margin-top:10px}
+.mra-row button,.mra-row a{flex:1;min-height:44px;border:1.5px solid #1C1C1A;border-radius:12px;background:#fff;color:#1C1C1A!important;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;cursor:pointer;text-decoration:underline}
+html.a11y-fs1{font-size:112.5%!important}html.a11y-fs1 body{zoom:1.1}
+html.a11y-fs2 body{zoom:1.25}
+html.a11y-contrast body,html.a11y-contrast body *:not(img):not(video):not(canvas):not(svg):not(svg *){background-color:#000!important;color:#fff!important;border-color:#fff!important;text-shadow:none!important;box-shadow:none!important}
+html.a11y-contrast a,html.a11y-contrast a *{color:#FFE14D!important}
+html.a11y-contrast .mra-panel,html.a11y-contrast .mra-panel *{background:#000!important;color:#fff!important}
+html.a11y-links a{text-decoration:underline!important;text-underline-offset:3px;outline:1px dashed currentColor;outline-offset:1px}
+html.a11y-font body,html.a11y-font body *:not(svg):not(svg *){font-family:Arial,Helvetica,sans-serif!important;letter-spacing:.02em!important;word-spacing:.08em!important}
+html.a11y-still *,html.a11y-still *::before,html.a11y-still *::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+html.a11y-focus :focus{outline:4px solid #F8DC55!important;outline-offset:2px!important;box-shadow:0 0 0 7px #1C1C1A!important}
+html.a11y-cursor,html.a11y-cursor *{cursor:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Cpath d='M4 2l26 14-12 3-5 12z' fill='%23000' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") 2 2,auto!important}
+@media print{.mra-btn,.mra-panel{display:none!important}}
+.mr-cookie{position:fixed;left:16px;bottom:16px;z-index:99989;max-width:420px;background:#1C1C1A;color:#F3EEE5;border-radius:14px;padding:14px 16px;box-shadow:0 18px 40px rgba(0,0,0,.3);font-size:14px;line-height:1.5;direction:rtl;display:flex;gap:12px;align-items:center}
+.mr-cookie a{color:#F8DC55!important;text-decoration:underline}
+.mr-cookie button{flex:none;background:#F8DC55;color:#1C1C1A;border:0;border-radius:10px;padding:10px 16px;font-weight:700;cursor:pointer;min-height:44px}
+@media (max-width:600px){.mr-cookie{left:10px;right:10px;bottom:10px;max-width:none}.mra-btn{top:auto;bottom:96px}}
+</style>
+<script>
+(function(){
+  var H=document.documentElement, KEY='mra-settings', S={};
+  try{S=JSON.parse(localStorage.getItem(KEY)||'{}')||{};}catch(e){S={};}
+  var OPTS=[['fs','הגדלת טקסט','A+'],['contrast','ניגודיות גבוהה','◐'],['links','הדגשת קישורים','🔗'],['font','גופן קריא','Aa'],['still','עצירת אנימציות','⏸'],['focus','הדגשת פוקוס','▣'],['cursor','סמן מוגדל','➤']];
+  function apply(){
+    H.classList.remove('a11y-fs1','a11y-fs2');
+    if(S.fs===1)H.classList.add('a11y-fs1'); if(S.fs===2)H.classList.add('a11y-fs2');
+    ['contrast','links','font','still','focus','cursor'].forEach(function(k){H.classList.toggle('a11y-'+k,!!S[k]);});
+    window.MR_STILL=!!S.still;
+    if(S.still){[].forEach.call(document.querySelectorAll('video'),function(v){try{v.pause();}catch(e){}});}
+    try{document.dispatchEvent(new CustomEvent('mr-a11y',{detail:S}));}catch(e){}
+    try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}
+  }
+  apply();
+  function build(){
+    var b=document.createElement('button');b.className='mra-btn';b.type='button';b.setAttribute('aria-label','תפריט נגישות');b.setAttribute('aria-expanded','false');b.setAttribute('aria-controls','mra-panel');
+    b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M19 8.5c-2.2.6-4.6.9-7 .9s-4.8-.3-7-.9l-.5 1.9c1.9.5 3.8.8 5.8.9v3.2l-2.2 6.6 1.9.6 2-6h0l2 6 1.9-.6-2.2-6.6v-3.2c2-.1 3.9-.4 5.8-.9z"/></svg>';
+    var p=document.createElement('div');p.className='mra-panel';p.id='mra-panel';p.setAttribute('role','dialog');p.setAttribute('aria-modal','false');p.setAttribute('aria-labelledby','mra-title');p.hidden=true;
+    var html='<h2 id="mra-title">התאמות נגישות<button type="button" class="mra-x" aria-label="סגירת תפריט הנגישות">×</button></h2><div class="mra-grid">';
+    OPTS.forEach(function(o){html+='<button type="button" data-k="'+o[0]+'" aria-pressed="false"><span aria-hidden="true">'+o[2]+'</span>'+o[1]+'</button>';});
+    html+='</div><div class="mra-row"><button type="button" data-reset>איפוס הגדרות</button></div>';
+    p.innerHTML=html;document.body.appendChild(b);document.body.appendChild(p);
+    function sync(){[].forEach.call(p.querySelectorAll('[data-k]'),function(x){var k=x.dataset.k,on=k==='fs'?!!S.fs:!!S[k];x.setAttribute('aria-pressed',on?'true':'false');if(k==='fs')x.lastChild.textContent=S.fs===2?'טקסט גדול מאוד':'הגדלת טקסט';});}
+    function open(o){p.hidden=!o;b.setAttribute('aria-expanded',o?'true':'false');if(o){var f=p.querySelector('[data-k]');f&&f.focus();}else b.focus();}
+    b.addEventListener('click',function(){open(p.hidden);});
+    p.querySelector('.mra-x').addEventListener('click',function(){open(false);});
+    p.addEventListener('keydown',function(e){if(e.key==='Escape')open(false);});
+    p.addEventListener('click',function(e){var x=e.target.closest('[data-k],[data-reset]');if(!x)return;
+      if(x.hasAttribute('data-reset')){S={};}else{var k=x.dataset.k;if(k==='fs')S.fs=((S.fs||0)+1)%3;else S[k]=!S[k];}
+      apply();sync();});
+    sync();
+  }
+  function fixes(){
+    if(!document.querySelector('main,[role="main"]')){var m=document.getElementById('primary')||document.getElementById('content');m&&m.setAttribute('role','main');}
+    [].forEach.call(document.querySelectorAll('button[data-tip]:not([aria-label])'),function(x){x.setAttribute('aria-label',x.dataset.tip);});
+    [].forEach.call(document.querySelectorAll('img:not([alt])'),function(i){i.setAttribute('alt','');});
+  }
+  function cookie(){
+    var seen=false;try{seen=localStorage.getItem('mr-cookie-ok')==='1';}catch(e){}
+    if(seen)return;
+    var c=document.createElement('div');c.className='mr-cookie';c.setAttribute('role','region');c.setAttribute('aria-label','הודעה על שימוש בעוגיות');
+    c.innerHTML='<p style="margin:0">האתר משתמש בעוגיות (cookies) הנחוצות לפעולתו ולמדידת מקורות הגעה. פרטים ב<a href="/privacy-policy/">מדיניות הפרטיות</a>.</p><button type="button">הבנתי</button>';
+    c.querySelector('button').addEventListener('click',function(){try{localStorage.setItem('mr-cookie-ok','1');}catch(e){}c.remove();});
+    document.body.appendChild(c);
+  }
+  function init(){if(document.querySelector('.mra-btn'))return;build();fixes();setTimeout(fixes,2500);}
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+</script>
+
