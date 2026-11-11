@@ -41,7 +41,7 @@
 (function(){
   var root=document.querySelector('[data-mdf]'); if(!root) return;
   var v=root.querySelector('video'), bS=root.querySelector('.mdf-sound'), bP=root.querySelector('.mdf-pause');
-  var SRC={wide:'/wp-content/uploads/2026/11/MODULARY_film_16x9.mp4',tall:'',posterWide:'/wp-content/uploads/2026/11/poster_16x9.jpg',posterTall:''};
+  var SRC={wide:'/wp-content/uploads/2026/11/MODULARY_film_16x9.mp4',tall:'/wp-content/uploads/2026/11/MODULARY_film_9x16.mp4',posterWide:'/wp-content/uploads/2026/11/poster_16x9.jpg',posterTall:'/wp-content/uploads/2026/11/poster_9x16.jpg'};
   var mq=matchMedia('(max-width:767px)'), tall=mq.matches && !!SRC.tall;
   if(!SRC.tall) root.classList.add('mdf-wideonly');
   v.muted=true; v.defaultMuted=true; v.setAttribute('muted','');
