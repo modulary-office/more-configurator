@@ -34,6 +34,8 @@ export const desk = {
     const M = product.model || {}, F = () => (M.frames || {})[S.frame] || {};
     const DEC = (cat.decors && cat.decors.items) || [], COL = ((cat['frame-colors'] || cat.ral) || {}).items || [];
     const hasTop = () => S.top && S.top !== 'none';
+    const hasRet = () => S.layout === 'single' && (S.ret === 'right' || S.ret === 'left');
+    const retTxt = () => hasRet() ? ` + שלוחה ${S.rw} ס״מ ${S.ret === 'right' ? 'מימין' : 'משמאל'}` : '';
     const total = () => S.layout === 'row' ? S.w * (S.n || 2) : S.w;
     const seats = () => ({ single: 1, row: S.n || 2, pair: 2, bench: 4 }[S.layout] || 1);
     return {
@@ -43,11 +45,12 @@ export const desk = {
           tops: hasTop() ? t.n : 0, perBoard: perBoard(t.L, t.D), holes: hasTop() && S.holes ? t.n : 0, lengthM: total() / 100 };
       },
       outputs: () => ({
-        dimtag: `${total()} × ${S.d} × 75 ס״מ<small>${F().he || ''} · ${label(product, 'layout', S.layout)}</small>`,
+        dimtag: `${total()} × ${S.d} × 75 ס״מ<small>${F().he || ''} · ${label(product, 'layout', S.layout)}${retTxt()}</small>`,
         summary: `${total()}×${S.d}×75 · ${seats()} ${seats() > 1 ? 'עמדות' : 'עמדה'}`
       }),
       sectionValue: k => {
         if (k === 'frame') return F().he;
+        if (k === 'ret') return hasRet() ? `${S.rw} ס״מ ${S.ret === 'right' ? 'מימין' : 'משמאל'}` : (S.layout === 'single' ? 'ללא' : 'רק בשולחן יחיד');
         if (k === 'size') return `${total()}×${S.d}`;
         if (k === 'top') { if (!hasTop()) return 'ללא פלטה'; const t = byId(DEC, S.decor); return `<i style="background-image:url(${thumbTop(t)})"></i>${t.he}`; }
         if (k === 'color') { const c = byId(COL, S.fcolor); return `<i style="background:${c.hex}"></i>${c.he}`; }
@@ -58,16 +61,17 @@ export const desk = {
         if (k === 'fcolor') { const c = byId(COL, S.fcolor); return [`שלד: RAL ${c.id} ${c.he}`, `background:${c.hex}`]; }
         if (k === 'frame') return [`שלד ${F().he}`];
         if (['w', 'd', 'n', 'layout'].includes(k)) return [`${total()} × ${S.d} ס״מ · ${label(product, 'layout', S.layout)}`];
+        if (k === 'ret' || k === 'rw') return [hasRet() ? `שלוחה ${S.rw} ס״מ ${S.ret === 'right' ? 'מימין' : 'משמאל'}, השלד רוכב עליה` : 'ללא שלוחה'];
         const c = allControls(product).find(c => c.key === k);
         if (c && c.type === 'toggle') return [`${S[k] ? 'נוסף' : 'הוסר'}: ${c.title}`];
         return [c ? `${c.label}: ${label(product, k, S[k])}` : ''];
       },
-      code: () => [product.codePrefix || 'MD', String(S.frame).toUpperCase(), { single: 'S', row: 'R' + (S.n || 2), pair: 'P', bench: 'B' }[S.layout] || 'S', `${S.w}x${S.d}`, hasTop() ? String(S.top).toUpperCase() + '-' + String(S.decor).toUpperCase() : 'NOTOP', 'R' + S.fcolor, S.motor && S.frame === 'electric' ? S.motor.toUpperCase() : '', S.holes && hasTop() ? 'CNC' : '', S.tray ? 'TR' : ''].filter(Boolean).join('-'),
+      code: () => [product.codePrefix || 'MD', String(S.frame).toUpperCase(), { single: 'S', row: 'R' + (S.n || 2), pair: 'P', bench: 'B' }[S.layout] || 'S', `${S.w}x${S.d}`, hasTop() ? String(S.top).toUpperCase() + '-' + String(S.decor).toUpperCase() : 'NOTOP', 'R' + S.fcolor, S.motor && S.frame === 'electric' ? S.motor.toUpperCase() : '', S.holes && hasTop() ? 'CNC' : '', S.tray ? 'TR' : '', hasRet() ? 'RET' + S.rw + (S.ret === 'right' ? 'R' : 'L') : ''].filter(Boolean).join('-'),
       summary: () => {
         const c = byId(COL, S.fcolor), t = byId(DEC, S.decor);
         return [`שלד ${F().he}, ${label(product, 'layout', S.layout)}`, `מידות ${total()}×${S.d}×75 ס״מ, ${seats()} ${seats() > 1 ? 'עמדות' : 'עמדה'}`,
           hasTop() ? `פלטה: ${label(product, 'top', S.top)}, ${t.he}` : 'שלד בלבד, ללא פלטה', `צבע שלד: RAL ${c.id} ${c.he}`,
-          S.frame === 'electric' && S.motor ? label(product, 'motor', S.motor) : '', S.holes && hasTop() ? 'פתחי כבלים CNC' : '', S.tray ? 'תעלת חשמל' : ''];
+          S.frame === 'electric' && S.motor ? label(product, 'motor', S.motor) : '', S.holes && hasTop() ? 'פתחי כבלים CNC' : '', S.tray ? 'תעלת חשמל' : '', hasRet() ? `שלוחה ${S.rw}×40×65 ס״מ ${S.ret === 'right' ? 'מימין' : 'משמאל'}, השלד רוכב עליה` : ''];
       }
     };
   },
@@ -91,6 +95,10 @@ export const desk = {
     applyColor(true);
     const dark = new THREE.MeshStandardMaterial({ color: 0x1b1b1c, roughness: .6 });
     const chrome = new THREE.MeshStandardMaterial({ color: 0xc9cccf, roughness: .2, metalness: .95 });
+    const RET_H = .65, RET_D = .40;   /* return (שלוחה): 65 cm high, 40 cm deep */
+    const retOn = () => S.layout === 'single' && (S.ret === 'right' || S.ret === 'left');
+    const retSide = () => S.ret === 'left' ? -1 : 1;
+    const retLen = () => (Number(S.rw) || 120) / 100;
 
     const G = { top: new THREE.Group(), frame: new THREE.Group(), dims: new THREE.Group() };
     Object.values(G).forEach(g => scene.add(g));
@@ -184,6 +192,27 @@ export const desk = {
       [-1, 1].forEach(s => G.frame.add(box(len, .035, .02, metal, cx, yt - .02, z0 + s * (zi - .02))));
     }
 
+    /* the return cabinet: carcass in the top's finish, fronts facing the knee space */
+    function retBox(xo, xin, z0, z1, rs, rl) {
+      const g = G.frame, mat = decMat(S.decor || 'oak'), xc = (xo + xin) / 2, zc = (z0 + z1) / 2, t = .018, H = RET_H;
+      g.add(box(RET_D, .025, rl, mat, xc, H - .0125, zc));                        /* top */
+      [z0, z1].forEach(z => g.add(box(RET_D, H - .025, t, mat, xc, (H - .025) / 2, z + (z === z0 ? t / 2 : -t / 2)))); /* ends */
+      g.add(box(t, H - .025, rl - 2 * t, mat, xo - rs * t / 2, (H - .025) / 2, zc));  /* back (outer side) */
+      g.add(box(RET_D - 2 * t, .018, rl - 2 * t, dark, xc, .03, zc));             /* bottom */
+      g.add(box(.004, H - .06, rl - 2 * t, dark, xin + rs * .006, (H - .025) / 2 + .01, zc)); /* shadow line behind fronts */
+      /* fronts: doors under the desk, a column of three drawers at the open end */
+      const fx = xin - rs * .009, gap = .003, y0 = .05, y1 = H - .03, colW = .40, doorW = rl - 2 * t - colW;
+      const front = (za, zb, ya, yb) => { const m = box(.018, yb - ya - gap, zb - za - gap, mat, fx, (ya + yb) / 2, (za + zb) / 2); g.add(m); return m; };
+      const handleV = (z, ya, yb) => g.add(box(.012, yb - ya, .012, metal, fx - rs * .016, (ya + yb) / 2, z));
+      const handleH = (za, zb, y) => g.add(box(.012, .012, zb - za, metal, fx - rs * .016, y, (za + zb) / 2));
+      const zs = z0 + t, zd = zs + doorW;
+      const nDoors = doorW > .55 ? 2 : 1, dw = doorW / nDoors;
+      for (let i = 0; i < nDoors; i++) { const za = zs + i * dw, zb = za + dw; front(za, zb, y0, y1); handleV(nDoors === 2 ? (i === 0 ? zb - .04 : za + .04) : zb - .04, H * .55, H * .55 + .16); }
+      const dh = (y1 - y0) / 3;
+      for (let i = 0; i < 3; i++) { const ya = y0 + i * dh; front(zd, z1 - t, ya, ya + dh); handleH(zd + .08, z1 - t - .08, ya + dh - .045); }
+      g.add(box(RET_D - .04, .05, rl - .04, dark, xc, .025, zc));                 /* recessed plinth */
+    }
+
     function build() {
       clear(G.top); clear(G.frame); clear(G.dims);
       const { L, D } = dims, n = Math.max(1, Math.round(dims.n)), type = F().type || 'posts';
@@ -196,7 +225,19 @@ export const desk = {
       if (lay === 'row') xs = Array.from({ length: n + 1 }, (_, i) => -total / 2 + i * L).map((x, i, a) => i === 0 ? x + inset : i === a.length - 1 ? x - inset : x);
       else if (lay === 'bench') xs = [-total / 2 + inset, 0, total / 2 - inset];
       else xs = [-total / 2 + inset, total / 2 - inset];
-      xs.forEach((x, i) => leg(type, x, D, yt, 0, i === 0 ? -1 : i === xs.length - 1 ? 1 : 0));
+      const ret = retOn(), rs = retSide(), rl = retLen();
+      if (ret) {
+        /* L-shape: the return replaces the leg on its side and the frame rides on it */
+        const xo = rs * total / 2, xin = xo - rs * RET_D, xc = (xo + xin) / 2, z0r = -D / 2, z1r = -D / 2 + rl;
+        if (rs > 0) xs[xs.length - 1] = xc; else xs[0] = xc;
+        retBox(xo, xin, z0r, z1r, rs, rl);
+        /* rider: short frame of the chosen profile sitting on the return's top */
+        const zA = Math.max(-D / 2 + .05, z0r + .04), zB = Math.min(D / 2 - .05, z1r - .04), hr = yt - RET_H, zm = (zA + zB) / 2;
+        [zA, zB].forEach(z => G.frame.add(box(.045, hr, .045, metal, xc, RET_H + hr / 2, z)));
+        G.frame.add(box(.045, .03, zB - zA + .045, metal, xc, yt - .015, zm));
+        G.frame.add(box(.06, .012, zB - zA + .06, metal, xc, RET_H + .006, zm));
+      }
+      xs.forEach((x, i) => { if (ret && ((rs > 0 && i === xs.length - 1) || (rs < 0 && i === 0))) return; leg(type, x, D, yt, 0, i === 0 ? -1 : i === xs.length - 1 ? 1 : 0); });
       for (let i = 0; i < xs.length - 1; i++) beams(type, xs[i], xs[i + 1], D, yt);
       if (lay === 'pair' || lay === 'bench') G.frame.add(box(xs[xs.length - 1] - xs[0], .04, .04, metal, (xs[0] + xs[xs.length - 1]) / 2, yt - .02, 0));
       if (S.tray) { const lt = total - .4; G.frame.add(box(lt, .004, .16, metal, 0, yt - .12, lay === 'pair' || lay === 'bench' ? 0 : -D / 2 + .14)); [-1, 1].forEach(s => G.frame.add(box(lt, .07, .004, metal, 0, yt - .085, (lay === 'pair' || lay === 'bench' ? 0 : -D / 2 + .14) + s * .08))); }
@@ -214,15 +255,22 @@ export const desk = {
         else if (lay === 'bench') [-1, 1].forEach(sx => [-1, 1].forEach(sz => place(L / 2, D / 2, sx * L / 4, sz * D / 4)));
         else place(L, D, 0, 0);
       }
-      ao.scale.set(total + .5, D + .5, 1);
+      const zMax = ret ? Math.max(D / 2, -D / 2 + rl) : D / 2;
+      ao.scale.set(total + .5, zMax + D / 2 + .5, 1); ao.position.z = (zMax - D / 2) / 2;
       hotPts = { frame: V(xs[xs.length - 1], .35, D / 2 - .05), top: V(-total * .25, .76, D * .15) };
       /* dimensions */
       const m = new THREE.LineBasicMaterial({ color: 0x1c1c1a, transparent: true, opacity: .75 }), seg = (a, b) => G.dims.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), m));
-      const zf = D / 2 + .14, xr = total / 2 + .14, y = .004, tk = .04;
+      const zf = zMax + .14, xr = (ret ? -rs : 1) * (total / 2 + .14), y = .004, tk = .04;
       seg(V(-total / 2, y, zf), V(total / 2, y, zf)); seg(V(-total / 2, y, zf - tk), V(-total / 2, y, zf + tk)); seg(V(total / 2, y, zf - tk), V(total / 2, y, zf + tk));
       seg(V(xr, y, -D / 2), V(xr, y, D / 2)); seg(V(xr - tk, y, -D / 2), V(xr + tk, y, -D / 2)); seg(V(xr - tk, y, D / 2), V(xr + tk, y, D / 2));
       seg(V(xr, 0, -D / 2), V(xr, .75, -D / 2)); seg(V(xr - tk, .75, -D / 2), V(xr + tk, .75, -D / 2));
       dimLabels = [[V(0, y, zf), `${Math.round(total * 100)} ס״מ`], [V(xr, y, 0), `${Math.round(D * 100)} ס״מ`], [V(xr, .375, -D / 2), '75 ס״מ']];
+      if (ret) {
+        const xq = rs * (total / 2 + .14), z0r = -D / 2, z1r = -D / 2 + rl;
+        seg(V(xq, y, z0r), V(xq, y, z1r)); seg(V(xq - tk, y, z0r), V(xq + tk, y, z0r)); seg(V(xq - tk, y, z1r), V(xq + tk, y, z1r));
+        seg(V(xq, 0, z1r), V(xq, RET_H, z1r)); seg(V(xq - tk, RET_H, z1r), V(xq + tk, RET_H, z1r));
+        dimLabels.push([V(xq, y, (z0r + z1r) / 2), `שלוחה ${Math.round(rl * 100)} ס״מ`], [V(xq, RET_H / 2, z1r), '65 ס״מ']);
+      }
       G.dims.visible = showDims();
     }
 
@@ -244,8 +292,8 @@ export const desk = {
     return {
       build, update, tick, explode, dimsGroup: G.dims,
       hero: { th: .7, ph: 1.12 },
-      fitSpan: () => Math.max(totalLen(), dims.D * 1.35, 1.2),
-      clampBox: () => ({ lx: totalLen() / 2 + .4, lz: dims.D / 2 + .4 }),
+      fitSpan: () => Math.max(totalLen(), (retOn() ? Math.max(dims.D, retLen()) : dims.D) * 1.35, 1.2),
+      clampBox: () => ({ lx: totalLen() / 2 + .4, lz: (retOn() ? Math.max(dims.D, retLen()) : dims.D) / 2 + .4 }),
       views: {}, focusView: () => 'hero',
       hotspots: [['frame', 'שלד'], ['top', 'פלטה']],
       hotPts: () => hotPts, hotOffset: (k, ex) => k === 'top' ? .28 * ex : 0,

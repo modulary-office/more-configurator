@@ -3,7 +3,7 @@
  "name": "שולחן מנהל",
  "family": "desk",
  "codePrefix": "MDM",
- "subtitle": "שולחן מנהל על שלד מתכת מעוצב, עם פלטה בקנט משופע או פורניר.",
+ "subtitle": "שולחן מנהל על שלד מתכת מעוצב, עם פלטה בקנט משופע או פורניר, ושלוחה בצורת L שהשלד רוכב עליה.",
  "note": "השלדים בייבוא, בצבעי לבן, שחור, גרפיט וכחול, או בכל גוון RAL בתוספת. הגוונים במסך להמחשה.",
  "model": {
   "frames": {
@@ -120,7 +120,9 @@
   "fcolor": "9016",
   "motor": "single",
   "holes": false,
-  "tray": false
+  "tray": false,
+  "ret": "left",
+  "rw": 120
  },
  "sections": [
   {
@@ -1022,6 +1024,57 @@
    ]
   },
   {
+   "id": "ret",
+   "title": "שלוחה",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "ret",
+     "label": "שלוחה בצורת L",
+     "showWhen": {
+      "layout": "single"
+     },
+     "options": [
+      {
+       "v": "none",
+       "label": "ללא"
+      },
+      {
+       "v": "right",
+       "label": "מימין"
+      },
+      {
+       "v": "left",
+       "label": "משמאל"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "rw",
+     "label": "אורך השלוחה",
+     "num": true,
+     "showWhen": {
+      "layout": "single",
+      "ret": [
+       "right",
+       "left"
+      ]
+     },
+     "options": [
+      {
+       "v": 80,
+       "label": "80 ס״מ"
+      },
+      {
+       "v": 120,
+       "label": "120 ס״מ"
+      }
+     ]
+    }
+   ]
+  },
+  {
    "id": "top",
    "title": "פלטה",
    "controls": [
@@ -1870,6 +1923,30 @@
       }
      }
     ]
+   },
+   {
+    "type": "table",
+    "label": "שלוחה 65 ס״מ (דלתות ומגירות)",
+    "dims": [
+     "rw"
+    ],
+    "rows": [
+     {
+      "rw": 80,
+      "price": 650
+     },
+     {
+      "rw": 120,
+      "price": 750
+     }
+    ],
+    "when": {
+     "layout": "single",
+     "ret": [
+      "right",
+      "left"
+     ]
+    }
    },
    {
     "type": "option",

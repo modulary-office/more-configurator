@@ -110,6 +110,18 @@ P = {
   'desk-frame': product('desk-frame', 'שלד לשולחן', 'MDF', 'שלדי מתכת לשולחנות, בלי פלטה או עם פלטה לבחירה. מגיעים בלבן, שחור, גרפיט או כל גוון RAL.', {"top": "none", "fcolor": "9016"}),
   'bench-desk': product('bench-desk', 'עמדות עבודה משותפות', 'MDB', 'שולחנות בנץ׳ לארבע עמדות או זוג שולחנות מול מול, על שלד מתכת משותף.', {"frame": "arco", "layout": "bench", "w": 330, "d": 138, "fcolor": "7024", "decor": "white"}),
 }
+# manager desk: optional L-return (שלוחה) – a 65 cm credenza that replaces one leg; the frame rides on its top
+md = P['manager-desk']
+md['defaults'].update({"ret": "left", "rw": 120})
+md['sections'].insert(2, {"id": "ret", "title": "שלוחה", "controls": [
+    {"type": "seg", "key": "ret", "label": "שלוחה בצורת L", "showWhen": {"layout": "single"}, "options": [
+        {"v": "none", "label": "ללא"}, {"v": "right", "label": "מימין"}, {"v": "left", "label": "משמאל"}]},
+    {"type": "seg", "key": "rw", "label": "אורך השלוחה", "num": True, "showWhen": {"layout": "single", "ret": ["right", "left"]}, "options": [
+        {"v": 80, "label": "80 ס״מ"}, {"v": 120, "label": "120 ס״מ"}]}]})
+md['pricing']['rules'].insert(1, {"type": "table", "label": "שלוחה 65 ס״מ (דלתות ומגירות)", "dims": ["rw"],
+    "rows": [{"rw": 80, "price": 650}, {"rw": 120, "price": 750}], "when": {"layout": "single", "ret": ["right", "left"]}})
+md['subtitle'] = 'שולחן מנהל על שלד מתכת מעוצב, עם פלטה בקנט משופע או פורניר, ושלוחה בצורת L שהשלד רוכב עליה.'
+
 for k, p in P.items():
     json.dump(p, open(os.path.join(OUT, k + '.json'), 'w', encoding='utf8'), ensure_ascii=False, indent=1)
 print(list(P))
