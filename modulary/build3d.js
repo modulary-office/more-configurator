@@ -1,6 +1,6 @@
 /* MODULARY – "בונים בתלת־ממד": one page, every configurator product.
    Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>. */
-const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@266f037/dist/';
+const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@13fbeb2/dist/';
 const GROUPS = [
   ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן']]],
   ['עמדות עבודה', [['bench-desk', 'עמדות משותפות'], ['duo-bench', 'Duo Bench עם מחיצות']]],
