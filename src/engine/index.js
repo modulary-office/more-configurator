@@ -13,7 +13,7 @@ import { cabinet } from '../families/cabinet.js';
 import { desk } from '../families/desk.js';
 
 const FAMILIES = { bench, cabinet, desk };
-const VERSION = '1.5.0';
+const VERSION = '1.5.1';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -258,13 +258,16 @@ function start(mount, product, cat, family) {
     const rows = [];
     for (const sec of product.sections) for (const c of sec.controls) {
       if (!shown(c)) continue;
-      const v = S[c.key]; let txt = '';
+      const v = S[c.key]; let txt = '', code = '';
       if (c.type === 'seg') { const o = optionList(c, S).find(o => String(o.v) === String(v)); txt = o ? (o.label ?? o.v) : `${v}${c.custom && c.custom.unit ? ' ' + c.custom.unit : ''} (מידה מיוחדת)`; }
-      else if (c.type === 'swatch') { const it = itemOf(c); txt = it ? (c.style === 'ral' ? `RAL ${it.id} · ${it.he}` : `${it.he}${it.code || it.id ? ` (${it.code || it.id})` : ''}`) : String(v); }
+      else if (c.type === 'swatch') { const it = itemOf(c); txt = it ? (c.style === 'ral' ? `RAL ${it.id} · ${it.he}` : it.he) : String(v); code = it && c.style !== 'ral' ? (it.code || it.id || '') : ''; }
       else if (c.type === 'toggle') txt = v ? 'כן' : 'לא';
       else if (c.type === 'stepper') txt = String(v);
       else continue;
-      rows.push([c.label || c.title || sec.title, String(txt).replace(/<[^>]+>/g, '')]);
+      txt = String(txt).replace(/<[^>]+>/g, '').trim();
+      const lab = c.label || c.title || sec.title;
+      if (/^\d+(\.\d+)?$/.test(txt) && /רוחב|עומק|גובה|אורך|מידה/.test(lab)) txt += ' ס״מ';
+      if (txt) rows.push([lab, txt, String(code)]);
     }
     return rows;
   }

@@ -66,16 +66,24 @@ export function requestText(p) {
 }
 
 /* ---------------- printable documents ---------------- */
-const PRINT_CSS = `@page{size:A4;margin:14mm}*{box-sizing:border-box}html,body{margin:0;background:#fff;color:#1C1C1A;font-family:Heebo,Assistant,Arial,sans-serif;direction:rtl}
-.pg{page-break-after:always;break-after:page;min-height:262mm;display:flex;flex-direction:column;gap:6mm}.pg:last-child{page-break-after:auto;break-after:auto}
-.brand{display:flex;justify-content:space-between;align-items:baseline;border-bottom:2px solid #1C1C1A;padding-bottom:4mm}.brand b{font-size:22pt;letter-spacing:.06em;direction:ltr}.brand b i{font-style:normal;background:#F8DC55;padding:0 2mm}.brand span{font-size:10pt;color:#5e5a52}
-.cover{justify-content:center;gap:6mm}.cover h1{font-size:30pt;margin:0;line-height:1.15}.cover p{margin:0;font-size:13pt;color:#5e5a52}.cover .meta{display:grid;grid-template-columns:auto 1fr;gap:2mm 8mm;font-size:12pt;margin-top:8mm}.cover .meta dt{color:#5e5a52}.cover .meta dd{margin:0;font-weight:600}
-.item h2{font-size:18pt;margin:0}.item .img{background:#F3EEE5;border-radius:4mm;display:flex;align-items:center;justify-content:center;height:82mm;overflow:hidden}.item .img img{max-width:100%;max-height:100%;object-fit:contain}
-table{width:100%;border-collapse:collapse;font-size:10pt}th,td{text-align:right;padding:1.4mm 2.5mm;border-bottom:1px solid #ddd6c9;vertical-align:top}th{background:#F3EEE5;font-weight:600}td.n,th.n{text-align:left;direction:ltr;white-space:nowrap;font-variant-numeric:tabular-nums}
-.kv td:first-child{color:#5e5a52;width:38%}.code{font-family:ui-monospace,monospace;direction:ltr;unicode-bidi:embed;font-size:9pt}.note{background:#FFF7CC;padding:3mm 4mm;border-radius:2mm;font-size:10.5pt}
-.sum td{font-weight:700;border-bottom:0}.small{font-size:9pt;color:#5e5a52}.thumb{width:28mm;height:20mm;object-fit:contain;background:#F3EEE5;border-radius:1.5mm}
-.foot{margin-top:auto;font-size:8.5pt;color:#77736b;display:flex;justify-content:space-between}
-@media screen{body{background:#e9e4da}.pg{background:#fff;width:210mm;margin:8mm auto;padding:14mm;box-shadow:0 2px 12px rgba(0,0,0,.12)}.bar{position:sticky;top:0;background:#1C1C1A;color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:center;font-size:14px}.bar button{font:inherit;background:#F8DC55;border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer}}
+const PRINT_CSS = `@page{size:A4;margin:0}*{box-sizing:border-box}html,body{margin:0;background:#fff;color:#1C1C1A;font-family:Heebo,Assistant,Arial,sans-serif;direction:rtl;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.pg{width:210mm;height:297mm;padding:14mm 15mm 11mm;display:flex;flex-direction:column;gap:5mm;overflow:hidden;page-break-after:always;break-after:page;position:relative}.pg:last-child{page-break-after:auto;break-after:auto}
+.brand{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #1C1C1A;padding-bottom:3mm;flex:none}.brand b{font-size:19pt;letter-spacing:.08em;direction:ltr;font-weight:700}.brand b i{font-style:normal;background:#F8DC55;padding:0 1.6mm}.brand span{font-size:9.5pt;color:#5e5a52}
+h1{font-size:30pt;margin:0;line-height:1.1;font-weight:700}h2{font-size:17pt;margin:0;line-height:1.2;font-weight:700}h2 small{font-size:11pt;font-weight:400;color:#5e5a52;margin-inline-start:3mm}
+.lead{margin:0;font-size:12.5pt;color:#5e5a52}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:1.5mm 8mm;font-size:11pt;margin:0}.meta dt{color:#5e5a52}.meta dd{margin:0;font-weight:600}
+.collage{flex:1;min-height:0;display:grid;gap:4mm;grid-template-columns:repeat(var(--c),1fr);grid-auto-rows:1fr}.collage figure{margin:0;background:#F3EEE5;border-radius:3mm;overflow:hidden;display:flex;flex-direction:column}.collage img{flex:1;min-height:0;width:100%;object-fit:contain}.collage figcaption{font-size:9pt;padding:1.5mm 3mm;color:#5e5a52}
+.hero{flex:1 1 auto;min-height:60mm;background:#F3EEE5;border-radius:3mm;display:flex;align-items:center;justify-content:center;overflow:hidden}.hero img{width:100%;height:100%;object-fit:contain}
+.spec{display:grid;grid-template-columns:1fr 1fr;gap:0 9mm;font-size:9.8pt;flex:none}.spec div{display:flex;justify-content:space-between;gap:4mm;padding:1.5mm 0;border-bottom:1px solid #e3dccf;break-inside:avoid}.spec span{color:#5e5a52}.spec b{font-weight:600;text-align:left}
+.price{display:flex;justify-content:space-between;align-items:baseline;background:#F3EEE5;border-radius:2.5mm;padding:3mm 4.5mm;font-size:11pt;flex:none}.price b{font-size:15pt}
+.note{background:#FFF7CC;padding:2.5mm 4mm;border-radius:2mm;font-size:10pt;flex:none}
+.code{font-family:ui-monospace,Menlo,monospace;direction:ltr;unicode-bidi:embed;font-size:8.5pt;color:#5e5a52}
+table{width:100%;border-collapse:collapse;font-size:9.8pt}th,td{text-align:right;padding:1.6mm 2mm;border-bottom:1px solid #e3dccf;vertical-align:middle}th{background:#F3EEE5;font-weight:600}td.n,th.n{text-align:left;direction:ltr;white-space:nowrap;font-variant-numeric:tabular-nums}
+.sum td{font-weight:700;border-bottom:0;border-top:1.5px solid #1C1C1A}.small{font-size:8.5pt;color:#5e5a52}.thumb{width:30mm;height:22.5mm;object-fit:contain;background:#F3EEE5;border-radius:1.5mm;display:block}
+.foot{margin-top:auto;flex:none;font-size:8pt;color:#77736b;display:flex;justify-content:space-between;border-top:1px solid #e3dccf;padding-top:2mm}
+.grid2{display:grid;grid-template-columns:1fr 78mm;gap:6mm;align-items:start}.grid2 img{width:100%;background:#F3EEE5;border-radius:2mm}
+@media screen{body{background:#e9e4da}.pg{margin:8mm auto;box-shadow:0 2px 14px rgba(0,0,0,.14);background:#fff}.bar{position:sticky;top:0;z-index:2;background:#1C1C1A;color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:center;font-size:14px}.bar button{font:inherit;background:#F8DC55;border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer}}
+@media screen and (max-width:820px){.pg{zoom:.45}}
 @media print{.bar{display:none}}`;
 
 function openDoc(title, body) {
@@ -91,31 +99,36 @@ function openDoc(title, body) {
 }
 
 const brand = sub => `<div class="brand"><b>M<i>O</i>RE</b><span>${esc(sub)}</span></div>`;
-const foot = () => `<div class="foot"><span>MORE by MODULARY · modularymore.co.il</span><span>${today()}</span></div>`;
-const specTable = i => `<table class="kv">${(i.spec || []).map(r => `<tr><td>${esc(r[0])}</td><td>${esc(r[1])}</td></tr>`).join('')}<tr><td>קוד תצורה</td><td class="code">${esc(i.code)}</td></tr></table>`;
+const foot = (n, of) => `<div class="foot"><span>MORE by MODULARY · modularymore.co.il</span><span>${today()}${n ? ` · עמוד ${n} מתוך ${of}` : ''}</span></div>`;
+/* the client sees what was chosen; "no" answers (no tray, no screen) only add noise there. The production sheet shows everything, with codes */
+const specGrid = (i, all) => { const rows = (i.spec || []).filter(r => all || (r[1] !== 'לא' && r[1] !== '0'));
+  return `<div class="spec">${rows.map(r => `<div><span>${esc(r[0])}</span><b>${esc(r[1])}${all && r[2] ? ` <span class="code">${esc(r[2])}</span>` : ''}</b></div>`).join('')}</div>`; };
 
 export function presentation(p, withPrices) {
-  const t = totals(p), cur = p.items[0] && p.items[0].currency;
-  const pages = [`<section class="pg cover">${brand('הצעה לפרויקט')}<h1>${esc(p.name)}</h1>${p.client ? `<p>עבור ${esc(p.client)}</p>` : ''}
-<dl class="meta"><dt>תאריך</dt><dd>${today()}</dd><dt>פריטים</dt><dd>${p.items.length} דגמים · ${t.units} יחידות</dd>${withPrices && t.sum ? `<dt>סה״כ משוער</dt><dd>${fmtPrice(t.sum, cur)}${t.quote ? ' + פריטים לתמחור' : ''}</dd>` : ''}</dl>${foot()}</section>`];
-  p.items.forEach((i, n) => pages.push(`<section class="pg item">${brand(`${n + 1} / ${p.items.length}`)}<h2>${esc(i.name)}${i.qty > 1 ? ` <span class="small">× ${i.qty}</span>` : ''}</h2>
-<div class="img">${i.img ? `<img src="${i.img}" alt="">` : ''}</div>${specTable(i)}
-${withPrices ? `<table><tr><td>מחיר ליחידה</td><td class="n">${priceCell(i, cur)}</td></tr>${!i.quote && i.price && i.qty > 1 ? `<tr><td>סה״כ ל־${i.qty} יחידות</td><td class="n">${fmtPrice(i.price * i.qty, cur)}</td></tr>` : ''}</table>` : ''}
-${i.note ? `<div class="note">${esc(i.note)}</div>` : ''}${foot()}</section>`));
-  pages.push(`<section class="pg">${brand('ריכוז')}<h2 style="margin:0">ריכוז הפריטים</h2><table><tr><th></th><th>פריט</th><th class="n">כמות</th>${withPrices ? '<th class="n">ליחידה</th><th class="n">סה״כ</th>' : ''}</tr>
-${p.items.map(i => `<tr><td>${i.img ? `<img class="thumb" src="${i.img}" alt="">` : ''}</td><td><b>${esc(i.name)}</b><br><span class="small">${esc(i.lines.join(' · '))}</span></td><td class="n">${i.qty}</td>${withPrices ? `<td class="n">${priceCell(i, cur)}</td><td class="n">${!i.quote && i.price ? fmtPrice(i.price * i.qty, cur) : ''}</td>` : ''}</tr>`).join('')}
+  const t = totals(p), cur = p.items[0] && p.items[0].currency, N = p.items.length + 2;
+  const pics = p.items.filter(i => i.img).slice(0, 6), c = pics.length <= 1 ? 1 : pics.length <= 4 ? 2 : 3;
+  const pages = [`<section class="pg">${brand('הצעה לפרויקט')}<div style="display:flex;flex-direction:column;gap:3mm;margin-top:6mm"><h1>${esc(p.name)}</h1>${p.client ? `<p class="lead">עבור ${esc(p.client)}</p>` : ''}</div>
+<dl class="meta"><dt>תאריך</dt><dd>${today()}</dd><dt>פריטים</dt><dd>${p.items.length} דגמים · ${t.units} יחידות</dd>${withPrices && t.sum ? `<dt>סה״כ משוער</dt><dd>${fmtPrice(t.sum, cur)}${t.quote ? ' + פריטים לתמחור' : ''}</dd>` : ''}</dl>
+${pics.length ? `<div class="collage" style="--c:${c}">${pics.map(i => `<figure><img src="${i.img}" alt=""><figcaption>${esc(i.name)}${i.qty > 1 ? ` × ${i.qty}` : ''}</figcaption></figure>`).join('')}</div>` : ''}${foot(1, N)}</section>`];
+  p.items.forEach((i, n) => pages.push(`<section class="pg">${brand(`פריט ${n + 1} מתוך ${p.items.length}`)}<h2>${esc(i.name)}${i.qty > 1 ? `<small>כמות ${i.qty}</small>` : ''}</h2>
+<div class="hero">${i.img ? `<img src="${i.img}" alt="">` : ''}</div>${specGrid(i, false)}
+${withPrices ? `<div class="price"><span>${i.quote ? 'מחיר' : i.qty > 1 ? `מחיר ליחידה ${priceCell(i, cur)} · סה״כ ל־${i.qty}` : 'מחיר'}</span><b>${i.quote ? 'לפי הצעת מחיר' : i.price ? fmtPrice(i.price * i.qty, cur) : '—'}</b></div>` : ''}
+${i.note ? `<div class="note">${esc(i.note)}</div>` : ''}${foot(n + 2, N)}</section>`));
+  pages.push(`<section class="pg">${brand('ריכוז')}<h2>ריכוז הפריטים</h2><table><tr><th></th><th>פריט</th><th class="n">כמות</th>${withPrices ? '<th class="n">ליחידה</th><th class="n">סה״כ</th>' : ''}</tr>
+${p.items.map(i => `<tr><td style="width:32mm">${i.img ? `<img class="thumb" src="${i.img}" alt="">` : ''}</td><td><b>${esc(i.name)}</b><br><span class="small">${esc(i.lines.join(' · '))}</span></td><td class="n">${i.qty}</td>${withPrices ? `<td class="n">${priceCell(i, cur)}</td><td class="n">${!i.quote && i.price ? fmtPrice(i.price * i.qty, cur) : ''}</td>` : ''}</tr>`).join('')}
 ${withPrices && t.sum ? `<tr class="sum"><td></td><td>סה״כ משוער${t.quote ? ' (ללא פריטים לתמחור)' : ''}</td><td class="n">${t.units}</td><td></td><td class="n">${fmtPrice(t.sum, cur)}</td></tr>` : ''}</table>
-<p class="small">${withPrices ? 'המחירים כוללים מע״מ ומשוערים לפי המחירון ביום ההפקה. ההצעה הסופית תישלח מ־MORE. ' : ''}ההדמיות להמחשה. גוונים במציאות עשויים להיות שונים מעט מהמסך.</p>${foot()}</section>`);
+<p class="small">${withPrices ? 'המחירים כוללים מע״מ ומשוערים לפי המחירון ביום ההפקה. ההצעה הסופית תישלח מ־MORE. ' : ''}ההדמיות להמחשה. גוונים במציאות עשויים להיות שונים מעט מהמסך.</p>${foot(N, N)}</section>`);
   return openDoc(`${p.name} – MORE`, pages.join(''));
 }
 
 export function orderSheet(p) {
-  const pages = [`<section class="pg">${brand('מפרט הזמנה לייצור')}<h2 style="margin:0">${esc(p.name)}${p.client ? ` · ${esc(p.client)}` : ''}</h2>
-<table><tr><th class="n">#</th><th>פריט</th><th class="n">כמות</th><th>קוד</th></tr>${p.items.map((i, n) => `<tr><td class="n">${n + 1}</td><td><b>${esc(i.name)}</b><br><span class="small">${esc(i.lines.join(' · '))}</span></td><td class="n">${i.qty}</td><td class="code">${esc(i.code)}</td></tr>`).join('')}</table>
-<p class="small">לכל פריט עמוד עם כל הבחירות. פירוק לפלטות (עובי, קנט, פרזול) יתווסף כשכללי הייצור יאושרו.</p>${foot()}</section>`];
-  p.items.forEach((i, n) => pages.push(`<section class="pg">${brand(`פריט ${n + 1} מתוך ${p.items.length}`)}<h2 style="margin:0">${esc(i.name)} · כמות ${i.qty}</h2>
-<div style="display:grid;grid-template-columns:1fr 70mm;gap:6mm;align-items:start">${specTable(i)}${i.img ? `<img src="${i.img}" alt="" style="width:100%;background:#F3EEE5;border-radius:2mm">` : ''}</div>
-${i.note ? `<div class="note">הערת לקוח: ${esc(i.note)}</div>` : ''}${foot()}</section>`));
+  const N = p.items.length + 1;
+  const pages = [`<section class="pg">${brand('מפרט הזמנה לייצור')}<h2>${esc(p.name)}${p.client ? `<small>${esc(p.client)}</small>` : ''}</h2>
+<table><tr><th class="n">#</th><th></th><th>פריט</th><th class="n">כמות</th></tr>${p.items.map((i, n) => `<tr><td class="n">${n + 1}</td><td style="width:32mm">${i.img ? `<img class="thumb" src="${i.img}" alt="">` : ''}</td><td><b>${esc(i.name)}</b><br><span class="small">${esc(i.lines.join(' · '))}</span><br><span class="code">${esc(i.code)}</span></td><td class="n">${i.qty}</td></tr>`).join('')}</table>
+<p class="small">לכל פריט עמוד עם כל הבחירות וקודי הגוונים. פירוק לפלטות (עובי, קנט, פרזול) יתווסף כשכללי הייצור יאושרו.</p>${foot(1, N)}</section>`];
+  p.items.forEach((i, n) => pages.push(`<section class="pg">${brand(`פריט ${n + 1} מתוך ${p.items.length}`)}<h2>${esc(i.name)}<small>כמות ${i.qty}</small></h2>
+<div class="grid2"><div style="display:flex;flex-direction:column;gap:3mm">${specGrid(i, true).replace('class="spec"', 'class="spec" style="grid-template-columns:1fr"')}<div class="code">קוד תצורה: ${esc(i.code)}</div></div>${i.img ? `<img src="${i.img}" alt="">` : '<div></div>'}</div>
+${i.note ? `<div class="note">הערת לקוח: ${esc(i.note)}</div>` : ''}${foot(n + 2, N)}</section>`));
   return openDoc(`מפרט הזמנה – ${p.name}`, pages.join(''));
 }
 

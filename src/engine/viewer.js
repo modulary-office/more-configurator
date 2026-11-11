@@ -158,13 +158,34 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
     c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `MORE-${ui.code()}.png`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); ui.toast('התמונה נשמרה'); }, 'image/png');
   }
 
-  /* small picture for a project item: the current view on the cream ground, JPEG */
-  function thumb(maxW = 640) {
+  /* picture for a project item: always the same front three-quarter angle, at a fixed 4:3 size, cropped to the product
+     (not whatever angle or zoom the visitor happens to be at), on the cream ground, JPEG */
+  function thumb(maxW = 900) {
+    const W = 1200, H = 900, keep = { ...cam }, keepEx = explode, oldW = renderer.domElement.width, oldH = renderer.domElement.height, sw = stage.clientWidth, sh = stage.clientHeight;
+    let out = '';
+    try {
+      renderer.setSize(W, H, false); camera.aspect = W / H; camera.updateProjectionMatrix();
+      Object.assign(cam, VIEWS.hero(), { r: (1.5 + 1.5 * P.fitSpan()) * 1.05 });
+      explode = 0; P.explode(0);
+      renderFrame(0);
+      const src = renderer.domElement, t = document.createElement('canvas'); t.width = W; t.height = H;
+      const tx = t.getContext('2d'); tx.drawImage(src, 0, 0, W, H);
+      /* crop to what was drawn (the product and its shadow) */
+      const d = tx.getImageData(0, 0, W, H).data; let x0 = W, y0 = H, x1 = -1, y1 = -1;
+      for (let y = 0; y < H; y += 2) for (let x = 0; x < W; x += 2) if (d[(y * W + x) * 4 + 3] > 24) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+      if (x1 < 0) { x0 = 0; y0 = 0; x1 = W; y1 = H; }
+      const pad = Math.round(Math.max(x1 - x0, y1 - y0) * .08), cw = x1 - x0 + pad * 2, ch = y1 - y0 + pad * 2;
+      /* final picture keeps 4:3 so every page looks the same */
+      let fw = cw, fh = ch; if (fw / fh > 4 / 3) fh = fw * 3 / 4; else fw = fh * 4 / 3;
+      const k = Math.min(1, maxW / fw), c = document.createElement('canvas'); c.width = Math.round(fw * k); c.height = Math.round(fh * k);
+      const x = c.getContext('2d'); x.fillStyle = '#F3EEE5'; x.fillRect(0, 0, c.width, c.height);
+      x.drawImage(t, x0 - pad - (fw - cw) / 2, y0 - pad - (fh - ch) / 2, fw, fh, 0, 0, c.width, c.height);
+      out = c.toDataURL('image/jpeg', .85);
+    } catch (e) { out = ''; }
+    Object.assign(cam, keep); explode = keepEx;
+    renderer.setSize(sw || oldW, sh || oldH, false); camera.aspect = (sw || oldW) / (sh || oldH); camera.updateProjectionMatrix();
     renderFrame(0);
-    const src = renderer.domElement, k = Math.min(1, maxW / src.width), w = Math.round(src.width * k), h = Math.round(src.height * k), c = document.createElement('canvas');
-    c.width = w; c.height = h; const x = c.getContext('2d');
-    x.fillStyle = '#F3EEE5'; x.fillRect(0, 0, w, h); x.drawImage(src, 0, 0, w, h);
-    try { return c.toDataURL('image/jpeg', .82); } catch (e) { return ''; }
+    return out;
   }
 
   /* loop */
