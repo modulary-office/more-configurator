@@ -11,9 +11,10 @@ import * as project from './project.js';
 import { bench } from '../families/bench.js';
 import { cabinet } from '../families/cabinet.js';
 import { desk } from '../families/desk.js';
+import { lounge } from '../families/lounge.js';
 
-const FAMILIES = { bench, cabinet, desk };
-const VERSION = '1.5.1';
+const FAMILIES = { bench, cabinet, desk, lounge };
+const VERSION = '1.6.0';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -68,7 +69,7 @@ function start(mount, product, cat, family) {
       case 'seg': return `<div class="mrc-lbl">${esc(c.label)}</div><div class="mrc-seg${c.layout ? ' ' + c.layout : ''}" data-k="${c.key}">${segButtons(c)}</div>`
         + (c.custom ? `<div class="mrc-custom" data-ck="${c.key}" hidden><label><span>${esc(c.custom.inputLabel || c.label)}</span><input type="number" inputmode="numeric" min="${c.custom.min}" max="${c.custom.max}" step="${c.custom.step || 1}"></label><em>${esc(c.custom.unit || '')}</em><button type="button" data-apply="${c.key}">עדכון</button><small>${c.custom.min}–${c.custom.max} ${esc(c.custom.unit || '')}</small></div>` : '');
       case 'stepper': return `<div class="mrc-lbl">${esc(c.label)} <b data-out="${c.out || c.key + '-lbl'}"></b></div><div class="mrc-step" data-sk="${c.key}"><button data-step="-1" aria-label="פחות">−</button><output data-out="${c.key}"></output><button data-step="1" aria-label="יותר">+</button></div>`;
-      case 'swatch': return `<div class="mrc-lbl">${esc(c.label)} <b data-out="${c.key}"></b></div><div class="mrc-sw${c.style === 'decor' ? ' sq' : c.style === 'ral' ? ' ral' : ''}" data-k="${c.key}"></div>`;
+      case 'swatch': return `<div class="mrc-lbl">${esc(c.label)} <b data-out="${c.key}"></b></div><div class="mrc-sw${c.style === 'decor' || c.style === 'tex' ? ' sq' : c.style === 'ral' ? ' ral' : ''}" data-k="${c.key}"></div>`;
       case 'toggle': return `<button class="mrc-tog" data-t="${c.key}"><span><b>${esc(c.title)}</b><small>${esc(c.sub || '')}</small></span><i></i></button>`;
     }
     return '';
@@ -129,6 +130,7 @@ function start(mount, product, cat, family) {
   requestAnimationFrame(() => swatchCtrls.forEach(c => {
     const items = catItems(c, cat), btns = $$(`.mrc-sw[data-k="${c.key}"] button`);
     if (c.style === 'decor') btns.forEach((b, i) => setTimeout(() => { b.style.backgroundImage = `url(${thumbTop(items[i])})`; }, i * 25));
+    if (c.style === 'tex') btns.forEach((b, i) => { const t = items[i]; b.style.background = `${t.hex} url(${new URL('catalogs/upholstery/' + t.tex, ROOT)}) center/cover`; });
     if (c.style === 'fabric') btns.forEach((b, i) => { b.style.background = fabThumb(items[i].hex); b.style.backgroundBlendMode = 'multiply'; });
   }));
 
