@@ -1,0 +1,413 @@
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;700;800&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: one narrow column like a clipboard sheet – header, rooms with item cards, send bar pinned to the bottom. */
+:root{
+  --paper:#FBFAF6; --sheet:#FFFFFF; --ink:#1C1C1A; --muted:#6B675F; --line:#D9D4C8; --dash:#B9B2A3;
+  --yellow:#F8DC55; --yellow-ink:#1C1C1A; --chip:#F2EFE6; --ok:#2F7D4F; --warn:#B5651D; --err:#B3261E;
+  --f-body:"Heebo",system-ui,sans-serif; --f-mono:"IBM Plex Mono",ui-monospace,monospace;
+  --r:10px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--paper:#151513;--sheet:#1E1D1A;--ink:#F1EEE6;--muted:#A8A396;--line:#3A3832;--dash:#56524A;--chip:#2A2924;--yellow:#F3D64E;--ok:#6CC08F;--warn:#E3A35D;--err:#F08A80;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#151513;--sheet:#1E1D1A;--ink:#F1EEE6;--muted:#A8A396;--line:#3A3832;--dash:#56524A;--chip:#2A2924;--yellow:#F3D64E;--ok:#6CC08F;--warn:#E3A35D;--err:#F08A80;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:var(--f-body);font-size:15px;line-height:1.45;direction:rtl}
+.wrap{max-width:820px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:18px 120px;display:grid;gap:16px}
+header.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:10px}
+.brand b{font-weight:800;letter-spacing:.14em;font-size:20px}
+.brand span{font-size:13px;color:var(--muted)}
+h1{font-size:26px;font-weight:800;margin:0;text-wrap:balance}
+.tabs{display:flex;gap:6px;background:var(--chip);padding:4px;border-radius:999px}
+.tabs button{border:0;background:transparent;color:var(--ink);font:500 14px var(--f-body);padding:7px 14px;border-radius:999px;cursor:pointer}
+.tabs button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.sheet{background:var(--sheet);border:1.5px dashed var(--dash);border-radius:var(--r);padding:16px;display:grid;gap:14px}
+.sheet h2{margin:0;font-size:17px;font-weight:700;display:flex;align-items:center;gap:8px}
+.sheet h2 .num{font-family:var(--f-mono);font-size:12px;background:var(--yellow);color:var(--yellow-ink);padding:1px 7px;border-radius:5px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px 12px}
+.f{display:grid;gap:4px;min-width:0;align-content:start}
+.f>label,.lbl{font-size:12.5px;color:var(--muted);font-weight:500;letter-spacing:.01em}
+.f.wide{grid-column:1/-1}
+input[type=text],input[type=number],input[type=tel],input[type=date],textarea,select{width:100%;font:15px var(--f-body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:40px}
+textarea{min-height:64px;resize:vertical}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--ink);outline-offset:1px}
+input[type=number]{font-variant-numeric:tabular-nums;direction:ltr;text-align:right}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{border:1px solid var(--line);background:var(--paper);color:var(--ink);font:500 14px var(--f-body);padding:6px 11px;border-radius:999px;cursor:pointer;min-height:36px}
+.seg button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.yn{display:inline-flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;min-height:36px}
+.yn input{width:20px;height:20px;accent-color:var(--ink)}
+.frames{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:6px}
+.frames button{border:1px solid var(--line);background:var(--paper);border-radius:8px;padding:6px 4px 4px;cursor:pointer;display:grid;justify-items:center;gap:2px;color:var(--ink);font:500 12.5px var(--f-body)}
+.frames button svg{width:58px;height:36px;stroke:currentColor;fill:none;stroke-width:2.2;stroke-linecap:round}
+.frames button[aria-pressed="true"]{border-color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink);background:var(--yellow);color:var(--yellow-ink)}
+.room{border:1.5px solid var(--ink);border-radius:var(--r);background:var(--sheet);overflow:hidden}
+.room>.rh{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--ink);color:var(--paper)}
+.room>.rh input{background:transparent;border:0;border-bottom:1px dashed color-mix(in srgb,var(--paper) 50%,transparent);color:var(--paper);font:700 16px var(--f-body);min-height:32px;padding:2px 0;flex:1;min-width:0}
+.room>.rb{padding:12px;display:grid;gap:12px}
+.iconbtn{border:0;background:transparent;color:inherit;cursor:pointer;font:500 13px var(--f-body);padding:6px 8px;border-radius:6px}
+.iconbtn:hover{background:color-mix(in srgb,currentColor 12%,transparent)}
+.item{border:1px solid var(--line);border-radius:var(--r);padding:12px;display:grid;gap:12px;background:var(--paper)}
+.item .ih{display:flex;align-items:center;gap:10px;justify-content:space-between}
+.item .ih strong{font-size:15.5px;display:flex;align-items:center;gap:8px}
+.item .ih strong svg{width:34px;height:24px;stroke:currentColor;fill:none;stroke-width:2}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:var(--sheet);color:var(--ink);font:700 18px var(--f-body);cursor:pointer}
+.qty output{min-width:28px;text-align:center;font:700 16px var(--f-mono)}
+.sub{border-top:1px dashed var(--dash);padding-top:10px;display:grid;gap:10px}
+.sub>.lbl{font-weight:700;color:var(--ink);font-size:13px}
+.preview{font:500 12.5px/1.6 var(--f-body);background:var(--chip);border-radius:8px;padding:8px 10px;color:var(--ink);white-space:pre-wrap;overflow-wrap:anywhere}
+.preview::before{content:"בהזמנה לספק: ";color:var(--muted)}
+.addgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px}
+.addgrid button{border:1px dashed var(--dash);background:var(--paper);color:var(--ink);border-radius:var(--r);padding:10px 6px;display:grid;justify-items:center;gap:4px;font:500 13px var(--f-body);cursor:pointer;min-height:76px}
+.addgrid button svg{width:42px;height:28px;stroke:currentColor;fill:none;stroke-width:2}
+.addgrid button:hover{border-style:solid;border-color:var(--ink)}
+.photos{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.photos img{width:72px;height:72px;object-fit:cover;border-radius:8px;border:1px solid var(--line)}
+.photos label.add{display:inline-flex;align-items:center;gap:6px;border:1px dashed var(--dash);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13.5px}
+.photos input{position:absolute;width:1px;height:1px;opacity:0}
+.btn{border:0;border-radius:999px;font:700 15px var(--f-body);padding:11px 18px;cursor:pointer;min-height:44px}
+.btn.primary{background:var(--yellow);color:var(--yellow-ink)}
+.btn.ghost{background:var(--chip);color:var(--ink)}
+.btn.dark{background:var(--ink);color:var(--paper)}
+.sendbar{position:fixed;inset:auto 0 0 0;background:var(--sheet);border-top:1.5px solid var(--ink);padding:10px max(16px,env(safe-area-inset-right,0px)) calc(10px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;gap:10px;align-items:center;justify-content:space-between;z-index:5}
+.sendbar .sum{font-size:13px;color:var(--muted);min-width:0}
+.sendbar .sum b{color:var(--ink);font-family:var(--f-mono)}
+.note{font-size:13px;color:var(--muted)}
+.status{font-size:13.5px;padding:8px 12px;border-radius:8px;background:var(--chip)}
+.status.ok{color:var(--ok)} .status.err{color:var(--err)} .status.warn{color:var(--warn)}
+.list{display:grid;gap:10px}
+.order{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:var(--sheet);display:grid;gap:6px}
+.order .row{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.pill{font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px;background:var(--yellow);color:var(--yellow-ink)}
+.pill.done{background:var(--chip);color:var(--muted)}
+details.lines summary{cursor:pointer;font-size:13px;color:var(--muted)}
+.empty{border:1.5px dashed var(--dash);border-radius:var(--r);padding:18px;text-align:center;color:var(--muted)}
+@media (max-width:520px){h1{font-size:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap" id="mdy-app">
+  <header class="top">
+    <div>
+      <div class="brand"><b>MODULARY</b><span>טופס פנימי לצוות</span></div>
+      <h1>טופס הזמנה – מדידה אצל לקוח</h1>
+    </div>
+
+  </header>
+
+  <main id="view-new" class="wrap" style="padding:0;gap:16px">
+    <section class="sheet" aria-labelledby="h-cust">
+      <h2 id="h-cust"><span class="num">1</span>לקוח ואתר</h2>
+      <div id="hdr"></div>
+    </section>
+
+    <section class="sheet" aria-labelledby="h-rooms">
+      <h2 id="h-rooms"><span class="num">2</span>חדרים ופריטים</h2>
+      <p class="note">לכל חדר מוסיפים פריטים. המידות בס״מ. גוונים: אפשר לבחור מהרשימה או לכתוב קוד ספק.</p>
+      <div id="rooms" class="list"></div>
+      <button class="btn dark" id="addRoom" type="button">+ חדר</button>
+    </section>
+
+    <section class="sheet" aria-labelledby="h-gen">
+      <h2 id="h-gen"><span class="num">3</span>הערות, שרטוטים ותמונות</h2>
+      <div class="f wide"><label for="genNotes">הערות כלליות</label><textarea id="genNotes" placeholder="למשל: הכל בגוון של ההזמנה הקודמת, לתאם הרכבה אחרי 16:00"></textarea></div>
+      <div class="photos" id="genPhotos"></div>
+    </section>
+  </main>
+
+</div>
+
+<div class="sendbar" id="sendbar">
+  <div class="sum" id="sum">אין פריטים עדיין</div>
+  <div style="display:flex;gap:8px">
+    <button class="btn ghost" id="clearBtn" type="button">טופס חדש</button>
+    <button class="btn primary" id="sendBtn" type="button">שליחה למודולרי</button>
+  </div>
+</div>
+
+<script>
+/* ---------- vocabulary (from the supplier work orders) ---------- */
+const COLORS=['לבן','שחור','גרפיט 3160','7019','3130','5550','7150','3199 שחור יער','5200','9007','1480','5733','1416','7906 סטון','2047','2086 סטון בירמן','161 סופר מט מוקה','186 שחור מט','3614','8550','5600','8588','A924 PS70 מקור','A488 PS37 מרינדה','אלון מבוקע','אגוז','לבן אפוקסי','שחור נאנו'];
+const FCOLORS=['לבן','שחור','גרפיט','אפור','RAL לפי בחירה'];
+const HANDLES=['טלסקר','ח רוכבות','ניקל','פרופיל C','פתיחה בטאץ','ללא'];
+const HCOLORS=['שחורות','לבנות','כסופות','אפורות'];
+const SV=(p)=>`<svg viewBox="0 0 60 36" aria-hidden="true">${p}</svg>`;
+const FR={ /* frame models: name + tiny side sketch */
+ 'רוז':SV('<path d="M6 8h48M12 8v24M48 8v24M12 32h-4M48 32h4"/><path d="M12 22h36"/>'),
+ 'לוטוס':SV('<path d="M6 8h48M14 8l-4 24M46 8l4 24"/>'),
+ 'לאטה':SV('<path d="M6 8h48M16 8l-6 24M44 8l6 24M16 8l3 24"/>'),
+ 'בארי':SV('<path d="M6 8h48M18 8l-8 24M18 8l6 24M44 8l6 24"/>'),
+ 'וונציה':SV('<path d="M6 8h48M12 8l10 24M22 8l-10 24M48 8l-10 24M38 8l10 24"/>'),
+ 'חלון':SV('<path d="M6 8h48M10 8v24h12V8M38 8v24h12V8"/>'),
+ 'ח':SV('<path d="M6 8h48M12 8v24M48 8v24M12 20h36"/>'),
+ 'ישרה 4/4':SV('<path d="M6 8h48M12 8v24M48 8v24"/>'),
+ 'איקס':SV('<path d="M6 8h48M14 8l32 24M46 8L14 32"/>'),
+ 'טרפז':SV('<path d="M6 8h48M14 8l-4 24h12l-4-24M46 8l4 24H38l4-24"/>'),
+ 'טרפז הפוך':SV('<path d="M6 8h48M10 8l4 24h4l4-24M50 8l-4 24h-4l-4-24"/>'),
+ 'נובו':SV('<path d="M6 8h48M30 8v20M18 32h24"/>'),
+ 'סקורפיון':SV('<path d="M6 8h48M24 8l-12 24M24 8l10 24M40 8l10 24"/>'),
+ 'ספיידר':SV('<path d="M6 8h48M16 8q-2 14-6 24M44 8q2 14 6 24M16 8q8 10 10 24"/>'),
+ 'ברצלונה':SV('<path d="M6 8h48M18 8l-6 24M18 8l6 24M14 22h8M44 8l-6 24M44 8l6 24"/>'),
+ 'פיצה (לעגול)':SV('<path d="M10 8h40M30 8v22M16 32h28"/>'),
+ 'מדורה (לעגול)':SV('<path d="M10 8h40M30 8l-12 24M30 8l12 24M30 8v24"/>'),
+ 'חשמלי':SV('<path d="M6 8h48M12 8v24M48 8v24M8 32h8M44 32h8M12 16h36"/><path d="M28 18l4-4v4h4l-4 4v-4z"/>')
+};
+const IC={
+ desk:SV('<path d="M4 10h52M10 10v22M50 10v22"/>'),
+ manager:SV('<path d="M4 8h40M10 8v24M38 8v8"/><rect x="34" y="16" width="22" height="16"/>'),
+ ret:SV('<rect x="6" y="10" width="48" height="20"/><path d="M30 10v20M6 17h24M6 24h24"/>'),
+ ped:SV('<rect x="18" y="4" width="24" height="26"/><path d="M18 12h24M18 20h24M24 34a2 2 0 1 0 0-.1M36 34a2 2 0 1 0 0-.1"/>'),
+ cab:SV('<rect x="14" y="2" width="32" height="32"/><path d="M30 2v32M27 16v4M33 16v4"/>'),
+ shelf:SV('<rect x="16" y="2" width="28" height="32"/><path d="M16 10h28M16 18h28M16 26h28"/>'),
+ locker:SV('<rect x="10" y="2" width="40" height="32"/><path d="M23 2v32M37 2v32M10 13h40M10 24h40"/>'),
+ part:SV('<path d="M8 6h44v18H8zM14 24v8M46 24v8"/>'),
+ meet:SV('<ellipse cx="30" cy="12" rx="24" ry="6"/><path d="M30 18v12M20 32h20"/>'),
+ counter:SV('<path d="M4 12h52v20H4zM4 8h52"/>'),
+ kitchen:SV('<rect x="4" y="18" width="52" height="16"/><path d="M4 18h52M18 18v16M32 18v16M46 18v16"/><rect x="4" y="2" width="52" height="10"/>'),
+ custom:SV('<path d="M10 30L50 6M10 30h8M10 30v-8M30 6l4 4"/>'),
+ service:SV('<path d="M18 30l20-20M34 6a6 6 0 1 1 8 8l-4-4z"/>')
+};
+
+/* ---------- item schemas ---------- */
+const topFields=[
+ {k:'w',he:'רוחב',t:'num'},{k:'d',he:'עומק',t:'num'},
+ {k:'th',he:'עובי פלטה',t:'seg',o:['17','24','28'],def:'28'},
+ {k:'mat',he:'חומר',t:'seg',o:['מלמין','פורמייקה','סנדוויץ','MDF','פורניר'],def:'מלמין'},
+ {k:'color',he:'גוון פלטה',t:'color'},
+ {k:'edge',he:'קנט',t:'seg',o:['ישר','מדוקק PVC','מדוקק בתנור','משופע'],def:'ישר'},
+ {k:'edgeColor',he:'צבע קנט',t:'text',ph:'תואם',show:v=>v.edge&&v.edge!=='ישר'},
+ {k:'rugTop',he:'פלטה שטיח (מחולקת)',t:'yn'},
+ {k:'radius',he:'פינות מעוגלות',t:'yn'},{k:'cut',he:'מגרעת למחשב',t:'yn'}
+];
+const frameFields=[
+ {k:'frame',he:'שלד / רגל',t:'frame'},
+ {k:'fcolor',he:'צבע שלד',t:'seg',o:FCOLORS,def:'שחור'},
+ {k:'ral',he:'קוד RAL',t:'text',show:v=>v.fcolor==='RAL לפי בחירה'},
+ {k:'tele',he:'טלסקופית',t:'yn'},{k:'disc',he:'כולל ניתוק',t:'yn'},{k:'level',he:'רגלי פילוס',t:'yn'},
+ {k:'motors',he:'מנועים',t:'seg',o:['מנוע יחיד','שני מנועים'],def:'מנוע יחיד',show:v=>v.frame==='חשמלי'}
+];
+const extraFields=[
+ {k:'apron',he:'סינר צניעות',t:'yn',def:true},
+ {k:'apronColor',he:'גוון סינר',t:'color',ph:'כמו הפלטה',show:v=>v.apron},
+ {k:'tray',he:'תעלת חשמל',t:'yn'},{k:'box',he:'קופסת תקשורת',t:'yn'},{k:'holes',he:'פתחי כבלים',t:'num',ph:'כמה'}
+];
+const retFields=[
+ {k:'side',he:'צד',t:'seg',o:['ימין','שמאל'],def:'שמאל'},
+ {k:'rl',he:'אורך',t:'num',def:140},{k:'rd',he:'עומק',t:'num',def:40},{k:'rh',he:'גובה',t:'num',def:65},
+ {k:'arr',he:'סידור',t:'multi',o:['דלתות','מגירות','תא פתוח','מדפים'],def:['דלתות','מגירות']},
+ {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color',ph:'כמו הגוף'},
+ {k:'inset',he:'חזית שקועה',t:'yn'},{k:'handle',he:'ידיות',t:'seg',o:HANDLES,def:'טלסקר'},
+ {k:'hcolor',he:'צבע ידיות',t:'seg',o:HCOLORS,def:'שחורות',show:v=>!['פתיחה בטאץ','ללא'].includes(v.handle)},
+ {k:'plinth',he:'צוקל',t:'yn'},{k:'kasket',he:'קסקט (טופ)',t:'color',ph:'ללא / גוון'}
+];
+const cabFields=[
+ {k:'h',he:'גובה',t:'num'},{k:'d',he:'עומק',t:'num',def:40},{k:'w',he:'רוחב',t:'num'},
+ {k:'fronts',he:'חזיתות',t:'multi',o:['דלתות','מגירות','הזזה','זכוכית','פתוח'],def:['דלתות']},
+ {k:'shelves',he:'מדפים',t:'num'},{k:'shTh',he:'עובי מדף',t:'seg',o:['17','28'],def:'17'},
+ {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color',ph:'כמו הגוף'},
+ {k:'inset',he:'חזית שקועה',t:'yn'},{k:'handle',he:'ידיות',t:'seg',o:HANDLES,def:'טלסקר'},
+ {k:'hcolor',he:'צבע ידיות',t:'seg',o:HCOLORS,def:'שחורות',show:v=>!['פתיחה בטאץ','ללא'].includes(v.handle)},
+ {k:'plinth',he:'צוקל',t:'yn'},{k:'back',he:'גב מלא',t:'yn'},{k:'lock',he:'נעילה',t:'yn'},{k:'niche',he:'בתוך נישה',t:'yn'},
+ {k:'kasket',he:'קסקט (טופ)',t:'color',ph:'ללא / גוון'}
+];
+const TYPES={
+ desk:{he:'שולחן עבודה',ic:IC.desk,groups:[
+   ['תצורה',[{k:'layout',he:'תצורה',t:'seg',o:['יחיד','שורה','פנים מול פנים','בנץ׳'],def:'יחיד'},{k:'seats',he:'עמדות',t:'num',show:v=>v.layout&&v.layout!=='יחיד'}]],
+   ['פלטה',topFields],['שלד',frameFields],['תוספות',extraFields]]},
+ manager:{he:'שולחן מנהל',ic:IC.manager,groups:[['פלטה',topFields.map(f=>f.k==='w'?{...f,def:180}:f.k==='d'?{...f,def:80}:f)],
+   ['שלד',[...frameFields,{k:'ride',he:'רוכב על השלוחה',t:'yn',def:true}]],['סינר ותוספות',extraFields],['שלוחה',retFields]]},
+ ret:{he:'שלוחה',ic:IC.ret,groups:[['שלוחה',[{k:'kind',he:'סוג',t:'seg',o:['שלוחת מנהל','שלוחה תומכת','עומדת לבד'],def:'עומדת לבד'},...retFields]]]},
+ ped:{he:'ארגז / עגלת מגירות',ic:IC.ped,groups:[['ארגז',[
+   {k:'kind',he:'סוג',t:'seg',o:['נייד על גלגלים','תומך שלוחה','עגלת פח יבוא'],def:'נייד על גלגלים'},
+   {k:'cfg',he:'חלוקה',t:'seg',o:['3 מגירות','4 מגירות','מגירה + דלת','דלת'],def:'3 מגירות'},
+   {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color',ph:'כמו הגוף'},
+   {k:'handle',he:'ידיות',t:'seg',o:HANDLES,def:'טלסקר'},{k:'hcolor',he:'צבע ידיות',t:'seg',o:HCOLORS,def:'שחורות'},
+   {k:'kasket',he:'קסקט',t:'color',ph:'ללא / גוון'},{k:'cushion',he:'כרית ישיבה',t:'yn'},{k:'lock',he:'נעילה',t:'yn'},{k:'soft',he:'טריקה שקטה',t:'yn'}]]]},
+ cab:{he:'ארון',ic:IC.cab,groups:[['ארון',cabFields]]},
+ shelf:{he:'כוננית / כוורת',ic:IC.shelf,groups:[['כוננית',[{k:'kind',he:'סוג',t:'seg',o:['כוננית פתוחה','כוורת','כוננית תלויה'],def:'כוננית פתוחה'},
+   {k:'h',he:'גובה',t:'num'},{k:'d',he:'עומק',t:'num'},{k:'w',he:'רוחב',t:'num'},{k:'shelves',he:'מדפים / תאים',t:'num'},
+   {k:'body',he:'גוון',t:'color'},{k:'back',he:'גב מלא',t:'yn'},{k:'doorsLow',he:'דלתות בחלק התחתון',t:'yn'}]]]},
+ locker:{he:'ארון לוקרים',ic:IC.locker,groups:[['לוקרים',[{k:'cells',he:'מספר תאים',t:'num'},{k:'cell',he:'מידת תא (רוחב/גובה)',t:'text',ph:'40/40'},
+   {k:'d',he:'עומק',t:'num',def:40},{k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color'},
+   {k:'lockType',he:'נעילה',t:'seg',o:['מנעול מפתח','מנעול קוד','ללא'],def:'מנעול מפתח'},{k:'numbers',he:'מספור על החזיתות',t:'yn'}]]]},
+ part:{he:'מחיצה',ic:IC.part,groups:[['מחיצה',[{k:'kind',he:'סוג',t:'seg',o:['שולחנית סקאנר','דקה עם מסגרת','פריימלס עומדת'],def:'שולחנית סקאנר'},
+   {k:'w',he:'רוחב',t:'num'},{k:'h',he:'גובה',t:'num'},{k:'color',he:'בד / גוון',t:'color',ph:'RM003'},
+   {k:'frameColor',he:'צבע מסגרת',t:'seg',o:['שחור','לבן','אפור'],def:'שחור',show:v=>v.kind!=='שולחנית סקאנר'},
+   {k:'holders',he:'מחזיקים (זוגות)',t:'num'},{k:'posts',he:'עמודי חיבור',t:'num',show:v=>v.kind==='פריימלס עומדת'}]]]},
+ meet:{he:'שולחן ישיבות / עגול / בר',ic:IC.meet,groups:[['שולחן',[{k:'shape',he:'צורה',t:'seg',o:['מלבני','עגול','אובלי','חבית'],def:'מלבני'},
+   {k:'w',he:'אורך',t:'num',show:v=>v.shape!=='עגול'},{k:'d',he:'רוחב',t:'num',show:v=>v.shape!=='עגול'},{k:'dia',he:'קוטר',t:'num',show:v=>v.shape==='עגול'},
+   {k:'ht',he:'גובה',t:'seg',o:['75 רגיל','105 בר'],def:'75 רגיל'},{k:'th',he:'עובי',t:'seg',o:['17','24','28'],def:'28'},
+   {k:'color',he:'גוון',t:'color'},{k:'edge',he:'קנט',t:'seg',o:['ישר','מדוקק PVC','מדוקק בתנור','משופע'],def:'ישר'},
+   {k:'seats',he:'מקומות ישיבה',t:'num'}]],['שלד',frameFields],['תוספות',[{k:'box',he:'קופסת תקשורת',t:'yn'},{k:'tray',he:'תעלת חשמל',t:'yn'}]]]},
+ counter:{he:'דלפק קבלה',ic:IC.counter,groups:[['דלפק',[{k:'style',he:'סגנון',t:'seg',o:['רגיל מהקטלוג','אלומיניום','פסים','פינתי','לפי שרטוט'],def:'רגיל מהקטלוג'},
+   {k:'w',he:'רוחב',t:'num'},{k:'w2',he:'רוחב צד (פינתי)',t:'num',show:v=>v.style==='פינתי'},{k:'d',he:'עומק',t:'num',def:80},{k:'h',he:'גובה',t:'num',def:110},
+   {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color'},{k:'top',he:'גוון קאונטר',t:'color'},{k:'ride',he:'כולל שולחן רוכב',t:'yn'}]]]},
+ kitchen:{he:'מטבחון',ic:IC.kitchen,groups:[['מטבחון',[{k:'w',he:'רוחב',t:'num'},{k:'upper',he:'ארונות עליונים',t:'yn',def:true},
+   {k:'finish',he:'גימור',t:'seg',o:['פורמייקה','סנדוויץ','אפוקסי','מלמין'],def:'פורמייקה'},
+   {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזיתות',t:'color'},{k:'top',he:'גוון משטח',t:'color'},
+   {k:'flap',he:'פתיחה עליונים',t:'seg',o:['קלאפה','דלתות'],def:'דלתות',show:v=>v.upper},
+   {k:'handle',he:'ידיות',t:'seg',o:HANDLES,def:'טלסקר'},{k:'appl',he:'מקום ל…',t:'multi',o:['כיור','מקרר','מדיח','מיקרוגל','מכונת קפה']}]]]},
+ custom:{he:'לפי שרטוט',ic:IC.custom,groups:[['פריט',[{k:'name',he:'מה זה',t:'text',ph:'למשל: ספסל קוביה, ארון לפי נישה'},{k:'dims',he:'מידות',t:'text',ph:'H/עומק/רוחב'},{k:'color',he:'גוון',t:'color'}]]]},
+ service:{he:'שירות / תיקון',ic:IC.service,groups:[['שירות',[{k:'kind',he:'סוג',t:'seg',o:['תיקון','חלק חילוף','פירוק והרכבה','הובלה'],def:'תיקון'},
+   {k:'ref',he:'מספר הזמנה קודמת',t:'text'},{k:'what',he:'מה צריך',t:'text',ph:'למשל: גלגל לעגלת מגירות מתכת'}]]]}
+};
+
+/* ---------- supplier-language lines (same vocabulary as orders/DNA.md) ---------- */
+const J=(...a)=>a.filter(x=>x!==''&&x!=null&&x!==false).join(' ');
+const S='\\';
+const cl=c=>c?`גוון ${c}`:'גוון [לאישור]';
+const hnd=v=>v.handle==='פתיחה בטאץ'?'פתיחה בטאץ':v.handle==='ללא'?'':J('ידיות',v.handle==='טלסקר'?'טלסקר':v.handle,v.hcolor||'');
+const legName=v=>{const c=v.fcolor==='RAL לפי בחירה'?`RAL ${v.ral||''}`:(v.fcolor==='לבן'?'לבנה':v.fcolor==='שחור'?'שחורה':v.fcolor||'');return J('רגל',v.frame||'[דגם לאישור]',c)};
+function topLine(v,W,D){return J('פלטה',v.rugTop?'שטיח':'',v.th||28,'ממ',v.mat&&v.mat!=='מלמין'?v.mat:'',`${W||'?'}${S}${D||'?'}`,cl(v.color),v.edge&&v.edge!=='ישר'?`קנט ${v.edge.replace('PVC','PVC')} ${v.edgeColor||'תואם'}`:'',v.radius?'פינות מעוגלות':'',v.cut?'כולל מגרעת למחשב':'')}
+function frameLine(v,W,D,extra=''){return v.frame==='חשמלי'?J('רגל שולחן חשמלי',`${W}${S}${D}`,v.fcolor,v.motors):J(legName(v),extra,v.tele?'טלסקופית':'',v.disc?'כולל ניתוק':'',v.level?'כולל רגלי פילוס':'',`${W||'?'}${S}${D||'?'}`)}
+function retLine(v){const front=v.front&&v.front!==v.body?`חזית ${v.front}`:'';return J('שלוחה',v.kind&&v.kind!=='עומדת לבד'?v.kind:'',`ל${v.side==='ימין'?'ימין':'שמאל'}`,`H${v.rh||65}${S}${v.rd||40}${S}${v.rl||'?'}`,(v.arr||[]).join(' + '),`גוף ${v.body||'[לאישור]'}`,front,v.inset?'חזית שקועה':'',hnd(v),v.plinth?'צוקל':'',v.kasket?`קסקט ${v.kasket}`:'')}
+const LINES={
+ desk(v,q){const n=v.layout&&v.layout!=='יחיד'?(+v.seats||2):1,W=+v.w,D=+v.d,L=[];
+   if(v.layout==='פנים מול פנים'||v.layout==='בנץ׳'){const units=Math.ceil(n/2);L.push([topLine({...v,rugTop:true},W,D*2),q*units],[frameLine(v,W,D*2,'בנץ זוגי'),q*units])}
+   else {L.push([topLine(v,W,D),q*n],[frameLine(v,W,D),q*n])}
+   if(v.apron&&W)L.push([J('סינר',`${W-10}${S}35`,cl(v.apronColor||v.color)),q*n],[J('זוג מחזיק סינר',v.fcolor||''),q*n]);
+   if(v.tray)L.push(['תעלת חשמל',q*n]);if(v.box)L.push(['קופסת תקשורת',q*n]);if(+v.holes)L.push([`פתחי כבלים ×${v.holes}`,q*n]);return L},
+ manager(v,q){const W=+v.w,D=+v.d,L=[[topLine(v,W,D),q],[frameLine(v,W,D,v.ride?'רוכב 3 רגליים':''),q]];
+   if(v.apron&&W)L.push([J('סינר',`${W-10}${S}35`,cl(v.apronColor||v.color)),q],[J('זוג מחזיק סינר',v.fcolor||''),q]);
+   L.push([retLine({...v,kind:v.ride?'':''})+(v.ride?' – השלד רוכב על השלוחה':''),q]);if(v.tray)L.push(['תעלת חשמל',q]);if(v.box)L.push(['קופסת תקשורת',q]);return L},
+ ret:(v,q)=>[[retLine(v),q]],
+ ped:(v,q)=>[[J(v.kind==='עגלת פח יבוא'?'עגלת מגירות פח יבוא':v.kind==='תומך שלוחה'?'ארגז מגירות תומך שלוחה':'ארגז מגירות נייד',v.cfg,cl(v.body),v.front&&v.front!==v.body?`חזית ${v.front}`:'',hnd(v),v.kasket?`קסקט ${v.kasket}`:'',v.cushion?'+ כרית ישיבה':'',v.lock?'נעילה':'',v.soft?'טריקה שקטה':''),q]],
+ cab:(v,q)=>[[J('ארון',`H${v.h||'?'}${S}${v.d||40}${S}${v.w||'?'}`,(v.fronts||[]).join(' + '),`גוף ${v.body||'[לאישור]'}`,v.front&&v.front!==v.body?`חזית ${v.front}`:'',v.inset?'חזית שקועה':'',hnd(v),+v.shelves?`${v.shelves} מדפים ${v.shTh||17}`:'',v.plinth?'צוקל':'',v.back?'גב מלא':'',v.lock?'נעילה':'',v.niche?'בתוך נישה':'',v.kasket?`קסקט ${v.kasket}`:''),q]],
+ shelf:(v,q)=>[[J(v.kind||'כוננית פתוחה',`H${v.h||'?'}${S}${v.d||'?'}${S}${v.w||'?'}`,+v.shelves?`${v.shelves} מדפים`:'',cl(v.body),v.back?'גב מלא':'',v.doorsLow?'דלתות בחלק התחתון':''),q]],
+ locker:(v,q)=>[[J('ארון לוקרים',v.cells?`${v.cells} תאים`:'',v.cell?`${v.cell} כל תא`:'',`עומק ${v.d||40}`,`גוף ${v.body||'[לאישור]'}`,v.front?`חזית ${v.front}`:'',v.lockType&&v.lockType!=='ללא'?`+ ${v.lockType}`:'',v.numbers?'כולל מספור על החזיתות':''),q]],
+ part:(v,q)=>{const L=[[J(v.kind==='שולחנית סקאנר'?'מחיצת סקאנר':v.kind==='דקה עם מסגרת'?`מחיצה דקה מסגרת מתכת ${v.frameColor||''}`:`מחיצה פריימלס`,v.kind==='שולחנית סקאנר'?`${v.w||'?'}${S}${v.h||'?'}`:`H${v.h||'?'} רוחב ${v.w||'?'}`,cl(v.color)),q]];if(+v.holders)L.push([`זוג מחזיקי מחיצה`,q*(+v.holders)]);if(+v.posts)L.push(['עמוד חיבור למחיצות',+v.posts]);return L},
+ meet:(v,q)=>{const round=v.shape==='עגול',L=[];const size=round?`קוטר ${v.dia||'?'}`:`${v.w||'?'}${S}${v.d||'?'}`;
+   L.push([J('פלטה',v.shape==='אובלי'?'אובלית':v.shape==='חבית'?'חבית':'',size,v.th||28,'ממ',cl(v.color),v.edge&&v.edge!=='ישר'?`קנט ${v.edge}`:'',v.ht&&v.ht.startsWith('105')?'גובה בר 105':''),q]);
+   L.push([round?J('רגל',v.frame||'מדורה',v.fcolor==='לבן'?'לבנה':'שחורה',`לקוטר ${v.dia||'?'}`):frameLine(v,v.w,v.d),q]);if(v.box)L.push(['קופסת תקשורת לשולחן ישיבות',q]);if(v.tray)L.push(['תעלת חשמל',q]);return L},
+ counter:(v,q)=>[[J('דלפק',v.style,`${v.w||'?'}${v.w2?'+'+v.w2:''} עומק ${v.d||80} גובה ${v.h||110}`,`גוף ${v.body||'[לאישור]'}`,v.front?`חזית ${v.front}`:'',v.top?`קאונטר ${v.top}`:'',v.ride?'+ שולחן רוכב':''),q]],
+ kitchen:(v,q)=>[[J('מטבחון רוחב',v.w||'?',v.upper?'יחידה תחתונה + עליונה':'יחידה תחתונה',v.finish,`גוף ${v.body||'[לאישור]'}`,v.front?`חזיתות ${v.front}`:'',v.top?`משטח ${v.top}`:'',v.upper&&v.flap?`פתיחה עליונה ${v.flap}`:'',hnd(v),(v.appl||[]).length?`מקום ל${v.appl.join(', ')}`:''),q]],
+ custom:(v,q)=>[[J(v.name||'פריט','לפי שרטוט מצורף',v.dims||'',v.color?cl(v.color):''),q]],
+ service:(v,q)=>[[J(v.kind==='תיקון'?'הזמנת תיקון':v.kind,v.ref?`להזמנה ${v.ref}`:'',v.what||''),q]]
+};
+const itemLines=it=>{try{return (LINES[it.type](it.v,it.qty||1)||[]).map(([d,qq])=>({d:J(d,it.note?`[${it.note}]`:''),q:qq}))}catch(e){return [{d:'(שגיאה בבניית השורה)',q:it.qty||1}]}};
+
+/* ---------- state ---------- */
+const HDR=[
+ {k:'customer',he:'שם לקוח',t:'text'},{k:'date',he:'תאריך',t:'date'},{k:'contact',he:'איש קשר',t:'text'},{k:'phone',he:'טלפון',t:'tel'},
+ {k:'designer',he:'מעצב/ת – אדריכל/ית',t:'text'},{k:'address',he:'כתובת',t:'text'},{k:'floor',he:'בניין / קומה',t:'text'},
+ {k:'elevator',he:'מעלית',t:'seg',o:['יש','אין']},{k:'elevSize',he:'מידות מעלית',t:'text',ph:'רוחב/עומק/גובה דלת',show:v=>v.elevator==='יש'},
+ {k:'parking',he:'חניה / פריקה',t:'text'},{k:'access',he:'דרכי גישה',t:'text',ph:'מדרגות, פתחים צרים…'},
+ {k:'dismantle',he:'פירוק ריהוט קיים',t:'yn'},{k:'install',he:'הרכבה',t:'yn',def:true},{k:'measuredBy',he:'מודד',t:'text',def:'מיכאל'}
+];
+const blank=()=>({id:'o'+Date.now().toString(36),header:{date:new Date().toISOString().slice(0,10),install:true,measuredBy:'מיכאל'},rooms:[{id:'r1',name:'חדר 1',items:[]}],notes:'',photos:[]});
+let O=load()||blank();
+function load(){try{return JSON.parse(localStorage.getItem('mdy-order-draft'))}catch(e){return null}}
+let saveT;function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem('mdy-order-draft',JSON.stringify(O))}catch(e){}},300);sum()}
+const $=s=>document.querySelector(s),h=(t,a={},...c)=>{const e=document.createElement(t);for(const[k,v]of Object.entries(a)){if(k==='on')for(const[ev,fn]of Object.entries(v))e.addEventListener(ev,fn);else if(k==='html')e.innerHTML=v;else if(v!==false&&v!=null)e.setAttribute(k,v===true?'':v)}c.flat().forEach(x=>x!=null&&e.append(x));return e};
+let uid=0;const nid=p=>p+(++uid)+Math.random().toString(36).slice(2,6);
+
+/* ---------- field rendering ---------- */
+function field(f,obj,onChange,idp){
+  if(f.def!==undefined&&obj[f.k]===undefined)obj[f.k]=Array.isArray(f.def)?[...f.def]:f.def;
+  const id=idp+'-'+f.k,wide=f.t==='frame'||f.t==='multi'||(f.t==='seg'&&f.o.length>3)||(f.t==='text'&&f.ph&&f.ph.length>12),wrap=h('div',{class:'f'+(wide?' wide':'')});
+  const set=v=>{obj[f.k]=v;onChange()};
+  if(f.t==='yn'){const i=h('input',{type:'checkbox',id});i.checked=!!obj[f.k];i.onchange=()=>set(i.checked);wrap.append(h('label',{class:'yn',for:id},i,f.he));return wrap}
+  wrap.append(h('label',{for:id,class:'lbl'},f.he));
+  if(f.t==='num'||f.t==='text'||f.t==='tel'||f.t==='date'){const i=h('input',{id,type:f.t==='num'?'number':f.t,inputmode:f.t==='num'?'decimal':null,placeholder:f.ph||(f.t==='num'?'ס״מ':'')});i.value=obj[f.k]??'';i.oninput=()=>set(f.t==='num'?(i.value===''?'':+i.value):i.value);wrap.append(i)}
+  else if(f.t==='color'){const i=h('input',{id,type:'text',list:'colors',placeholder:f.ph||'קוד / שם גוון'});i.value=obj[f.k]??'';i.oninput=()=>set(i.value);wrap.append(i)}
+  else if(f.t==='seg'||f.t==='multi'){const g=h('div',{class:'seg',role:'group',id});f.o.forEach(o=>{const on=f.t==='multi'?(obj[f.k]||[]).includes(o):obj[f.k]===o;const b=h('button',{type:'button','aria-pressed':on?'true':'false'},o);b.onclick=()=>{if(f.t==='multi'){const a=new Set(obj[f.k]||[]);a.has(o)?a.delete(o):a.add(o);set([...a])}else set(obj[f.k]===o?'':o)};g.append(b)});wrap.append(g)}
+  else if(f.t==='frame'){wrap.classList.add('wide');const g=h('div',{class:'frames',id});Object.entries(FR).forEach(([n,svg])=>{const b=h('button',{type:'button','aria-pressed':obj[f.k]===n?'true':'false',html:svg+`<span>${n}</span>`});b.onclick=()=>set(obj[f.k]===n?'':n);g.append(b)});wrap.append(g)}
+  return wrap;
+}
+function fieldsBlock(fields,obj,onChange,idp,cls='grid'){const g=h('div',{class:cls});const draw=()=>{g.replaceChildren(...fields.filter(f=>!f.show||f.show(obj)).map(f=>field(f,obj,()=>{onChange();if(fields.some(x=>x.show))draw()},idp)))};draw();return g}
+
+/* ---------- photos: kept in memory until sending (they ride on the hidden Elementor form's upload field) ---------- */
+const FILES=new Map();   // name -> File
+async function shrink(f){ if(!f.type.startsWith('image/')||f.size<1.2e6)return f;
+  try{const bm=await createImageBitmap(f);const k=Math.min(1,2000/Math.max(bm.width,bm.height));const c=document.createElement('canvas');c.width=Math.round(bm.width*k);c.height=Math.round(bm.height*k);c.getContext('2d').drawImage(bm,0,0,c.width,c.height);
+    const b=await new Promise(r=>c.toBlob(r,'image/jpeg',.85));return new File([b],f.name.replace(/\.\w+$/,'')+'.jpg',{type:'image/jpeg'})}catch(e){return f}}
+function photoBox(list,label='תמונה / שרטוט'){
+  const box=h('div',{class:'photos'});const id=nid('ph');
+  const inp=h('input',{type:'file',accept:'image/*,application/pdf',id,multiple:true});
+  const draw=()=>{box.replaceChildren(...list.map(p=>FILES.has(p.name)?h('img',{src:p.url,alt:'תמונה מצורפת'}):h('span',{class:'note'},'📎 '+p.name+' (לצרף שוב)')),h('label',{class:'add',for:id},'+ '+label,inp))};
+  inp.onchange=async()=>{for(const f0 of inp.files){const f=await shrink(f0);const name=`p${Date.now().toString(36)}${Math.random().toString(36).slice(2,5)}-${f.name}`.replace(/[^\w.\-]/g,'_');FILES.set(name,new File([f],name,{type:f.type}));list.push({name,url:URL.createObjectURL(f)});}inp.value='';draw();save()};
+  draw();return box;
+}
+
+/* ---------- rooms & items ---------- */
+function renderAll(){
+  $('#hdr').replaceChildren(fieldsBlock(HDR,O.header,save,'h','grid'));
+  $('#rooms').replaceChildren(...O.rooms.map(roomEl));
+  $('#genNotes').value=O.notes||'';
+  $('#genPhotos').replaceWith(Object.assign(photoBox(O.photos,'שרטוט / תמונה כללית'),{id:'genPhotos'}));
+  sum();
+}
+function roomEl(r){
+  const body=h('div',{class:'rb'});
+  const name=h('input',{type:'text',value:r.name,'aria-label':'שם החדר',id:'rn-'+r.id});name.oninput=()=>{r.name=name.value;save()};
+  const del=h('button',{class:'iconbtn',type:'button'},'הסרת חדר');del.onclick=()=>{if(r.items.length&&del.dataset.sure!=='1'){del.dataset.sure='1';del.textContent='ללחוץ שוב להסרה';return}O.rooms=O.rooms.filter(x=>x!==r);renderAll();save()};
+  const items=h('div',{class:'list'},...r.items.map(it=>itemEl(r,it)));
+  const add=h('div',{class:'addgrid'},...Object.entries(TYPES).map(([k,t])=>{const b=h('button',{type:'button',html:t.ic+`<span>${t.he}</span>`});b.onclick=()=>{const it={id:nid('i'),type:k,qty:1,v:{},note:'',photos:[]};r.items.push(it);items.append(itemEl(r,it));save();items.lastChild.scrollIntoView({behavior:'smooth',block:'start'})};return b}));
+  body.append(items,h('div',{class:'lbl'},'הוספת פריט לחדר:'),add);
+  return h('div',{class:'room'},h('div',{class:'rh'},name,del),body);
+}
+function itemEl(r,it){
+  const t=TYPES[it.type],pv=h('div',{class:'preview'}),upd=()=>{pv.textContent=itemLines(it).map(l=>`${l.q}× ${l.d}`).join('\n');save()};
+  const q=h('output',{},it.qty),minus=h('button',{type:'button','aria-label':'פחות'},'−'),plus=h('button',{type:'button','aria-label':'יותר'},'+');
+  minus.onclick=()=>{it.qty=Math.max(1,it.qty-1);q.value=it.qty;upd()};plus.onclick=()=>{it.qty++;q.value=it.qty;upd()};
+  const rm=h('button',{class:'iconbtn',type:'button'},'הסרה');
+  const el=h('div',{class:'item'},h('div',{class:'ih'},h('strong',{html:t.ic+t.he}),h('div',{class:'qty'},minus,q,plus,rm)));
+  rm.onclick=()=>{r.items=r.items.filter(x=>x!==it);el.remove();save()};
+  t.groups.forEach(([g,fs],i)=>el.append(h('div',{class:i?'sub':''},i?h('div',{class:'lbl'},g):null,fieldsBlock(fs,it.v,upd,it.id))));
+  const note=h('input',{type:'text',id:it.id+'-note',placeholder:'הערה לשורה (למשל: לפי שרטוט, קודם מגירות ואז דלת)'});note.value=it.note||'';note.oninput=()=>{it.note=note.value;upd()};
+  el.append(h('div',{class:'f wide'},h('label',{class:'lbl',for:it.id+'-note'},'הערה'),note),photoBox(it.photos),pv);upd();return el;
+}
+function sum(){const n=O.rooms.reduce((a,r)=>a+r.items.length,0);$('#sum').innerHTML=n?`<b>${O.rooms.length}</b> חדרים · <b>${n}</b> פריטים`+(O.header.customer?` · ${esc(O.header.customer)}`:''):'אין פריטים עדיין'}
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+$('#addRoom').onclick=()=>{O.rooms.push({id:nid('r'),name:'חדר '+(O.rooms.length+1),items:[]});renderAll();save()};
+$('#genNotes').oninput=e=>{O.notes=e.target.value;save()};
+
+/* ---------- status line ---------- */
+let stEl;function status(msg,kind='ok'){if(!stEl){stEl=h('div',{class:'status',role:'status'});$('#view-new').prepend(stEl)}stEl.className='status '+kind;stEl.textContent=msg}
+
+/* ---------- send: through the hidden Elementor form on this page (saved under Elementor > Submissions) ---------- */
+function boot(){renderAll()}
+function payload(){
+  const rooms=O.rooms.map(r=>({name:r.name,items:r.items.map(it=>({type:it.type,typeHe:TYPES[it.type].he,qty:it.qty,v:it.v,note:it.note,photos:it.photos.map(p=>p.name),lines:itemLines(it)}))})).filter(r=>r.items.length);
+  const lines=rooms.flatMap(r=>[{d:`${r.name}-----------`,q:1},...r.items.flatMap(i=>i.lines)]);
+  return {formVersion:1,sentAt:new Date().toISOString(),header:O.header,notes:O.notes,photos:O.photos.map(p=>p.name),rooms,lines};
+}
+$('#sendBtn').onclick=async()=>{
+  const p=payload();
+  if(!p.rooms.length){status('אין עדיין פריטים בטופס. הוסיפו חדר ופריט ואז שלחו.','warn');return}
+  if(!p.header.customer){status('חסר שם לקוח בראש הטופס.','warn');document.getElementById('h-customer')?.focus();return}
+  const form=document.querySelector('.mdy-hidden-form form');
+  if(!form){status('הטופס לא מוכן לשליחה. רעננו את הדף.','err');return}
+  const set=(n,v)=>{const el=form.querySelector(`[name="form_fields[${n}]"]`);if(el)el.value=v};
+  set('customer',p.header.customer);set('measured_by',p.header.measuredBy||'');
+  set('summary',p.lines.map(l=>`${l.q}× ${l.d}`).join('\n'));set('payload',JSON.stringify(p));
+  const fi=form.querySelector('input[type=file]');const names=[...p.photos,...p.rooms.flatMap(r=>r.items.flatMap(i=>i.photos))].filter(n=>FILES.has(n));
+  if(fi){const dt=new DataTransfer();names.forEach(n=>dt.items.add(FILES.get(n)));fi.files=dt.files}
+  const btn=$('#sendBtn');btn.disabled=true;btn.textContent='שולח…';
+  const done=(ok,msg)=>{btn.disabled=false;btn.textContent='שליחה למודולרי';if(ok){status(`ההזמנה של ${p.header.customer} נשלחה${names.length?` עם ${names.length} תמונות`:''}. אופק יקבל אותה ויכין הצעת מחיר והזמנה לספק.`,'ok');O=blank();FILES.clear();try{localStorage.removeItem('mdy-order-draft')}catch(e){};renderAll();scrollTo({top:0,behavior:'smooth'})}else status(msg||'השליחה לא הצליחה. הטיוטה נשמרה. בדקו קליטה ונסו שוב.','err')};
+  const $f=window.jQuery&&jQuery(form);
+  if($f){$f.off('.mdy');$f.one('submit_success.mdy',()=>done(true));$f.one('error.mdy',()=>done(false));}
+  const t=setTimeout(()=>{const m=form.querySelector('.elementor-message');if(m&&/success/.test(m.className))done(true);else if(m)done(false,m.textContent.trim());else done(false,'אין תשובה מהשרת. נסו שוב.')},45000);
+  if($f)$f.one('submit_success.mdy error.mdy',()=>clearTimeout(t));
+  form.querySelector('[type=submit]').click();
+};
+$('#clearBtn').onclick=e=>{const b=e.currentTarget;if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='למחוק את הטיוטה?';setTimeout(()=>{b.dataset.sure='';b.textContent='טופס חדש'},3000);return}O=blank();FILES.clear();try{localStorage.removeItem('mdy-order-draft')}catch(e){};renderAll();b.dataset.sure='';b.textContent='טופס חדש'};
+document.body.append(h('datalist',{id:'colors'},...COLORS.map(c=>h('option',{value:c}))));
+boot();
+</script>
+
+<style>.mdy-hidden-form{display:none!important}.elementor-widget-html{width:100%}</style>
+<style>
+#mdy-app,#mdy-app *{font-family:var(--f-body)}
+#mdy-app h1,#mdy-app h2{color:var(--ink)!important;font-family:var(--f-body)!important;line-height:1.2}
+#mdy-app input[type=text],#mdy-app input[type=number],#mdy-app input[type=tel],#mdy-app input[type=date],#mdy-app textarea,#mdy-app select{width:100%!important;max-width:none!important;font-size:15px!important;color:var(--ink)!important;background:var(--paper)!important;border:1px solid var(--line)!important;border-radius:8px!important;padding:8px 10px!important;min-height:40px;box-shadow:none!important}
+#mdy-app .room>.rh input{background:transparent!important;border:0!important;border-bottom:1px dashed var(--dash)!important;color:var(--paper)!important;font-weight:700!important;border-radius:0!important}
+#mdy-app button{font-family:var(--f-body)!important;text-transform:none;letter-spacing:normal;line-height:1.2}
+#mdy-app .seg button{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+#mdy-app .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#mdy-app label{margin:0}
+#sendbar .btn{border:0!important;border-radius:999px!important;font-family:var(--f-body)!important;padding:11px 18px!important}#sendbar .btn.primary{background:var(--yellow)!important;color:var(--yellow-ink)!important}#sendbar .btn.ghost{background:var(--chip)!important;color:var(--ink)!important}#mdy-app .btn.dark{background:var(--ink)!important;color:var(--paper)!important;border:0!important;border-radius:999px!important}
+body .elementor-widget-html,body .e-con{--padding-top:0;--padding-bottom:0}
+</style>
