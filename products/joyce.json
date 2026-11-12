@@ -8,10 +8,10 @@
  "defaults": {
   "len": 320,
   "shape": "straight",
-  "pmode": "all",
-  "pmap": "",
+  "pmode": "part",
+  "pmap": "s2=joy-5;bc2=joy-5",
   "psel": "",
-  "pbase": "",
+  "pbase": "joy-1",
   "fcol": "joy",
   "leg": "black",
   "pillows": false,
@@ -19,7 +19,7 @@
   "f_solly": "solly-1",
   "f_moon": "moon-1",
   "f_marly": "marly-1",
-  "f_joy": "joy-12",
+  "f_joy": "joy-1",
   "f_dior": "dior-1",
   "f_luzan": "luzan-1",
   "f_antika": "antika-1",
@@ -1058,6 +1058,7 @@
   "base": "plinth",
   "back": "tight",
   "seatW": 70,
-  "bow": 0.3
+  "bow": 0.36,
+  "segs": 4
  }
 }

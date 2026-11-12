@@ -12,8 +12,8 @@
   "pmap": "",
   "psel": "",
   "pbase": "",
-  "fcol": "vigo",
-  "leg": "chrome",
+  "fcol": "porto",
+  "leg": "black",
   "pillows": false,
   "f_fast": "fast-1",
   "f_solly": "solly-1",
@@ -1099,14 +1099,14 @@
   "d": 100,
   "h": 75,
   "sh": 42,
-  "armW": 20,
-  "armH": 65,
-  "backT": 22,
+  "armW": 24,
+  "armH": 60,
+  "backT": 18,
   "round": 4,
-  "legH": 12,
+  "legH": 13,
   "cushT": 14,
   "base": "legs",
-  "back": "tight",
-  "seatW": 90
+  "back": "cushion",
+  "seatW": 85
  }
 }

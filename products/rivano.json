@@ -12,7 +12,7 @@
   "pmap": "",
   "psel": "",
   "pbase": "",
-  "fcol": "togo",
+  "fcol": "mela",
   "leg": "black",
   "pillows": false,
   "f_fast": "fast-1",
@@ -29,7 +29,7 @@
   "f_life": "life-1",
   "f_livia": "livia-1",
   "f_naboli": "naboli-1",
-  "f_mela": "mela-1",
+  "f_mela": "mela-12",
   "f_omega": "omega-1",
   "f_mera": "mera-1",
   "f_point": "point-1",
@@ -1051,17 +1051,18 @@
  "model": {
   "style": "block",
   "d": 95,
-  "h": 72,
+  "h": 74,
   "sh": 43,
   "armW": 26,
-  "armH": 62,
+  "armH": 74,
   "backT": 22,
-  "round": 12,
+  "round": 13,
   "legH": 14,
   "cushT": 14,
   "base": "plinth",
   "back": "tight",
-  "seatW": 80,
-  "armShape": "round"
+  "seatW": 85,
+  "armShape": "round",
+  "seat": "solid"
  }
 }

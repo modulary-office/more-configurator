@@ -12,8 +12,8 @@
   "pmap": "",
   "psel": "",
   "pbase": "",
-  "fcol": "moon",
-  "leg": "chrome",
+  "fcol": "joy",
+  "leg": "white",
   "pillows": false,
   "f_fast": "fast-1",
   "f_solly": "solly-1",
@@ -1056,24 +1056,16 @@
      "layout": "wrap",
      "options": [
       {
+       "v": "white",
+       "label": "לבן"
+      },
+      {
        "v": "black",
        "label": "שחור"
       },
       {
        "v": "chrome",
        "label": "כרום"
-      },
-      {
-       "v": "brass",
-       "label": "זהב מוברש"
-      },
-      {
-       "v": "oak",
-       "label": "עץ אלון"
-      },
-      {
-       "v": "walnut",
-       "label": "עץ אגוז"
       }
      ]
     }
@@ -1115,15 +1107,18 @@
   "h": 75,
   "sh": 43,
   "armW": 10,
-  "armH": 60,
-  "backT": 22,
+  "armH": 0,
+  "backT": 16,
   "round": 3,
-  "legH": 16,
+  "legH": 18,
   "cushT": 14,
   "base": "legs",
   "back": "tight",
-  "seatW": 70,
+  "seatW": 65,
   "armShape": "slim",
-  "chaiseD": 150
+  "chaiseD": 150,
+  "legStyle": "tleg",
+  "brace": false,
+  "legInset": 8
  }
 }

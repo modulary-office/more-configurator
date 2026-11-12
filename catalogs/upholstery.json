@@ -34,7 +34,7 @@
 {
 "id": "fast-1",
 "he": "Fast 1",
-"hex": "#d8cac4",
+"hex": "#d9d8d8",
 "tex": "fast-1.jpg",
 "col": "fast",
 "code": "FAST-1"
@@ -42,7 +42,7 @@
 {
 "id": "fast-2",
 "he": "Fast 2",
-"hex": "#d1c2bf",
+"hex": "#d2d0d2",
 "tex": "fast-2.jpg",
 "col": "fast",
 "code": "FAST-2"
@@ -50,7 +50,7 @@
 {
 "id": "fast-3",
 "he": "Fast 3",
-"hex": "#d3bfb6",
+"hex": "#d4ccc7",
 "tex": "fast-3.jpg",
 "col": "fast",
 "code": "FAST-3"
@@ -58,7 +58,7 @@
 {
 "id": "fast-4",
 "he": "Fast 4",
-"hex": "#c2aca3",
+"hex": "#c2b8b2",
 "tex": "fast-4.jpg",
 "col": "fast",
 "code": "FAST-4"
@@ -66,7 +66,7 @@
 {
 "id": "fast-5",
 "he": "Fast 5",
-"hex": "#b5a09d",
+"hex": "#b5abad",
 "tex": "fast-5.jpg",
 "col": "fast",
 "code": "FAST-5"
@@ -74,7 +74,7 @@
 {
 "id": "fast-6",
 "he": "Fast 6",
-"hex": "#a28c87",
+"hex": "#a29694",
 "tex": "fast-6.jpg",
 "col": "fast",
 "code": "FAST-6"
@@ -82,7 +82,7 @@
 {
 "id": "fast-7",
 "he": "Fast 7",
-"hex": "#b38867",
+"hex": "#b6916c",
 "tex": "fast-7.jpg",
 "col": "fast",
 "code": "FAST-7"
@@ -90,7 +90,7 @@
 {
 "id": "fast-8",
 "he": "Fast 8",
-"hex": "#44443f",
+"hex": "#434944",
 "tex": "fast-8.jpg",
 "col": "fast",
 "code": "FAST-8"
@@ -98,7 +98,7 @@
 {
 "id": "fast-9",
 "he": "Fast 9",
-"hex": "#52514a",
+"hex": "#525650",
 "tex": "fast-9.jpg",
 "col": "fast",
 "code": "FAST-9"
@@ -106,7 +106,7 @@
 {
 "id": "fast-10",
 "he": "Fast 10",
-"hex": "#5e5852",
+"hex": "#5e5e59",
 "tex": "fast-10.jpg",
 "col": "fast",
 "code": "FAST-10"
@@ -114,7 +114,7 @@
 {
 "id": "fast-11",
 "he": "Fast 11",
-"hex": "#867f79",
+"hex": "#868884",
 "tex": "fast-11.jpg",
 "col": "fast",
 "code": "FAST-11"
@@ -122,7 +122,7 @@
 {
 "id": "fast-12",
 "he": "Fast 12",
-"hex": "#797c80",
+"hex": "#78858d",
 "tex": "fast-12.jpg",
 "col": "fast",
 "code": "FAST-12"
@@ -130,7 +130,7 @@
 {
 "id": "fast-13",
 "he": "Fast 13",
-"hex": "#2d2d36",
+"hex": "#2c303c",
 "tex": "fast-13.jpg",
 "col": "fast",
 "code": "FAST-13"
@@ -138,7 +138,7 @@
 {
 "id": "fast-14",
 "he": "Fast 14",
-"hex": "#373841",
+"hex": "#363b48",
 "tex": "fast-14.jpg",
 "col": "fast",
 "code": "FAST-14"
@@ -146,7 +146,7 @@
 {
 "id": "fast-15",
 "he": "Fast 15",
-"hex": "#877c7f",
+"hex": "#86858c",
 "tex": "fast-15.jpg",
 "col": "fast",
 "code": "FAST-15"
@@ -154,7 +154,7 @@
 {
 "id": "fast-16",
 "he": "Fast 16",
-"hex": "#928486",
+"hex": "#918d93",
 "tex": "fast-16.jpg",
 "col": "fast",
 "code": "FAST-16"
@@ -162,7 +162,7 @@
 {
 "id": "fast-17",
 "he": "Fast 17",
-"hex": "#756c70",
+"hex": "#75747b",
 "tex": "fast-17.jpg",
 "col": "fast",
 "code": "FAST-17"
@@ -170,7 +170,7 @@
 {
 "id": "solly-1",
 "he": "Solly 1",
-"hex": "#d1c2bc",
+"hex": "#d0d1d1",
 "tex": "solly-1.jpg",
 "col": "solly",
 "code": "SOLLY-1"
@@ -178,7 +178,7 @@
 {
 "id": "solly-2",
 "he": "Solly 2",
-"hex": "#d2beb5",
+"hex": "#d1cbc9",
 "tex": "solly-2.jpg",
 "col": "solly",
 "code": "SOLLY-2"
@@ -186,7 +186,7 @@
 {
 "id": "solly-3",
 "he": "Solly 3",
-"hex": "#bca89d",
+"hex": "#bbb4ad",
 "tex": "solly-3.jpg",
 "col": "solly",
 "code": "SOLLY-3"
@@ -194,7 +194,7 @@
 {
 "id": "solly-4",
 "he": "Solly 4",
-"hex": "#b49c8e",
+"hex": "#b4a69c",
 "tex": "solly-4.jpg",
 "col": "solly",
 "code": "SOLLY-4"
@@ -202,7 +202,7 @@
 {
 "id": "solly-5",
 "he": "Solly 5",
-"hex": "#a18372",
+"hex": "#a18b7d",
 "tex": "solly-5.jpg",
 "col": "solly",
 "code": "SOLLY-5"
@@ -210,7 +210,7 @@
 {
 "id": "solly-6",
 "he": "Solly 6",
-"hex": "#896f64",
+"hex": "#89766e",
 "tex": "solly-6.jpg",
 "col": "solly",
 "code": "SOLLY-6"
@@ -218,7 +218,7 @@
 {
 "id": "solly-7",
 "he": "Solly 7",
-"hex": "#a68c80",
+"hex": "#a6958d",
 "tex": "solly-7.jpg",
 "col": "solly",
 "code": "SOLLY-7"
@@ -226,7 +226,7 @@
 {
 "id": "solly-8",
 "he": "Solly 8",
-"hex": "#c1aea6",
+"hex": "#c1bab8",
 "tex": "solly-8.jpg",
 "col": "solly",
 "code": "SOLLY-8"
@@ -234,7 +234,7 @@
 {
 "id": "solly-9",
 "he": "Solly 9",
-"hex": "#6e3e27",
+"hex": "#714027",
 "tex": "solly-9.jpg",
 "col": "solly",
 "code": "SOLLY-9"
@@ -242,7 +242,7 @@
 {
 "id": "solly-10",
 "he": "Solly 10",
-"hex": "#8a5730",
+"hex": "#8d5b2f",
 "tex": "solly-10.jpg",
 "col": "solly",
 "code": "SOLLY-10"
@@ -250,7 +250,7 @@
 {
 "id": "solly-11",
 "he": "Solly 11",
-"hex": "#5d593f",
+"hex": "#5c5f43",
 "tex": "solly-11.jpg",
 "col": "solly",
 "code": "SOLLY-11"
@@ -258,7 +258,7 @@
 {
 "id": "solly-12",
 "he": "Solly 12",
-"hex": "#464840",
+"hex": "#444c46",
 "tex": "solly-12.jpg",
 "col": "solly",
 "code": "SOLLY-12"
@@ -266,7 +266,7 @@
 {
 "id": "solly-13",
 "he": "Solly 13",
-"hex": "#adafaa",
+"hex": "#aabcbe",
 "tex": "solly-13.jpg",
 "col": "solly",
 "code": "SOLLY-13"
@@ -274,7 +274,7 @@
 {
 "id": "solly-14",
 "he": "Solly 14",
-"hex": "#b1adab",
+"hex": "#afb9bf",
 "tex": "solly-14.jpg",
 "col": "solly",
 "code": "SOLLY-14"
@@ -282,7 +282,7 @@
 {
 "id": "solly-15",
 "he": "Solly 15",
-"hex": "#b0adb0",
+"hex": "#adbac5",
 "tex": "solly-15.jpg",
 "col": "solly",
 "code": "SOLLY-15"
@@ -290,7 +290,7 @@
 {
 "id": "solly-16",
 "he": "Solly 16",
-"hex": "#8f8b8e",
+"hex": "#8d959f",
 "tex": "solly-16.jpg",
 "col": "solly",
 "code": "SOLLY-16"
@@ -298,7 +298,7 @@
 {
 "id": "solly-17",
 "he": "Solly 17",
-"hex": "#2d2b2c",
+"hex": "#2b2d30",
 "tex": "solly-17.jpg",
 "col": "solly",
 "code": "SOLLY-17"
@@ -306,7 +306,7 @@
 {
 "id": "moon-1",
 "he": "Moon 1",
-"hex": "#cbbcb9",
+"hex": "#cccacb",
 "tex": "moon-1.jpg",
 "col": "moon",
 "code": "MOON-1"
@@ -314,7 +314,7 @@
 {
 "id": "moon-2",
 "he": "Moon 2",
-"hex": "#c9bab7",
+"hex": "#cac7c9",
 "tex": "moon-2.jpg",
 "col": "moon",
 "code": "MOON-2"
@@ -322,7 +322,7 @@
 {
 "id": "moon-3",
 "he": "Moon 3",
-"hex": "#cbbab3",
+"hex": "#ccc8c4",
 "tex": "moon-3.jpg",
 "col": "moon",
 "code": "MOON-3"
@@ -330,7 +330,7 @@
 {
 "id": "moon-4",
 "he": "Moon 4",
-"hex": "#c2aea7",
+"hex": "#c3bbb7",
 "tex": "moon-4.jpg",
 "col": "moon",
 "code": "MOON-4"
@@ -338,7 +338,7 @@
 {
 "id": "moon-5",
 "he": "Moon 5",
-"hex": "#b49e99",
+"hex": "#b5a9a7",
 "tex": "moon-5.jpg",
 "col": "moon",
 "code": "MOON-5"
@@ -346,7 +346,7 @@
 {
 "id": "moon-6",
 "he": "Moon 6",
-"hex": "#876f69",
+"hex": "#897672",
 "tex": "moon-6.jpg",
 "col": "moon",
 "code": "MOON-6"
@@ -354,7 +354,7 @@
 {
 "id": "moon-7",
 "he": "Moon 7",
-"hex": "#cbb1a3",
+"hex": "#cdbdb1",
 "tex": "moon-7.jpg",
 "col": "moon",
 "code": "MOON-7"
@@ -362,7 +362,7 @@
 {
 "id": "moon-8",
 "he": "Moon 8",
-"hex": "#ab7746",
+"hex": "#af7f46",
 "tex": "moon-8.jpg",
 "col": "moon",
 "code": "MOON-8"
@@ -370,7 +370,7 @@
 {
 "id": "moon-9",
 "he": "Moon 9",
-"hex": "#9e5637",
+"hex": "#a45a37",
 "tex": "moon-9.jpg",
 "col": "moon",
 "code": "MOON-9"
@@ -378,7 +378,7 @@
 {
 "id": "moon-10",
 "he": "Moon 10",
-"hex": "#998c7c",
+"hex": "#9a9686",
 "tex": "moon-10.jpg",
 "col": "moon",
 "code": "MOON-10"
@@ -386,7 +386,7 @@
 {
 "id": "moon-11",
 "he": "Moon 11",
-"hex": "#5b4e3e",
+"hex": "#5b5342",
 "tex": "moon-11.jpg",
 "col": "moon",
 "code": "MOON-11"
@@ -394,7 +394,7 @@
 {
 "id": "moon-12",
 "he": "Moon 12",
-"hex": "#5b5e5b",
+"hex": "#5a6563",
 "tex": "moon-12.jpg",
 "col": "moon",
 "code": "MOON-12"
@@ -402,7 +402,7 @@
 {
 "id": "moon-13",
 "he": "Moon 13",
-"hex": "#747b7f",
+"hex": "#72848c",
 "tex": "moon-13.jpg",
 "col": "moon",
 "code": "MOON-13"
@@ -410,7 +410,7 @@
 {
 "id": "moon-14",
 "he": "Moon 14",
-"hex": "#c1b4b3",
+"hex": "#c2c1c5",
 "tex": "moon-14.jpg",
 "col": "moon",
 "code": "MOON-14"
@@ -418,7 +418,7 @@
 {
 "id": "moon-15",
 "he": "Moon 15",
-"hex": "#aca19f",
+"hex": "#adacaf",
 "tex": "moon-15.jpg",
 "col": "moon",
 "code": "MOON-15"
@@ -426,7 +426,7 @@
 {
 "id": "moon-16",
 "he": "Moon 16",
-"hex": "#7b7577",
+"hex": "#7a7d83",
 "tex": "moon-16.jpg",
 "col": "moon",
 "code": "MOON-16"
@@ -434,7 +434,7 @@
 {
 "id": "moon-17",
 "he": "Moon 17",
-"hex": "#373133",
+"hex": "#373437",
 "tex": "moon-17.jpg",
 "col": "moon",
 "code": "MOON-17"
@@ -442,7 +442,7 @@
 {
 "id": "marly-1",
 "he": "Marly 1",
-"hex": "#bdb6af",
+"hex": "#c1c0be",
 "tex": "marly-1.jpg",
 "col": "marly",
 "code": "MARLY-1"
@@ -450,7 +450,7 @@
 {
 "id": "marly-2",
 "he": "Marly 2",
-"hex": "#9a8a81",
+"hex": "#9e918c",
 "tex": "marly-2.jpg",
 "col": "marly",
 "code": "MARLY-2"
@@ -458,7 +458,7 @@
 {
 "id": "marly-3",
 "he": "Marly 3",
-"hex": "#918177",
+"hex": "#958881",
 "tex": "marly-3.jpg",
 "col": "marly",
 "code": "MARLY-3"
@@ -466,7 +466,7 @@
 {
 "id": "marly-4",
 "he": "Marly 4",
-"hex": "#9b948b",
+"hex": "#9f9b97",
 "tex": "marly-4.jpg",
 "col": "marly",
 "code": "MARLY-4"
@@ -474,7 +474,7 @@
 {
 "id": "marly-5",
 "he": "Marly 5",
-"hex": "#95928f",
+"hex": "#989a9d",
 "tex": "marly-5.jpg",
 "col": "marly",
 "code": "MARLY-5"
@@ -482,7 +482,7 @@
 {
 "id": "joy-1",
 "he": "Joy 1",
-"hex": "#c9bdb6",
+"hex": "#cbc9c7",
 "tex": "joy-1.jpg",
 "col": "joy",
 "code": "JOY-1"
@@ -490,7 +490,7 @@
 {
 "id": "joy-2",
 "he": "Joy 2",
-"hex": "#cebfb7",
+"hex": "#d0ccc8",
 "tex": "joy-2.jpg",
 "col": "joy",
 "code": "JOY-2"
@@ -498,7 +498,7 @@
 {
 "id": "joy-3",
 "he": "Joy 3",
-"hex": "#bcaca2",
+"hex": "#bdb7b2",
 "tex": "joy-3.jpg",
 "col": "joy",
 "code": "JOY-3"
@@ -506,7 +506,7 @@
 {
 "id": "joy-4",
 "he": "Joy 4",
-"hex": "#b5a49e",
+"hex": "#b6afad",
 "tex": "joy-4.jpg",
 "col": "joy",
 "code": "JOY-4"
@@ -514,7 +514,7 @@
 {
 "id": "joy-5",
 "he": "Joy 5",
-"hex": "#917b74",
+"hex": "#92827e",
 "tex": "joy-5.jpg",
 "col": "joy",
 "code": "JOY-5"
@@ -522,7 +522,7 @@
 {
 "id": "joy-6",
 "he": "Joy 6",
-"hex": "#735854",
+"hex": "#755d5b",
 "tex": "joy-6.jpg",
 "col": "joy",
 "code": "JOY-6"
@@ -530,7 +530,7 @@
 {
 "id": "joy-7",
 "he": "Joy 7",
-"hex": "#ad7a4a",
+"hex": "#b1814a",
 "tex": "joy-7.jpg",
 "col": "joy",
 "code": "JOY-7"
@@ -538,7 +538,7 @@
 {
 "id": "joy-8",
 "he": "Joy 8",
-"hex": "#9d7e5e",
+"hex": "#a08663",
 "tex": "joy-8.jpg",
 "col": "joy",
 "code": "JOY-8"
@@ -546,7 +546,7 @@
 {
 "id": "joy-9",
 "he": "Joy 9",
-"hex": "#988973",
+"hex": "#9a927b",
 "tex": "joy-9.jpg",
 "col": "joy",
 "code": "JOY-9"
@@ -554,7 +554,7 @@
 {
 "id": "joy-10",
 "he": "Joy 10",
-"hex": "#433929",
+"hex": "#433d2a",
 "tex": "joy-10.jpg",
 "col": "joy",
 "code": "JOY-10"
@@ -562,7 +562,7 @@
 {
 "id": "joy-11",
 "he": "Joy 11",
-"hex": "#b18e85",
+"hex": "#b49791",
 "tex": "joy-11.jpg",
 "col": "joy",
 "code": "JOY-11"
@@ -570,7 +570,7 @@
 {
 "id": "joy-12",
 "he": "Joy 12",
-"hex": "#c6b9b5",
+"hex": "#c7c5c7",
 "tex": "joy-12.jpg",
 "col": "joy",
 "code": "JOY-12"
@@ -578,7 +578,7 @@
 {
 "id": "joy-13",
 "he": "Joy 13",
-"hex": "#b1a9a7",
+"hex": "#b1b5b8",
 "tex": "joy-13.jpg",
 "col": "joy",
 "code": "JOY-13"
@@ -586,7 +586,7 @@
 {
 "id": "joy-14",
 "he": "Joy 14",
-"hex": "#8d898a",
+"hex": "#8d9398",
 "tex": "joy-14.jpg",
 "col": "joy",
 "code": "JOY-14"
@@ -594,7 +594,7 @@
 {
 "id": "joy-15",
 "he": "Joy 15",
-"hex": "#656267",
+"hex": "#646872",
 "tex": "joy-15.jpg",
 "col": "joy",
 "code": "JOY-15"
@@ -602,7 +602,7 @@
 {
 "id": "dior-1",
 "he": "Dior 1",
-"hex": "#cfc5c1",
+"hex": "#d0d3d2",
 "tex": "dior-1.jpg",
 "col": "dior",
 "code": "DIOR-1"
@@ -610,7 +610,7 @@
 {
 "id": "dior-2",
 "he": "Dior 2",
-"hex": "#c3b5b2",
+"hex": "#c5c2c2",
 "tex": "dior-2.jpg",
 "col": "dior",
 "code": "DIOR-2"
@@ -618,7 +618,7 @@
 {
 "id": "dior-3",
 "he": "Dior 3",
-"hex": "#c1b0ac",
+"hex": "#c3bcbb",
 "tex": "dior-3.jpg",
 "col": "dior",
 "code": "DIOR-3"
@@ -626,7 +626,7 @@
 {
 "id": "dior-4",
 "he": "Dior 4",
-"hex": "#b09d98",
+"hex": "#b3a8a5",
 "tex": "dior-4.jpg",
 "col": "dior",
 "code": "DIOR-4"
@@ -634,7 +634,7 @@
 {
 "id": "dior-5",
 "he": "Dior 5",
-"hex": "#ad998d",
+"hex": "#afa398",
 "tex": "dior-5.jpg",
 "col": "dior",
 "code": "DIOR-5"
@@ -642,7 +642,7 @@
 {
 "id": "dior-6",
 "he": "Dior 6",
-"hex": "#a4918b",
+"hex": "#a69a97",
 "tex": "dior-6.jpg",
 "col": "dior",
 "code": "DIOR-6"
@@ -650,7 +650,7 @@
 {
 "id": "dior-7",
 "he": "Dior 7",
-"hex": "#8c7771",
+"hex": "#8e7f79",
 "tex": "dior-7.jpg",
 "col": "dior",
 "code": "DIOR-7"
@@ -658,7 +658,7 @@
 {
 "id": "dior-8",
 "he": "Dior 8",
-"hex": "#8e807c",
+"hex": "#8f8887",
 "tex": "dior-8.jpg",
 "col": "dior",
 "code": "DIOR-8"
@@ -666,7 +666,7 @@
 {
 "id": "dior-9",
 "he": "Dior 9",
-"hex": "#6d6564",
+"hex": "#6e6b6d",
 "tex": "dior-9.jpg",
 "col": "dior",
 "code": "DIOR-9"
@@ -674,7 +674,7 @@
 {
 "id": "dior-10",
 "he": "Dior 10",
-"hex": "#5a5648",
+"hex": "#5a5c4d",
 "tex": "dior-10.jpg",
 "col": "dior",
 "code": "DIOR-10"
@@ -682,7 +682,7 @@
 {
 "id": "dior-11",
 "he": "Dior 11",
-"hex": "#595249",
+"hex": "#5a584e",
 "tex": "dior-11.jpg",
 "col": "dior",
 "code": "DIOR-11"
@@ -690,7 +690,7 @@
 {
 "id": "dior-12",
 "he": "Dior 12",
-"hex": "#b6abaa",
+"hex": "#b7b7ba",
 "tex": "dior-12.jpg",
 "col": "dior",
 "code": "DIOR-12"
@@ -698,7 +698,7 @@
 {
 "id": "dior-13",
 "he": "Dior 13",
-"hex": "#aba2a1",
+"hex": "#adadb0",
 "tex": "dior-13.jpg",
 "col": "dior",
 "code": "DIOR-13"
@@ -706,7 +706,7 @@
 {
 "id": "dior-14",
 "he": "Dior 14",
-"hex": "#8b8281",
+"hex": "#8d8a8c",
 "tex": "dior-14.jpg",
 "col": "dior",
 "code": "DIOR-14"
@@ -714,7 +714,7 @@
 {
 "id": "dior-15",
 "he": "Dior 15",
-"hex": "#7e7778",
+"hex": "#7f7f82",
 "tex": "dior-15.jpg",
 "col": "dior",
 "code": "DIOR-15"
@@ -722,7 +722,7 @@
 {
 "id": "dior-16",
 "he": "Dior 16",
-"hex": "#797374",
+"hex": "#7a7b7f",
 "tex": "dior-16.jpg",
 "col": "dior",
 "code": "DIOR-16"
@@ -730,7 +730,7 @@
 {
 "id": "luzan-1",
 "he": "Luzan 1",
-"hex": "#b8b5b8",
+"hex": "#c1c1c2",
 "tex": "luzan-1.jpg",
 "col": "luzan",
 "code": "LUZAN-1"
@@ -738,7 +738,7 @@
 {
 "id": "luzan-2",
 "he": "Luzan 2",
-"hex": "#b1abaa",
+"hex": "#bab7b2",
 "tex": "luzan-2.jpg",
 "col": "luzan",
 "code": "LUZAN-2"
@@ -746,7 +746,7 @@
 {
 "id": "luzan-3",
 "he": "Luzan 3",
-"hex": "#9c99a1",
+"hex": "#a3a4a9",
 "tex": "luzan-3.jpg",
 "col": "luzan",
 "code": "LUZAN-3"
@@ -754,7 +754,7 @@
 {
 "id": "luzan-5",
 "he": "Luzan 5",
-"hex": "#73737e",
+"hex": "#787b85",
 "tex": "luzan-5.jpg",
 "col": "luzan",
 "code": "LUZAN-5"
@@ -762,7 +762,7 @@
 {
 "id": "luzan-6",
 "he": "Luzan 6",
-"hex": "#90909a",
+"hex": "#969aa2",
 "tex": "luzan-6.jpg",
 "col": "luzan",
 "code": "LUZAN-6"
@@ -770,7 +770,7 @@
 {
 "id": "luzan-7",
 "he": "Luzan 7",
-"hex": "#5b5d68",
+"hex": "#5f626e",
 "tex": "luzan-7.jpg",
 "col": "luzan",
 "code": "LUZAN-7"
@@ -778,7 +778,7 @@
 {
 "id": "luzan-8",
 "he": "Luzan 8",
-"hex": "#898487",
+"hex": "#908c8d",
 "tex": "luzan-8.jpg",
 "col": "luzan",
 "code": "LUZAN-8"
@@ -786,7 +786,7 @@
 {
 "id": "luzan-9",
 "he": "Luzan 9",
-"hex": "#6a696e",
+"hex": "#6e6f73",
 "tex": "luzan-9.jpg",
 "col": "luzan",
 "code": "LUZAN-9"
@@ -794,7 +794,7 @@
 {
 "id": "luzan-10",
 "he": "Luzan 10",
-"hex": "#615754",
+"hex": "#665b56",
 "tex": "luzan-10.jpg",
 "col": "luzan",
 "code": "LUZAN-10"
@@ -802,7 +802,7 @@
 {
 "id": "luzan-11",
 "he": "Luzan 11",
-"hex": "#91828f",
+"hex": "#988a96",
 "tex": "luzan-11.jpg",
 "col": "luzan",
 "code": "LUZAN-11"
@@ -810,7 +810,7 @@
 {
 "id": "luzan-12",
 "he": "Luzan 12",
-"hex": "#9c7776",
+"hex": "#a67e7a",
 "tex": "luzan-12.jpg",
 "col": "luzan",
 "code": "LUZAN-12"
@@ -818,7 +818,7 @@
 {
 "id": "luzan-13",
 "he": "Luzan 13",
-"hex": "#775250",
+"hex": "#7f5652",
 "tex": "luzan-13.jpg",
 "col": "luzan",
 "code": "LUZAN-13"
@@ -826,7 +826,7 @@
 {
 "id": "luzan-14",
 "he": "Luzan 14",
-"hex": "#91918d",
+"hex": "#979b93",
 "tex": "luzan-14.jpg",
 "col": "luzan",
 "code": "LUZAN-14"
@@ -834,7 +834,7 @@
 {
 "id": "luzan-15",
 "he": "Luzan 15",
-"hex": "#b09564",
+"hex": "#bb9f62",
 "tex": "luzan-15.jpg",
 "col": "luzan",
 "code": "LUZAN-15"
@@ -842,7 +842,7 @@
 {
 "id": "luzan-16",
 "he": "Luzan 16",
-"hex": "#836e4c",
+"hex": "#8b754b",
 "tex": "luzan-16.jpg",
 "col": "luzan",
 "code": "LUZAN-16"
@@ -850,7 +850,7 @@
 {
 "id": "luzan-19",
 "he": "Luzan 19",
-"hex": "#77858d",
+"hex": "#7a8f96",
 "tex": "luzan-19.jpg",
 "col": "luzan",
 "code": "LUZAN-19"
@@ -858,7 +858,7 @@
 {
 "id": "luzan-20",
 "he": "Luzan 20",
-"hex": "#74859a",
+"hex": "#768ea4",
 "tex": "luzan-20.jpg",
 "col": "luzan",
 "code": "LUZAN-20"
@@ -866,7 +866,7 @@
 {
 "id": "luzan-21",
 "he": "Luzan 21",
-"hex": "#5d738a",
+"hex": "#5e7b94",
 "tex": "luzan-21.jpg",
 "col": "luzan",
 "code": "LUZAN-21"
@@ -874,7 +874,7 @@
 {
 "id": "luzan-22",
 "he": "Luzan 22",
-"hex": "#515e70",
+"hex": "#536577",
 "tex": "luzan-22.jpg",
 "col": "luzan",
 "code": "LUZAN-22"
@@ -882,7 +882,7 @@
 {
 "id": "luzan-23",
 "he": "Luzan 23",
-"hex": "#3c4353",
+"hex": "#3e4758",
 "tex": "luzan-23.jpg",
 "col": "luzan",
 "code": "LUZAN-23"
@@ -890,7 +890,7 @@
 {
 "id": "luzan-24",
 "he": "Luzan 24",
-"hex": "#4a4d57",
+"hex": "#4d525c",
 "tex": "luzan-24.jpg",
 "col": "luzan",
 "code": "LUZAN-24"
@@ -898,7 +898,7 @@
 {
 "id": "antika-1",
 "he": "Antika 1",
-"hex": "#bcb6b9",
+"hex": "#bec5c8",
 "tex": "antika-1.jpg",
 "col": "antika",
 "code": "ANTIKA-1"
@@ -906,7 +906,7 @@
 {
 "id": "antika-2",
 "he": "Antika 2",
-"hex": "#aba09e",
+"hex": "#adadaa",
 "tex": "antika-2.jpg",
 "col": "antika",
 "code": "ANTIKA-2"
@@ -914,7 +914,7 @@
 {
 "id": "antika-3",
 "he": "Antika 3",
-"hex": "#9a8d8b",
+"hex": "#9c9895",
 "tex": "antika-3.jpg",
 "col": "antika",
 "code": "ANTIKA-3"
@@ -922,7 +922,7 @@
 {
 "id": "antika-4",
 "he": "Antika 4",
-"hex": "#998984",
+"hex": "#9b948d",
 "tex": "antika-4.jpg",
 "col": "antika",
 "code": "ANTIKA-4"
@@ -930,7 +930,7 @@
 {
 "id": "antika-6",
 "he": "Antika 6",
-"hex": "#776965",
+"hex": "#78716c",
 "tex": "antika-6.jpg",
 "col": "antika",
 "code": "ANTIKA-6"
@@ -938,7 +938,7 @@
 {
 "id": "antika-8",
 "he": "Antika 8",
-"hex": "#7f101b",
+"hex": "#890e1a",
 "tex": "antika-8.jpg",
 "col": "antika",
 "code": "ANTIKA-8"
@@ -946,7 +946,7 @@
 {
 "id": "antika-9",
 "he": "Antika 9",
-"hex": "#aa5d49",
+"hex": "#b26149",
 "tex": "antika-9.jpg",
 "col": "antika",
 "code": "ANTIKA-9"
@@ -954,7 +954,7 @@
 {
 "id": "antika-10",
 "he": "Antika 10",
-"hex": "#ae7b40",
+"hex": "#b5843d",
 "tex": "antika-10.jpg",
 "col": "antika",
 "code": "ANTIKA-10"
@@ -962,7 +962,7 @@
 {
 "id": "antika-11",
 "he": "Antika 11",
-"hex": "#2f3229",
+"hex": "#2e352b",
 "tex": "antika-11.jpg",
 "col": "antika",
 "code": "ANTIKA-11"
@@ -970,7 +970,7 @@
 {
 "id": "antika-13",
 "he": "Antika 13",
-"hex": "#50656e",
+"hex": "#4e6d79",
 "tex": "antika-13.jpg",
 "col": "antika",
 "code": "ANTIKA-13"
@@ -978,7 +978,7 @@
 {
 "id": "antika-15",
 "he": "Antika 15",
-"hex": "#778393",
+"hex": "#768ea1",
 "tex": "antika-15.jpg",
 "col": "antika",
 "code": "ANTIKA-15"
@@ -986,7 +986,7 @@
 {
 "id": "antika-17",
 "he": "Antika 17",
-"hex": "#1d2332",
+"hex": "#1c2538",
 "tex": "antika-17.jpg",
 "col": "antika",
 "code": "ANTIKA-17"
@@ -994,7 +994,7 @@
 {
 "id": "antika-18",
 "he": "Antika 18",
-"hex": "#a5908f",
+"hex": "#a89b99",
 "tex": "antika-18.jpg",
 "col": "antika",
 "code": "ANTIKA-18"
@@ -1002,7 +1002,7 @@
 {
 "id": "antika-19",
 "he": "Antika 19",
-"hex": "#9a9295",
+"hex": "#9b9ea0",
 "tex": "antika-19.jpg",
 "col": "antika",
 "code": "ANTIKA-19"
@@ -1010,7 +1010,7 @@
 {
 "id": "antika-20",
 "he": "Antika 20",
-"hex": "#878083",
+"hex": "#888a8d",
 "tex": "antika-20.jpg",
 "col": "antika",
 "code": "ANTIKA-20"
@@ -1018,7 +1018,7 @@
 {
 "id": "antika-21",
 "he": "Antika 21",
-"hex": "#737077",
+"hex": "#737981",
 "tex": "antika-21.jpg",
 "col": "antika",
 "code": "ANTIKA-21"
@@ -1026,7 +1026,7 @@
 {
 "id": "antika-23",
 "he": "Antika 23",
-"hex": "#3c3b3e",
+"hex": "#3c3f43",
 "tex": "antika-23.jpg",
 "col": "antika",
 "code": "ANTIKA-23"
@@ -1034,7 +1034,7 @@
 {
 "id": "antika-24",
 "he": "Antika 24",
-"hex": "#3b3e46",
+"hex": "#3b424c",
 "tex": "antika-24.jpg",
 "col": "antika",
 "code": "ANTIKA-24"
@@ -1042,7 +1042,7 @@
 {
 "id": "banda-1",
 "he": "Banda 1",
-"hex": "#a59b98",
+"hex": "#a7a8a3",
 "tex": "banda-1.jpg",
 "col": "banda",
 "code": "BANDA-1"
@@ -1050,7 +1050,7 @@
 {
 "id": "banda-2",
 "he": "Banda 2",
-"hex": "#857c78",
+"hex": "#868580",
 "tex": "banda-2.jpg",
 "col": "banda",
 "code": "BANDA-2"
@@ -1058,7 +1058,7 @@
 {
 "id": "banda-3",
 "he": "Banda 3",
-"hex": "#5c4e49",
+"hex": "#5d534e",
 "tex": "banda-3.jpg",
 "col": "banda",
 "code": "BANDA-3"
@@ -1066,7 +1066,7 @@
 {
 "id": "banda-4",
 "he": "Banda 4",
-"hex": "#93744c",
+"hex": "#977c4d",
 "tex": "banda-4.jpg",
 "col": "banda",
 "code": "BANDA-4"
@@ -1074,7 +1074,7 @@
 {
 "id": "banda-5",
 "he": "Banda 5",
-"hex": "#838f96",
+"hex": "#829aa4",
 "tex": "banda-5.jpg",
 "col": "banda",
 "code": "BANDA-5"
@@ -1082,7 +1082,7 @@
 {
 "id": "banda-7",
 "he": "Banda 7",
-"hex": "#5c6e79",
+"hex": "#5a7785",
 "tex": "banda-7.jpg",
 "col": "banda",
 "code": "BANDA-7"
@@ -1090,7 +1090,7 @@
 {
 "id": "banda-8",
 "he": "Banda 8",
-"hex": "#2e3a3c",
+"hex": "#2d3f41",
 "tex": "banda-8.jpg",
 "col": "banda",
 "code": "BANDA-8"
@@ -1098,7 +1098,7 @@
 {
 "id": "banda-9",
 "he": "Banda 9",
-"hex": "#a99492",
+"hex": "#ab9f9d",
 "tex": "banda-9.jpg",
 "col": "banda",
 "code": "BANDA-9"
@@ -1106,7 +1106,7 @@
 {
 "id": "banda-10",
 "he": "Banda 10",
-"hex": "#8f554c",
+"hex": "#945a4f",
 "tex": "banda-10.jpg",
 "col": "banda",
 "code": "BANDA-10"
@@ -1114,7 +1114,7 @@
 {
 "id": "banda-11",
 "he": "Banda 11",
-"hex": "#754048",
+"hex": "#7a424d",
 "tex": "banda-11.jpg",
 "col": "banda",
 "code": "BANDA-11"
@@ -1122,7 +1122,7 @@
 {
 "id": "banda-12",
 "he": "Banda 12",
-"hex": "#948e92",
+"hex": "#959a9f",
 "tex": "banda-12.jpg",
 "col": "banda",
 "code": "BANDA-12"
@@ -1130,7 +1130,7 @@
 {
 "id": "banda-13",
 "he": "Banda 13",
-"hex": "#838081",
+"hex": "#848a8c",
 "tex": "banda-13.jpg",
 "col": "banda",
 "code": "BANDA-13"
@@ -1138,7 +1138,7 @@
 {
 "id": "banda-14",
 "he": "Banda 14",
-"hex": "#737277",
+"hex": "#737b81",
 "tex": "banda-14.jpg",
 "col": "banda",
 "code": "BANDA-14"
@@ -1146,7 +1146,7 @@
 {
 "id": "banda-15",
 "he": "Banda 15",
-"hex": "#686b73",
+"hex": "#68737e",
 "tex": "banda-15.jpg",
 "col": "banda",
 "code": "BANDA-15"
@@ -1154,7 +1154,7 @@
 {
 "id": "banda-16",
 "he": "Banda 16",
-"hex": "#4e4e54",
+"hex": "#4e545b",
 "tex": "banda-16.jpg",
 "col": "banda",
 "code": "BANDA-16"
@@ -1162,7 +1162,7 @@
 {
 "id": "banda-17",
 "he": "Banda 17",
-"hex": "#454245",
+"hex": "#45464b",
 "tex": "banda-17.jpg",
 "col": "banda",
 "code": "BANDA-17"
@@ -1170,7 +1170,7 @@
 {
 "id": "boss-1",
 "he": "Boss 1",
-"hex": "#aea199",
+"hex": "#b5aca0",
 "tex": "boss-1.jpg",
 "col": "boss",
 "code": "BOSS-1"
@@ -1178,7 +1178,7 @@
 {
 "id": "boss-2",
 "he": "Boss 2",
-"hex": "#8b807c",
+"hex": "#908983",
 "tex": "boss-2.jpg",
 "col": "boss",
 "code": "BOSS-2"
@@ -1186,7 +1186,7 @@
 {
 "id": "boss-4",
 "he": "Boss 4",
-"hex": "#8e4936",
+"hex": "#994c34",
 "tex": "boss-4.jpg",
 "col": "boss",
 "code": "BOSS-4"
@@ -1194,7 +1194,7 @@
 {
 "id": "boss-6",
 "he": "Boss 6",
-"hex": "#a97635",
+"hex": "#b47d30",
 "tex": "boss-6.jpg",
 "col": "boss",
 "code": "BOSS-6"
@@ -1202,7 +1202,7 @@
 {
 "id": "boss-8",
 "he": "Boss 8",
-"hex": "#a78587",
+"hex": "#b08c8e",
 "tex": "boss-8.jpg",
 "col": "boss",
 "code": "BOSS-8"
@@ -1210,7 +1210,7 @@
 {
 "id": "boss-9",
 "he": "Boss 9",
-"hex": "#a36c69",
+"hex": "#ae716d",
 "tex": "boss-9.jpg",
 "col": "boss",
 "code": "BOSS-9"
@@ -1218,7 +1218,7 @@
 {
 "id": "boss-12",
 "he": "Boss 12",
-"hex": "#374341",
+"hex": "#374745",
 "tex": "boss-12.jpg",
 "col": "boss",
 "code": "BOSS-12"
@@ -1226,7 +1226,7 @@
 {
 "id": "boss-13",
 "he": "Boss 13",
-"hex": "#596a77",
+"hex": "#5a717f",
 "tex": "boss-13.jpg",
 "col": "boss",
 "code": "BOSS-13"
@@ -1234,7 +1234,7 @@
 {
 "id": "boss-14",
 "he": "Boss 14",
-"hex": "#677880",
+"hex": "#688189",
 "tex": "boss-14.jpg",
 "col": "boss",
 "code": "BOSS-14"
@@ -1242,7 +1242,7 @@
 {
 "id": "boss-15",
 "he": "Boss 15",
-"hex": "#737c78",
+"hex": "#76847f",
 "tex": "boss-15.jpg",
 "col": "boss",
 "code": "BOSS-15"
@@ -1250,7 +1250,7 @@
 {
 "id": "boss-16",
 "he": "Boss 16",
-"hex": "#78828c",
+"hex": "#7a8b96",
 "tex": "boss-16.jpg",
 "col": "boss",
 "code": "BOSS-16"
@@ -1258,7 +1258,7 @@
 {
 "id": "boss-17",
 "he": "Boss 17",
-"hex": "#a2a4ad",
+"hex": "#a8afb9",
 "tex": "boss-17.jpg",
 "col": "boss",
 "code": "BOSS-17"
@@ -1266,7 +1266,7 @@
 {
 "id": "boss-18",
 "he": "Boss 18",
-"hex": "#3e3e4d",
+"hex": "#3f4153",
 "tex": "boss-18.jpg",
 "col": "boss",
 "code": "BOSS-18"
@@ -1274,7 +1274,7 @@
 {
 "id": "boss-20",
 "he": "Boss 20",
-"hex": "#beb8bc",
+"hex": "#c6c4c7",
 "tex": "boss-20.jpg",
 "col": "boss",
 "code": "BOSS-20"
@@ -1282,7 +1282,7 @@
 {
 "id": "boss-22",
 "he": "Boss 22",
-"hex": "#968f8f",
+"hex": "#9b9897",
 "tex": "boss-22.jpg",
 "col": "boss",
 "code": "BOSS-22"
@@ -1290,7 +1290,7 @@
 {
 "id": "boss-24",
 "he": "Boss 24",
-"hex": "#645f64",
+"hex": "#68656b",
 "tex": "boss-24.jpg",
 "col": "boss",
 "code": "BOSS-24"
@@ -1298,7 +1298,7 @@
 {
 "id": "boss-26",
 "he": "Boss 26",
-"hex": "#3c383c",
+"hex": "#3e3a40",
 "tex": "boss-26.jpg",
 "col": "boss",
 "code": "BOSS-26"
@@ -1306,7 +1306,7 @@
 {
 "id": "capri-1",
 "he": "Capri 1",
-"hex": "#a29ea2",
+"hex": "#aaa8ab",
 "tex": "capri-1.jpg",
 "col": "capri",
 "code": "CAPRI-1"
@@ -1314,7 +1314,7 @@
 {
 "id": "capri-2",
 "he": "Capri 2",
-"hex": "#b4b1b3",
+"hex": "#bdbdbc",
 "tex": "capri-2.jpg",
 "col": "capri",
 "code": "CAPRI-2"
@@ -1322,7 +1322,7 @@
 {
 "id": "capri-3",
 "he": "Capri 3",
-"hex": "#9f9c9f",
+"hex": "#a7a7a7",
 "tex": "capri-3.jpg",
 "col": "capri",
 "code": "CAPRI-3"
@@ -1330,7 +1330,7 @@
 {
 "id": "capri-4",
 "he": "Capri 4",
-"hex": "#968f90",
+"hex": "#9d9996",
 "tex": "capri-4.jpg",
 "col": "capri",
 "code": "CAPRI-4"
@@ -1338,7 +1338,7 @@
 {
 "id": "capri-5",
 "he": "Capri 5",
-"hex": "#89807f",
+"hex": "#908884",
 "tex": "capri-5.jpg",
 "col": "capri",
 "code": "CAPRI-5"
@@ -1346,7 +1346,7 @@
 {
 "id": "capri-6",
 "he": "Capri 6",
-"hex": "#887d78",
+"hex": "#90857c",
 "tex": "capri-6.jpg",
 "col": "capri",
 "code": "CAPRI-6"
@@ -1354,7 +1354,7 @@
 {
 "id": "capri-7",
 "he": "Capri 7",
-"hex": "#666c7c",
+"hex": "#697384",
 "tex": "capri-7.jpg",
 "col": "capri",
 "code": "CAPRI-7"
@@ -1362,7 +1362,7 @@
 {
 "id": "capri-8",
 "he": "Capri 8",
-"hex": "#4c5864",
+"hex": "#4d5e6a",
 "tex": "capri-8.jpg",
 "col": "capri",
 "code": "CAPRI-8"
@@ -1370,7 +1370,7 @@
 {
 "id": "capri-9",
 "he": "Capri 9",
-"hex": "#804d2d",
+"hex": "#8a5129",
 "tex": "capri-9.jpg",
 "col": "capri",
 "code": "CAPRI-9"
@@ -1378,7 +1378,7 @@
 {
 "id": "capri-10",
 "he": "Capri 10",
-"hex": "#959196",
+"hex": "#9c9b9e",
 "tex": "capri-10.jpg",
 "col": "capri",
 "code": "CAPRI-10"
@@ -1386,7 +1386,7 @@
 {
 "id": "capri-11",
 "he": "Capri 11",
-"hex": "#848085",
+"hex": "#8b898b",
 "tex": "capri-11.jpg",
 "col": "capri",
 "code": "CAPRI-11"
@@ -1394,7 +1394,7 @@
 {
 "id": "capri-12",
 "he": "Capri 12",
-"hex": "#4c4b52",
+"hex": "#4f5056",
 "tex": "capri-12.jpg",
 "col": "capri",
 "code": "CAPRI-12"
@@ -1402,7 +1402,7 @@
 {
 "id": "capri-13",
 "he": "Capri 13",
-"hex": "#1f2028",
+"hex": "#20212a",
 "tex": "capri-13.jpg",
 "col": "capri",
 "code": "CAPRI-13"
@@ -1410,7 +1410,7 @@
 {
 "id": "life-1",
 "he": "Life 1",
-"hex": "#bbb4b6",
+"hex": "#c2c2c0",
 "tex": "life-1.jpg",
 "col": "life",
 "code": "LIFE-1"
@@ -1418,7 +1418,7 @@
 {
 "id": "life-2",
 "he": "Life 2",
-"hex": "#bbb2b2",
+"hex": "#c3bebc",
 "tex": "life-2.jpg",
 "col": "life",
 "code": "LIFE-2"
@@ -1426,7 +1426,7 @@
 {
 "id": "life-3",
 "he": "Life 3",
-"hex": "#aea2a1",
+"hex": "#b5adaa",
 "tex": "life-3.jpg",
 "col": "life",
 "code": "LIFE-3"
@@ -1434,7 +1434,7 @@
 {
 "id": "life-4",
 "he": "Life 4",
-"hex": "#a99990",
+"hex": "#b0a397",
 "tex": "life-4.jpg",
 "col": "life",
 "code": "LIFE-4"
@@ -1442,7 +1442,7 @@
 {
 "id": "life-5",
 "he": "Life 5",
-"hex": "#82675b",
+"hex": "#886d5d",
 "tex": "life-5.jpg",
 "col": "life",
 "code": "LIFE-5"
@@ -1450,7 +1450,7 @@
 {
 "id": "life-6",
 "he": "Life 6",
-"hex": "#998c84",
+"hex": "#a09589",
 "tex": "life-6.jpg",
 "col": "life",
 "code": "LIFE-6"
@@ -1458,7 +1458,7 @@
 {
 "id": "life-7",
 "he": "Life 7",
-"hex": "#7c6f6d",
+"hex": "#817672",
 "tex": "life-7.jpg",
 "col": "life",
 "code": "LIFE-7"
@@ -1466,7 +1466,7 @@
 {
 "id": "life-8",
 "he": "Life 8",
-"hex": "#939ba2",
+"hex": "#97a6ad",
 "tex": "life-8.jpg",
 "col": "life",
 "code": "LIFE-8"
@@ -1474,7 +1474,7 @@
 {
 "id": "life-9",
 "he": "Life 9",
-"hex": "#4d5146",
+"hex": "#4f5649",
 "tex": "life-9.jpg",
 "col": "life",
 "code": "LIFE-9"
@@ -1482,7 +1482,7 @@
 {
 "id": "life-10",
 "he": "Life 10",
-"hex": "#b07e43",
+"hex": "#bb863e",
 "tex": "life-10.jpg",
 "col": "life",
 "code": "LIFE-10"
@@ -1490,7 +1490,7 @@
 {
 "id": "life-11",
 "he": "Life 11",
-"hex": "#8694ab",
+"hex": "#889fb8",
 "tex": "life-11.jpg",
 "col": "life",
 "code": "LIFE-11"
@@ -1498,7 +1498,7 @@
 {
 "id": "life-12",
 "he": "Life 12",
-"hex": "#13253f",
+"hex": "#122845",
 "tex": "life-12.jpg",
 "col": "life",
 "code": "LIFE-12"
@@ -1506,7 +1506,7 @@
 {
 "id": "life-13",
 "he": "Life 13",
-"hex": "#a9a5ab",
+"hex": "#afb0b5",
 "tex": "life-13.jpg",
 "col": "life",
 "code": "LIFE-13"
@@ -1514,7 +1514,7 @@
 {
 "id": "life-14",
 "he": "Life 14",
-"hex": "#9393a0",
+"hex": "#989eab",
 "tex": "life-14.jpg",
 "col": "life",
 "code": "LIFE-14"
@@ -1522,7 +1522,7 @@
 {
 "id": "life-15",
 "he": "Life 15",
-"hex": "#7e7d86",
+"hex": "#82868e",
 "tex": "life-15.jpg",
 "col": "life",
 "code": "LIFE-15"
@@ -1530,7 +1530,7 @@
 {
 "id": "life-16",
 "he": "Life 16",
-"hex": "#5c5c67",
+"hex": "#5e626e",
 "tex": "life-16.jpg",
 "col": "life",
 "code": "LIFE-16"
@@ -1538,7 +1538,7 @@
 {
 "id": "life-17",
 "he": "Life 17",
-"hex": "#727075",
+"hex": "#75787c",
 "tex": "life-17.jpg",
 "col": "life",
 "code": "LIFE-17"
@@ -1546,7 +1546,7 @@
 {
 "id": "livia-1",
 "he": "Livia 1",
-"hex": "#b2aeb2",
+"hex": "#bababa",
 "tex": "livia-1.jpg",
 "col": "livia",
 "code": "LIVIA-1"
@@ -1554,7 +1554,7 @@
 {
 "id": "livia-2",
 "he": "Livia 2",
-"hex": "#a69f9e",
+"hex": "#aeaaa5",
 "tex": "livia-2.jpg",
 "col": "livia",
 "code": "LIVIA-2"
@@ -1562,7 +1562,7 @@
 {
 "id": "livia-3",
 "he": "Livia 3",
-"hex": "#9a9496",
+"hex": "#a19e9c",
 "tex": "livia-3.jpg",
 "col": "livia",
 "code": "LIVIA-3"
@@ -1570,7 +1570,7 @@
 {
 "id": "livia-4",
 "he": "Livia 4",
-"hex": "#8f847f",
+"hex": "#978d84",
 "tex": "livia-4.jpg",
 "col": "livia",
 "code": "LIVIA-4"
@@ -1578,7 +1578,7 @@
 {
 "id": "livia-5",
 "he": "Livia 5",
-"hex": "#716560",
+"hex": "#776b63",
 "tex": "livia-5.jpg",
 "col": "livia",
 "code": "LIVIA-5"
@@ -1586,7 +1586,7 @@
 {
 "id": "livia-6",
 "he": "Livia 6",
-"hex": "#252622",
+"hex": "#252822",
 "tex": "livia-6.jpg",
 "col": "livia",
 "code": "LIVIA-6"
@@ -1594,7 +1594,7 @@
 {
 "id": "livia-7",
 "he": "Livia 7",
-"hex": "#242830",
+"hex": "#252a33",
 "tex": "livia-7.jpg",
 "col": "livia",
 "code": "LIVIA-7"
@@ -1602,7 +1602,7 @@
 {
 "id": "livia-8",
 "he": "Livia 8",
-"hex": "#95939d",
+"hex": "#9b9ea5",
 "tex": "livia-8.jpg",
 "col": "livia",
 "code": "LIVIA-8"
@@ -1610,7 +1610,7 @@
 {
 "id": "livia-9",
 "he": "Livia 9",
-"hex": "#626064",
+"hex": "#666669",
 "tex": "livia-9.jpg",
 "col": "livia",
 "code": "LIVIA-9"
@@ -1618,7 +1618,7 @@
 {
 "id": "livia-10",
 "he": "Livia 10",
-"hex": "#35343a",
+"hex": "#37373c",
 "tex": "livia-10.jpg",
 "col": "livia",
 "code": "LIVIA-10"
@@ -1626,7 +1626,7 @@
 {
 "id": "livia-11",
 "he": "Livia 11",
-"hex": "#141416",
+"hex": "#141418",
 "tex": "livia-11.jpg",
 "col": "livia",
 "code": "LIVIA-11"
@@ -1634,7 +1634,7 @@
 {
 "id": "naboli-1",
 "he": "Naboli 1",
-"hex": "#b3b0b5",
+"hex": "#bcbdbe",
 "tex": "naboli-1.jpg",
 "col": "naboli",
 "code": "NABOLI-1"
@@ -1642,7 +1642,7 @@
 {
 "id": "naboli-2",
 "he": "Naboli 2",
-"hex": "#a9a5a9",
+"hex": "#b1b1b1",
 "tex": "naboli-2.jpg",
 "col": "naboli",
 "code": "NABOLI-2"
@@ -1650,7 +1650,7 @@
 {
 "id": "naboli-3",
 "he": "Naboli 3",
-"hex": "#9d989b",
+"hex": "#a5a2a2",
 "tex": "naboli-3.jpg",
 "col": "naboli",
 "code": "NABOLI-3"
@@ -1658,7 +1658,7 @@
 {
 "id": "naboli-4",
 "he": "Naboli 4",
-"hex": "#918b8b",
+"hex": "#999491",
 "tex": "naboli-4.jpg",
 "col": "naboli",
 "code": "NABOLI-4"
@@ -1666,7 +1666,7 @@
 {
 "id": "naboli-5",
 "he": "Naboli 5",
-"hex": "#6f442a",
+"hex": "#784727",
 "tex": "naboli-5.jpg",
 "col": "naboli",
 "code": "NABOLI-5"
@@ -1674,7 +1674,7 @@
 {
 "id": "naboli-6",
 "he": "Naboli 6",
-"hex": "#8f7251",
+"hex": "#99794f",
 "tex": "naboli-6.jpg",
 "col": "naboli",
 "code": "NABOLI-6"
@@ -1682,7 +1682,7 @@
 {
 "id": "naboli-7",
 "he": "Naboli 7",
-"hex": "#615c4c",
+"hex": "#65624d",
 "tex": "naboli-7.jpg",
 "col": "naboli",
 "code": "NABOLI-7"
@@ -1690,7 +1690,7 @@
 {
 "id": "naboli-8",
 "he": "Naboli 8",
-"hex": "#6d7981",
+"hex": "#708188",
 "tex": "naboli-8.jpg",
 "col": "naboli",
 "code": "NABOLI-8"
@@ -1698,7 +1698,7 @@
 {
 "id": "naboli-9",
 "he": "Naboli 9",
-"hex": "#a19ea2",
+"hex": "#aaa8a9",
 "tex": "naboli-9.jpg",
 "col": "naboli",
 "code": "NABOLI-9"
@@ -1706,7 +1706,7 @@
 {
 "id": "naboli-10",
 "he": "Naboli 10",
-"hex": "#8e8b8f",
+"hex": "#959496",
 "tex": "naboli-10.jpg",
 "col": "naboli",
 "code": "NABOLI-10"
@@ -1714,7 +1714,7 @@
 {
 "id": "naboli-11",
 "he": "Naboli 11",
-"hex": "#716e74",
+"hex": "#767579",
 "tex": "naboli-11.jpg",
 "col": "naboli",
 "code": "NABOLI-11"
@@ -1722,7 +1722,7 @@
 {
 "id": "naboli-12",
 "he": "Naboli 12",
-"hex": "#585761",
+"hex": "#5b5d66",
 "tex": "naboli-12.jpg",
 "col": "naboli",
 "code": "NABOLI-12"
@@ -1730,7 +1730,7 @@
 {
 "id": "mela-1",
 "he": "Mela 1",
-"hex": "#b3adae",
+"hex": "#b5b9be",
 "tex": "mela-1.jpg",
 "col": "mela",
 "code": "MELA-1"
@@ -1738,7 +1738,7 @@
 {
 "id": "mela-2",
 "he": "Mela 2",
-"hex": "#a8a19e",
+"hex": "#aaacac",
 "tex": "mela-2.jpg",
 "col": "mela",
 "code": "MELA-2"
@@ -1746,7 +1746,7 @@
 {
 "id": "mela-3",
 "he": "Mela 3",
-"hex": "#9a8981",
+"hex": "#9d918c",
 "tex": "mela-3.jpg",
 "col": "mela",
 "code": "MELA-3"
@@ -1754,7 +1754,7 @@
 {
 "id": "mela-4",
 "he": "Mela 4",
-"hex": "#918276",
+"hex": "#948a7e",
 "tex": "mela-4.jpg",
 "col": "mela",
 "code": "MELA-4"
@@ -1762,7 +1762,7 @@
 {
 "id": "mela-5",
 "he": "Mela 5",
-"hex": "#6a4132",
+"hex": "#6e4333",
 "tex": "mela-5.jpg",
 "col": "mela",
 "code": "MELA-5"
@@ -1770,7 +1770,7 @@
 {
 "id": "mela-6",
 "he": "Mela 6",
-"hex": "#482c25",
+"hex": "#4b2d27",
 "tex": "mela-6.jpg",
 "col": "mela",
 "code": "MELA-6"
@@ -1778,7 +1778,7 @@
 {
 "id": "mela-7",
 "he": "Mela 7",
-"hex": "#a37c65",
+"hex": "#a88469",
 "tex": "mela-7.jpg",
 "col": "mela",
 "code": "MELA-7"
@@ -1786,7 +1786,7 @@
 {
 "id": "mela-8",
 "he": "Mela 8",
-"hex": "#664c46",
+"hex": "#69504b",
 "tex": "mela-8.jpg",
 "col": "mela",
 "code": "MELA-8"
@@ -1794,7 +1794,7 @@
 {
 "id": "mela-9",
 "he": "Mela 9",
-"hex": "#241c1e",
+"hex": "#241c20",
 "tex": "mela-9.jpg",
 "col": "mela",
 "code": "MELA-9"
@@ -1802,7 +1802,7 @@
 {
 "id": "mela-10",
 "he": "Mela 10",
-"hex": "#756a66",
+"hex": "#77706e",
 "tex": "mela-10.jpg",
 "col": "mela",
 "code": "MELA-10"
@@ -1810,7 +1810,7 @@
 {
 "id": "mela-11",
 "he": "Mela 11",
-"hex": "#a06e36",
+"hex": "#a67532",
 "tex": "mela-11.jpg",
 "col": "mela",
 "code": "MELA-11"
@@ -1818,7 +1818,7 @@
 {
 "id": "mela-12",
 "he": "Mela 12",
-"hex": "#1c2c3f",
+"hex": "#192e47",
 "tex": "mela-12.jpg",
 "col": "mela",
 "code": "MELA-12"
@@ -1826,7 +1826,7 @@
 {
 "id": "mela-13",
 "he": "Mela 13",
-"hex": "#79767b",
+"hex": "#7a7e86",
 "tex": "mela-13.jpg",
 "col": "mela",
 "code": "MELA-13"
@@ -1834,7 +1834,7 @@
 {
 "id": "mela-14",
 "he": "Mela 14",
-"hex": "#615f63",
+"hex": "#62666c",
 "tex": "mela-14.jpg",
 "col": "mela",
 "code": "MELA-14"
@@ -1842,7 +1842,7 @@
 {
 "id": "mela-15",
 "he": "Mela 15",
-"hex": "#373539",
+"hex": "#37383e",
 "tex": "mela-15.jpg",
 "col": "mela",
 "code": "MELA-15"
@@ -1850,7 +1850,7 @@
 {
 "id": "mela-16",
 "he": "Mela 16",
-"hex": "#2d2c31",
+"hex": "#2c2e36",
 "tex": "mela-16.jpg",
 "col": "mela",
 "code": "MELA-16"
@@ -1858,7 +1858,7 @@
 {
 "id": "mela-17",
 "he": "Mela 17",
-"hex": "#1e1e20",
+"hex": "#1d1f23",
 "tex": "mela-17.jpg",
 "col": "mela",
 "code": "MELA-17"
@@ -1866,7 +1866,7 @@
 {
 "id": "omega-1",
 "he": "Omega 1",
-"hex": "#b7b3b4",
+"hex": "#bac0c3",
 "tex": "omega-1.jpg",
 "col": "omega",
 "code": "OMEGA-1"
@@ -1874,7 +1874,7 @@
 {
 "id": "omega-2",
 "he": "Omega 2",
-"hex": "#b1a8a7",
+"hex": "#b4b4b5",
 "tex": "omega-2.jpg",
 "col": "omega",
 "code": "OMEGA-2"
@@ -1882,7 +1882,7 @@
 {
 "id": "omega-3",
 "he": "Omega 3",
-"hex": "#8d8887",
+"hex": "#8e9292",
 "tex": "omega-3.jpg",
 "col": "omega",
 "code": "OMEGA-3"
@@ -1890,7 +1890,7 @@
 {
 "id": "omega-4",
 "he": "Omega 4",
-"hex": "#746f72",
+"hex": "#76767c",
 "tex": "omega-4.jpg",
 "col": "omega",
 "code": "OMEGA-4"
@@ -1898,7 +1898,7 @@
 {
 "id": "omega-5",
 "he": "Omega 5",
-"hex": "#766a6a",
+"hex": "#787172",
 "tex": "omega-5.jpg",
 "col": "omega",
 "code": "OMEGA-5"
@@ -1906,7 +1906,7 @@
 {
 "id": "omega-6",
 "he": "Omega 6",
-"hex": "#766b6e",
+"hex": "#787176",
 "tex": "omega-6.jpg",
 "col": "omega",
 "code": "OMEGA-6"
@@ -1914,7 +1914,7 @@
 {
 "id": "omega-7",
 "he": "Omega 7",
-"hex": "#a18f8a",
+"hex": "#a59994",
 "tex": "omega-7.jpg",
 "col": "omega",
 "code": "OMEGA-7"
@@ -1922,7 +1922,7 @@
 {
 "id": "omega-8",
 "he": "Omega 8",
-"hex": "#8d7876",
+"hex": "#90807e",
 "tex": "omega-8.jpg",
 "col": "omega",
 "code": "OMEGA-8"
@@ -1930,7 +1930,7 @@
 {
 "id": "omega-9",
 "he": "Omega 9",
-"hex": "#7e6860",
+"hex": "#816e66",
 "tex": "omega-9.jpg",
 "col": "omega",
 "code": "OMEGA-9"
@@ -1938,7 +1938,7 @@
 {
 "id": "omega-10",
 "he": "Omega 10",
-"hex": "#674d4c",
+"hex": "#6a5151",
 "tex": "omega-10.jpg",
 "col": "omega",
 "code": "OMEGA-10"
@@ -1946,7 +1946,7 @@
 {
 "id": "omega-11",
 "he": "Omega 11",
-"hex": "#ae7d79",
+"hex": "#b48481",
 "tex": "omega-11.jpg",
 "col": "omega",
 "code": "OMEGA-11"
@@ -1954,7 +1954,7 @@
 {
 "id": "omega-12",
 "he": "Omega 12",
-"hex": "#774411",
+"hex": "#7e470d",
 "tex": "omega-12.jpg",
 "col": "omega",
 "code": "OMEGA-12"
@@ -1962,7 +1962,7 @@
 {
 "id": "omega-13",
 "he": "Omega 13",
-"hex": "#242523",
+"hex": "#242724",
 "tex": "omega-13.jpg",
 "col": "omega",
 "code": "OMEGA-13"
@@ -1970,7 +1970,7 @@
 {
 "id": "omega-14",
 "he": "Omega 14",
-"hex": "#32434b",
+"hex": "#304852",
 "tex": "omega-14.jpg",
 "col": "omega",
 "code": "OMEGA-14"
@@ -1978,7 +1978,7 @@
 {
 "id": "omega-15",
 "he": "Omega 15",
-"hex": "#13202b",
+"hex": "#122230",
 "tex": "omega-15.jpg",
 "col": "omega",
 "code": "OMEGA-15"
@@ -1986,7 +1986,7 @@
 {
 "id": "omega-16",
 "he": "Omega 16",
-"hex": "#2a2d3b",
+"hex": "#2a3040",
 "tex": "omega-16.jpg",
 "col": "omega",
 "code": "OMEGA-16"
@@ -1994,7 +1994,7 @@
 {
 "id": "omega-17",
 "he": "Omega 17",
-"hex": "#807f8b",
+"hex": "#818897",
 "tex": "omega-17.jpg",
 "col": "omega",
 "code": "OMEGA-17"
@@ -2002,7 +2002,7 @@
 {
 "id": "omega-18",
 "he": "Omega 18",
-"hex": "#676063",
+"hex": "#68676c",
 "tex": "omega-18.jpg",
 "col": "omega",
 "code": "OMEGA-18"
@@ -2010,7 +2010,7 @@
 {
 "id": "omega-19",
 "he": "Omega 19",
-"hex": "#57535c",
+"hex": "#585864",
 "tex": "omega-19.jpg",
 "col": "omega",
 "code": "OMEGA-19"
@@ -2018,7 +2018,7 @@
 {
 "id": "omega-20",
 "he": "Omega 20",
-"hex": "#48484f",
+"hex": "#484d56",
 "tex": "omega-20.jpg",
 "col": "omega",
 "code": "OMEGA-20"
@@ -2026,7 +2026,7 @@
 {
 "id": "omega-22",
 "he": "Omega 22",
-"hex": "#201f24",
+"hex": "#1f2026",
 "tex": "omega-22.jpg",
 "col": "omega",
 "code": "OMEGA-22"
@@ -2034,7 +2034,7 @@
 {
 "id": "omega-23",
 "he": "Omega 23",
-"hex": "#1b1a1e",
+"hex": "#1a1b21",
 "tex": "omega-23.jpg",
 "col": "omega",
 "code": "OMEGA-23"
@@ -2042,7 +2042,7 @@
 {
 "id": "mera-1",
 "he": "Mera 1",
-"hex": "#c2b9b6",
+"hex": "#c7c6c3",
 "tex": "mera-1.jpg",
 "col": "mera",
 "code": "MERA-1"
@@ -2050,7 +2050,7 @@
 {
 "id": "mera-2",
 "he": "Mera 2",
-"hex": "#a0928b",
+"hex": "#a49c94",
 "tex": "mera-2.jpg",
 "col": "mera",
 "code": "MERA-2"
@@ -2058,7 +2058,7 @@
 {
 "id": "mera-3",
 "he": "Mera 3",
-"hex": "#7f6e69",
+"hex": "#83756f",
 "tex": "mera-3.jpg",
 "col": "mera",
 "code": "MERA-3"
@@ -2066,7 +2066,7 @@
 {
 "id": "mera-4",
 "he": "Mera 4",
-"hex": "#545056",
+"hex": "#55555c",
 "tex": "mera-4.jpg",
 "col": "mera",
 "code": "MERA-4"
@@ -2074,7 +2074,7 @@
 {
 "id": "mera-5",
 "he": "Mera 5",
-"hex": "#3c413a",
+"hex": "#3d463d",
 "tex": "mera-5.jpg",
 "col": "mera",
 "code": "MERA-5"
@@ -2082,7 +2082,7 @@
 {
 "id": "mera-6",
 "he": "Mera 6",
-"hex": "#2d424d",
+"hex": "#2b4655",
 "tex": "mera-6.jpg",
 "col": "mera",
 "code": "MERA-6"
@@ -2090,7 +2090,7 @@
 {
 "id": "mera-7",
 "he": "Mera 7",
-"hex": "#717f88",
+"hex": "#718894",
 "tex": "mera-7.jpg",
 "col": "mera",
 "code": "MERA-7"
@@ -2098,7 +2098,7 @@
 {
 "id": "mera-8",
 "he": "Mera 8",
-"hex": "#4f5a71",
+"hex": "#4e617c",
 "tex": "mera-8.jpg",
 "col": "mera",
 "code": "MERA-8"
@@ -2106,7 +2106,7 @@
 {
 "id": "mera-9",
 "he": "Mera 9",
-"hex": "#272734",
+"hex": "#272939",
 "tex": "mera-9.jpg",
 "col": "mera",
 "code": "MERA-9"
@@ -2114,7 +2114,7 @@
 {
 "id": "mera-10",
 "he": "Mera 10",
-"hex": "#987c55",
+"hex": "#9e8456",
 "tex": "mera-10.jpg",
 "col": "mera",
 "code": "MERA-10"
@@ -2122,7 +2122,7 @@
 {
 "id": "mera-11",
 "he": "Mera 11",
-"hex": "#89502a",
+"hex": "#915427",
 "tex": "mera-11.jpg",
 "col": "mera",
 "code": "MERA-11"
@@ -2130,7 +2130,7 @@
 {
 "id": "mera-12",
 "he": "Mera 12",
-"hex": "#7b3630",
+"hex": "#833730",
 "tex": "mera-12.jpg",
 "col": "mera",
 "code": "MERA-12"
@@ -2138,7 +2138,7 @@
 {
 "id": "mera-13",
 "he": "Mera 13",
-"hex": "#8a5851",
+"hex": "#915c54",
 "tex": "mera-13.jpg",
 "col": "mera",
 "code": "MERA-13"
@@ -2146,7 +2146,7 @@
 {
 "id": "mera-14",
 "he": "Mera 14",
-"hex": "#a09da4",
+"hex": "#a3a8b0",
 "tex": "mera-14.jpg",
 "col": "mera",
 "code": "MERA-14"
@@ -2154,7 +2154,7 @@
 {
 "id": "mera-15",
 "he": "Mera 15",
-"hex": "#83818a",
+"hex": "#858a96",
 "tex": "mera-15.jpg",
 "col": "mera",
 "code": "MERA-15"
@@ -2162,7 +2162,7 @@
 {
 "id": "mera-16",
 "he": "Mera 16",
-"hex": "#64646b",
+"hex": "#656b73",
 "tex": "mera-16.jpg",
 "col": "mera",
 "code": "MERA-16"
@@ -2170,7 +2170,7 @@
 {
 "id": "mera-17",
 "he": "Mera 17",
-"hex": "#35343c",
+"hex": "#353741",
 "tex": "mera-17.jpg",
 "col": "mera",
 "code": "MERA-17"
@@ -2178,7 +2178,7 @@
 {
 "id": "mera-18",
 "he": "Mera 18",
-"hex": "#1a1b1f",
+"hex": "#1a1c21",
 "tex": "mera-18.jpg",
 "col": "mera",
 "code": "MERA-18"
@@ -2186,7 +2186,7 @@
 {
 "id": "point-1",
 "he": "Point 1",
-"hex": "#bab4b5",
+"hex": "#bfc1c1",
 "tex": "point-1.jpg",
 "col": "point",
 "code": "POINT-1"
@@ -2194,7 +2194,7 @@
 {
 "id": "point-2",
 "he": "Point 2",
-"hex": "#b8b2b3",
+"hex": "#bebebf",
 "tex": "point-2.jpg",
 "col": "point",
 "code": "POINT-2"
@@ -2202,7 +2202,7 @@
 {
 "id": "point-3",
 "he": "Point 3",
-"hex": "#b1a8a7",
+"hex": "#b7b3b2",
 "tex": "point-3.jpg",
 "col": "point",
 "code": "POINT-3"
@@ -2210,7 +2210,7 @@
 {
 "id": "point-4",
 "he": "Point 4",
-"hex": "#aea6a0",
+"hex": "#b5b2aa",
 "tex": "point-4.jpg",
 "col": "point",
 "code": "POINT-4"
@@ -2218,7 +2218,7 @@
 {
 "id": "point-5",
 "he": "Point 5",
-"hex": "#b4a79f",
+"hex": "#bbb2a8",
 "tex": "point-5.jpg",
 "col": "point",
 "code": "POINT-5"
@@ -2226,7 +2226,7 @@
 {
 "id": "point-6",
 "he": "Point 6",
-"hex": "#836f63",
+"hex": "#897568",
 "tex": "point-6.jpg",
 "col": "point",
 "code": "POINT-6"
@@ -2234,7 +2234,7 @@
 {
 "id": "point-7",
 "he": "Point 7",
-"hex": "#503015",
+"hex": "#553213",
 "tex": "point-7.jpg",
 "col": "point",
 "code": "POINT-7"
@@ -2242,7 +2242,7 @@
 {
 "id": "point-8",
 "he": "Point 8",
-"hex": "#90691c",
+"hex": "#996f15",
 "tex": "point-8.jpg",
 "col": "point",
 "code": "POINT-8"
@@ -2250,7 +2250,7 @@
 {
 "id": "point-9",
 "he": "Point 9",
-"hex": "#182016",
+"hex": "#172216",
 "tex": "point-9.jpg",
 "col": "point",
 "code": "POINT-9"
@@ -2258,7 +2258,7 @@
 {
 "id": "point-10",
 "he": "Point 10",
-"hex": "#a7a5a9",
+"hex": "#acb0b5",
 "tex": "point-10.jpg",
 "col": "point",
 "code": "POINT-10"
@@ -2266,7 +2266,7 @@
 {
 "id": "point-11",
 "he": "Point 11",
-"hex": "#7a7a82",
+"hex": "#7d828b",
 "tex": "point-11.jpg",
 "col": "point",
 "code": "POINT-11"
@@ -2274,7 +2274,7 @@
 {
 "id": "point-12",
 "he": "Point 12",
-"hex": "#67656c",
+"hex": "#6a6c73",
 "tex": "point-12.jpg",
 "col": "point",
 "code": "POINT-12"
@@ -2282,7 +2282,7 @@
 {
 "id": "point-13",
 "he": "Point 13",
-"hex": "#4c4c53",
+"hex": "#4d5159",
 "tex": "point-13.jpg",
 "col": "point",
 "code": "POINT-13"
@@ -2290,7 +2290,7 @@
 {
 "id": "point-14",
 "he": "Point 14",
-"hex": "#181d2a",
+"hex": "#171f2e",
 "tex": "point-14.jpg",
 "col": "point",
 "code": "POINT-14"
@@ -2298,7 +2298,7 @@
 {
 "id": "porto-1",
 "he": "Porto 1",
-"hex": "#ada5a5",
+"hex": "#b5b1ad",
 "tex": "porto-1.jpg",
 "col": "porto",
 "code": "PORTO-1"
@@ -2306,7 +2306,7 @@
 {
 "id": "porto-2",
 "he": "Porto 2",
-"hex": "#948780",
+"hex": "#9c9085",
 "tex": "porto-2.jpg",
 "col": "porto",
 "code": "PORTO-2"
@@ -2314,7 +2314,7 @@
 {
 "id": "porto-3",
 "he": "Porto 3",
-"hex": "#9a9090",
+"hex": "#a19a97",
 "tex": "porto-3.jpg",
 "col": "porto",
 "code": "PORTO-3"
@@ -2322,7 +2322,7 @@
 {
 "id": "porto-4",
 "he": "Porto 4",
-"hex": "#7d7372",
+"hex": "#827a76",
 "tex": "porto-4.jpg",
 "col": "porto",
 "code": "PORTO-4"
@@ -2330,7 +2330,7 @@
 {
 "id": "porto-5",
 "he": "Porto 5",
-"hex": "#4f4f49",
+"hex": "#52544b",
 "tex": "porto-5.jpg",
 "col": "porto",
 "code": "PORTO-5"
@@ -2338,7 +2338,7 @@
 {
 "id": "porto-6",
 "he": "Porto 6",
-"hex": "#444547",
+"hex": "#464a4b",
 "tex": "porto-6.jpg",
 "col": "porto",
 "code": "PORTO-6"
@@ -2346,7 +2346,7 @@
 {
 "id": "porto-7",
 "he": "Porto 7",
-"hex": "#b18c8b",
+"hex": "#bc9590",
 "tex": "porto-7.jpg",
 "col": "porto",
 "code": "PORTO-7"
@@ -2354,7 +2354,7 @@
 {
 "id": "porto-8",
 "he": "Porto 8",
-"hex": "#8b5959",
+"hex": "#945d5b",
 "tex": "porto-8.jpg",
 "col": "porto",
 "code": "PORTO-8"
@@ -2362,7 +2362,7 @@
 {
 "id": "porto-9",
 "he": "Porto 9",
-"hex": "#5a292d",
+"hex": "#612a2d",
 "tex": "porto-9.jpg",
 "col": "porto",
 "code": "PORTO-9"
@@ -2370,7 +2370,7 @@
 {
 "id": "porto-10",
 "he": "Porto 10",
-"hex": "#976c36",
+"hex": "#a27330",
 "tex": "porto-10.jpg",
 "col": "porto",
 "code": "PORTO-10"
@@ -2378,7 +2378,7 @@
 {
 "id": "porto-11",
 "he": "Porto 11",
-"hex": "#aea6ac",
+"hex": "#b7b1b6",
 "tex": "porto-11.jpg",
 "col": "porto",
 "code": "PORTO-11"
@@ -2386,7 +2386,7 @@
 {
 "id": "porto-12",
 "he": "Porto 12",
-"hex": "#78737b",
+"hex": "#7e7b81",
 "tex": "porto-12.jpg",
 "col": "porto",
 "code": "PORTO-12"
@@ -2394,7 +2394,7 @@
 {
 "id": "porto-13",
 "he": "Porto 13",
-"hex": "#646067",
+"hex": "#69666c",
 "tex": "porto-13.jpg",
 "col": "porto",
 "code": "PORTO-13"
@@ -2402,7 +2402,7 @@
 {
 "id": "porto-14",
 "he": "Porto 14",
-"hex": "#35343a",
+"hex": "#36363c",
 "tex": "porto-14.jpg",
 "col": "porto",
 "code": "PORTO-14"
@@ -2410,7 +2410,7 @@
 {
 "id": "porto-15",
 "he": "Porto 15",
-"hex": "#2a3243",
+"hex": "#2b3548",
 "tex": "porto-15.jpg",
 "col": "porto",
 "code": "PORTO-15"
@@ -2418,7 +2418,7 @@
 {
 "id": "porto-16",
 "he": "Porto 16",
-"hex": "#6f7b89",
+"hex": "#728492",
 "tex": "porto-16.jpg",
 "col": "porto",
 "code": "PORTO-16"
@@ -2426,7 +2426,7 @@
 {
 "id": "porto-17",
 "he": "Porto 17",
-"hex": "#c2c2c8",
+"hex": "#cad1d3",
 "tex": "porto-17.jpg",
 "col": "porto",
 "code": "PORTO-17"
@@ -2434,7 +2434,7 @@
 {
 "id": "uno-1",
 "he": "Uno 1",
-"hex": "#a6a5aa",
+"hex": "#aeb1b2",
 "tex": "uno-1.jpg",
 "col": "uno",
 "code": "UNO-1"
@@ -2442,7 +2442,7 @@
 {
 "id": "uno-2",
 "he": "Uno 2",
-"hex": "#9f9da4",
+"hex": "#a6a8ac",
 "tex": "uno-2.jpg",
 "col": "uno",
 "code": "UNO-2"
@@ -2450,7 +2450,7 @@
 {
 "id": "uno-3",
 "he": "Uno 3",
-"hex": "#a29a9c",
+"hex": "#aba4a2",
 "tex": "uno-3.jpg",
 "col": "uno",
 "code": "UNO-3"
@@ -2458,7 +2458,7 @@
 {
 "id": "uno-4",
 "he": "Uno 4",
-"hex": "#89827c",
+"hex": "#908b80",
 "tex": "uno-4.jpg",
 "col": "uno",
 "code": "UNO-4"
@@ -2466,7 +2466,7 @@
 {
 "id": "uno-5",
 "he": "Uno 5",
-"hex": "#868386",
+"hex": "#8d8c8d",
 "tex": "uno-5.jpg",
 "col": "uno",
 "code": "UNO-5"
@@ -2474,7 +2474,7 @@
 {
 "id": "uno-6",
 "he": "Uno 6",
-"hex": "#7a7b80",
+"hex": "#808486",
 "tex": "uno-6.jpg",
 "col": "uno",
 "code": "UNO-6"
@@ -2482,7 +2482,7 @@
 {
 "id": "uno-7",
 "he": "Uno 7",
-"hex": "#717076",
+"hex": "#76787c",
 "tex": "uno-7.jpg",
 "col": "uno",
 "code": "UNO-7"
@@ -2490,7 +2490,7 @@
 {
 "id": "uno-8",
 "he": "Uno 8",
-"hex": "#736969",
+"hex": "#79706d",
 "tex": "uno-8.jpg",
 "col": "uno",
 "code": "UNO-8"
@@ -2498,7 +2498,7 @@
 {
 "id": "uno-9",
 "he": "Uno 9",
-"hex": "#63626d",
+"hex": "#676873",
 "tex": "uno-9.jpg",
 "col": "uno",
 "code": "UNO-9"
@@ -2506,7 +2506,7 @@
 {
 "id": "uno-10",
 "he": "Uno 10",
-"hex": "#55545b",
+"hex": "#585a5f",
 "tex": "uno-10.jpg",
 "col": "uno",
 "code": "UNO-10"
@@ -2514,7 +2514,7 @@
 {
 "id": "uno-11",
 "he": "Uno 11",
-"hex": "#9a7a63",
+"hex": "#a48163",
 "tex": "uno-11.jpg",
 "col": "uno",
 "code": "UNO-11"
@@ -2522,7 +2522,7 @@
 {
 "id": "uno-12",
 "he": "Uno 12",
-"hex": "#967a45",
+"hex": "#a18241",
 "tex": "uno-12.jpg",
 "col": "uno",
 "code": "UNO-12"
@@ -2530,7 +2530,7 @@
 {
 "id": "uno-13",
 "he": "Uno 13",
-"hex": "#ad8a41",
+"hex": "#b9933b",
 "tex": "uno-13.jpg",
 "col": "uno",
 "code": "UNO-13"
@@ -2538,7 +2538,7 @@
 {
 "id": "uno-14",
 "he": "Uno 14",
-"hex": "#a75b2e",
+"hex": "#b65f29",
 "tex": "uno-14.jpg",
 "col": "uno",
 "code": "UNO-14"
@@ -2546,7 +2546,7 @@
 {
 "id": "uno-15",
 "he": "Uno 15",
-"hex": "#a6818a",
+"hex": "#b08990",
 "tex": "uno-15.jpg",
 "col": "uno",
 "code": "UNO-15"
@@ -2554,7 +2554,7 @@
 {
 "id": "uno-16",
 "he": "Uno 16",
-"hex": "#6c7b87",
+"hex": "#6f848e",
 "tex": "uno-16.jpg",
 "col": "uno",
 "code": "UNO-16"
@@ -2562,7 +2562,7 @@
 {
 "id": "uno-19",
 "he": "Uno 19",
-"hex": "#3e4454",
+"hex": "#3f4959",
 "tex": "uno-19.jpg",
 "col": "uno",
 "code": "UNO-19"
@@ -2570,7 +2570,7 @@
 {
 "id": "uno-20",
 "he": "Uno 20",
-"hex": "#4d5360",
+"hex": "#505866",
 "tex": "uno-20.jpg",
 "col": "uno",
 "code": "UNO-20"
@@ -2578,7 +2578,7 @@
 {
 "id": "uno-21",
 "he": "Uno 21",
-"hex": "#1c1d22",
+"hex": "#1c1f23",
 "tex": "uno-21.jpg",
 "col": "uno",
 "code": "UNO-21"
@@ -2586,7 +2586,7 @@
 {
 "id": "vigo-1",
 "he": "Vigo 1",
-"hex": "#aca9b0",
+"hex": "#b4b5b8",
 "tex": "vigo-1.jpg",
 "col": "vigo",
 "code": "VIGO-1"
@@ -2594,7 +2594,7 @@
 {
 "id": "vigo-2",
 "he": "Vigo 2",
-"hex": "#b1aaa7",
+"hex": "#bab6ae",
 "tex": "vigo-2.jpg",
 "col": "vigo",
 "code": "VIGO-2"
@@ -2602,7 +2602,7 @@
 {
 "id": "vigo-3",
 "he": "Vigo 3",
-"hex": "#243028",
+"hex": "#243329",
 "tex": "vigo-3.jpg",
 "col": "vigo",
 "code": "VIGO-3"
@@ -2610,7 +2610,7 @@
 {
 "id": "vigo-4",
 "he": "Vigo 4",
-"hex": "#a27128",
+"hex": "#ae7820",
 "tex": "vigo-4.jpg",
 "col": "vigo",
 "code": "VIGO-4"
@@ -2618,7 +2618,7 @@
 {
 "id": "vigo-5",
 "he": "Vigo 5",
-"hex": "#783317",
+"hex": "#833414",
 "tex": "vigo-5.jpg",
 "col": "vigo",
 "code": "VIGO-5"
@@ -2626,7 +2626,7 @@
 {
 "id": "vigo-6",
 "he": "Vigo 6",
-"hex": "#203e4f",
+"hex": "#1e4255",
 "tex": "vigo-6.jpg",
 "col": "vigo",
 "code": "VIGO-6"
@@ -2634,7 +2634,7 @@
 {
 "id": "vigo-7",
 "he": "Vigo 7",
-"hex": "#69686f",
+"hex": "#6d6f74",
 "tex": "vigo-7.jpg",
 "col": "vigo",
 "code": "VIGO-7"
@@ -2642,7 +2642,7 @@
 {
 "id": "vigo-8",
 "he": "Vigo 8",
-"hex": "#1c1b21",
+"hex": "#1d1c22",
 "tex": "vigo-8.jpg",
 "col": "vigo",
 "code": "VIGO-8"
@@ -2650,7 +2650,7 @@
 {
 "id": "regalo-1",
 "he": "Regalo 1",
-"hex": "#bab5b5",
+"hex": "#c8c0b9",
 "tex": "regalo-1.jpg",
 "col": "regalo",
 "code": "REGALO-1"
@@ -2658,7 +2658,7 @@
 {
 "id": "regalo-2",
 "he": "Regalo 2",
-"hex": "#ada9ae",
+"hex": "#bbb3b2",
 "tex": "regalo-2.jpg",
 "col": "regalo",
 "code": "REGALO-2"
@@ -2666,7 +2666,7 @@
 {
 "id": "regalo-3",
 "he": "Regalo 3",
-"hex": "#908787",
+"hex": "#9d8f8a",
 "tex": "regalo-3.jpg",
 "col": "regalo",
 "code": "REGALO-3"
@@ -2674,7 +2674,7 @@
 {
 "id": "regalo-4",
 "he": "Regalo 4",
-"hex": "#787379",
+"hex": "#82797c",
 "tex": "regalo-4.jpg",
 "col": "regalo",
 "code": "REGALO-4"
@@ -2682,7 +2682,7 @@
 {
 "id": "regalo-5",
 "he": "Regalo 5",
-"hex": "#756b6e",
+"hex": "#807170",
 "tex": "regalo-5.jpg",
 "col": "regalo",
 "code": "REGALO-5"
@@ -2690,7 +2690,7 @@
 {
 "id": "regalo-8",
 "he": "Regalo 8",
-"hex": "#a77e4e",
+"hex": "#b88548",
 "tex": "regalo-8.jpg",
 "col": "regalo",
 "code": "REGALO-8"
@@ -2698,7 +2698,7 @@
 {
 "id": "regalo-9",
 "he": "Regalo 9",
-"hex": "#9a5c28",
+"hex": "#ac6020",
 "tex": "regalo-9.jpg",
 "col": "regalo",
 "code": "REGALO-9"
@@ -2706,7 +2706,7 @@
 {
 "id": "regalo-12",
 "he": "Regalo 12",
-"hex": "#7f8f9f",
+"hex": "#8799a4",
 "tex": "regalo-12.jpg",
 "col": "regalo",
 "code": "REGALO-12"
@@ -2714,7 +2714,7 @@
 {
 "id": "regalo-14",
 "he": "Regalo 14",
-"hex": "#374453",
+"hex": "#394857",
 "tex": "regalo-14.jpg",
 "col": "regalo",
 "code": "REGALO-14"
@@ -2722,7 +2722,7 @@
 {
 "id": "regalo-15",
 "he": "Regalo 15",
-"hex": "#6e7078",
+"hex": "#77767b",
 "tex": "regalo-15.jpg",
 "col": "regalo",
 "code": "REGALO-15"
@@ -2730,7 +2730,7 @@
 {
 "id": "regalo-16",
 "he": "Regalo 16",
-"hex": "#464850",
+"hex": "#4c4b53",
 "tex": "regalo-16.jpg",
 "col": "regalo",
 "code": "REGALO-16"
@@ -2738,7 +2738,7 @@
 {
 "id": "snow-1",
 "he": "Snow 1",
-"hex": "#b0aaa9",
+"hex": "#b6b5b3",
 "tex": "snow-1.jpg",
 "col": "snow",
 "code": "SNOW-1"
@@ -2746,7 +2746,7 @@
 {
 "id": "snow-2",
 "he": "Snow 2",
-"hex": "#a09b9c",
+"hex": "#a6a6a5",
 "tex": "snow-2.jpg",
 "col": "snow",
 "code": "SNOW-2"
@@ -2754,7 +2754,7 @@
 {
 "id": "snow-3",
 "he": "Snow 3",
-"hex": "#a79c97",
+"hex": "#ada6a0",
 "tex": "snow-3.jpg",
 "col": "snow",
 "code": "SNOW-3"
@@ -2762,7 +2762,7 @@
 {
 "id": "snow-4",
 "he": "Snow 4",
-"hex": "#978b84",
+"hex": "#9c948b",
 "tex": "snow-4.jpg",
 "col": "snow",
 "code": "SNOW-4"
@@ -2770,7 +2770,7 @@
 {
 "id": "snow-5",
 "he": "Snow 5",
-"hex": "#82736c",
+"hex": "#877970",
 "tex": "snow-5.jpg",
 "col": "snow",
 "code": "SNOW-5"
@@ -2778,7 +2778,7 @@
 {
 "id": "snow-6",
 "he": "Snow 6",
-"hex": "#6d5344",
+"hex": "#735846",
 "tex": "snow-6.jpg",
 "col": "snow",
 "code": "SNOW-6"
@@ -2786,7 +2786,7 @@
 {
 "id": "snow-7",
 "he": "Snow 7",
-"hex": "#141915",
+"hex": "#141a15",
 "tex": "snow-7.jpg",
 "col": "snow",
 "code": "SNOW-7"
@@ -2794,7 +2794,7 @@
 {
 "id": "snow-8",
 "he": "Snow 8",
-"hex": "#3d3c2d",
+"hex": "#3f402e",
 "tex": "snow-8.jpg",
 "col": "snow",
 "code": "SNOW-8"
@@ -2802,7 +2802,7 @@
 {
 "id": "snow-9",
 "he": "Snow 9",
-"hex": "#875b33",
+"hex": "#905f30",
 "tex": "snow-9.jpg",
 "col": "snow",
 "code": "SNOW-9"
@@ -2810,7 +2810,7 @@
 {
 "id": "snow-10",
 "he": "Snow 10",
-"hex": "#84584d",
+"hex": "#8c5c4e",
 "tex": "snow-10.jpg",
 "col": "snow",
 "code": "SNOW-10"
@@ -2818,7 +2818,7 @@
 {
 "id": "snow-11",
 "he": "Snow 11",
-"hex": "#aeacb4",
+"hex": "#b3b8c0",
 "tex": "snow-11.jpg",
 "col": "snow",
 "code": "SNOW-11"
@@ -2826,7 +2826,7 @@
 {
 "id": "snow-12",
 "he": "Snow 12",
-"hex": "#939298",
+"hex": "#989ca2",
 "tex": "snow-12.jpg",
 "col": "snow",
 "code": "SNOW-12"
@@ -2834,7 +2834,7 @@
 {
 "id": "snow-13",
 "he": "Snow 13",
-"hex": "#88868d",
+"hex": "#8c8f96",
 "tex": "snow-13.jpg",
 "col": "snow",
 "code": "SNOW-13"
@@ -2842,7 +2842,7 @@
 {
 "id": "snow-14",
 "he": "Snow 14",
-"hex": "#5a595f",
+"hex": "#5c5f64",
 "tex": "snow-14.jpg",
 "col": "snow",
 "code": "SNOW-14"
@@ -2850,7 +2850,7 @@
 {
 "id": "spider-1",
 "he": "Spider 1",
-"hex": "#aba5a8",
+"hex": "#b2afb1",
 "tex": "spider-1.jpg",
 "col": "spider",
 "code": "SPIDER-1"
@@ -2858,7 +2858,7 @@
 {
 "id": "spider-2",
 "he": "Spider 2",
-"hex": "#a49e99",
+"hex": "#aca8a1",
 "tex": "spider-2.jpg",
 "col": "spider",
 "code": "SPIDER-2"
@@ -2866,7 +2866,7 @@
 {
 "id": "spider-3",
 "he": "Spider 3",
-"hex": "#988f8d",
+"hex": "#9f9794",
 "tex": "spider-3.jpg",
 "col": "spider",
 "code": "SPIDER-3"
@@ -2874,7 +2874,7 @@
 {
 "id": "spider-4",
 "he": "Spider 4",
-"hex": "#918784",
+"hex": "#978f8b",
 "tex": "spider-4.jpg",
 "col": "spider",
 "code": "SPIDER-4"
@@ -2882,7 +2882,7 @@
 {
 "id": "spider-5",
 "he": "Spider 5",
-"hex": "#9c9ca3",
+"hex": "#a2a6ac",
 "tex": "spider-5.jpg",
 "col": "spider",
 "code": "SPIDER-5"
@@ -2890,7 +2890,7 @@
 {
 "id": "spider-6",
 "he": "Spider 6",
-"hex": "#82828b",
+"hex": "#878b95",
 "tex": "spider-6.jpg",
 "col": "spider",
 "code": "SPIDER-6"
@@ -2898,7 +2898,7 @@
 {
 "id": "spider-7",
 "he": "Spider 7",
-"hex": "#737277",
+"hex": "#77797e",
 "tex": "spider-7.jpg",
 "col": "spider",
 "code": "SPIDER-7"
@@ -2906,7 +2906,7 @@
 {
 "id": "spider-8",
 "he": "Spider 8",
-"hex": "#676971",
+"hex": "#6b7079",
 "tex": "spider-8.jpg",
 "col": "spider",
 "code": "SPIDER-8"
@@ -2914,7 +2914,7 @@
 {
 "id": "spider-9",
 "he": "Spider 9",
-"hex": "#897f85",
+"hex": "#8f868e",
 "tex": "spider-9.jpg",
 "col": "spider",
 "code": "SPIDER-9"
@@ -2922,7 +2922,7 @@
 {
 "id": "spider-10",
 "he": "Spider 10",
-"hex": "#796e6d",
+"hex": "#7e7472",
 "tex": "spider-10.jpg",
 "col": "spider",
 "code": "SPIDER-10"
@@ -2930,7 +2930,7 @@
 {
 "id": "spider-11",
 "he": "Spider 11",
-"hex": "#6c5c57",
+"hex": "#72615a",
 "tex": "spider-11.jpg",
 "col": "spider",
 "code": "SPIDER-11"
@@ -2938,7 +2938,7 @@
 {
 "id": "spider-12",
 "he": "Spider 12",
-"hex": "#68656f",
+"hex": "#6d6a77",
 "tex": "spider-12.jpg",
 "col": "spider",
 "code": "SPIDER-12"
@@ -2946,7 +2946,7 @@
 {
 "id": "spider-13",
 "he": "Spider 13",
-"hex": "#a67841",
+"hex": "#b27f3d",
 "tex": "spider-13.jpg",
 "col": "spider",
 "code": "SPIDER-13"
@@ -2954,7 +2954,7 @@
 {
 "id": "spider-14",
 "he": "Spider 14",
-"hex": "#8f502c",
+"hex": "#9a5328",
 "tex": "spider-14.jpg",
 "col": "spider",
 "code": "SPIDER-14"
@@ -2962,7 +2962,7 @@
 {
 "id": "spider-15",
 "he": "Spider 15",
-"hex": "#9e6b6f",
+"hex": "#a97073",
 "tex": "spider-15.jpg",
 "col": "spider",
 "code": "SPIDER-15"
@@ -2970,7 +2970,7 @@
 {
 "id": "spider-16",
 "he": "Spider 16",
-"hex": "#7a8c8b",
+"hex": "#7d9693",
 "tex": "spider-16.jpg",
 "col": "spider",
 "code": "SPIDER-16"
@@ -2978,7 +2978,7 @@
 {
 "id": "spider-17",
 "he": "Spider 17",
-"hex": "#44616d",
+"hex": "#446875",
 "tex": "spider-17.jpg",
 "col": "spider",
 "code": "SPIDER-17"
@@ -2986,7 +2986,7 @@
 {
 "id": "spider-18",
 "he": "Spider 18",
-"hex": "#4b493a",
+"hex": "#4e4e3b",
 "tex": "spider-18.jpg",
 "col": "spider",
 "code": "SPIDER-18"
@@ -2994,7 +2994,7 @@
 {
 "id": "spider-19",
 "he": "Spider 19",
-"hex": "#2f3c56",
+"hex": "#2f405e",
 "tex": "spider-19.jpg",
 "col": "spider",
 "code": "SPIDER-19"
@@ -3002,7 +3002,7 @@
 {
 "id": "spider-20",
 "he": "Spider 20",
-"hex": "#5b5b67",
+"hex": "#5e616e",
 "tex": "spider-20.jpg",
 "col": "spider",
 "code": "SPIDER-20"
@@ -3010,7 +3010,7 @@
 {
 "id": "spider-21",
 "he": "Spider 21",
-"hex": "#2a292e",
+"hex": "#2b2b30",
 "tex": "spider-21.jpg",
 "col": "spider",
 "code": "SPIDER-21"
@@ -3018,7 +3018,7 @@
 {
 "id": "sofia-1",
 "he": "Sofia 1",
-"hex": "#938c87",
+"hex": "#969591",
 "tex": "sofia-1.jpg",
 "col": "sofia",
 "code": "SOFIA-1"
@@ -3026,7 +3026,7 @@
 {
 "id": "sofia-2",
 "he": "Sofia 2",
-"hex": "#82756c",
+"hex": "#857c73",
 "tex": "sofia-2.jpg",
 "col": "sofia",
 "code": "SOFIA-2"
@@ -3034,7 +3034,7 @@
 {
 "id": "sofia-3",
 "he": "Sofia 3",
-"hex": "#726664",
+"hex": "#756c6b",
 "tex": "sofia-3.jpg",
 "col": "sofia",
 "code": "SOFIA-3"
@@ -3042,7 +3042,7 @@
 {
 "id": "sofia-4",
 "he": "Sofia 4",
-"hex": "#7b787c",
+"hex": "#7d8087",
 "tex": "sofia-4.jpg",
 "col": "sofia",
 "code": "SOFIA-4"
@@ -3050,7 +3050,7 @@
 {
 "id": "sofia-5",
 "he": "Sofia 5",
-"hex": "#645751",
+"hex": "#665c56",
 "tex": "sofia-5.jpg",
 "col": "sofia",
 "code": "SOFIA-5"
@@ -3058,7 +3058,7 @@
 {
 "id": "sofia-6",
 "he": "Sofia 6",
-"hex": "#90664a",
+"hex": "#966c4b",
 "tex": "sofia-6.jpg",
 "col": "sofia",
 "code": "SOFIA-6"
@@ -3066,7 +3066,7 @@
 {
 "id": "sofia-7",
 "he": "Sofia 7",
-"hex": "#663b32",
+"hex": "#6b3c33",
 "tex": "sofia-7.jpg",
 "col": "sofia",
 "code": "SOFIA-7"
@@ -3074,7 +3074,7 @@
 {
 "id": "sofia-8",
 "he": "Sofia 8",
-"hex": "#333b3a",
+"hex": "#333e3f",
 "tex": "sofia-8.jpg",
 "col": "sofia",
 "code": "SOFIA-8"
@@ -3082,7 +3082,7 @@
 {
 "id": "sofia-9",
 "he": "Sofia 9",
-"hex": "#585d50",
+"hex": "#586354",
 "tex": "sofia-9.jpg",
 "col": "sofia",
 "code": "SOFIA-9"
@@ -3090,7 +3090,7 @@
 {
 "id": "sofia-10",
 "he": "Sofia 10",
-"hex": "#52565a",
+"hex": "#535b61",
 "tex": "sofia-10.jpg",
 "col": "sofia",
 "code": "SOFIA-10"
@@ -3098,7 +3098,7 @@
 {
 "id": "sofia-11",
 "he": "Sofia 11",
-"hex": "#3e4149",
+"hex": "#3f4550",
 "tex": "sofia-11.jpg",
 "col": "sofia",
 "code": "SOFIA-11"
@@ -3106,7 +3106,7 @@
 {
 "id": "sofia-12",
 "he": "Sofia 12",
-"hex": "#33434f",
+"hex": "#324757",
 "tex": "sofia-12.jpg",
 "col": "sofia",
 "code": "SOFIA-12"
@@ -3114,7 +3114,7 @@
 {
 "id": "sofia-13",
 "he": "Sofia 13",
-"hex": "#9a9493",
+"hex": "#9d9e9f",
 "tex": "sofia-13.jpg",
 "col": "sofia",
 "code": "SOFIA-13"
@@ -3122,7 +3122,7 @@
 {
 "id": "sofia-14",
 "he": "Sofia 14",
-"hex": "#7d7a7e",
+"hex": "#7f8288",
 "tex": "sofia-14.jpg",
 "col": "sofia",
 "code": "SOFIA-14"
@@ -3130,7 +3130,7 @@
 {
 "id": "sofia-15",
 "he": "Sofia 15",
-"hex": "#6b6468",
+"hex": "#6d6a70",
 "tex": "sofia-15.jpg",
 "col": "sofia",
 "code": "SOFIA-15"
@@ -3138,7 +3138,7 @@
 {
 "id": "sofia-16",
 "he": "Sofia 16",
-"hex": "#40434a",
+"hex": "#414751",
 "tex": "sofia-16.jpg",
 "col": "sofia",
 "code": "SOFIA-16"
@@ -3146,7 +3146,7 @@
 {
 "id": "sofia-17",
 "he": "Sofia 17",
-"hex": "#aea4a1",
+"hex": "#b2aead",
 "tex": "sofia-17.jpg",
 "col": "sofia",
 "code": "SOFIA-17"
@@ -3154,7 +3154,7 @@
 {
 "id": "sofia-18",
 "he": "Sofia 18",
-"hex": "#877f7d",
+"hex": "#8a8686",
 "tex": "sofia-18.jpg",
 "col": "sofia",
 "code": "SOFIA-18"
@@ -3162,7 +3162,7 @@
 {
 "id": "sofia-19",
 "he": "Sofia 19",
-"hex": "#948d8b",
+"hex": "#979796",
 "tex": "sofia-19.jpg",
 "col": "sofia",
 "code": "SOFIA-19"
@@ -3170,7 +3170,7 @@
 {
 "id": "togo-1",
 "he": "Togo 1",
-"hex": "#a3a2a4",
+"hex": "#abadac",
 "tex": "togo-1.jpg",
 "col": "togo",
 "code": "TOGO-1"
@@ -3178,7 +3178,7 @@
 {
 "id": "togo-2",
 "he": "Togo 2",
-"hex": "#868996",
+"hex": "#8c939f",
 "tex": "togo-2.jpg",
 "col": "togo",
 "code": "TOGO-2"
@@ -3186,7 +3186,7 @@
 {
 "id": "togo-3",
 "he": "Togo 3",
-"hex": "#7f7c80",
+"hex": "#858487",
 "tex": "togo-3.jpg",
 "col": "togo",
 "code": "TOGO-3"
@@ -3194,7 +3194,7 @@
 {
 "id": "togo-4",
 "he": "Togo 4",
-"hex": "#8e837f",
+"hex": "#958b83",
 "tex": "togo-4.jpg",
 "col": "togo",
 "code": "TOGO-4"
@@ -3202,7 +3202,7 @@
 {
 "id": "togo-5",
 "he": "Togo 5",
-"hex": "#6c6665",
+"hex": "#726c69",
 "tex": "togo-5.jpg",
 "col": "togo",
 "code": "TOGO-5"
@@ -3210,7 +3210,7 @@
 {
 "id": "togo-6",
 "he": "Togo 6",
-"hex": "#717580",
+"hex": "#767d87",
 "tex": "togo-6.jpg",
 "col": "togo",
 "code": "TOGO-6"
@@ -3218,7 +3218,7 @@
 {
 "id": "togo-7",
 "he": "Togo 7",
-"hex": "#928681",
+"hex": "#9a8f86",
 "tex": "togo-7.jpg",
 "col": "togo",
 "code": "TOGO-7"
@@ -3226,7 +3226,7 @@
 {
 "id": "togo-8",
 "he": "Togo 8",
-"hex": "#826e6f",
+"hex": "#897573",
 "tex": "togo-8.jpg",
 "col": "togo",
 "code": "TOGO-8"
@@ -3234,7 +3234,7 @@
 {
 "id": "togo-9",
 "he": "Togo 9",
-"hex": "#916121",
+"hex": "#9d671b",
 "tex": "togo-9.jpg",
 "col": "togo",
 "code": "TOGO-9"
@@ -3242,7 +3242,7 @@
 {
 "id": "togo-10",
 "he": "Togo 10",
-"hex": "#8a4e39",
+"hex": "#955236",
 "tex": "togo-10.jpg",
 "col": "togo",
 "code": "TOGO-10"
@@ -3250,7 +3250,7 @@
 {
 "id": "togo-11",
 "he": "Togo 11",
-"hex": "#3b3d38",
+"hex": "#3d413a",
 "tex": "togo-11.jpg",
 "col": "togo",
 "code": "TOGO-11"
@@ -3258,7 +3258,7 @@
 {
 "id": "togo-12",
 "he": "Togo 12",
-"hex": "#24495f",
+"hex": "#214f66",
 "tex": "togo-12.jpg",
 "col": "togo",
 "code": "TOGO-12"
@@ -3266,7 +3266,7 @@
 {
 "id": "togo-13",
 "he": "Togo 13",
-"hex": "#182b3d",
+"hex": "#172d42",
 "tex": "togo-13.jpg",
 "col": "togo",
 "code": "TOGO-13"
@@ -3274,7 +3274,7 @@
 {
 "id": "togo-14",
 "he": "Togo 14",
-"hex": "#293346",
+"hex": "#29374c",
 "tex": "togo-14.jpg",
 "col": "togo",
 "code": "TOGO-14"
@@ -3282,7 +3282,7 @@
 {
 "id": "togo-15",
 "he": "Togo 15",
-"hex": "#141a29",
+"hex": "#131b2c",
 "tex": "togo-15.jpg",
 "col": "togo",
 "code": "TOGO-15"
@@ -3290,7 +3290,7 @@
 {
 "id": "togo-16",
 "he": "Togo 16",
-"hex": "#51525c",
+"hex": "#555761",
 "tex": "togo-16.jpg",
 "col": "togo",
 "code": "TOGO-16"
@@ -3298,7 +3298,7 @@
 {
 "id": "togo-17",
 "he": "Togo 17",
-"hex": "#37383e",
+"hex": "#393c40",
 "tex": "togo-17.jpg",
 "col": "togo",
 "code": "TOGO-17"
@@ -3306,7 +3306,7 @@
 {
 "id": "togo-18",
 "he": "Togo 18",
-"hex": "#3b373e",
+"hex": "#3e3a41",
 "tex": "togo-18.jpg",
 "col": "togo",
 "code": "TOGO-18"
@@ -3314,7 +3314,7 @@
 {
 "id": "togo-19",
 "he": "Togo 19",
-"hex": "#232328",
+"hex": "#24242a",
 "tex": "togo-19.jpg",
 "col": "togo",
 "code": "TOGO-19"
@@ -3322,7 +3322,7 @@
 {
 "id": "zoom-1",
 "he": "Zoom 1",
-"hex": "#a39b9c",
+"hex": "#a7a6a6",
 "tex": "zoom-1.jpg",
 "col": "zoom",
 "code": "ZOOM-1"
@@ -3330,7 +3330,7 @@
 {
 "id": "zoom-2",
 "he": "Zoom 2",
-"hex": "#9a908e",
+"hex": "#9e9a97",
 "tex": "zoom-2.jpg",
 "col": "zoom",
 "code": "ZOOM-2"
@@ -3338,7 +3338,7 @@
 {
 "id": "zoom-3",
 "he": "Zoom 3",
-"hex": "#958783",
+"hex": "#99908b",
 "tex": "zoom-3.jpg",
 "col": "zoom",
 "code": "ZOOM-3"
@@ -3346,7 +3346,7 @@
 {
 "id": "zoom-4",
 "he": "Zoom 4",
-"hex": "#7b6e6a",
+"hex": "#7e7571",
 "tex": "zoom-4.jpg",
 "col": "zoom",
 "code": "ZOOM-4"
@@ -3354,7 +3354,7 @@
 {
 "id": "zoom-5",
 "he": "Zoom 5",
-"hex": "#9e8684",
+"hex": "#a48f8c",
 "tex": "zoom-5.jpg",
 "col": "zoom",
 "code": "ZOOM-5"
@@ -3362,7 +3362,7 @@
 {
 "id": "zoom-6",
 "he": "Zoom 6",
-"hex": "#907867",
+"hex": "#95806c",
 "tex": "zoom-6.jpg",
 "col": "zoom",
 "code": "ZOOM-6"
@@ -3370,7 +3370,7 @@
 {
 "id": "zoom-7",
 "he": "Zoom 7",
-"hex": "#884938",
+"hex": "#904c38",
 "tex": "zoom-7.jpg",
 "col": "zoom",
 "code": "ZOOM-7"
@@ -3378,7 +3378,7 @@
 {
 "id": "zoom-8",
 "he": "Zoom 8",
-"hex": "#895e65",
+"hex": "#90636b",
 "tex": "zoom-8.jpg",
 "col": "zoom",
 "code": "ZOOM-8"
@@ -3386,7 +3386,7 @@
 {
 "id": "zoom-9",
 "he": "Zoom 9",
-"hex": "#51788b",
+"hex": "#4e8198",
 "tex": "zoom-9.jpg",
 "col": "zoom",
 "code": "ZOOM-9"
@@ -3394,7 +3394,7 @@
 {
 "id": "zoom-10",
 "he": "Zoom 10",
-"hex": "#324455",
+"hex": "#30485d",
 "tex": "zoom-10.jpg",
 "col": "zoom",
 "code": "ZOOM-10"
@@ -3402,7 +3402,7 @@
 {
 "id": "zoom-11",
 "he": "Zoom 11",
-"hex": "#73635d",
+"hex": "#766a62",
 "tex": "zoom-11.jpg",
 "col": "zoom",
 "code": "ZOOM-11"
@@ -3410,7 +3410,7 @@
 {
 "id": "zoom-14",
 "he": "Zoom 14",
-"hex": "#938e8f",
+"hex": "#97979a",
 "tex": "zoom-14.jpg",
 "col": "zoom",
 "code": "ZOOM-14"
@@ -3418,7 +3418,7 @@
 {
 "id": "zoom-15",
 "he": "Zoom 15",
-"hex": "#5c5861",
+"hex": "#5d5e68",
 "tex": "zoom-15.jpg",
 "col": "zoom",
 "code": "ZOOM-15"
@@ -3426,7 +3426,7 @@
 {
 "id": "zoom-16",
 "he": "Zoom 16",
-"hex": "#39363a",
+"hex": "#3a393e",
 "tex": "zoom-16.jpg",
 "col": "zoom",
 "code": "ZOOM-16"
@@ -3434,7 +3434,7 @@
 {
 "id": "zoom-17",
 "he": "Zoom 17",
-"hex": "#121215",
+"hex": "#121316",
 "tex": "zoom-17.jpg",
 "col": "zoom",
 "code": "ZOOM-17"
@@ -3442,7 +3442,7 @@
 {
 "id": "venecia-1",
 "he": "Venecia 1",
-"hex": "#9d928c",
+"hex": "#9e9a9a",
 "tex": "venecia-1.jpg",
 "col": "venecia",
 "code": "VENECIA-1"
@@ -3450,7 +3450,7 @@
 {
 "id": "venecia-2",
 "he": "Venecia 2",
-"hex": "#92837d",
+"hex": "#948a89",
 "tex": "venecia-2.jpg",
 "col": "venecia",
 "code": "VENECIA-2"
@@ -3458,7 +3458,7 @@
 {
 "id": "venecia-3",
 "he": "Venecia 3",
-"hex": "#83746f",
+"hex": "#847a79",
 "tex": "venecia-3.jpg",
 "col": "venecia",
 "code": "VENECIA-3"
@@ -3466,7 +3466,7 @@
 {
 "id": "venecia-4",
 "he": "Venecia 4",
-"hex": "#9c7671",
+"hex": "#a07b7c",
 "tex": "venecia-4.jpg",
 "col": "venecia",
 "code": "VENECIA-4"
@@ -3474,7 +3474,7 @@
 {
 "id": "venecia-5",
 "he": "Venecia 5",
-"hex": "#4f5e73",
+"hex": "#4d6482",
 "tex": "venecia-5.jpg",
 "col": "venecia",
 "code": "VENECIA-5"
@@ -3482,7 +3482,7 @@
 {
 "id": "venecia-6",
 "he": "Venecia 6",
-"hex": "#ab7e6d",
+"hex": "#b08475",
 "tex": "venecia-6.jpg",
 "col": "venecia",
 "code": "VENECIA-6"
@@ -3490,7 +3490,7 @@
 {
 "id": "venecia-7",
 "he": "Venecia 7",
-"hex": "#274c66",
+"hex": "#235174",
 "tex": "venecia-7.jpg",
 "col": "venecia",
 "code": "VENECIA-7"
@@ -3498,7 +3498,7 @@
 {
 "id": "venecia-8",
 "he": "Venecia 8",
-"hex": "#729195",
+"hex": "#6f9ba7",
 "tex": "venecia-8.jpg",
 "col": "venecia",
 "code": "VENECIA-8"
@@ -3506,7 +3506,7 @@
 {
 "id": "venecia-9",
 "he": "Venecia 9",
-"hex": "#7e8389",
+"hex": "#7e8b9a",
 "tex": "venecia-9.jpg",
 "col": "venecia",
 "code": "VENECIA-9"
@@ -3514,7 +3514,7 @@
 {
 "id": "venecia-10",
 "he": "Venecia 10",
-"hex": "#293e3c",
+"hex": "#274242",
 "tex": "venecia-10.jpg",
 "col": "venecia",
 "code": "VENECIA-10"
@@ -3522,7 +3522,7 @@
 {
 "id": "venecia-11",
 "he": "Venecia 11",
-"hex": "#a0782f",
+"hex": "#a57e2b",
 "tex": "venecia-11.jpg",
 "col": "venecia",
 "code": "VENECIA-11"
@@ -3530,7 +3530,7 @@
 {
 "id": "venecia-12",
 "he": "Venecia 12",
-"hex": "#0e121d",
+"hex": "#0d1321",
 "tex": "venecia-12.jpg",
 "col": "venecia",
 "code": "VENECIA-12"
@@ -3538,7 +3538,7 @@
 {
 "id": "venecia-13",
 "he": "Venecia 13",
-"hex": "#4c1417",
+"hex": "#501217",
 "tex": "venecia-13.jpg",
 "col": "venecia",
 "code": "VENECIA-13"
@@ -3546,7 +3546,7 @@
 {
 "id": "venecia-14",
 "he": "Venecia 14",
-"hex": "#858086",
+"hex": "#868795",
 "tex": "venecia-14.jpg",
 "col": "venecia",
 "code": "VENECIA-14"
@@ -3554,7 +3554,7 @@
 {
 "id": "venecia-15",
 "he": "Venecia 15",
-"hex": "#4a4a51",
+"hex": "#494e5b",
 "tex": "venecia-15.jpg",
 "col": "venecia",
 "code": "VENECIA-15"
@@ -3562,7 +3562,7 @@
 {
 "id": "venecia-16",
 "he": "Venecia 16",
-"hex": "#1a1d25",
+"hex": "#191e29",
 "tex": "venecia-16.jpg",
 "col": "venecia",
 "code": "VENECIA-16"

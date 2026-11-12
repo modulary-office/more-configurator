@@ -12,8 +12,8 @@
   "pmap": "",
   "psel": "",
   "pbase": "",
-  "fcol": "uno",
-  "leg": "chrome",
+  "fcol": "luzan",
+  "leg": "taupe",
   "pillows": false,
   "f_fast": "fast-1",
   "f_solly": "solly-1",
@@ -21,7 +21,7 @@
   "f_marly": "marly-1",
   "f_joy": "joy-1",
   "f_dior": "dior-1",
-  "f_luzan": "luzan-1",
+  "f_luzan": "luzan-15",
   "f_antika": "antika-1",
   "f_banda": "banda-1",
   "f_boss": "boss-1",
@@ -1033,6 +1033,10 @@
      "layout": "wrap",
      "options": [
       {
+       "v": "taupe",
+       "label": "שמפניה"
+      },
+      {
        "v": "black",
        "label": "שחור"
       },
@@ -1043,14 +1047,6 @@
       {
        "v": "brass",
        "label": "זהב מוברש"
-      },
-      {
-       "v": "oak",
-       "label": "עץ אלון"
-      },
-      {
-       "v": "walnut",
-       "label": "עץ אגוז"
       }
      ]
     }
@@ -1093,14 +1089,15 @@
   "sh": 42,
   "armW": 12,
   "armH": 78,
-  "backT": 22,
+  "backT": 20,
   "round": 2,
-  "legH": 15,
-  "cushT": 14,
+  "legH": 17,
+  "cushT": 12,
   "base": "legs",
-  "back": "tight",
+  "back": "panel",
   "seatW": 70,
-  "armShape": "slim",
-  "bench": true
+  "armShape": "panel",
+  "legStyle": "tleg",
+  "legInset": 26
  }
 }

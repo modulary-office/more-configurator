@@ -1082,17 +1082,18 @@
  "model": {
   "style": "block",
   "d": 100,
-  "h": 70,
+  "h": 66,
   "sh": 42,
   "armW": 22,
-  "armH": 52,
-  "backT": 22,
+  "armH": 66,
+  "backT": 24,
   "round": 7,
-  "legH": 14,
+  "legH": 4,
   "cushT": 14,
-  "base": "plinth",
+  "base": "legs",
   "back": "tight",
   "seatW": 70,
-  "chaiseD": 170
+  "chaiseD": 170,
+  "seat": "solid"
  }
 }

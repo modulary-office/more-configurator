@@ -6,13 +6,13 @@
  "subtitle": "Bully – ספה מקולקציית MORE. בוחרים אורך, בד וגוון, ואפשר לצבוע כל חלק בבד אחר. המחיר מתעדכן לפי מטר רץ.",
  "note": "הבדים מצולמים מקטלוג הספק, והגוון במסך להמחשה. המודל בתלת־ממד מקורב, והמידות הסופיות לפי הדגם.",
  "defaults": {
-  "len": 180,
+  "len": 450,
   "shape": "straight",
-  "pmode": "all",
-  "pmap": "",
+  "pmode": "part",
+  "pmap": "m0=moon-9;m1=moon-9;mb0=moon-9",
   "psel": "",
-  "pbase": "",
-  "fcol": "joy",
+  "pbase": "antika-8",
+  "fcol": "antika",
   "leg": "black",
   "pillows": false,
   "f_fast": "fast-1",
@@ -22,7 +22,7 @@
   "f_joy": "joy-7",
   "f_dior": "dior-1",
   "f_luzan": "luzan-1",
-  "f_antika": "antika-1",
+  "f_antika": "antika-8",
   "f_banda": "banda-1",
   "f_boss": "boss-1",
   "f_capri": "capri-1",
@@ -42,7 +42,8 @@
   "f_sofia": "sofia-1",
   "f_togo": "togo-1",
   "f_zoom": "zoom-1",
-  "f_venecia": "venecia-1"
+  "f_venecia": "venecia-1",
+  "backs": "photo"
  },
  "sections": [
   {
@@ -52,46 +53,68 @@
     {
      "type": "seg",
      "key": "len",
-     "label": "אורך (ס״מ)",
+     "label": "אורך (מודולים של 90 ס״מ)",
      "num": true,
      "options": [
       {
-       "v": 160,
-       "label": "160"
-      },
-      {
        "v": 180,
-       "label": "180"
+       "label": "180 · 2"
       },
       {
-       "v": 200,
-       "label": "200"
+       "v": 270,
+       "label": "270 · 3"
       },
       {
-       "v": 220,
-       "label": "220"
+       "v": 360,
+       "label": "360 · 4"
       },
       {
-       "v": 240,
-       "label": "240"
+       "v": 450,
+       "label": "450 · 5"
       },
       {
-       "v": 260,
-       "label": "260"
-      },
-      {
-       "v": 280,
-       "label": "280"
+       "v": 540,
+       "label": "540 · 6"
       }
      ],
      "custom": {
       "label": "אורך אחר",
-      "min": 120,
-      "max": 380,
-      "step": 10,
+      "min": 90,
+      "max": 900,
+      "step": 90,
       "unit": "ס״מ",
       "inputLabel": "אורך"
      }
+    }
+   ]
+  },
+  {
+   "id": "backs",
+   "title": "גבות",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "backs",
+     "label": "גבות",
+     "layout": "list",
+     "options": [
+      {
+       "v": "photo",
+       "label": "כמו בתמונה"
+      },
+      {
+       "v": "all",
+       "label": "גב לכל מודול"
+      },
+      {
+       "v": "alt",
+       "label": "גבות לסירוגין"
+      },
+      {
+       "v": "none",
+       "label": "ללא גב"
+      }
+     ]
     }
    ]
   },
@@ -1013,18 +1036,6 @@
      }
     }
    ]
-  },
-  {
-   "id": "extra",
-   "title": "תוספות",
-   "controls": [
-    {
-     "type": "toggle",
-     "key": "pillows",
-     "title": "כריות נוי",
-     "sub": "שתי כריות קישוט מאותו בד"
-    }
-   ]
   }
  ],
  "pricing": {
@@ -1045,18 +1056,20 @@
   ]
  },
  "model": {
-  "style": "block",
+  "style": "modules",
   "d": 80,
   "h": 72,
   "sh": 42,
   "armW": 20,
   "armH": 0,
-  "backT": 22,
-  "round": 5,
+  "backT": 26,
+  "round": 4,
   "legH": 14,
   "cushT": 14,
   "base": "plinth",
   "back": "tight",
-  "seatW": 90
+  "seatW": 90,
+  "modW": 90,
+  "backPattern": "11101"
  }
 }

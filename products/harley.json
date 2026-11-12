@@ -7,12 +7,12 @@
  "note": "הבדים מצולמים מקטלוג הספק, והגוון במסך להמחשה. המודל בתלת־ממד מקורב, והמידות הסופיות לפי הדגם.",
  "defaults": {
   "len": 300,
-  "shape": "straight",
+  "shape": "chaiseR",
   "pmode": "all",
   "pmap": "",
   "psel": "",
   "pbase": "",
-  "fcol": "porto",
+  "fcol": "dior",
   "leg": "black",
   "pillows": false,
   "f_fast": "fast-1",
@@ -1086,13 +1086,14 @@
   "sh": 40,
   "armW": 20,
   "armH": 0,
-  "backT": 22,
-  "round": 5,
+  "backT": 26,
+  "round": 4,
   "legH": 14,
   "cushT": 14,
   "base": "plinth",
   "back": "tight",
   "seatW": 100,
-  "chaiseD": 180
+  "chaiseD": 180,
+  "seat": "solid"
  }
 }

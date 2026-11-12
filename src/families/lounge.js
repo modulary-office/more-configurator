@@ -8,7 +8,7 @@ const byId = (arr, id) => arr.find(x => x.id === id) || arr[0] || FALLBACK;
 const TEX_BASE = new URL('../catalogs/upholstery/', import.meta.url);
 const LEGS = { black: { he: 'שחור', hex: '#1d1d1f' }, white: { he: 'לבן', hex: '#ecebe7' }, graphite: { he: 'גרפיט', hex: '#4a4c50' } };
 const BACKS = { full: 'גב לכל האורך', center: 'גב באמצע', left: 'גב משמאל', right: 'גב מימין', stagger: 'גבות מתחלפים', none: 'ללא גב' };
-const TABLES = { none: 'ללא', left: 'משמאל', right: 'מימין', both: 'בשני הצדדים' };
+const TABLES = { none: 'ללא', left: 'משמאל', right: 'מימין', middle: 'באמצע', both: 'בשני הקצוות' };
 
 function lists(product, cat) {
   const items = n => (cat[n] && cat[n].items) || [];
@@ -41,7 +41,7 @@ export const lounge = {
         return {
           size: `${S.len} ס״מ · ${sides() === 2 ? 'דו־צדדי' : 'חד־צדדי'}`,
           back: backTxt(),
-          tables: S.tables === 'none' ? 'ללא' : `<i style="background-image:url(${thumbTop(d)})"></i>${TABLES[S.tables]}`,
+          tables: S.tables === 'none' ? 'ללא' : `<i style="background-image:url(${thumbTop(d)})"></i>${TABLES[S.tables]}${S.tdepth === 'half' ? ' · חצי' : ''}`,
           fabric: `<i style="background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover"></i>${f.he}`,
           frame: `<i style="background:${(LEGS[S.leg] || LEGS.black).hex}"></i>${(LEGS[S.leg] || LEGS.black).he}`
         }[k];
@@ -52,13 +52,13 @@ export const lounge = {
         if ((k === 'fcol' || k.startsWith('f_')) && S.pmode === 'part' && S.psel) return [`${partName(S.psel)}: ${f.he}`, `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`];
         if (k === 'fcol' || k.startsWith('f_')) return [`בד: ${f.he}`, `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`];
         if (k === 'back') return [backTxt()];
-        if (k === 'tables' || k === 'tdec') return [S.tables === 'none' ? 'ללא שולחנות צד' : `שולחן צד ${TABLES[S.tables]}, ${byId(DEC, S.tdec).he}`];
+        if (k === 'tables' || k === 'tdec') return [S.tables === 'none' ? 'ללא מגש עץ' : `מגש עץ ${TABLES[S.tables]}${S.tdepth === 'half' ? ', חצי עומק' : ''}, ${byId(DEC, S.tdec).he}`];
         if (k === 'leg') return [`שלד: ${(LEGS[S.leg] || LEGS.black).he}`];
         return [`${S.len} × ${D()} ס״מ · ${sides() === 2 ? 'דו־צדדי' : 'חד־צדדי'}`];
       },
       code: () => `${product.codePrefix || 'LG'}-${sides() === 2 ? 'D' : 'S'}${S.len}-${String(S.back).toUpperCase()}-T${String(S.tables).toUpperCase()}-${fab().code || fabId(S)}${S.pmode === 'part' && S.pmap ? '-MIX' + Object.keys(pmapGet(S)).length : ''}-${String(S.leg).toUpperCase()}`,
       summary: () => [`${sides() === 2 ? 'דו־צדדי, גב אל גב' : 'חד־צדדי'}, אורך ${S.len} ס״מ`, `מידות ${S.len}×${D()}×70 ס״מ, גובה מושב 45`, backTxt(),
-        S.tables === 'none' ? '' : `שולחן צד ${TABLES[S.tables]}, ${byId(DEC, S.tdec).he}`, S.pmode === 'part' ? `בד בסיס: ${byId(FAB, S.pbase || fabId(S)).he}` : `בד: ${fab().he}`,
+        S.tables === 'none' ? '' : `מגש עץ ${TABLES[S.tables]}${S.tdepth === 'half' ? ', חצי עומק' : ''}, ${byId(DEC, S.tdec).he}`, S.pmode === 'part' ? `בד בסיס: ${byId(FAB, S.pbase || fabId(S)).he}` : `בד: ${fab().he}`,
         ...(S.pmode === 'part' ? Object.entries(pmapGet(S)).sort().map(([k, v]) => `${partName(k)}: ${byId(FAB, v).he}`) : []), `שלד: ${(LEGS[S.leg] || LEGS.black).he}`]
     };
   },
@@ -130,26 +130,40 @@ export const lounge = {
 
     function build() {
       Object.values(G).forEach(clear); hotPts = {};
-      const L = dims.L, two = S.sides === 2, D = two ? 2 * SIDE_D : SIDE_D + .05;
-      const tL = S.tables === 'left' || S.tables === 'both', tR = S.tables === 'right' || S.tables === 'both', TW = .5;
-      const x0 = -L / 2 + (tL ? TW : 0), x1 = L / 2 - (tR ? TW : 0), seatL = Math.max(.6, x1 - x0);
+      const L = dims.L, two = S.sides === 2, D = two ? 2 * SIDE_D : SIDE_D + .05, TW = .5;
+      const half = S.tdepth === 'half';
+      /* trays along the length: centre x of each */
+      const tx = { none: [], left: [-L / 2 + TW / 2], right: [L / 2 - TW / 2], both: [-L / 2 + TW / 2, L / 2 - TW / 2], middle: [0] }[S.tables] || [];
       const sideZ = two ? [SIDE_D / 2, -SIDE_D / 2] : [.025];   /* centre of each seating side (front = +z) */
-      /* seat pads: split into pads of ≤ 1.1 m */
-      const n = Math.max(1, Math.ceil(seatL / 1.1)), pw = seatL / n;
+      /* free ranges on a side: the length minus the trays that cover that side */
+      const covers = si => !half || si === 0;   /* a half-depth tray sits on the front side only */
+      const ranges = si => {
+        let r = [[-L / 2, L / 2]];
+        tx.forEach(x => { if (!covers(si)) return; const a = x - TW / 2, b = x + TW / 2; r = r.flatMap(([u, v]) => b <= u || a >= v ? [[u, v]] : [[u, a], [b, v]]).filter(([u, v]) => v - u > .05); });
+        return r;
+      };
+      const fullR = (() => { const r = ranges(0); return [r[0][0], r[r.length - 1][1]]; })();
+      const x0 = fullR[0], x1 = fullR[1], seatL = Math.max(.6, x1 - x0);
+      let pi = 0;
       sideZ.forEach((zc, si) => {
-        for (let i = 0; i < n; i++) {
-          const key = `s${si}-${i}`, geo = pad(pw, SIDE_D, PAD_H, .09), m = mk(geo, matFor(partFab(key)), x0 + (i + .5) * pw, SEAT_Y - PAD_H, zc);
-          m.userData.part = key; G.seat.add(m);
-          const h = new THREE.Mesh(geo, selMat); h.position.copy(m.position); h.scale.set(1.015, 1.06, 1.02); h.userData.sel = key; G.seat.add(h);
-        }
+        const depth = !two && half ? SIDE_D : SIDE_D;
+        ranges(si).forEach(([u, v]) => {
+          const n = Math.max(1, Math.ceil((v - u) / 1.1)), pw = (v - u) / n;
+          for (let i = 0; i < n; i++) {
+            const key = `s${si}-${pi++}`, geo = pad(pw, depth, PAD_H, .09), m = mk(geo, matFor(partFab(key)), u + (i + .5) * pw, SEAT_Y - PAD_H, zc);
+            m.userData.part = key; G.seat.add(m);
+            const h = new THREE.Mesh(geo, selMat); h.position.copy(m.position); h.scale.set(1.015, 1.06, 1.02); h.userData.sel = key; G.seat.add(h);
+          }
+        });
         /* back cushion: a slim reclined pad along the rear edge of this side */
         const dir = zc >= 0 && !two ? 1 : (si === 0 ? 1 : -1);  /* +1: sitter faces +z, back at the rear (−z) */
-        let a = x0, b = x1;
+        const rs = ranges(si), sa = rs[0][0], sb = rs[rs.length - 1][1], sL = sb - sa;
+        let a = sa, b = sb;
         const mode = S.back === 'stagger' && two ? (si === 0 ? 'left' : 'right') : S.back;
         if (mode === 'none') return;
-        if (mode === 'center') { const w = Math.min(seatL, Math.max(1.0, seatL * .6)); a = -w / 2 + (x0 + x1) / 2; b = a + w; }
-        if (mode === 'left') b = x0 + Math.max(.9, seatL * .55);
-        if (mode === 'right') a = x1 - Math.max(.9, seatL * .55);
+        if (mode === 'center') { const w = Math.min(sL, Math.max(1.0, sL * .6)); a = -w / 2 + (sa + sb) / 2; b = a + w; }
+        if (mode === 'left') b = sa + Math.max(.9, sL * .5);
+        if (mode === 'right') a = sb - Math.max(.9, sL * .5);
         const bw = b - a, bh = .36, bt = .15;
         const g = new THREE.ExtrudeGeometry(rr(bw - .05, bh, .08), { depth: bt - .05, bevelEnabled: true, bevelThickness: .025, bevelSize: .025, bevelSegments: 5, curveSegments: 10 });
         g.translate(0, bh / 2, -(bt - .05) / 2); worldUV(g);
@@ -158,14 +172,14 @@ export const lounge = {
         const hb = new THREE.Mesh(g, selMat); hb.position.copy(m.position); hb.rotation.copy(m.rotation); hb.scale.set(1.01, 1.03, 1.08); hb.userData.sel = bkey; G.back.add(hb);
         if (si === 0) hotPts.back = new THREE.Vector3((a + b) / 2, SEAT_Y + .28, zc - dir * (SIDE_D / 2 - .1));
       });
-      /* side tables: wooden trays at seat height on the same beam */
+      /* trays: wood at seat height on the same beam; full depth or the front half */
       const tm = woodMat(S.tdec || 'oak');
-      [[tL, -L / 2 + TW / 2], [tR, L / 2 - TW / 2]].forEach(([on, x]) => {
-        if (!on) return;
-        const tg = new THREE.ExtrudeGeometry(rr(TW - .03, D - .03, .05), { depth: .025, bevelEnabled: true, bevelThickness: .004, bevelSize: .004, bevelSegments: 2, curveSegments: 8 });
-        tg.rotateX(-Math.PI / 2); G.table.add(mk(tg, tm, x, SEAT_Y - .1, two ? 0 : .025));
-        G.table.add(mk(new THREE.BoxGeometry(TW - .12, .05, D - .14), legMat, x, SEAT_Y - .125, two ? 0 : .025));
-        if (!hotPts.tables) hotPts.tables = new THREE.Vector3(x, SEAT_Y - .06, (two ? 0 : .025) + D / 4);
+      tx.forEach(x => {
+        const td = half ? SIDE_D : D, tz = half ? sideZ[0] : (two ? 0 : .025);
+        const tg = new THREE.ExtrudeGeometry(rr(TW - .03, td - .03, .05), { depth: .025, bevelEnabled: true, bevelThickness: .004, bevelSize: .004, bevelSegments: 2, curveSegments: 8 });
+        tg.rotateX(-Math.PI / 2); G.table.add(mk(tg, tm, x, SEAT_Y - .1, tz));
+        G.table.add(mk(new THREE.BoxGeometry(TW - .12, .05, td - .14), legMat, x, SEAT_Y - .125, tz));
+        if (!hotPts.tables) hotPts.tables = new THREE.Vector3(x, SEAT_Y - .06, tz + td / 4);
       });
       /* frame: one beam along the length, cross arms under the pads, splayed legs */
       const by = SEAT_Y - PAD_H - .03, zc = two ? 0 : .025, BL = L - .25;

@@ -12,7 +12,7 @@
   "pmap": "",
   "psel": "",
   "pbase": "",
-  "fcol": "life",
+  "fcol": "luzan",
   "leg": "black",
   "pillows": false,
   "f_fast": "fast-1",
@@ -21,7 +21,7 @@
   "f_marly": "marly-1",
   "f_joy": "joy-1",
   "f_dior": "dior-1",
-  "f_luzan": "luzan-1",
+  "f_luzan": "luzan-21",
   "f_antika": "antika-1",
   "f_banda": "banda-1",
   "f_boss": "boss-1",
@@ -1060,11 +1060,12 @@
   "armW": 20,
   "armH": 0,
   "backT": 22,
-  "round": 8,
+  "round": 6,
   "legH": 14,
   "cushT": 14,
   "base": "plinth",
   "back": "tight",
-  "seatW": 55
+  "seatW": 16,
+  "channel": true
  }
 }
