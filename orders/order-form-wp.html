@@ -457,7 +457,9 @@ function field(f,obj,onChange,idp){
   else if(f.t==='frame'){wrap.classList.add('wide');const g=h('div',{class:'frames',id});Object.entries(FR).forEach(([n,svg])=>{const b=h('button',{type:'button','aria-pressed':obj[f.k]===n?'true':'false',html:svg+`<span>${n}</span>`});b.onclick=()=>set(obj[f.k]===n?'':n);g.append(b)});wrap.append(g)}
   return wrap;
 }
-function fieldsBlock(fields,obj,onChange,idp,cls='grid'){const g=h('div',{class:cls});const draw=()=>{g.replaceChildren(...fields.filter(f=>!f.show||f.show(obj)).map(f=>field(f,obj,()=>{onChange();if(fields.some(x=>x.show))draw()},idp)))};draw();return g}
+function fieldsBlock(fields,obj,onChange,idp,cls='grid'){const g=h('div',{class:cls});const vis=()=>fields.filter(f=>!f.show||f.show(obj));let sig='';
+  /* redraw only when a field appears or disappears – redrawing on every keystroke would take the cursor out of the box */
+  const draw=()=>{const v=vis();sig=v.map(f=>f.k).join();g.replaceChildren(...v.map(f=>field(f,obj,()=>{onChange();if(vis().map(f=>f.k).join()!==sig)draw()},idp)))};draw();return g}
 
 /* ---------- photos: kept in memory until sending (they ride on the hidden Elementor form's upload field) ---------- */
 const FILES=new Map();   // name -> File
