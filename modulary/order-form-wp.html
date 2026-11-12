@@ -88,7 +88,7 @@ details.lines summary{cursor:pointer;font-size:13px;color:var(--muted)}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 
-<div class="wrap">
+<div class="wrap" id="mdy-app">
   <header class="top">
     <div>
       <div class="brand"><b>MODULARY</b><span>טופס פנימי לצוות</span></div>
@@ -399,3 +399,14 @@ boot();
 </script>
 
 <style>.mdy-hidden-form{display:none!important}.elementor-widget-html{width:100%}</style>
+<style>
+#mdy-app,#mdy-app *{font-family:var(--f-body)}
+#mdy-app h1,#mdy-app h2{color:var(--ink)!important;font-family:var(--f-body)!important;line-height:1.2}
+#mdy-app input[type=text],#mdy-app input[type=number],#mdy-app input[type=tel],#mdy-app input[type=date],#mdy-app textarea,#mdy-app select{width:100%!important;max-width:none!important;font-size:15px!important;color:var(--ink)!important;background:var(--paper)!important;border:1px solid var(--line)!important;border-radius:8px!important;padding:8px 10px!important;min-height:40px;box-shadow:none!important}
+#mdy-app .room>.rh input{background:transparent!important;border:0!important;border-bottom:1px dashed var(--dash)!important;color:var(--paper)!important;font-weight:700!important;border-radius:0!important}
+#mdy-app button{font-family:var(--f-body)!important;text-transform:none;letter-spacing:normal;line-height:1.2}
+#mdy-app .seg button{background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+#mdy-app .seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+#mdy-app label{margin:0}
+body .elementor-widget-html,body .e-con{--padding-top:0;--padding-bottom:0}
+</style>
