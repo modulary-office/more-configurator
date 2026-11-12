@@ -96,6 +96,20 @@ details.lines summary{cursor:pointer;font-size:13px;color:var(--muted)}
 .mod select{min-height:34px!important;padding:4px 6px!important;width:auto!important;font-size:13.5px!important}
 .mod input{width:58px!important;min-height:34px!important;padding:4px 6px!important;font-size:13.5px!important}
 .mod button,.mods>button{border:0;background:var(--chip);color:var(--ink);border-radius:6px;min-width:30px;min-height:30px;cursor:pointer;font:600 14px var(--f-body)}
+[hidden]{display:none!important}
+.visitbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:var(--ink);color:var(--paper);border-radius:var(--r);padding:10px 12px}
+.visitbar b{font-size:16px}.visitbar .note{color:color-mix(in srgb,var(--paper) 70%,transparent)}
+.visitbar button{background:var(--yellow);color:var(--yellow-ink);border:0;border-radius:999px;padding:7px 12px;font:700 13.5px var(--f-body);cursor:pointer}
+.visit{border:1.5px solid var(--ink);border-radius:var(--r);background:var(--sheet);padding:12px;display:grid;gap:8px}
+.visit .vt{display:flex;align-items:center;gap:10px;justify-content:space-between;flex-wrap:wrap}
+.visit .time{font:700 15px var(--f-mono);background:var(--yellow);color:var(--yellow-ink);padding:2px 9px;border-radius:6px}
+.visit .acts{display:flex;gap:8px;flex-wrap:wrap}
+.visit .acts a,.visit .acts button{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--paper);color:var(--ink);border-radius:999px;padding:8px 13px;font:600 14px var(--f-body);text-decoration:none;cursor:pointer;min-height:40px}
+.visit .acts .go{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.visit.sent{opacity:.7}.visit .done{color:var(--ok);font-weight:700}
+.f.need input,.f.need .seg button{border-color:var(--warn)!important}.f.need>label::after,.f.need .yn::after{content:" · להשלים";color:var(--warn);font-weight:700}
+.plan{border:1px solid var(--line);border-radius:var(--r);padding:12px;background:var(--paper);display:grid;gap:10px}
+.plan .ph{display:flex;justify-content:space-between;align-items:center}
 @media (max-width:520px){h1{font-size:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -106,10 +120,27 @@ details.lines summary{cursor:pointer;font-size:13px;color:var(--muted)}
       <div class="brand"><b>MODULARY</b><span>טופס פנימי לצוות</span></div>
       <h1>טופס הזמנה – מדידה אצל לקוח</h1>
     </div>
-
+  <nav class="tabs" id="nav" role="group" aria-label="מסך">
+    <button id="tab-visits" type="button" aria-pressed="false" hidden>ביקורים</button>
+    <button id="tab-form" type="button" aria-pressed="true">טופס</button>
+    <button id="tab-plan" type="button" aria-pressed="false">הכנת ביקורים</button>
+  </nav>
   </header>
+  <section id="view-visits" hidden>
+    <div id="visitsHead" class="note"></div>
+    <div id="visitsList" class="list"></div>
+  </section>
+  <section id="view-plan" class="sheet" hidden aria-labelledby="h-plan">
+    <h2 id="h-plan">הכנת ביקורים ליום</h2>
+    <p class="note">ממלאים רק מה שידוע. מיכאל יקבל קישור אחד ליום, יראה את הרשימה וישלים את השאר אצל הלקוח.</p>
+    <div class="grid"><div class="f"><label class="lbl" for="planDate">תאריך</label><input type="date" id="planDate"></div><div class="f"><label class="lbl" for="planWho">מי יוצא</label><input type="text" id="planWho" value="מיכאל"></div></div>
+    <div id="planList" class="list"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn dark" id="planAdd" type="button">+ ביקור</button><button class="btn primary" id="planLink" type="button">צור קישור ליום</button></div>
+    <div id="planOut" hidden class="list"></div>
+  </section>
 
   <main id="view-new" class="wrap" style="padding:0;gap:16px">
+    <div id="visitBar" class="visitbar" hidden></div>
     <section class="sheet" aria-labelledby="h-cust">
       <h2 id="h-cust"><span class="num">1</span>לקוח ואתר</h2>
       <div id="hdr"></div>
@@ -400,9 +431,11 @@ const HDR=[
  {k:'dismantle',he:'פירוק ריהוט קיים',t:'yn'},{k:'install',he:'הרכבה',t:'yn',def:true},{k:'measuredBy',he:'מודד',t:'text',def:'מיכאל'}
 ];
 const blank=()=>({id:'o'+Date.now().toString(36),header:{date:new Date().toISOString().slice(0,10),install:true,measuredBy:'מיכאל'},rooms:[{id:'r1',name:'חדר 1',items:[]}],notes:'',photos:[]});
+const LS={get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del(k){try{localStorage.removeItem(k)}catch(e){}}};
+let curKey='mdy-order-draft',CURV=null;
 let O=load()||blank();
-function load(){try{return JSON.parse(localStorage.getItem('mdy-order-draft'))}catch(e){return null}}
-let saveT;function save(){clearTimeout(saveT);saveT=setTimeout(()=>{try{localStorage.setItem('mdy-order-draft',JSON.stringify(O))}catch(e){}},300);sum()}
+function load(k=curKey){return LS.get(k)}
+let saveT;function save(){clearTimeout(saveT);const k=curKey;saveT=setTimeout(()=>LS.set(k,O),300);sum()}
 const $=s=>document.querySelector(s),h=(t,a={},...c)=>{const e=document.createElement(t);for(const[k,v]of Object.entries(a)){if(k==='on')for(const[ev,fn]of Object.entries(v))e.addEventListener(ev,fn);else if(k==='html')e.innerHTML=v;else if(v!==false&&v!=null)e.setAttribute(k,v===true?'':v)}c.flat().forEach(x=>x!=null&&e.append(x));return e};
 let uid=0;const nid=p=>p+(++uid)+Math.random().toString(36).slice(2,6);
 
@@ -441,7 +474,7 @@ function photoBox(list,label='תמונה / שרטוט'){
 
 /* ---------- rooms & items ---------- */
 function renderAll(){
-  $('#hdr').replaceChildren(fieldsBlock(HDR,O.header,save,'h','grid'));
+  $('#hdr').replaceChildren(fieldsBlock(HDR,O.header,save,'h','grid'));markNeed();
   $('#rooms').replaceChildren(...O.rooms.map(roomEl));
   $('#genNotes').value=O.notes||'';
   $('#genPhotos').replaceWith(Object.assign(photoBox(O.photos,'שרטוט / תמונה כללית'),{id:'genPhotos'}));
@@ -473,14 +506,51 @@ $('#addRoom').onclick=()=>{O.rooms.push({id:nid('r'),name:'חדר '+(O.rooms.len
 $('#genNotes').oninput=e=>{O.notes=e.target.value;save()};
 
 /* ---------- status line ---------- */
-let stEl;function status(msg,kind='ok'){if(!stEl){stEl=h('div',{class:'status',role:'status'});$('#view-new').prepend(stEl)}stEl.className='status '+kind;stEl.textContent=msg}
+let stEl;function status(msg,kind='ok'){if(!stEl){stEl=h('div',{class:'status',role:'status'});document.querySelector('#mdy-app header.top').after(stEl)}stEl.className='status '+kind;stEl.textContent=msg}
 
 /* ---------- send: through the hidden Elementor form on this page (saved under Elementor > Submissions) ---------- */
-function boot(){renderAll()}
+
+/* ---------- day of visits: one link per day, prepared by the office, filled on site ---------- */
+const NEED=['contact','phone','address','floor','elevator','parking','access'];
+function markNeed(){if(!CURV)return;NEED.forEach(k=>{const el=document.getElementById('h-'+k);const f=el&&el.closest('.f');if(f)f.classList.toggle('need',O.header[k]===undefined||O.header[k]==='')})}
+const b64e=o=>{const b=new TextEncoder().encode(JSON.stringify(o));let s='';b.forEach(c=>s+=String.fromCharCode(c));return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')};
+const b64d=t=>{t=t.replace(/-/g,'+').replace(/_/g,'/');const s=atob(t);return JSON.parse(new TextDecoder().decode(Uint8Array.from(s,c=>c.charCodeAt(0))))};
+let DAY=null;try{const q=new URLSearchParams(location.search).get('day')||(location.hash.match(/day=([\w-]+)/)||[])[1];if(q)DAY=b64d(q)}catch(e){DAY=null}
+function blankFrom(v){const o=blank();Object.assign(o.header,{customer:v.customer||'',contact:v.contact||'',phone:v.phone||'',address:v.address||'',floor:v.floor||'',parking:v.parking||'',access:v.access||'',elevator:v.elevator||'',measuredBy:DAY&&DAY.who||'מיכאל',date:DAY&&DAY.d||o.header.date});if(v.note)o.notes='מהמשרד: '+v.note;o.id='v'+v.id;return o}
+function openVisit(v){CURV=v;curKey='mdy-order-draft:'+(DAY&&DAY.d||'')+':'+v.id;O=load()||blankFrom(v);renderAll();
+  const bar=$('#visitBar');bar.hidden=false;bar.replaceChildren(h('div',{},h('b',{},v.customer||'ביקור'),h('div',{class:'note'},[v.time,v.address].filter(Boolean).join(' · '))),(()=>{const b=h('button',{type:'button'},'← לרשימת הביקורים');b.onclick=()=>{CURV=null;curKey='mdy-order-draft';O=load()||blank();renderVisits();show('visits')};return b})());
+  show('form');scrollTo({top:0})}
+function renderVisits(){if(!DAY)return;const vs=[...(DAY.v||[])].sort((a,b)=>(a.time||'').localeCompare(b.time||''));
+  $('#visitsHead').textContent=`ביקורים ל-${(DAY.d||'').split('-').reverse().join('/')} · ${vs.length} ביקורים${DAY.who?' · '+DAY.who:''}`;
+  $('#visitsList').replaceChildren(...vs.map(v=>{const sent=LS.get('mdy-sent:'+v.id),draft=LS.get('mdy-order-draft:'+(DAY.d||'')+':'+v.id);
+    const go=h('button',{type:'button',class:'go'},sent?'הזמנה נוספת':draft?'המשך טופס':'פתיחת טופס');go.onclick=()=>openVisit(v);
+    const acts=h('div',{class:'acts'},go,v.phone?h('a',{href:'tel:'+v.phone.replace(/[^\d+]/g,'')},'חיוג '+v.phone):null,v.address?h('a',{href:'https://waze.com/ul?q='+encodeURIComponent(v.address)+'&navigate=yes',target:'_blank',rel:'noopener'},'ניווט'):null);
+    return h('div',{class:'visit'+(sent?' sent':'')},h('div',{class:'vt'},h('div',{style:'display:flex;gap:10px;align-items:center'},v.time?h('span',{class:'time'},v.time):null,h('b',{},v.customer||'ללא שם')),sent?h('span',{class:'done'},'נשלח ✓'):draft?h('span',{class:'note'},'בתהליך'):null),
+      h('div',{class:'note'},[v.address,v.floor&&('קומה '+v.floor),v.contact].filter(Boolean).join(' · ')),v.note?h('div',{class:'note'},'מהמשרד: '+v.note):null,acts)}))}
+/* planner */
+let PLAN=LS.get('mdy-plan')||{d:new Date(Date.now()+864e5).toISOString().slice(0,10),who:'מיכאל',v:[]};
+const PF=[{k:'time',he:'שעה',t:'text',ph:'09:00'},{k:'customer',he:'לקוח',t:'text'},{k:'contact',he:'איש קשר',t:'text'},{k:'phone',he:'טלפון',t:'tel'},{k:'address',he:'כתובת',t:'text'},{k:'floor',he:'בניין / קומה',t:'text'},{k:'elevator',he:'מעלית',t:'seg',o:['יש','אין']},{k:'parking',he:'חניה / פריקה',t:'text'},{k:'access',he:'דרכי גישה',t:'text'},{k:'note',he:'הערה למיכאל',t:'text',ph:'מה לבדוק, מה הלקוח ביקש'}];
+const savePlan=()=>LS.set('mdy-plan',PLAN);
+function renderPlan(){$('#planDate').value=PLAN.d;$('#planWho').value=PLAN.who||'';
+  $('#planList').replaceChildren(...PLAN.v.map((v,i)=>{const rm=h('button',{class:'iconbtn',type:'button'},'הסרה');rm.onclick=()=>{PLAN.v.splice(i,1);savePlan();renderPlan()};
+    return h('div',{class:'plan'},h('div',{class:'ph'},h('b',{},`ביקור ${i+1}`),rm),fieldsBlock(PF,v,savePlan,'pv'+v.id,'grid'))}));
+  if(!PLAN.v.length)$('#planList').append(h('div',{class:'empty'},'עוד אין ביקורים. לחצו "+ ביקור" כדי להוסיף לקוח.'))}
+$('#planDate').oninput=e=>{PLAN.d=e.target.value;savePlan()};$('#planWho').oninput=e=>{PLAN.who=e.target.value;savePlan()};
+$('#planAdd').onclick=()=>{PLAN.v.push({id:Math.random().toString(36).slice(2,8)});savePlan();renderPlan()};
+$('#planLink').onclick=()=>{const v=PLAN.v.filter(x=>x.customer||x.address);if(!v.length){status('הוסיפו לפחות ביקור אחד עם שם לקוח או כתובת.','warn');return}
+  const url=location.origin+location.pathname+'?day='+b64e({d:PLAN.d,who:PLAN.who,v});const msg=`ביקורים ל-${PLAN.d.split('-').reverse().join('/')} (${v.length}): ${url}`;
+  const box=h('input',{type:'text',readonly:true,value:url,'aria-label':'קישור ליום'});const cp=h('button',{type:'button',class:'btn ghost'},'העתקה');
+  cp.onclick=async()=>{try{await navigator.clipboard.writeText(msg);cp.textContent='הועתק ✓'}catch(e){box.select();cp.textContent='סמנו והעתיקו'}};
+  const out=$('#planOut');out.hidden=false;out.replaceChildren(h('div',{class:'f wide'},h('label',{class:'lbl'},'הקישור למיכאל'),box),h('div',{style:'display:flex;gap:8px;flex-wrap:wrap'},cp,h('a',{class:'btn primary',href:'https://wa.me/?text='+encodeURIComponent(msg),target:'_blank',rel:'noopener',style:'text-decoration:none'},'שליחה בוואטסאפ'),h('a',{class:'btn ghost',href:url,target:'_blank',rel:'noopener',style:'text-decoration:none'},'בדיקה'))) };
+/* views */
+function show(v){$('#view-visits').hidden=v!=='visits';$('#view-new').hidden=v!=='form';$('#view-plan').hidden=v!=='plan';$('#sendbar').hidden=v!=='form';
+  [['visits','#tab-visits'],['form','#tab-form'],['plan','#tab-plan']].forEach(([k,s])=>$(s).setAttribute('aria-pressed',k===v?'true':'false'));if(v!=='form')$('#visitBar').hidden=!CURV;if(v==='form')$('#visitBar').hidden=!CURV}
+$('#tab-visits').onclick=()=>{renderVisits();show('visits')};$('#tab-form').onclick=()=>show('form');$('#tab-plan').onclick=()=>{renderPlan();show('plan')};
+function boot(){renderAll();if(DAY){$('#tab-visits').hidden=false;renderVisits();show('visits')}else show('form')}
 function payload(){
   const rooms=O.rooms.map(r=>({name:r.name,items:r.items.map(it=>({type:it.type,typeHe:TYPES[it.type].he,qty:it.qty,v:it.v,note:it.note,photos:it.photos.map(p=>p.name),sketch:sketch(it),lines:itemLines(it)}))})).filter(r=>r.items.length);
   const lines=rooms.flatMap(r=>[{d:`${r.name}-----------`,q:1},...r.items.flatMap(i=>i.lines)]);
-  return {formVersion:1,sentAt:new Date().toISOString(),header:O.header,notes:O.notes,photos:O.photos.map(p=>p.name),rooms,lines};
+  return {formVersion:2,visitId:CURV?CURV.id:null,day:DAY?DAY.d:null,sentAt:new Date().toISOString(),header:O.header,notes:O.notes,photos:O.photos.map(p=>p.name),rooms,lines};
 }
 $('#sendBtn').onclick=async()=>{
   const p=payload();
@@ -494,14 +564,14 @@ $('#sendBtn').onclick=async()=>{
   const fi=form.querySelector('input[type=file]');const names=[...p.photos,...p.rooms.flatMap(r=>r.items.flatMap(i=>i.photos))].filter(n=>FILES.has(n));
   if(fi){const dt=new DataTransfer();names.forEach(n=>dt.items.add(FILES.get(n)));fi.files=dt.files}
   const btn=$('#sendBtn');btn.disabled=true;btn.textContent='שולח…';
-  const done=(ok,msg)=>{btn.disabled=false;btn.textContent='שליחה למודולרי';if(ok){status(`ההזמנה של ${p.header.customer} נשלחה${names.length?` עם ${names.length} תמונות`:''}. אופק יקבל אותה ויכין הצעת מחיר והזמנה לספק.`,'ok');O=blank();FILES.clear();try{localStorage.removeItem('mdy-order-draft')}catch(e){};renderAll();scrollTo({top:0,behavior:'smooth'})}else status(msg||'השליחה לא הצליחה. הטיוטה נשמרה. בדקו קליטה ונסו שוב.','err')};
+  const done=(ok,msg)=>{btn.disabled=false;btn.textContent='שליחה למודולרי';if(ok){status(`ההזמנה של ${p.header.customer} נשלחה${names.length?` עם ${names.length} תמונות`:''}. אופק יקבל אותה ויכין הצעת מחיר והזמנה לספק.`,'ok');FILES.clear();LS.del(curKey);if(CURV){LS.set('mdy-sent:'+CURV.id,new Date().toISOString());const who=CURV;CURV=null;curKey='mdy-order-draft';O=load()||blank();renderVisits();show('visits');status(`ההזמנה של ${who.customer} נשלחה. אפשר לעבור לביקור הבא.`,'ok')}else{O=blank();renderAll()}scrollTo({top:0,behavior:'smooth'})}else status(msg||'השליחה לא הצליחה. הטיוטה נשמרה. בדקו קליטה ונסו שוב.','err')};
   const $f=window.jQuery&&jQuery(form);
   if($f){$f.off('.mdy');$f.one('submit_success.mdy',()=>done(true));$f.one('error.mdy',()=>done(false));}
   const t=setTimeout(()=>{const m=form.querySelector('.elementor-message');if(m&&/success/.test(m.className))done(true);else if(m)done(false,m.textContent.trim());else done(false,'אין תשובה מהשרת. נסו שוב.')},45000);
   if($f)$f.one('submit_success.mdy error.mdy',()=>clearTimeout(t));
   form.querySelector('[type=submit]').click();
 };
-$('#clearBtn').onclick=e=>{const b=e.currentTarget;if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='למחוק את הטיוטה?';setTimeout(()=>{b.dataset.sure='';b.textContent='טופס חדש'},3000);return}O=blank();FILES.clear();try{localStorage.removeItem('mdy-order-draft')}catch(e){};renderAll();b.dataset.sure='';b.textContent='טופס חדש'};
+$('#clearBtn').onclick=e=>{const b=e.currentTarget;if(b.dataset.sure!=='1'){b.dataset.sure='1';b.textContent='למחוק את הטיוטה?';setTimeout(()=>{b.dataset.sure='';b.textContent='טופס חדש'},3000);return}FILES.clear();LS.del(curKey);O=CURV?blankFrom(CURV):blank();renderAll();b.dataset.sure='';b.textContent='טופס חדש'};
 document.body.append(h('datalist',{id:'colors'},...COLORS.map(c=>h('option',{value:c}))));
 boot();
 </script>
