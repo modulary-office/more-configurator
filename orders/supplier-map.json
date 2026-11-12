@@ -1,0 +1,37 @@
+{
+  "_note": "Supplier vocabulary for work orders to שני (Modulartech, Plando contact 4399326). Learned from ~1,750 past work orders (2021–2026). null = code not known yet: the line says the colour name and marks it 'קוד גוון לאישור'. Fill codes here as they are confirmed.",
+  "supplier": { "name": "שני", "plandoContactId": 4399326, "email": "sales@modulartech.co.il", "docType": 100 },
+  "sep": "\\",
+  "thickness": { "m28": "28 ממ", "m17": "17", "b24": "24", "f28": "28 ממ סנדוויץ פורמייקה", "mdf28": "28 ממ MDF פורמייקה", "v30": "30 ממ MDF פורניר" },
+  "edge": { "m28": "", "m17": "", "b24": "קנט מדוקק PVC תואם", "f28": "", "mdf28": "קנט אפוקסי", "v30": "קנט משופע" },
+  "frames": {
+    "intel": "אינטל", "rose": "רוז", "lotus": "לוטוס", "x": "איקס", "verona": "ורונה", "latte": "לאטה", "arco": "ארקו",
+    "quadro": "קואדרו", "joy-open": "ג׳וי פתוח", "joy-closed": "ג׳וי חלון", "bari": "בארי", "venice": "וונציה", "play": "פלאי",
+    "barcelona": "ברצלונה", "gesher": "גשר", "spider": "ספיידר", "electric": "שולחן חשמלי"
+  },
+  "frameColors": { "9016": "לבנה", "9003": "לבנה", "9010": "לבנה", "9005": "שחורה", "7024": "גרפיט", "7016": "אנטרציט", "5013": "כחולה" },
+  "decors": {
+    "white":    { "he": "לבן", "code": "" },
+    "black":    { "he": "שחור", "code": "" },
+    "graphite": { "he": "גרפיט", "code": "3160" },
+    "oak":      { "he": "אלון טבעי", "code": null },
+    "split":    { "he": "אלון מבוקע", "code": null },
+    "smoked":   { "he": "אלון מעושן", "code": null },
+    "walnut":   { "he": "אגוז אמריקאי", "code": null },
+    "ash":      { "he": "אש לבן", "code": null },
+    "cashmere": { "he": "קשמיר", "code": null },
+    "lgrey":    { "he": "אפור בהיר", "code": null },
+    "concrete": { "he": "בטון", "code": "7906" },
+    "marble":   { "he": "שיש", "code": null },
+    "sage":     { "he": "ירוק מרווה", "code": null },
+    "terra":    { "he": "טרקוטה", "code": null },
+    "blush":    { "he": "ורוד אבקה", "code": null },
+    "navy":     { "he": "כחול לילה", "code": null },
+    "olive":    { "he": "זית", "code": null },
+    "sand":     { "he": "חול", "code": null }
+  },
+  "handles": { "h": "ידיות ח רוכבות", "touch": "פתיחה בטאץ", "bar": "ידיות טלסקר", "integral": "ידית פרופיל C", "none": "פתיחה בטאץ" },
+  "returnArr": { "dd": "דלתות + מגירות", "ddd": "מגירות + דלתות + מגירות", "dod": "דלתות + תא פתוח + מגירות", "od": "תאים פתוחים + מגירות", "dr": "מגירות" },
+  "apron": { "height": 35, "shorterBy": 10 },
+  "returnHeight": 65
+}

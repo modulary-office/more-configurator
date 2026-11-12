@@ -1,0 +1,7 @@
+{
+  "subject": "דוגמה מהאתר (MORE) – חדר מנהל – לא לייצור",
+  "items": [
+    { "product": "manager-desk", "state": {}, "qty": 1, "room": "חדר מנהל" },
+    { "product": "cabinet-low", "state": { "w": 160, "body": "graphite", "face": "walnut" }, "qty": 1 }
+  ]
+}
