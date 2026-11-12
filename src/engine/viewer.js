@@ -53,6 +53,13 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   /* camera */
   const cam = { th: .78, ph: 1.12, r: 4, tx: 0, ty: .45, tz: 0 }, goal = { ...cam };
   root._cam = goal;
+  /* scripted demos (product videos) select a part the way a tap would */
+  root._frame = draw => { renderFrame(0); return draw ? draw(renderer.domElement) : renderer.domElement.toDataURL('image/jpeg', .92); };
+  /* demos set state directly: _set({len:280}) runs the same path as a control change */
+  root._set = patch => { for (const [k, v] of Object.entries(patch)) { S[k] = v; P.update(k); } ui.refresh && ui.refresh(); };
+  root._pmapNow = () => S.pmap;
+  root._explode = v => { explodeGoal = v ? 1 : 0; };
+  root._pick = k => { const msg = P.pick && P.pick(k); if (msg) { ui.refresh && ui.refresh(); } return !!msg; };
   let autoRot = true, lastInput = performance.now() - 9000, explode = 0, explodeGoal = 0;
   function fitR() { const sw = stage.clientWidth, sh = stage.clientHeight, asp = sw && sh ? sw / sh : 1.4; const base = 1.5 + 1.5 * P.fitSpan(); return base * (asp < 1.1 ? Math.pow(1.1 / asp, .75) : 1); }
   /* families may set their own look-at height (tall cabinets) and hero angle */

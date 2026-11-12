@@ -87,8 +87,14 @@ export const lounge = {
     const selMat = new THREE.MeshBasicMaterial({ color: 0xf5d547, transparent: true, opacity: .0, depthWrite: false });
     let selT = 0;
     function applyFab() {
-      [G.seat, G.back].forEach(g => g.children.forEach(m => { if (m.userData.part) m.material = matFor(partFab(m.userData.part)); if (m.userData.sel) m.visible = m.userData.sel === S.psel && S.pmode === 'part'; }));
+      [G.seat, G.back].forEach(g => g.children.forEach(m => {
+        if (m.userData.part) { const mt = matFor(partFab(m.userData.part)); if (m.material !== mt && m.userData.fabbed) pops.set(m, 0); m.material = mt; m.userData.fabbed = true; }
+        if (m.userData.sel) m.visible = m.userData.sel === S.psel && S.pmode === 'part';
+      }));
     }
+    /* a short "pop" on every pad whose fabric just changed, so the change reads at a glance */
+    const pops = new Map();
+    function tickPops(dt) { pops.forEach((t, m) => { t += dt / .42; if (t >= 1 || !m.parent) { m.scale.set(1, 1, 1); pops.delete(m); return; } const k = 1 + .085 * Math.sin(Math.PI * t); m.scale.set(k, k, k); pops.set(m, t); }); }
     /* UVs in metres so the weave keeps its real size on every pad */
     const TILE = .3;
     function worldUV(geo) {
@@ -219,18 +225,19 @@ export const lounge = {
       resizing = false;
       if (k === 'pmode') { if (S.pmode !== 'part') { S.pmap = ''; S.psel = ''; S.pbase = ''; } else { S.pbase = S.pbase || fabId(S); if (!S.psel) S.psel = 's0-0'; } applyFab(); return; }
       if (k.startsWith('f_') && S.pmode === 'part' && S.psel) { const m = pmapGet(S); m[S.psel] = fabId(S); pmapSet(S, m); applyFab(); return; }
-      if (k === 'fcol' || k.startsWith('f_')) { applyFab(); return; }
+      if (k === 'fcol' || k.startsWith('f_') || k === 'pmap' || k === 'pbase') { applyFab(); return; }
       if (k === 'leg') { tweenColor(legMat, (LEGS[S.leg] || LEGS.black).hex); return; }
       if (k === 'len') { dimT = { a: dims.L, b: S.len / 100, t: 0 }; resizing = true; return; }
       build();
     }
     function tick(dt, ease) {
-      selT += dt; selMat.opacity = S.pmode === 'part' && S.psel ? .26 + .14 * Math.sin(selT * 4) : 0;
+      selT += dt; selMat.opacity = S.pmode === 'part' && S.psel && !S.nosel ? .26 + .14 * Math.sin(selT * 4) : 0;
+      tickPops(dt);
       if (!dimT) return;
       dimT.t = Math.min(1, dimT.t + dt / .6); dims = { L: dimT.a + (dimT.b - dimT.a) * ease(dimT.t) }; build();
       if (dimT.t >= 1) { dimT = null; return 'settled'; }
     }
-    function explode(ex) { G.back.position.y = .25 * ex; G.seat.position.y = .14 * ex; G.table.position.y = .1 * ex; }
+    function explode(ex) { G.back.position.y = .5 * ex; G.back.position.z = 0; G.seat.position.y = .28 * ex; G.table.position.y = .16 * ex; }
     const depth = () => S.sides === 2 ? 1.2 : .65;
 
     return {
@@ -251,7 +258,7 @@ export const lounge = {
       focusView: k => ({ fabric: 'fabric' }[k] || 'hero'),
       hotspots: [['fabric', 'בד'], ['back', 'גב'], ['tables', 'שולחן צד'], ['frame', 'שלד']],
       hotPts: () => hotPts,
-      hotOffset: (k, ex) => k === 'back' ? .25 * ex : k === 'fabric' ? .14 * ex : 0,
+      hotOffset: (k, ex) => k === 'back' ? .5 * ex : k === 'fabric' ? .28 * ex : 0,
       dimLabels: () => dimLabels,
       snapLine: () => `${S.len} ס״מ · ${byId(FAB, fabId(S)).he}`
     };

@@ -1,0 +1,123 @@
+{
+ "product": "hofi",
+ "_note": "Loop for the category banner. Starts and ends exploded with the defaults, so the loop is seamless. Times in seconds.",
+ "size": [
+  640,
+  480
+ ],
+ "fps": 12,
+ "dur": 10.4,
+ "bg": "#ffffff",
+ "camera": {
+  "th": 0.42,
+  "swing": 0.22,
+  "ph": 1.05,
+  "r": 1.0,
+  "ty": 0.42,
+  "exR": 1.12,
+  "exTy": 0.55
+ },
+ "timeline": [
+  [
+   0.0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.8,
+   {
+    "set": {
+     "len": 280
+    }
+   }
+  ],
+  [
+   2.8,
+   {
+    "set": {
+     "tables": "left"
+    }
+   }
+  ],
+  [
+   3.5,
+   {
+    "set": {
+     "tables": "middle"
+    }
+   }
+  ],
+  [
+   4.3,
+   {
+    "paint": {
+     "b0": "venecia-7"
+    }
+   }
+  ],
+  [
+   4.9,
+   {
+    "paint": {
+     "b1": "uno-14"
+    }
+   }
+  ],
+  [
+   5.5,
+   {
+    "paint": {
+     "s0-0": "vigo-4",
+     "s0-1": "vigo-4"
+    }
+   }
+  ],
+  [
+   6.1,
+   {
+    "paint": {
+     "s0-2": "antika-8",
+     "s0-3": "antika-8"
+    }
+   }
+  ],
+  [
+   6.9,
+   {
+    "set": {
+     "back": "center"
+    }
+   }
+  ],
+  [
+   7.6,
+   {
+    "set": {
+     "back": "stagger"
+    }
+   }
+  ],
+  [
+   8.3,
+   {
+    "reset": true,
+    "set": {
+     "len": 220
+    }
+   }
+  ],
+  [
+   8.9,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}
