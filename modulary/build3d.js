@@ -1,13 +1,13 @@
 /* MODULARY / MORE – "בונים בתלת־ממד": one page, every configurator product.
    Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>.
    #mb3d data attributes: data-quote (contact URL), data-brand (title suffix), data-prices="on" to show list prices. */
-const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@7f5527f/dist/';
+const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@4db9c53/dist/';
 const GROUPS = [
   ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן']]],
   ['עמדות עבודה', [['bench-desk', 'עמדות משותפות'], ['duo-bench', 'Duo Bench עם מחיצות']]],
   ['ארונות ואחסון', [['cabinet-low', 'ארון נמוך'], ['cabinet-tall', 'ארון גבוה'], ['cabinet-sliding', 'דלתות הזזה'], ['file-cabinet', 'ארון תיקיות'], ['credenza', 'שלוחת מנהל'], ['drawer-unit', 'מגירות ועגלה'], ['shelf-open', 'כוננית'], ['cubby', 'כוורת תאים']]],
   ['נגרות', [['counter', 'דלפק קבלה'], ['kitchenette', 'מטבחון']]],
-  ['ספות וישיבה', [['hofi', 'Hofi מערכת ישיבה']]]
+  ['ספות וישיבה', [['hofi', 'Hofi מערכת ישיבה'], ['agatha', 'Agatha'], ['austin', 'Austin'], ['boomer', 'Boomer'], ['break', 'Break'], ['bully', 'Bully'], ['daffy', 'Daffy'], ['dobby', 'Dobby'], ['domino', 'Domino'], ['douglas', 'Douglas'], ['ellipse', 'Ellipse'], ['elora-duo', 'Elora Duo'], ['forma', 'Forma'], ['harley', 'Harley'], ['honey', 'Honey'], ['humi', 'Humi'], ['joyce', 'Joyce'], ['juan', 'Juan'], ['julie', 'Julie'], ['lento', 'Lento'], ['lunaro', 'Lunaro'], ['onem-3-seater', 'Onem 3-Seater'], ['peanut', 'Peanut'], ['rivano', 'Rivano'], ['sorano', 'Sorano'], ['velora', 'Velora'], ['wolf', 'Wolf'], ['zorro', 'Zorro'], ['zoya', 'Zoya']]]
 ];
 const ALL = GROUPS.flatMap(g => g[1].map(p => p[0]));
 const host = document.getElementById('mb3d');
