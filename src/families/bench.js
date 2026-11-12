@@ -1,6 +1,6 @@
 /* Family: bench – shared desks built from end frames, centre supports, a top, optional screens, tray, power boxes.
    Used by Duo Bench. Options and prices come from products/<id>.json; geometry lives here. */
-import { genTop, genWeave, thumbTop } from '../engine/textures.js';
+import { genTop, topTexture, genWeave, thumbTop } from '../engine/textures.js';
 
 const FALLBACK = { id: '', he: '', hex: '#888888', base: '#888888', kind: 'solid' };
 const byId = (arr, id) => arr.find(x => x.id === id) || arr[0] || FALLBACK;
@@ -78,7 +78,7 @@ export const bench = {
     const topMats = {};
     function topMat(id) {
       if (topMats[id]) return topMats[id];
-      const def = byId(TOPS, id), tex = new THREE.CanvasTexture(genTop(def, 1024));
+      const def = byId(TOPS, id), tex = topTexture(THREE, def, 1024);
       tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = maxAniso;
       const span = def.kind === 'wood' ? 1.6 : 1.2; tex.repeat.set(1 / span, 1 / span);
       const m = new THREE.MeshStandardMaterial({ map: tex, roughness: def.kind === 'marble' ? .28 : def.kind === 'wood' ? .62 : .5, metalness: 0, envMapIntensity: .7 });

@@ -1,7 +1,7 @@
 /* Family: lounge – modular upholstered seating on a steel beam (Hofi): seat pads, back cushions,
    wooden side tables, one- or two-sided. Price per running metre of seat, so length scales the price.
    Fabrics: catalogs/upholstery.json (swatch photos from the supplier's fabric books → textures). */
-import { genTop, thumbTop } from '../engine/textures.js';
+import { genTop, topTexture, thumbTop } from '../engine/textures.js';
 
 const FALLBACK = { id: '', he: '', hex: '#8a8a86' };
 const byId = (arr, id) => arr.find(x => x.id === id) || arr[0] || FALLBACK;
@@ -111,7 +111,7 @@ export const lounge = {
     const woodMats = {};
     function woodMat(id) {
       if (woodMats[id]) return woodMats[id];
-      const def = byId(DEC, id), tex = new THREE.CanvasTexture(genTop(def, 512));
+      const def = byId(DEC, id), tex = topTexture(THREE, def, 512);
       tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = maxAniso; tex.repeat.set(1.6, 1.6);
       return woodMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: .55 });
     }
@@ -179,7 +179,7 @@ export const lounge = {
         if (si === 0) hotPts.back = new THREE.Vector3((a + b) / 2, SEAT_Y + .28, zc - dir * (SIDE_D / 2 - .1));
       });
       /* trays: wood at seat height on the same beam; full depth or the front half */
-      const tm = woodMat(S.tdec || 'oak');
+      const tm = woodMat(S.tdec || 'm5172');
       tx.forEach(x => {
         const td = half ? SIDE_D : D, tz = half ? sideZ[0] : (two ? 0 : .025);
         const tg = new THREE.ExtrudeGeometry(rr(TW - .03, td - .03, .05), { depth: .025, bevelEnabled: true, bevelThickness: .004, bevelSize: .004, bevelSegments: 2, curveSegments: 8 });

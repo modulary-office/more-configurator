@@ -1,4 +1,30 @@
-/* Procedural textures – wood, stone, marble, solid, fabric weave. No image files. */
+/* Textures. Decors either come from a supplier photo (def.img, catalogs/…) or are drawn in code (wood, stone, marble, solid).
+   Fabric weave is drawn in code. */
+const ROOT = new URL('../', import.meta.url);
+const imgCache = {};
+function loadImg(src, cb) {
+  let e = imgCache[src];
+  if (!e) { e = imgCache[src] = { img: new Image(), ok: false, cbs: [] }; e.img.crossOrigin = 'anonymous';
+    e.img.onload = () => { e.ok = true; e.cbs.splice(0).forEach(f => f(e.img)); }; e.img.src = new URL('catalogs/' + src, ROOT).href; }
+  if (e.ok) cb(e.img); else e.cbs.push(cb);
+}
+/* a photo swatch is drawn 2×2 with mirrored copies: no seams where it repeats */
+function photoTop(def, N) {
+  const c = document.createElement('canvas'); c.width = c.height = N;
+  const x = c.getContext('2d'); x.fillStyle = def.base || '#ccc'; x.fillRect(0, 0, N, N);
+  loadImg(def.img, img => {
+    const h = N / 2;
+    /* top-left as is, top-right mirrored in x, bottom-left mirrored in y, bottom-right both */
+    for (const [sx, sy, tx, ty] of [[1, 1, 0, 0], [-1, 1, N, 0], [1, -1, 0, N], [-1, -1, N, N]]) { x.save(); x.translate(tx, ty); x.scale(sx, sy); x.drawImage(img, 0, 0, h, h); x.restore(); }
+    if (c.__tex) c.__tex.needsUpdate = true;
+    (c.__on || []).forEach(f => f());
+  });
+  return c;
+}
+/* texture for a decor, updated when its photo arrives */
+export function topTexture(THREE, def, N) {
+  const cv = genTop(def, N), tex = new THREE.CanvasTexture(cv); cv.__tex = tex; return tex;
+}
 export function hash(x, y) { let h = Math.imul(x, 374761393) + Math.imul(y, 668265263) | 0; h = Math.imul(h ^ (h >>> 13), 1274126177); return ((h ^ (h >>> 16)) >>> 0) / 4294967295; }
 export function vn(x, y, px, py) {
   const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi, u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
@@ -10,6 +36,7 @@ export function fbm(x, y, px, py, oct) { let s = 0, a = .5, f = 1; for (let i = 
 export const hexRgb = h => { const n = parseInt(h.slice(1), 16); return [n >> 16 & 255, n >> 8 & 255, n & 255]; };
 
 export function genTop(def, N) {
+  if (def.img) return photoTop(def, N);
   const c = document.createElement('canvas'); c.width = c.height = N;
   const x = c.getContext('2d'), img = x.createImageData(N, N), d = img.data;
   const A = hexRgb(def.base), B = hexRgb(def.dark || def.base);
@@ -67,6 +94,7 @@ export function genWeave(N) {
 
 const thumbCache = {};
 export function thumbTop(def) {
+  if (def.thumb) return new URL('catalogs/' + def.thumb, ROOT).href;
   if (thumbCache[def.id]) return thumbCache[def.id];
   const src = genTop(def, 160), c = document.createElement('canvas'); c.width = c.height = 80;
   c.getContext('2d').drawImage(src, 0, 0, 160, 160, 0, 0, 80, 80);

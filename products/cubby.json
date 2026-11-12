@@ -1,304 +1,304 @@
 {
- "id": "cubby",
- "name": "כוורת תאים",
- "family": "cabinet",
- "codePrefix": "MCC",
- "subtitle": "כוורת תאים פתוחה ממלמין, בעובי 17 או 28 מ״מ. אפשר להוסיף מגירות נשלפות בתאים.",
- "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
- "model": {
-  "kind": "cabinet",
-  "front": {
-   "t": "cubes"
-  }
- },
- "defaults": {
-  "w": 120,
-  "h": 80,
-  "d": 40,
-  "thick": 17,
-  "body": "oak",
-  "face": "white",
-  "handle": "integral",
-  "base": "none",
-  "drawers": 0
- },
- "sections": [
-  {
-   "id": "size",
-   "title": "מידות",
-   "controls": [
-    {
-     "type": "seg",
-     "key": "w",
-     "label": "רוחב",
-     "num": true,
-     "options": [
-      {
-       "v": 120
-      },
-      {
-       "v": 210
-      }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 80,
-      "max": 300,
-      "inputLabel": "רוחב בס״מ"
-     }
-    },
-    {
-     "type": "seg",
-     "key": "h",
-     "label": "גובה",
-     "num": true,
-     "options": [
-      {
-       "v": 80
-      },
-      {
-       "v": 120
-      }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 40,
-      "max": 200,
-      "inputLabel": "גובה בס״מ"
-     }
-    },
-    {
-     "type": "seg",
-     "key": "d",
-     "label": "עומק",
-     "num": true,
-     "options": [
-      {
-       "v": 40
-      }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 30,
-      "max": 60,
-      "inputLabel": "עומק בס״מ"
-     }
-    },
-    {
-     "type": "seg",
-     "key": "thick",
-     "label": "עובי מלמין",
-     "num": true,
-     "options": [
-      {
-       "v": 17,
-       "label": "17 מ״מ"
-      },
-      {
-       "v": 28,
-       "label": "28 מ״מ"
-      }
-     ]
+  "id": "cubby",
+  "name": "כוורת תאים",
+  "family": "cabinet",
+  "codePrefix": "MCC",
+  "subtitle": "כוורת תאים פתוחה ממלמין, בעובי 17 או 28 מ״מ. אפשר להוסיף מגירות נשלפות בתאים.",
+  "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
+  "model": {
+    "kind": "cabinet",
+    "front": {
+      "t": "cubes"
     }
-   ]
   },
-  {
-   "id": "fronts",
-   "title": "מגירות",
-   "controls": [
+  "defaults": {
+    "w": 120,
+    "h": 80,
+    "d": 40,
+    "thick": 17,
+    "body": "m5172",
+    "face": "m8170",
+    "handle": "integral",
+    "base": "none",
+    "drawers": 0
+  },
+  "sections": [
     {
-     "type": "stepper",
-     "key": "drawers",
-     "label": "מגירות נשלפות",
-     "min": 0,
-     "max": 8
+      "id": "size",
+      "title": "מידות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "w",
+          "label": "רוחב",
+          "num": true,
+          "options": [
+            {
+              "v": 120
+            },
+            {
+              "v": 210
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 80,
+            "max": 300,
+            "inputLabel": "רוחב בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "h",
+          "label": "גובה",
+          "num": true,
+          "options": [
+            {
+              "v": 80
+            },
+            {
+              "v": 120
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 40,
+            "max": 200,
+            "inputLabel": "גובה בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "d",
+          "label": "עומק",
+          "num": true,
+          "options": [
+            {
+              "v": 40
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 30,
+            "max": 60,
+            "inputLabel": "עומק בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "thick",
+          "label": "עובי מלמין",
+          "num": true,
+          "options": [
+            {
+              "v": 17,
+              "label": "17 מ״מ"
+            },
+            {
+              "v": 28,
+              "label": "28 מ״מ"
+            }
+          ]
+        }
+      ]
     },
     {
-     "type": "seg",
-     "key": "handle",
-     "label": "ידיות למגירות",
-     "options": [
-      {
-       "v": "bar",
-       "label": "ידית מוט"
-      },
-      {
-       "v": "integral",
-       "label": "פרופיל אינטגרלי"
-      },
-      {
-       "v": "none",
-       "label": "ללא (לחיצה)"
-      }
-     ]
-    }
-   ]
-  },
-  {
-   "id": "finish",
-   "title": "גימור",
-   "controls": [
-    {
-     "type": "swatch",
-     "key": "body",
-     "label": "גוף",
-     "catalog": "decors",
-     "style": "decor",
-     "out": "{he}"
+      "id": "fronts",
+      "title": "מגירות",
+      "controls": [
+        {
+          "type": "stepper",
+          "key": "drawers",
+          "label": "מגירות נשלפות",
+          "min": 0,
+          "max": 8
+        },
+        {
+          "type": "seg",
+          "key": "handle",
+          "label": "ידיות למגירות",
+          "options": [
+            {
+              "v": "bar",
+              "label": "ידית מוט"
+            },
+            {
+              "v": "integral",
+              "label": "פרופיל אינטגרלי"
+            },
+            {
+              "v": "none",
+              "label": "ללא (לחיצה)"
+            }
+          ]
+        }
+      ]
     },
     {
-     "type": "swatch",
-     "key": "face",
-     "label": "חזיתות מגירה",
-     "catalog": "decors",
-     "style": "decor",
-     "out": "{he}"
-    }
-   ]
-  },
-  {
-   "id": "extra",
-   "title": "בסיס",
-   "controls": [
+      "id": "finish",
+      "title": "גימור",
+      "controls": [
+        {
+          "type": "swatch",
+          "key": "body",
+          "label": "גוף",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}"
+        },
+        {
+          "type": "swatch",
+          "key": "face",
+          "label": "חזיתות מגירה",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}"
+        }
+      ]
+    },
     {
-     "type": "seg",
-     "key": "base",
-     "label": "בסיס",
-     "options": [
-      {
-       "v": "none",
-       "label": "ללא"
-      },
-      {
-       "v": "plinth",
-       "label": "צוקל"
-      },
-      {
-       "v": "legs",
-       "label": "רגלי אלומיניום"
-      }
-     ]
+      "id": "extra",
+      "title": "בסיס",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "base",
+          "label": "בסיס",
+          "options": [
+            {
+              "v": "none",
+              "label": "ללא"
+            },
+            {
+              "v": "plinth",
+              "label": "צוקל"
+            },
+            {
+              "v": "legs",
+              "label": "רגלי אלומיניום"
+            }
+          ]
+        }
+      ]
     }
-   ]
-  }
- ],
- "pricing": {
-  "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
-  "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
-  "currency": "₪",
-  "label": "מחיר",
-  "note": "כולל מע״מ, לא כולל הובלה והרכבה",
-  "markup": 100,
-  "vat": 18,
-  "roundTo": 10,
-  "customQuote": true,
-  "rules": [
-   {
-    "type": "table",
-    "label": "כוורת לפי מידה",
-    "dims": [
-     "w",
-     "h"
-    ],
-    "rows": [
-     {
-      "w": 120,
-      "h": 80,
-      "price": 420,
-      "when": {
-       "thick": 17
+  ],
+  "pricing": {
+    "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
+    "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
+    "currency": "₪",
+    "label": "מחיר",
+    "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+    "markup": 100,
+    "vat": 18,
+    "roundTo": 10,
+    "customQuote": true,
+    "rules": [
+      {
+        "type": "table",
+        "label": "כוורת לפי מידה",
+        "dims": [
+          "w",
+          "h"
+        ],
+        "rows": [
+          {
+            "w": 120,
+            "h": 80,
+            "price": 420,
+            "when": {
+              "thick": 17
+            }
+          },
+          {
+            "w": 210,
+            "h": 80,
+            "price": 700,
+            "when": {
+              "thick": 17
+            }
+          },
+          {
+            "w": 210,
+            "h": 120,
+            "price": 1050,
+            "when": {
+              "thick": 17
+            }
+          },
+          {
+            "w": 120,
+            "h": 80,
+            "price": 480,
+            "when": {
+              "thick": 28
+            }
+          },
+          {
+            "w": 210,
+            "h": 80,
+            "price": 800,
+            "when": {
+              "thick": 28
+            }
+          },
+          {
+            "w": 210,
+            "h": 120,
+            "price": 1200,
+            "when": {
+              "thick": 28
+            }
+          }
+        ]
+      },
+      {
+        "type": "tiers",
+        "label": "תוספת עומק",
+        "by": "d",
+        "tiers": [
+          {
+            "upTo": 40,
+            "percent": 0
+          },
+          {
+            "upTo": 50,
+            "percent": 25
+          },
+          {
+            "upTo": 60,
+            "percent": 35
+          }
+        ]
+      },
+      {
+        "type": "unit",
+        "label": "מגירות נשלפות",
+        "per": "drawers",
+        "amount": 150
+      },
+      {
+        "type": "unit",
+        "label": "צוקל",
+        "per": "per80",
+        "amount": 35,
+        "when": {
+          "base": "plinth"
+        }
+      },
+      {
+        "type": "fixed",
+        "label": "רגלי אלומיניום",
+        "amount": 100,
+        "when": {
+          "base": "legs"
+        }
       }
-     },
-     {
-      "w": 210,
-      "h": 80,
-      "price": 700,
-      "when": {
-       "thick": 17
-      }
-     },
-     {
-      "w": 210,
-      "h": 120,
-      "price": 1050,
-      "when": {
-       "thick": 17
-      }
-     },
-     {
-      "w": 120,
-      "h": 80,
-      "price": 480,
-      "when": {
-       "thick": 28
-      }
-     },
-     {
-      "w": 210,
-      "h": 80,
-      "price": 800,
-      "when": {
-       "thick": 28
-      }
-     },
-     {
-      "w": 210,
-      "h": 120,
-      "price": 1200,
-      "when": {
-       "thick": 28
-      }
-     }
     ]
-   },
-   {
-    "type": "tiers",
-    "label": "תוספת עומק",
-    "by": "d",
-    "tiers": [
-     {
-      "upTo": 40,
-      "percent": 0
-     },
-     {
-      "upTo": 50,
-      "percent": 25
-     },
-     {
-      "upTo": 60,
-      "percent": 35
-     }
-    ]
-   },
-   {
-    "type": "unit",
-    "label": "מגירות נשלפות",
-    "per": "drawers",
-    "amount": 150
-   },
-   {
-    "type": "unit",
-    "label": "צוקל",
-    "per": "per80",
-    "amount": 35,
-    "when": {
-     "base": "plinth"
-    }
-   },
-   {
-    "type": "fixed",
-    "label": "רגלי אלומיניום",
-    "amount": 100,
-    "when": {
-     "base": "legs"
-    }
-   }
-  ]
- }
+  }
 }

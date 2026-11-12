@@ -1,335 +1,335 @@
 {
- "id": "cabinet-tall",
- "name": "ארון גבוה",
- "family": "cabinet",
- "codePrefix": "MCT",
- "subtitle": "ארון משרדי גבוה בגוף ודלתות מלמין 17 מ״מ. מידות סטנדרט או לפי מידה.",
- "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
- "model": {
-  "kind": "cabinet",
-  "fronts": {
-   "doors2": {
-    "t": "doors"
-   },
-   "doors4": {
-    "t": "doors",
-    "rows": 2,
-    "split": 0.5
-   }
-  }
- },
- "defaults": {
-  "w": 80,
-  "h": 210,
-  "d": 40,
-  "front": "doors2",
-  "body": "white",
-  "face": "oak",
-  "handle": "bar",
-  "base": "none",
-  "lock": false,
-  "back": false,
-  "side28": false,
-  "shelves": 0
- },
- "sections": [
-  {
-   "id": "size",
-   "title": "מידות",
-   "controls": [
-    {
-     "type": "seg",
-     "key": "w",
-     "label": "רוחב",
-     "num": true,
-     "options": [
-      {
-       "v": 80
+  "id": "cabinet-tall",
+  "name": "ארון גבוה",
+  "family": "cabinet",
+  "codePrefix": "MCT",
+  "subtitle": "ארון משרדי גבוה בגוף ודלתות מלמין 17 מ״מ. מידות סטנדרט או לפי מידה.",
+  "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
+  "model": {
+    "kind": "cabinet",
+    "fronts": {
+      "doors2": {
+        "t": "doors"
+      },
+      "doors4": {
+        "t": "doors",
+        "rows": 2,
+        "split": 0.5
       }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 40,
-      "max": 160,
-      "inputLabel": "רוחב בס״מ"
-     }
-    },
-    {
-     "type": "seg",
-     "key": "h",
-     "label": "גובה",
-     "num": true,
-     "options": [
-      {
-       "v": 130
-      },
-      {
-       "v": 160
-      },
-      {
-       "v": 210
-      },
-      {
-       "v": 240
-      }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 100,
-      "max": 260,
-      "inputLabel": "גובה בס״מ"
-     }
-    },
-    {
-     "type": "seg",
-     "key": "d",
-     "label": "עומק",
-     "num": true,
-     "options": [
-      {
-       "v": 40
-      },
-      {
-       "v": 50
-      },
-      {
-       "v": 60
-      }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 30,
-      "max": 60,
-      "inputLabel": "עומק בס״מ"
-     }
     }
-   ]
   },
-  {
-   "id": "fronts",
-   "title": "חזיתות",
-   "controls": [
-    {
-     "type": "seg",
-     "key": "front",
-     "label": "דלתות",
-     "options": [
-      {
-       "v": "doors2",
-       "label": "2 דלתות לכל הגובה"
-      },
-      {
-       "v": "doors4",
-       "label": "4 דלתות"
-      }
-     ]
-    },
-    {
-     "type": "seg",
-     "key": "handle",
-     "label": "ידיות",
-     "options": [
-      {
-       "v": "bar",
-       "label": "ידית מוט"
-      },
-      {
-       "v": "integral",
-       "label": "פרופיל אינטגרלי"
-      },
-      {
-       "v": "none",
-       "label": "ללא (לחיצה)"
-      }
-     ]
-    }
-   ]
+  "defaults": {
+    "w": 80,
+    "h": 210,
+    "d": 40,
+    "front": "doors2",
+    "body": "m8170",
+    "face": "m5172",
+    "handle": "bar",
+    "base": "none",
+    "lock": false,
+    "back": false,
+    "side28": false,
+    "shelves": 0
   },
-  {
-   "id": "finish",
-   "title": "גימור",
-   "controls": [
+  "sections": [
     {
-     "type": "swatch",
-     "key": "body",
-     "label": "גוף",
-     "catalog": "decors",
-     "style": "decor",
-     "out": "{he}"
+      "id": "size",
+      "title": "מידות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "w",
+          "label": "רוחב",
+          "num": true,
+          "options": [
+            {
+              "v": 80
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 40,
+            "max": 160,
+            "inputLabel": "רוחב בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "h",
+          "label": "גובה",
+          "num": true,
+          "options": [
+            {
+              "v": 130
+            },
+            {
+              "v": 160
+            },
+            {
+              "v": 210
+            },
+            {
+              "v": 240
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 100,
+            "max": 260,
+            "inputLabel": "גובה בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "d",
+          "label": "עומק",
+          "num": true,
+          "options": [
+            {
+              "v": 40
+            },
+            {
+              "v": 50
+            },
+            {
+              "v": 60
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 30,
+            "max": 60,
+            "inputLabel": "עומק בס״מ"
+          }
+        }
+      ]
     },
     {
-     "type": "swatch",
-     "key": "face",
-     "label": "חזיתות",
-     "catalog": "decors",
-     "style": "decor",
-     "out": "{he}"
-    }
-   ]
-  },
-  {
-   "id": "extra",
-   "title": "תוספות",
-   "controls": [
+      "id": "fronts",
+      "title": "חזיתות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "front",
+          "label": "דלתות",
+          "options": [
+            {
+              "v": "doors2",
+              "label": "2 דלתות לכל הגובה"
+            },
+            {
+              "v": "doors4",
+              "label": "4 דלתות"
+            }
+          ]
+        },
+        {
+          "type": "seg",
+          "key": "handle",
+          "label": "ידיות",
+          "options": [
+            {
+              "v": "bar",
+              "label": "ידית מוט"
+            },
+            {
+              "v": "integral",
+              "label": "פרופיל אינטגרלי"
+            },
+            {
+              "v": "none",
+              "label": "ללא (לחיצה)"
+            }
+          ]
+        }
+      ]
+    },
     {
-     "type": "seg",
-     "key": "base",
-     "label": "בסיס",
-     "options": [
+      "id": "finish",
+      "title": "גימור",
+      "controls": [
+        {
+          "type": "swatch",
+          "key": "body",
+          "label": "גוף",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}"
+        },
+        {
+          "type": "swatch",
+          "key": "face",
+          "label": "חזיתות",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}"
+        }
+      ]
+    },
+    {
+      "id": "extra",
+      "title": "תוספות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "base",
+          "label": "בסיס",
+          "options": [
+            {
+              "v": "none",
+              "label": "ללא"
+            },
+            {
+              "v": "plinth",
+              "label": "צוקל"
+            }
+          ]
+        },
+        {
+          "type": "stepper",
+          "key": "shelves",
+          "label": "מדפים נוספים",
+          "min": 0,
+          "max": 6
+        },
+        {
+          "type": "toggle",
+          "key": "lock",
+          "title": "מנעול",
+          "sub": "לכל זוג דלתות"
+        },
+        {
+          "type": "toggle",
+          "key": "back",
+          "title": "גב מלא",
+          "sub": ""
+        },
+        {
+          "type": "toggle",
+          "key": "side28",
+          "title": "דפנות 28 מ״מ",
+          "sub": "דופן עבה במקום 17 מ״מ"
+        }
+      ]
+    }
+  ],
+  "pricing": {
+    "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
+    "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
+    "currency": "₪",
+    "label": "מחיר",
+    "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+    "markup": 100,
+    "vat": 18,
+    "roundTo": 10,
+    "customQuote": true,
+    "rules": [
       {
-       "v": "none",
-       "label": "ללא"
+        "type": "table",
+        "label": "ארון לפי מידה",
+        "dims": [
+          "w",
+          "h"
+        ],
+        "rows": [
+          {
+            "w": 80,
+            "h": 130,
+            "price": 500
+          },
+          {
+            "w": 80,
+            "h": 160,
+            "price": 610
+          },
+          {
+            "w": 80,
+            "h": 210,
+            "price": 670
+          },
+          {
+            "w": 80,
+            "h": 240,
+            "price": 770
+          }
+        ]
       },
       {
-       "v": "plinth",
-       "label": "צוקל"
+        "type": "option",
+        "label": "4 דלתות",
+        "key": "front",
+        "amounts": {
+          "doors2": 0,
+          "doors4": 10
+        }
+      },
+      {
+        "type": "tiers",
+        "label": "תוספת עומק",
+        "by": "d",
+        "tiers": [
+          {
+            "upTo": 40,
+            "percent": 0
+          },
+          {
+            "upTo": 50,
+            "percent": 25
+          },
+          {
+            "upTo": 60,
+            "percent": 35
+          }
+        ]
+      },
+      {
+        "type": "unit",
+        "label": "מנעול",
+        "per": "doorPairs",
+        "amount": 25,
+        "when": {
+          "lock": true
+        }
+      },
+      {
+        "type": "unit",
+        "label": "גב מלא",
+        "per": "per80",
+        "amount": 120,
+        "when": {
+          "back": true
+        }
+      },
+      {
+        "type": "fixed",
+        "label": "דפנות 28 מ״מ",
+        "amount": 200,
+        "when": {
+          "side28": true
+        }
+      },
+      {
+        "type": "unit",
+        "label": "מדפים נוספים",
+        "per": "shelves",
+        "amount": 30
+      },
+      {
+        "type": "unit",
+        "label": "צוקל",
+        "per": "per80",
+        "amount": 30,
+        "when": {
+          "base": "plinth"
+        }
       }
-     ]
-    },
-    {
-     "type": "stepper",
-     "key": "shelves",
-     "label": "מדפים נוספים",
-     "min": 0,
-     "max": 6
-    },
-    {
-     "type": "toggle",
-     "key": "lock",
-     "title": "מנעול",
-     "sub": "לכל זוג דלתות"
-    },
-    {
-     "type": "toggle",
-     "key": "back",
-     "title": "גב מלא",
-     "sub": ""
-    },
-    {
-     "type": "toggle",
-     "key": "side28",
-     "title": "דפנות 28 מ״מ",
-     "sub": "דופן עבה במקום 17 מ״מ"
-    }
-   ]
-  }
- ],
- "pricing": {
-  "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
-  "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
-  "currency": "₪",
-  "label": "מחיר",
-  "note": "כולל מע״מ, לא כולל הובלה והרכבה",
-  "markup": 100,
-  "vat": 18,
-  "roundTo": 10,
-  "customQuote": true,
-  "rules": [
-   {
-    "type": "table",
-    "label": "ארון לפי מידה",
-    "dims": [
-     "w",
-     "h"
-    ],
-    "rows": [
-     {
-      "w": 80,
-      "h": 130,
-      "price": 500
-     },
-     {
-      "w": 80,
-      "h": 160,
-      "price": 610
-     },
-     {
-      "w": 80,
-      "h": 210,
-      "price": 670
-     },
-     {
-      "w": 80,
-      "h": 240,
-      "price": 770
-     }
     ]
-   },
-   {
-    "type": "option",
-    "label": "4 דלתות",
-    "key": "front",
-    "amounts": {
-     "doors2": 0,
-     "doors4": 10
-    }
-   },
-   {
-    "type": "tiers",
-    "label": "תוספת עומק",
-    "by": "d",
-    "tiers": [
-     {
-      "upTo": 40,
-      "percent": 0
-     },
-     {
-      "upTo": 50,
-      "percent": 25
-     },
-     {
-      "upTo": 60,
-      "percent": 35
-     }
-    ]
-   },
-   {
-    "type": "unit",
-    "label": "מנעול",
-    "per": "doorPairs",
-    "amount": 25,
-    "when": {
-     "lock": true
-    }
-   },
-   {
-    "type": "unit",
-    "label": "גב מלא",
-    "per": "per80",
-    "amount": 120,
-    "when": {
-     "back": true
-    }
-   },
-   {
-    "type": "fixed",
-    "label": "דפנות 28 מ״מ",
-    "amount": 200,
-    "when": {
-     "side28": true
-    }
-   },
-   {
-    "type": "unit",
-    "label": "מדפים נוספים",
-    "per": "shelves",
-    "amount": 30
-   },
-   {
-    "type": "unit",
-    "label": "צוקל",
-    "per": "per80",
-    "amount": 30,
-    "when": {
-     "base": "plinth"
-    }
-   }
-  ]
- }
+  }
 }

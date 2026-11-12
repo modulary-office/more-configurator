@@ -27,7 +27,10 @@ function validOne(c, S, v, cat) {
       return { ok: false };
     }
     case 'stepper': { v = Number(v); return Number.isInteger(v) && v >= c.min && v <= c.max ? { ok: true, v } : { ok: false }; }
-    case 'swatch': { const items = catItems(c, cat); return items.some(x => x.id === v) ? { ok: true, v } : { ok: false }; }
+    case 'swatch': { const items = catItems(c, cat); if (items.some(x => x.id === v)) return { ok: true, v };
+      /* old decor names (before the real supplier shades) map to the closest shade, so old links and saved projects still open */
+      const al = cat[c.catalog] && cat[c.catalog].aliases, to = al && al[v];
+      return to && items.some(x => x.id === to) ? { ok: true, v: to } : { ok: false }; }
     case 'toggle': return typeof v === 'boolean' ? { ok: true, v } : { ok: false };
   }
   return { ok: false };

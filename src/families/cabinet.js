@@ -6,7 +6,7 @@
    State keys used (all optional, a product offers only what it needs):
    w h d (cm) · front (variant) · body / face (decor ids) · ral (epoxy colour) · handle · base · back · side28 ·
    shelves · lock · glass · drawers · upper · finish · shape · w2 · style · rails · softclose */
-import { genTop, thumbTop } from '../engine/textures.js';
+import { genTop, topTexture, thumbTop } from '../engine/textures.js';
 
 const FALLBACK = { id: '', he: '', hex: '#999999', base: '#d8d2c8', kind: 'solid' };
 const byId = (arr, id) => (arr || []).find(x => x.id === id) || (arr || [])[0] || FALLBACK;
@@ -158,7 +158,7 @@ export const cabinet = {
     const decMats = {};
     function decMat(id) {
       if (decMats[id]) return decMats[id];
-      const def = byId(DEC, id), tex = new THREE.CanvasTexture(genTop(def, 512));
+      const def = byId(DEC, id), tex = topTexture(THREE, def, 512);
       tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = maxAniso;
       const span = def.kind === 'wood' ? 1.0 : 1.1; tex.repeat.set(1 / span, 1 / span);
       return decMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: def.kind === 'marble' ? .3 : def.kind === 'wood' ? .62 : .5, envMapIntensity: .7 });

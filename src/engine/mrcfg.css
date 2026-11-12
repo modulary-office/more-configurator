@@ -180,3 +180,8 @@
 #mrcfg .mrc-row .mrc-ghost{padding:9px 8px;font-size:13px;white-space:nowrap}
 #mrcfg .mrc-row .mrc-ghost[data-act="project"]{flex:1.4;font-weight:600}
 #mrcfg .mrc-cnt{font-variant-numeric:tabular-nums}
+/* ---- 1.6: supplier shades – family chips over long swatch lists ---- */
+#mrcfg .mrc-fam{display:flex;flex-wrap:wrap;gap:6px;margin:2px 0 8px}
+#mrcfg .mrc-fam button{font:inherit;font-size:12.5px;padding:5px 11px;border-radius:99px;border:1px solid rgba(28,28,26,.18);background:#fff;color:#1C1C1A;cursor:pointer;line-height:1.2;min-height:0;margin:0}
+#mrcfg .mrc-fam button.on{background:#1C1C1A;color:#fff;border-color:#1C1C1A}
+#mrcfg .mrc-sw button[hidden]{display:none}

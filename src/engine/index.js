@@ -15,7 +15,7 @@ import { lounge } from '../families/lounge.js';
 import { sofa } from '../families/sofa.js';
 
 const FAMILIES = { bench, cabinet, desk, lounge, sofa };
-const VERSION = "1.10.0";
+const VERSION = "1.11.0";
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -51,6 +51,18 @@ async function boot() {
 function start(mount, product, cat, family) {
   const NAME = mount.dataset.name || product.name;
   const QUOTE_URL = mount.dataset.quote || '/contact/';
+  /* every supplier shade comes in several surface finishes (Makor: יער, מטריקס, בטון) – a finish choice follows each decor swatch */
+  const DECOR_FIN = cat.decors && cat.decors.finishes;
+  if (DECOR_FIN && DECOR_FIN.length) for (const sec of product.sections) {
+    for (let i = sec.controls.length - 1; i >= 0; i--) {
+      const c = sec.controls[i];
+      if (c.type !== 'swatch' || c.catalog !== 'decors' || c.noFinish) continue;
+      const key = c.key + 'Fin';
+      if (sec.controls.some(x => x.key === key)) continue;
+      sec.controls.splice(i + 1, 0, { type: 'seg', key, label: `גימור ${c.label}`, options: DECOR_FIN.map(f => ({ v: f.id, label: f.he })), ...(c.showWhen ? { showWhen: c.showWhen } : {}), _finish: true });
+      if (!(key in product.defaults)) product.defaults[key] = DECOR_FIN[0].id;
+    }
+  }
   const S = sanitize(product, cat, readHash());
   const F = family.ui(product, cat, S);
   const ctrls = controlsOf(product);
@@ -126,7 +138,18 @@ function start(mount, product, cat, family) {
   swatchCtrls.forEach(c => {
     const items = catItems(c, cat), el = $(`.mrc-sw[data-k="${c.key}"]`);
     if (c.style === 'ral') el.innerHTML = items.map(r => `<button data-v="${esc(r.id)}" title="RAL ${esc(r.id)} · ${esc(r.he)}" aria-label="RAL ${esc(r.id)} ${esc(r.he)}" style="background:${r.metal ? `linear-gradient(135deg,#d9dbdc,${r.hex} 45%,#8d9090)` : r.hex}"><small>${esc(r.id)}</small></button>`).join('');
-    else el.innerHTML = items.map(t => `<button data-v="${esc(t.id)}" title="${esc(t.he)}" aria-label="${esc(t.he)}"${c.style === 'swatch' ? ` style="background:${t.hex}"` : ''}></button>`).join('');
+    else el.innerHTML = items.map(t => `<button data-v="${esc(t.id)}" title="${esc(t.he)}" aria-label="${esc(t.he)}"${t.fam ? ` data-fam="${esc(t.fam)}"` : ''}${t.supplier ? ` data-supplier="${esc(t.supplier)}"` : ''}${c.style === 'swatch' ? ` style="background:${t.hex}"` : ''}></button>`).join('');
+    /* long supplier catalogues: family chips above the swatches, showing the family of the current choice */
+    const fams = cat[c.catalog] && cat[c.catalog].families;
+    if (fams && items.length > 18 && items.some(t => t.fam)) {
+      const present = fams.filter(f => items.some(t => t.fam === f.id));
+      el.insertAdjacentHTML('beforebegin', `<div class="mrc-fam" role="tablist" data-fk="${c.key}">${present.map(f => `<button type="button" role="tab" data-fam="${esc(f.id)}">${esc(f.he)}</button>`).join('')}</div>`);
+      const bar = el.previousElementSibling;
+      const show = fam => { $$('button', bar).forEach(b => { const on = b.dataset.fam === fam; b.classList.toggle('on', on); b.setAttribute('aria-selected', on); }); $$('button[data-v]', el).forEach(b => { b.hidden = b.dataset.fam !== fam; }); };
+      bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.fam); });
+      const cur = items.find(t => t.id === S[c.key]); show((cur && cur.fam) || present[0].id);
+      el.__showFam = show;
+    }
   });
   requestAnimationFrame(() => swatchCtrls.forEach(c => {
     const items = catItems(c, cat), btns = $$(`.mrc-sw[data-k="${c.key}"] button`);
@@ -265,7 +288,7 @@ function start(mount, product, cat, family) {
       if (!shown(c)) continue;
       const v = S[c.key]; let txt = '', code = '';
       if (c.type === 'seg') { const o = optionList(c, S).find(o => String(o.v) === String(v)); txt = o ? (o.label ?? o.v) : `${v}${c.custom && c.custom.unit ? ' ' + c.custom.unit : ''} (מידה מיוחדת)`; }
-      else if (c.type === 'swatch') { const it = itemOf(c); txt = it ? (c.style === 'ral' ? `RAL ${it.id} · ${it.he}` : it.he) : String(v); code = it && c.style !== 'ral' ? (it.code || it.id || '') : ''; }
+      else if (c.type === 'swatch') { const it = itemOf(c); txt = it ? (c.style === 'ral' ? `RAL ${it.id} · ${it.he}` : it.he) : String(v); code = it && c.style !== 'ral' ? (it.supplier ? `${it.supplier} · ${it.line ? it.line + ' ' : ''}${it.code}` : (it.code || it.id || '')) : ''; }
       else if (c.type === 'toggle') txt = v ? 'כן' : 'לא';
       else if (c.type === 'stepper') txt = String(v);
       else continue;

@@ -1,316 +1,316 @@
 {
- "id": "drawer-unit",
- "name": "יחידת מגירות ועגלה",
- "family": "cabinet",
- "codePrefix": "MCP",
- "subtitle": "ארגז מגירות נייד על גלגלים או תומך שלוחה.",
- "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
- "model": {
-  "kind": "cabinet",
-  "fronts": {
-   "mob4": {
-    "t": "drawers",
-    "n": 4,
-    "pencil": true
-   },
-   "mob5": {
-    "t": "drawers",
-    "n": 5,
-    "pencil": true
-   },
-   "support": {
-    "t": "drawers",
-    "n": 3
-   },
-   "door": {
-    "t": "door"
-   },
-   "drawerDoor": {
-    "t": "drawerDoor"
-   }
-  }
- },
- "defaults": {
-  "front": "mob4",
-  "w": 42,
-  "d": 55,
-  "h": 60,
-  "body": "white",
-  "face": "white",
-  "handle": "bar",
-  "base": "wheels",
-  "softclose": false
- },
- "sections": [
-  {
-   "id": "fronts",
-   "title": "סוג יחידה",
-   "controls": [
-    {
-     "type": "seg",
-     "key": "front",
-     "label": "סוג",
-     "options": [
-      {
-       "v": "mob4",
-       "label": "4 מגירות נייד + קסקט"
+  "id": "drawer-unit",
+  "name": "יחידת מגירות ועגלה",
+  "family": "cabinet",
+  "codePrefix": "MCP",
+  "subtitle": "ארגז מגירות נייד על גלגלים או תומך שלוחה.",
+  "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
+  "model": {
+    "kind": "cabinet",
+    "fronts": {
+      "mob4": {
+        "t": "drawers",
+        "n": 4,
+        "pencil": true
       },
-      {
-       "v": "mob5",
-       "label": "5 מגירות נייד + קסקט"
+      "mob5": {
+        "t": "drawers",
+        "n": 5,
+        "pencil": true
       },
-      {
-       "v": "support",
-       "label": "ארגז מגירות תומך שלוחה, גב מלא"
+      "support": {
+        "t": "drawers",
+        "n": 3
       },
-      {
-       "v": "door",
-       "label": "ארגז דלת נייד"
+      "door": {
+        "t": "door"
       },
-      {
-       "v": "drawerDoor",
-       "label": "מגירה + דלת, נייד או תומך"
+      "drawerDoor": {
+        "t": "drawerDoor"
       }
-     ],
-     "layout": "list"
-    },
-    {
-     "type": "seg",
-     "key": "handle",
-     "label": "ידיות",
-     "options": [
-      {
-       "v": "bar",
-       "label": "ידית מוט"
-      },
-      {
-       "v": "integral",
-       "label": "פרופיל אינטגרלי"
-      },
-      {
-       "v": "none",
-       "label": "ללא (לחיצה)"
-      }
-     ]
     }
-   ]
   },
-  {
-   "id": "size",
-   "title": "מידות",
-   "controls": [
-    {
-     "type": "seg",
-     "key": "w",
-     "label": "רוחב",
-     "num": true,
-     "options": [
-      {
-       "v": 42
-      }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 30,
-      "max": 60,
-      "inputLabel": "רוחב בס״מ"
-     }
-    },
-    {
-     "type": "seg",
-     "key": "h",
-     "label": "גובה",
-     "num": true,
-     "optionsBy": {
-      "key": "front",
-      "map": {
-       "mob4": [
-        60
-       ],
-       "mob5": [
-        60
-       ],
-       "support": [
-        72
-       ],
-       "door": [
-        60
-       ],
-       "drawerDoor": [
-        60
-       ]
-      }
-     },
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 40,
-      "max": 80,
-      "inputLabel": "גובה בס״מ"
-     }
-    },
-    {
-     "type": "seg",
-     "key": "d",
-     "label": "עומק",
-     "num": true,
-     "options": [
-      {
-       "v": 55
-      }
-     ],
-     "custom": {
-      "label": "אחר",
-      "step": 1,
-      "unit": "ס״מ",
-      "min": 40,
-      "max": 70,
-      "inputLabel": "עומק בס״מ"
-     }
-    }
-   ]
+  "defaults": {
+    "front": "mob4",
+    "w": 42,
+    "d": 55,
+    "h": 60,
+    "body": "m8170",
+    "face": "m8170",
+    "handle": "bar",
+    "base": "wheels",
+    "softclose": false
   },
-  {
-   "id": "finish",
-   "title": "גימור",
-   "controls": [
+  "sections": [
     {
-     "type": "swatch",
-     "key": "body",
-     "label": "גוף",
-     "catalog": "decors",
-     "style": "decor",
-     "out": "{he}"
+      "id": "fronts",
+      "title": "סוג יחידה",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "front",
+          "label": "סוג",
+          "options": [
+            {
+              "v": "mob4",
+              "label": "4 מגירות נייד + קסקט"
+            },
+            {
+              "v": "mob5",
+              "label": "5 מגירות נייד + קסקט"
+            },
+            {
+              "v": "support",
+              "label": "ארגז מגירות תומך שלוחה, גב מלא"
+            },
+            {
+              "v": "door",
+              "label": "ארגז דלת נייד"
+            },
+            {
+              "v": "drawerDoor",
+              "label": "מגירה + דלת, נייד או תומך"
+            }
+          ],
+          "layout": "list"
+        },
+        {
+          "type": "seg",
+          "key": "handle",
+          "label": "ידיות",
+          "options": [
+            {
+              "v": "bar",
+              "label": "ידית מוט"
+            },
+            {
+              "v": "integral",
+              "label": "פרופיל אינטגרלי"
+            },
+            {
+              "v": "none",
+              "label": "ללא (לחיצה)"
+            }
+          ]
+        }
+      ]
     },
     {
-     "type": "swatch",
-     "key": "face",
-     "label": "חזיתות",
-     "catalog": "decors",
-     "style": "decor",
-     "out": "{he}"
-    }
-   ]
-  },
-  {
-   "id": "extra",
-   "title": "תוספות",
-   "controls": [
+      "id": "size",
+      "title": "מידות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "w",
+          "label": "רוחב",
+          "num": true,
+          "options": [
+            {
+              "v": 42
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 30,
+            "max": 60,
+            "inputLabel": "רוחב בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "h",
+          "label": "גובה",
+          "num": true,
+          "optionsBy": {
+            "key": "front",
+            "map": {
+              "mob4": [
+                60
+              ],
+              "mob5": [
+                60
+              ],
+              "support": [
+                72
+              ],
+              "door": [
+                60
+              ],
+              "drawerDoor": [
+                60
+              ]
+            }
+          },
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 40,
+            "max": 80,
+            "inputLabel": "גובה בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "d",
+          "label": "עומק",
+          "num": true,
+          "options": [
+            {
+              "v": 55
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "step": 1,
+            "unit": "ס״מ",
+            "min": 40,
+            "max": 70,
+            "inputLabel": "עומק בס״מ"
+          }
+        }
+      ]
+    },
     {
-     "type": "seg",
-     "key": "base",
-     "label": "בסיס",
-     "options": [
+      "id": "finish",
+      "title": "גימור",
+      "controls": [
+        {
+          "type": "swatch",
+          "key": "body",
+          "label": "גוף",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}"
+        },
+        {
+          "type": "swatch",
+          "key": "face",
+          "label": "חזיתות",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}"
+        }
+      ]
+    },
+    {
+      "id": "extra",
+      "title": "תוספות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "base",
+          "label": "בסיס",
+          "options": [
+            {
+              "v": "wheels",
+              "label": "גלגלים"
+            },
+            {
+              "v": "none",
+              "label": "עומד"
+            }
+          ]
+        },
+        {
+          "type": "toggle",
+          "key": "softclose",
+          "title": "טריקה שקטה",
+          "sub": "לכל מגירה"
+        }
+      ]
+    }
+  ],
+  "pricing": {
+    "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
+    "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
+    "currency": "₪",
+    "label": "מחיר",
+    "note": "כולל מע״מ, לא כולל הובלה והרכבה",
+    "markup": 100,
+    "vat": 18,
+    "roundTo": 10,
+    "customQuote": true,
+    "rules": [
       {
-       "v": "wheels",
-       "label": "גלגלים"
+        "type": "table",
+        "label": "יחידה לפי מידה",
+        "dims": [
+          "w",
+          "h"
+        ],
+        "rows": [
+          {
+            "w": 42,
+            "h": 60,
+            "price": 340,
+            "when": {
+              "front": "mob4"
+            }
+          },
+          {
+            "w": 42,
+            "h": 60,
+            "price": 400,
+            "when": {
+              "front": "mob5"
+            }
+          },
+          {
+            "w": 42,
+            "h": 72,
+            "price": 350,
+            "when": {
+              "front": "support"
+            }
+          },
+          {
+            "w": 42,
+            "h": 60,
+            "price": 300,
+            "when": {
+              "front": "door"
+            }
+          },
+          {
+            "w": 42,
+            "h": 60,
+            "price": 320,
+            "when": {
+              "front": "drawerDoor"
+            }
+          }
+        ]
       },
       {
-       "v": "none",
-       "label": "עומד"
+        "type": "fixed",
+        "label": "גלגלי גומי + מעצור",
+        "amount": 70,
+        "when": {
+          "base": "wheels",
+          "front": "support"
+        }
+      },
+      {
+        "type": "unit",
+        "label": "טריקה שקטה",
+        "per": "drawers",
+        "amount": 100,
+        "when": {
+          "softclose": true
+        }
+      },
+      {
+        "type": "unit",
+        "label": "ידית אינטגרלית",
+        "per": "drawers",
+        "amount": 80,
+        "when": {
+          "handle": "integral"
+        }
       }
-     ]
-    },
-    {
-     "type": "toggle",
-     "key": "softclose",
-     "title": "טריקה שקטה",
-     "sub": "לכל מגירה"
-    }
-   ]
-  }
- ],
- "pricing": {
-  "_help": "סכומים לפי מחירון הספק, לפני מע״מ. markup = אחוז רווח על המחירון, vat = מע״מ. ראו README.",
-  "source": "מחירון Modulartech (ריהוט משרדי), עמודים 22–49",
-  "currency": "₪",
-  "label": "מחיר",
-  "note": "כולל מע״מ, לא כולל הובלה והרכבה",
-  "markup": 100,
-  "vat": 18,
-  "roundTo": 10,
-  "customQuote": true,
-  "rules": [
-   {
-    "type": "table",
-    "label": "יחידה לפי מידה",
-    "dims": [
-     "w",
-     "h"
-    ],
-    "rows": [
-     {
-      "w": 42,
-      "h": 60,
-      "price": 340,
-      "when": {
-       "front": "mob4"
-      }
-     },
-     {
-      "w": 42,
-      "h": 60,
-      "price": 400,
-      "when": {
-       "front": "mob5"
-      }
-     },
-     {
-      "w": 42,
-      "h": 72,
-      "price": 350,
-      "when": {
-       "front": "support"
-      }
-     },
-     {
-      "w": 42,
-      "h": 60,
-      "price": 300,
-      "when": {
-       "front": "door"
-      }
-     },
-     {
-      "w": 42,
-      "h": 60,
-      "price": 320,
-      "when": {
-       "front": "drawerDoor"
-      }
-     }
     ]
-   },
-   {
-    "type": "fixed",
-    "label": "גלגלי גומי + מעצור",
-    "amount": 70,
-    "when": {
-     "base": "wheels",
-     "front": "support"
-    }
-   },
-   {
-    "type": "unit",
-    "label": "טריקה שקטה",
-    "per": "drawers",
-    "amount": 100,
-    "when": {
-     "softclose": true
-    }
-   },
-   {
-    "type": "unit",
-    "label": "ידית אינטגרלית",
-    "per": "drawers",
-    "amount": 80,
-    "when": {
-     "handle": "integral"
-    }
-   }
-  ]
- }
+  }
 }

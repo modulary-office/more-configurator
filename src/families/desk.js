@@ -2,7 +2,7 @@
    Frame styles (model.frames[id].type): loop · trapez · posts · aframe · splay · bow · zigzag · tripod · angled · xleg · electric
    Layouts: single · row (desks side by side sharing legs, "riders") · pair (two facing desks) · bench (long double-sided table)
    State keys: frame · layout · n · w · d (cm) · top (top type or "none") · decor · fcolor (RAL id) · holes · tray · motor */
-import { genTop, thumbTop } from '../engine/textures.js';
+import { genTop, topTexture, thumbTop } from '../engine/textures.js';
 
 const FALLBACK = { id: '', he: '', hex: '#2b2b2d', base: '#d8d2c8', kind: 'solid' };
 const byId = (arr, id) => (arr || []).find(x => x.id === id) || (arr || [])[0] || FALLBACK;
@@ -97,7 +97,7 @@ export const desk = {
     const decMats = {};
     function decMat(id) {
       if (decMats[id]) return decMats[id];
-      const def = byId(DEC, id), tex = new THREE.CanvasTexture(genTop(def, 1024));
+      const def = byId(DEC, id), tex = topTexture(THREE, def, 1024);
       tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = maxAniso;
       const span = def.kind === 'wood' ? 1.6 : 1.2; tex.repeat.set(1 / span, 1 / span);
       return decMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: def.kind === 'marble' ? .28 : def.kind === 'wood' ? .6 : .5, envMapIntensity: .7 });
@@ -223,7 +223,7 @@ export const desk = {
       }
     }
     function retBox(xo, xin, z0, z1, rs, rl, o = {}) {
-      const g = G.frame, bm = decMat(S.rbody || 'graphite'), fm = S.rfaceOn ? decMat(S.rface || 'oak') : bm;
+      const g = G.frame, bm = decMat(S.rbody || 'm8205'), fm = S.rfaceOn ? decMat(S.rface || 'm5172') : bm;
       const xc = (xo + xin) / 2, zc = (z0 + z1) / 2, t = .018, tt = o.tt || .025, H = o.H || RET_H, pl = .05, D = Math.abs(xo - xin);
       const yIn0 = pl + t, yIn1 = H - tt, inset = S.rinset === 'inset', touch = S.rhandle === 'touch';
       /* carcass */
@@ -292,7 +292,7 @@ export const desk = {
         const units = S.rped === 'drd' ? [['doors', .40], ['drawers', .40]] : [['drawers', .40]];
         const pw = units.reduce((a, u) => a + u[1], 0) + .036;
         retBox(xo, xin, rz1 - pw, rz1, rs, pw, { H, tt: .018, mods: units });
-        const rtm = topDef ? decMat(S.decor) : decMat(S.rbody || 'graphite'), rtt = tt || .028;
+        const rtm = topDef ? decMat(S.decor) : decMat(S.rbody || 'm8205'), rtt = tt || .028;
         const rg = new THREE.ExtrudeGeometry(rr(RD - .004, rl - .004, .006), { depth: Math.max(.004, rtt - .003), bevelEnabled: true, bevelThickness: .0015, bevelSize: .0015, bevelSegments: 2, curveSegments: 4 });
         rg.rotateX(-Math.PI / 2); const rtop = sh(new THREE.Mesh(rg, rtm)); rtop.position.set(xc, yt + .0015, (rz0 + rz1) / 2); G.top.add(rtop);
         [.1, RD - .1].forEach(dx => G.frame.add(box(.07, .005, .24, metal, xo - rs * dx, yt - .003, rz0)));   /* the two joining plates */
@@ -350,7 +350,7 @@ export const desk = {
 
     function update(k) {
       if (k === 'fcolor') { applyColor(false); return; }
-      if (k === 'rfaceOn' && S.rfaceOn && (!S.rface || S.rface === S.rbody)) S.rface = S.rbody === 'oak' ? 'walnut' : 'oak';
+      if (k === 'rfaceOn' && S.rfaceOn && (!S.rface || S.rface === S.rbody)) S.rface = S.rbody === 'm5172' ? 'm8200' : 'm5172';
       if (['w', 'd', 'n', 'ret', 'rw'].includes(k)) { dimT = { a: { ...dims }, b: target(), t: 0 }; return; }
       if (k === 'layout') dims = target();
       build();
