@@ -12,9 +12,10 @@ import { bench } from '../families/bench.js';
 import { cabinet } from '../families/cabinet.js';
 import { desk } from '../families/desk.js';
 import { lounge } from '../families/lounge.js';
+import { sofa } from '../families/sofa.js';
 
-const FAMILIES = { bench, cabinet, desk, lounge };
-const VERSION = '1.7.0';
+const FAMILIES = { bench, cabinet, desk, lounge, sofa };
+const VERSION = '1.8.0';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 

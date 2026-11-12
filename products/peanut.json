@@ -1,0 +1,1115 @@
+{
+ "id": "peanut",
+ "name": "Peanut",
+ "family": "sofa",
+ "codePrefix": "PEANUT",
+ "subtitle": "Peanut – ספה מקולקציית MORE. בוחרים אורך, בד וגוון, ואפשר לצבוע כל חלק בבד אחר. המחיר מתעדכן לפי מטר רץ.",
+ "note": "הבדים מצולמים מקטלוג הספק, והגוון במסך להמחשה. המודל בתלת־ממד מקורב, והמידות הסופיות לפי הדגם.",
+ "defaults": {
+  "len": 250,
+  "shape": "straight",
+  "pmode": "all",
+  "pmap": "",
+  "psel": "",
+  "pbase": "",
+  "fcol": "dior",
+  "leg": "walnut",
+  "pillows": false,
+  "f_fast": "fast-1",
+  "f_solly": "solly-1",
+  "f_moon": "moon-1",
+  "f_marly": "marly-1",
+  "f_joy": "joy-1",
+  "f_dior": "dior-2",
+  "f_luzan": "luzan-1",
+  "f_antika": "antika-1",
+  "f_banda": "banda-1",
+  "f_boss": "boss-1",
+  "f_capri": "capri-1",
+  "f_life": "life-1",
+  "f_livia": "livia-1",
+  "f_naboli": "naboli-1",
+  "f_mela": "mela-1",
+  "f_omega": "omega-1",
+  "f_mera": "mera-1",
+  "f_point": "point-1",
+  "f_porto": "porto-1",
+  "f_uno": "uno-1",
+  "f_vigo": "vigo-1",
+  "f_regalo": "regalo-1",
+  "f_snow": "snow-1",
+  "f_spider": "spider-1",
+  "f_sofia": "sofia-1",
+  "f_togo": "togo-1",
+  "f_zoom": "zoom-1",
+  "f_venecia": "venecia-1"
+ },
+ "sections": [
+  {
+   "id": "size",
+   "title": "מידות וצורה",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "len",
+     "label": "אורך (ס״מ)",
+     "num": true,
+     "options": [
+      {
+       "v": 160,
+       "label": "160"
+      },
+      {
+       "v": 180,
+       "label": "180"
+      },
+      {
+       "v": 200,
+       "label": "200"
+      },
+      {
+       "v": 220,
+       "label": "220"
+      },
+      {
+       "v": 240,
+       "label": "240"
+      },
+      {
+       "v": 250,
+       "label": "250"
+      },
+      {
+       "v": 260,
+       "label": "260"
+      },
+      {
+       "v": 280,
+       "label": "280"
+      },
+      {
+       "v": 300,
+       "label": "300"
+      },
+      {
+       "v": 320,
+       "label": "320"
+      },
+      {
+       "v": 340,
+       "label": "340"
+      }
+     ],
+     "custom": {
+      "label": "אורך אחר",
+      "min": 120,
+      "max": 440,
+      "step": 10,
+      "unit": "ס״מ",
+      "inputLabel": "אורך"
+     }
+    }
+   ]
+  },
+  {
+   "id": "fabric",
+   "title": "בד",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "pmode",
+     "label": "צביעה",
+     "options": [
+      {
+       "v": "all",
+       "label": "בד אחד לכל הספה"
+      },
+      {
+       "v": "part",
+       "label": "בד לכל חלק"
+      }
+     ]
+    },
+    {
+     "type": "seg",
+     "key": "fcol",
+     "label": "קולקציה",
+     "layout": "wrap",
+     "options": [
+      {
+       "v": "fast",
+       "label": "Fast"
+      },
+      {
+       "v": "solly",
+       "label": "Solly"
+      },
+      {
+       "v": "moon",
+       "label": "Moon"
+      },
+      {
+       "v": "marly",
+       "label": "Marly"
+      },
+      {
+       "v": "joy",
+       "label": "Joy"
+      },
+      {
+       "v": "dior",
+       "label": "Dior"
+      },
+      {
+       "v": "luzan",
+       "label": "Luzan"
+      },
+      {
+       "v": "antika",
+       "label": "Antika"
+      },
+      {
+       "v": "banda",
+       "label": "Banda"
+      },
+      {
+       "v": "boss",
+       "label": "Boss"
+      },
+      {
+       "v": "capri",
+       "label": "Capri"
+      },
+      {
+       "v": "life",
+       "label": "Life"
+      },
+      {
+       "v": "livia",
+       "label": "Livia"
+      },
+      {
+       "v": "naboli",
+       "label": "Naboli"
+      },
+      {
+       "v": "mela",
+       "label": "Mela"
+      },
+      {
+       "v": "omega",
+       "label": "Omega"
+      },
+      {
+       "v": "mera",
+       "label": "Mera"
+      },
+      {
+       "v": "point",
+       "label": "Point"
+      },
+      {
+       "v": "porto",
+       "label": "Porto"
+      },
+      {
+       "v": "uno",
+       "label": "Uno"
+      },
+      {
+       "v": "vigo",
+       "label": "Vigo"
+      },
+      {
+       "v": "regalo",
+       "label": "Regalo"
+      },
+      {
+       "v": "snow",
+       "label": "Snow"
+      },
+      {
+       "v": "spider",
+       "label": "Spider"
+      },
+      {
+       "v": "sofia",
+       "label": "Sofia"
+      },
+      {
+       "v": "togo",
+       "label": "Togo"
+      },
+      {
+       "v": "zoom",
+       "label": "Zoom"
+      },
+      {
+       "v": "venecia",
+       "label": "Venecia"
+      }
+     ]
+    },
+    {
+     "type": "swatch",
+     "key": "f_fast",
+     "label": "גוון – Fast",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "fast-1",
+      "fast-2",
+      "fast-3",
+      "fast-4",
+      "fast-5",
+      "fast-6",
+      "fast-7",
+      "fast-8",
+      "fast-9",
+      "fast-10",
+      "fast-11",
+      "fast-12",
+      "fast-13",
+      "fast-14",
+      "fast-15",
+      "fast-16",
+      "fast-17"
+     ],
+     "showWhen": {
+      "fcol": "fast"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_solly",
+     "label": "גוון – Solly",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "solly-1",
+      "solly-2",
+      "solly-3",
+      "solly-4",
+      "solly-5",
+      "solly-6",
+      "solly-7",
+      "solly-8",
+      "solly-9",
+      "solly-10",
+      "solly-11",
+      "solly-12",
+      "solly-13",
+      "solly-14",
+      "solly-15",
+      "solly-16",
+      "solly-17"
+     ],
+     "showWhen": {
+      "fcol": "solly"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_moon",
+     "label": "גוון – Moon",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "moon-1",
+      "moon-2",
+      "moon-3",
+      "moon-4",
+      "moon-5",
+      "moon-6",
+      "moon-7",
+      "moon-8",
+      "moon-9",
+      "moon-10",
+      "moon-11",
+      "moon-12",
+      "moon-13",
+      "moon-14",
+      "moon-15",
+      "moon-16",
+      "moon-17"
+     ],
+     "showWhen": {
+      "fcol": "moon"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_marly",
+     "label": "גוון – Marly",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "marly-1",
+      "marly-2",
+      "marly-3",
+      "marly-4",
+      "marly-5"
+     ],
+     "showWhen": {
+      "fcol": "marly"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_joy",
+     "label": "גוון – Joy",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "joy-1",
+      "joy-2",
+      "joy-3",
+      "joy-4",
+      "joy-5",
+      "joy-6",
+      "joy-7",
+      "joy-8",
+      "joy-9",
+      "joy-10",
+      "joy-11",
+      "joy-12",
+      "joy-13",
+      "joy-14",
+      "joy-15"
+     ],
+     "showWhen": {
+      "fcol": "joy"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_dior",
+     "label": "גוון – Dior",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "dior-1",
+      "dior-2",
+      "dior-3",
+      "dior-4",
+      "dior-5",
+      "dior-6",
+      "dior-7",
+      "dior-8",
+      "dior-9",
+      "dior-10",
+      "dior-11",
+      "dior-12",
+      "dior-13",
+      "dior-14",
+      "dior-15",
+      "dior-16"
+     ],
+     "showWhen": {
+      "fcol": "dior"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_luzan",
+     "label": "גוון – Luzan",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "luzan-1",
+      "luzan-2",
+      "luzan-3",
+      "luzan-5",
+      "luzan-6",
+      "luzan-7",
+      "luzan-8",
+      "luzan-9",
+      "luzan-10",
+      "luzan-11",
+      "luzan-12",
+      "luzan-13",
+      "luzan-14",
+      "luzan-15",
+      "luzan-16",
+      "luzan-19",
+      "luzan-20",
+      "luzan-21",
+      "luzan-22",
+      "luzan-23",
+      "luzan-24"
+     ],
+     "showWhen": {
+      "fcol": "luzan"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_antika",
+     "label": "גוון – Antika",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "antika-1",
+      "antika-2",
+      "antika-3",
+      "antika-4",
+      "antika-6",
+      "antika-8",
+      "antika-9",
+      "antika-10",
+      "antika-11",
+      "antika-13",
+      "antika-15",
+      "antika-17",
+      "antika-18",
+      "antika-19",
+      "antika-20",
+      "antika-21",
+      "antika-23",
+      "antika-24"
+     ],
+     "showWhen": {
+      "fcol": "antika"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_banda",
+     "label": "גוון – Banda",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "banda-1",
+      "banda-2",
+      "banda-3",
+      "banda-4",
+      "banda-5",
+      "banda-7",
+      "banda-8",
+      "banda-9",
+      "banda-10",
+      "banda-11",
+      "banda-12",
+      "banda-13",
+      "banda-14",
+      "banda-15",
+      "banda-16",
+      "banda-17"
+     ],
+     "showWhen": {
+      "fcol": "banda"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_boss",
+     "label": "גוון – Boss",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "boss-1",
+      "boss-2",
+      "boss-4",
+      "boss-6",
+      "boss-8",
+      "boss-9",
+      "boss-12",
+      "boss-13",
+      "boss-14",
+      "boss-15",
+      "boss-16",
+      "boss-17",
+      "boss-18",
+      "boss-20",
+      "boss-22",
+      "boss-24",
+      "boss-26"
+     ],
+     "showWhen": {
+      "fcol": "boss"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_capri",
+     "label": "גוון – Capri",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "capri-1",
+      "capri-2",
+      "capri-3",
+      "capri-4",
+      "capri-5",
+      "capri-6",
+      "capri-7",
+      "capri-8",
+      "capri-9",
+      "capri-10",
+      "capri-11",
+      "capri-12",
+      "capri-13"
+     ],
+     "showWhen": {
+      "fcol": "capri"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_life",
+     "label": "גוון – Life",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "life-1",
+      "life-2",
+      "life-3",
+      "life-4",
+      "life-5",
+      "life-6",
+      "life-7",
+      "life-8",
+      "life-9",
+      "life-10",
+      "life-11",
+      "life-12",
+      "life-13",
+      "life-14",
+      "life-15",
+      "life-16",
+      "life-17"
+     ],
+     "showWhen": {
+      "fcol": "life"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_livia",
+     "label": "גוון – Livia",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "livia-1",
+      "livia-2",
+      "livia-3",
+      "livia-4",
+      "livia-5",
+      "livia-6",
+      "livia-7",
+      "livia-8",
+      "livia-9",
+      "livia-10",
+      "livia-11"
+     ],
+     "showWhen": {
+      "fcol": "livia"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_naboli",
+     "label": "גוון – Naboli",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "naboli-1",
+      "naboli-2",
+      "naboli-3",
+      "naboli-4",
+      "naboli-5",
+      "naboli-6",
+      "naboli-7",
+      "naboli-8",
+      "naboli-9",
+      "naboli-10",
+      "naboli-11",
+      "naboli-12"
+     ],
+     "showWhen": {
+      "fcol": "naboli"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_mela",
+     "label": "גוון – Mela",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "mela-1",
+      "mela-2",
+      "mela-3",
+      "mela-4",
+      "mela-5",
+      "mela-6",
+      "mela-7",
+      "mela-8",
+      "mela-9",
+      "mela-10",
+      "mela-11",
+      "mela-12",
+      "mela-13",
+      "mela-14",
+      "mela-15",
+      "mela-16",
+      "mela-17"
+     ],
+     "showWhen": {
+      "fcol": "mela"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_omega",
+     "label": "גוון – Omega",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "omega-1",
+      "omega-2",
+      "omega-3",
+      "omega-4",
+      "omega-5",
+      "omega-6",
+      "omega-7",
+      "omega-8",
+      "omega-9",
+      "omega-10",
+      "omega-11",
+      "omega-12",
+      "omega-13",
+      "omega-14",
+      "omega-15",
+      "omega-16",
+      "omega-17",
+      "omega-18",
+      "omega-19",
+      "omega-20",
+      "omega-22",
+      "omega-23"
+     ],
+     "showWhen": {
+      "fcol": "omega"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_mera",
+     "label": "גוון – Mera",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "mera-1",
+      "mera-2",
+      "mera-3",
+      "mera-4",
+      "mera-5",
+      "mera-6",
+      "mera-7",
+      "mera-8",
+      "mera-9",
+      "mera-10",
+      "mera-11",
+      "mera-12",
+      "mera-13",
+      "mera-14",
+      "mera-15",
+      "mera-16",
+      "mera-17",
+      "mera-18"
+     ],
+     "showWhen": {
+      "fcol": "mera"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_point",
+     "label": "גוון – Point",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "point-1",
+      "point-2",
+      "point-3",
+      "point-4",
+      "point-5",
+      "point-6",
+      "point-7",
+      "point-8",
+      "point-9",
+      "point-10",
+      "point-11",
+      "point-12",
+      "point-13",
+      "point-14"
+     ],
+     "showWhen": {
+      "fcol": "point"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_porto",
+     "label": "גוון – Porto",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "porto-1",
+      "porto-2",
+      "porto-3",
+      "porto-4",
+      "porto-5",
+      "porto-6",
+      "porto-7",
+      "porto-8",
+      "porto-9",
+      "porto-10",
+      "porto-11",
+      "porto-12",
+      "porto-13",
+      "porto-14",
+      "porto-15",
+      "porto-16",
+      "porto-17"
+     ],
+     "showWhen": {
+      "fcol": "porto"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_uno",
+     "label": "גוון – Uno",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "uno-1",
+      "uno-2",
+      "uno-3",
+      "uno-4",
+      "uno-5",
+      "uno-6",
+      "uno-7",
+      "uno-8",
+      "uno-9",
+      "uno-10",
+      "uno-11",
+      "uno-12",
+      "uno-13",
+      "uno-14",
+      "uno-15",
+      "uno-16",
+      "uno-19",
+      "uno-20",
+      "uno-21"
+     ],
+     "showWhen": {
+      "fcol": "uno"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_vigo",
+     "label": "גוון – Vigo",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "vigo-1",
+      "vigo-2",
+      "vigo-3",
+      "vigo-4",
+      "vigo-5",
+      "vigo-6",
+      "vigo-7",
+      "vigo-8"
+     ],
+     "showWhen": {
+      "fcol": "vigo"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_regalo",
+     "label": "גוון – Regalo",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "regalo-1",
+      "regalo-2",
+      "regalo-3",
+      "regalo-4",
+      "regalo-5",
+      "regalo-8",
+      "regalo-9",
+      "regalo-12",
+      "regalo-14",
+      "regalo-15",
+      "regalo-16"
+     ],
+     "showWhen": {
+      "fcol": "regalo"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_snow",
+     "label": "גוון – Snow",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "snow-1",
+      "snow-2",
+      "snow-3",
+      "snow-4",
+      "snow-5",
+      "snow-6",
+      "snow-7",
+      "snow-8",
+      "snow-9",
+      "snow-10",
+      "snow-11",
+      "snow-12",
+      "snow-13",
+      "snow-14"
+     ],
+     "showWhen": {
+      "fcol": "snow"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_spider",
+     "label": "גוון – Spider",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "spider-1",
+      "spider-2",
+      "spider-3",
+      "spider-4",
+      "spider-5",
+      "spider-6",
+      "spider-7",
+      "spider-8",
+      "spider-9",
+      "spider-10",
+      "spider-11",
+      "spider-12",
+      "spider-13",
+      "spider-14",
+      "spider-15",
+      "spider-16",
+      "spider-17",
+      "spider-18",
+      "spider-19",
+      "spider-20",
+      "spider-21"
+     ],
+     "showWhen": {
+      "fcol": "spider"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_sofia",
+     "label": "גוון – Sofia",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "sofia-1",
+      "sofia-2",
+      "sofia-3",
+      "sofia-4",
+      "sofia-5",
+      "sofia-6",
+      "sofia-7",
+      "sofia-8",
+      "sofia-9",
+      "sofia-10",
+      "sofia-11",
+      "sofia-12",
+      "sofia-13",
+      "sofia-14",
+      "sofia-15",
+      "sofia-16",
+      "sofia-17",
+      "sofia-18",
+      "sofia-19"
+     ],
+     "showWhen": {
+      "fcol": "sofia"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_togo",
+     "label": "גוון – Togo",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "togo-1",
+      "togo-2",
+      "togo-3",
+      "togo-4",
+      "togo-5",
+      "togo-6",
+      "togo-7",
+      "togo-8",
+      "togo-9",
+      "togo-10",
+      "togo-11",
+      "togo-12",
+      "togo-13",
+      "togo-14",
+      "togo-15",
+      "togo-16",
+      "togo-17",
+      "togo-18",
+      "togo-19"
+     ],
+     "showWhen": {
+      "fcol": "togo"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_zoom",
+     "label": "גוון – Zoom",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "zoom-1",
+      "zoom-2",
+      "zoom-3",
+      "zoom-4",
+      "zoom-5",
+      "zoom-6",
+      "zoom-7",
+      "zoom-8",
+      "zoom-9",
+      "zoom-10",
+      "zoom-11",
+      "zoom-14",
+      "zoom-15",
+      "zoom-16",
+      "zoom-17"
+     ],
+     "showWhen": {
+      "fcol": "zoom"
+     }
+    },
+    {
+     "type": "swatch",
+     "key": "f_venecia",
+     "label": "גוון – Venecia",
+     "catalog": "upholstery",
+     "style": "tex",
+     "items": [
+      "venecia-1",
+      "venecia-2",
+      "venecia-3",
+      "venecia-4",
+      "venecia-5",
+      "venecia-6",
+      "venecia-7",
+      "venecia-8",
+      "venecia-9",
+      "venecia-10",
+      "venecia-11",
+      "venecia-12",
+      "venecia-13",
+      "venecia-14",
+      "venecia-15",
+      "venecia-16"
+     ],
+     "showWhen": {
+      "fcol": "venecia"
+     }
+    }
+   ]
+  },
+  {
+   "id": "legs",
+   "title": "רגליים",
+   "controls": [
+    {
+     "type": "seg",
+     "key": "leg",
+     "label": "גימור רגליים",
+     "layout": "wrap",
+     "options": [
+      {
+       "v": "black",
+       "label": "שחור"
+      },
+      {
+       "v": "chrome",
+       "label": "כרום"
+      },
+      {
+       "v": "brass",
+       "label": "זהב מוברש"
+      },
+      {
+       "v": "oak",
+       "label": "עץ אלון"
+      },
+      {
+       "v": "walnut",
+       "label": "עץ אגוז"
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "extra",
+   "title": "תוספות",
+   "controls": [
+    {
+     "type": "toggle",
+     "key": "pillows",
+     "title": "כריות נוי",
+     "sub": "שתי כריות קישוט מאותו בד"
+    }
+   ]
+  }
+ ],
+ "pricing": {
+  "_help": "מחירון מודולר טק 11/2026: 1500 ₪ למטר רץ. markup = רווח, vat = מע״מ.",
+  "currency": "₪",
+  "label": "מחיר",
+  "note": "כולל מע״מ, לא כולל הובלה",
+  "markup": 100,
+  "vat": 18,
+  "roundTo": 10,
+  "rules": [
+   {
+    "type": "unit",
+    "label": "לפי מטר רץ",
+    "per": "runM",
+    "amount": 1500
+   }
+  ]
+ },
+ "model": {
+  "style": "block",
+  "d": 105,
+  "h": 74,
+  "sh": 45,
+  "armW": 30,
+  "armH": 60,
+  "backT": 22,
+  "round": 18,
+  "legH": 8,
+  "cushT": 14,
+  "base": "legs",
+  "back": "tight",
+  "seatW": 70,
+  "legStyle": "block",
+  "armShape": "round",
+  "bench": true
+ }
+}
