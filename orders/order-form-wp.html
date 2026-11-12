@@ -84,6 +84,18 @@ input[type=number]{font-variant-numeric:tabular-nums;direction:ltr;text-align:ri
 .pill.done{background:var(--chip);color:var(--muted)}
 details.lines summary{cursor:pointer;font-size:13px;color:var(--muted)}
 .empty{border:1.5px dashed var(--dash);border-radius:var(--r);padding:18px;text-align:center;color:var(--muted)}
+.sketch{border:1px dashed var(--dash);border-radius:8px;padding:6px;background:var(--sheet)}
+.sk{display:block;width:100%;max-width:440px;height:auto;margin:0 auto;color:var(--ink);direction:ltr}
+.sk path,.sk rect,.sk circle{fill:none}
+.sk .b{stroke:currentColor;stroke-width:1.6}.sk .l{stroke:currentColor;stroke-width:1}.sk .faint{opacity:.45}
+.sk .h{stroke:currentColor;stroke-width:2.4;stroke-linecap:round}.sk .dim{stroke:var(--muted);stroke-width:.8}
+.sk .top{stroke:currentColor;stroke-width:3}.sk .chair{stroke:var(--muted);stroke-width:1.4}.sk .hatch{fill:color-mix(in srgb,currentColor 7%,transparent)}
+.sk .dt{font:600 10px var(--f-mono);fill:var(--ink);text-anchor:middle}.sk .mt{font:500 9px var(--f-body);fill:var(--muted);text-anchor:middle}.sk .side{font:500 9.5px var(--f-body);fill:var(--muted)}
+.mods{display:flex;flex-wrap:wrap;gap:6px;direction:ltr;align-items:center}
+.mod{display:flex;gap:4px;align-items:center;border:1px solid var(--line);border-radius:8px;padding:4px;background:var(--sheet);direction:rtl}
+.mod select{min-height:34px!important;padding:4px 6px!important;width:auto!important;font-size:13.5px!important}
+.mod input{width:58px!important;min-height:34px!important;padding:4px 6px!important;font-size:13.5px!important}
+.mod button,.mods>button{border:0;background:var(--chip);color:var(--ink);border-radius:6px;min-width:30px;min-height:30px;cursor:pointer;font:600 14px var(--f-body)}
 @media (max-width:520px){h1{font-size:22px}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -196,7 +208,7 @@ const extraFields=[
 const retFields=[
  {k:'side',he:'צד',t:'seg',o:['ימין','שמאל'],def:'שמאל'},
  {k:'rl',he:'אורך',t:'num',def:140},{k:'rd',he:'עומק',t:'num',def:40},{k:'rh',he:'גובה',t:'num',def:65},
- {k:'arr',he:'סידור',t:'multi',o:['דלתות','מגירות','תא פתוח','מדפים'],def:['דלתות','מגירות']},
+ {k:'mods',he:'חלוקה',t:'modules',set:'ret'},
  {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color',ph:'כמו הגוף'},
  {k:'inset',he:'חזית שקועה',t:'yn'},{k:'handle',he:'ידיות',t:'seg',o:HANDLES,def:'טלסקר'},
  {k:'hcolor',he:'צבע ידיות',t:'seg',o:HCOLORS,def:'שחורות',show:v=>!['פתיחה בטאץ','ללא'].includes(v.handle)},
@@ -204,7 +216,7 @@ const retFields=[
 ];
 const cabFields=[
  {k:'h',he:'גובה',t:'num'},{k:'d',he:'עומק',t:'num',def:40},{k:'w',he:'רוחב',t:'num'},
- {k:'fronts',he:'חזיתות',t:'multi',o:['דלתות','מגירות','הזזה','זכוכית','פתוח'],def:['דלתות']},
+ {k:'mods',he:'חלוקה',t:'modules',set:'cab'},
  {k:'shelves',he:'מדפים',t:'num'},{k:'shTh',he:'עובי מדף',t:'seg',o:['17','28'],def:'17'},
  {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color',ph:'כמו הגוף'},
  {k:'inset',he:'חזית שקועה',t:'yn'},{k:'handle',he:'ידיות',t:'seg',o:HANDLES,def:'טלסקר'},
@@ -243,8 +255,8 @@ const TYPES={
    {k:'seats',he:'מקומות ישיבה',t:'num'}]],['שלד',frameFields],['תוספות',[{k:'box',he:'קופסת תקשורת',t:'yn'},{k:'tray',he:'תעלת חשמל',t:'yn'}]]]},
  counter:{he:'דלפק קבלה',ic:IC.counter,groups:[['דלפק',[{k:'style',he:'סגנון',t:'seg',o:['רגיל מהקטלוג','אלומיניום','פסים','פינתי','לפי שרטוט'],def:'רגיל מהקטלוג'},
    {k:'w',he:'רוחב',t:'num'},{k:'w2',he:'רוחב צד (פינתי)',t:'num',show:v=>v.style==='פינתי'},{k:'d',he:'עומק',t:'num',def:80},{k:'h',he:'גובה',t:'num',def:110},
-   {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color'},{k:'top',he:'גוון קאונטר',t:'color'},{k:'ride',he:'כולל שולחן רוכב',t:'yn'}]]]},
- kitchen:{he:'מטבחון',ic:IC.kitchen,groups:[['מטבחון',[{k:'w',he:'רוחב',t:'num'},{k:'upper',he:'ארונות עליונים',t:'yn',def:true},
+   {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזית',t:'color'},{k:'top',he:'גוון קאונטר',t:'color'},{k:'ride',he:'כולל שולחן רוכב',t:'yn'},{k:'mods',he:'חלוקה בצד העובד',t:'modules',set:'counter'}]]]},
+ kitchen:{he:'מטבחון',ic:IC.kitchen,groups:[['מטבחון',[{k:'w',he:'רוחב',t:'num'},{k:'mods',he:'חלוקה תחתון',t:'modules',set:'kitchen'},{k:'upper',he:'ארונות עליונים',t:'yn',def:true},{k:'upMods',he:'חלוקה עליון',t:'modules',set:'kitchenUp',show:v=>v.upper},
    {k:'finish',he:'גימור',t:'seg',o:['פורמייקה','סנדוויץ','אפוקסי','מלמין'],def:'פורמייקה'},
    {k:'body',he:'גוון גוף',t:'color'},{k:'front',he:'גוון חזיתות',t:'color'},{k:'top',he:'גוון משטח',t:'color'},
    {k:'flap',he:'פתיחה עליונים',t:'seg',o:['קלאפה','דלתות'],def:'דלתות',show:v=>v.upper},
@@ -262,7 +274,7 @@ const hnd=v=>v.handle==='פתיחה בטאץ'?'פתיחה בטאץ':v.handle==='
 const legName=v=>{const c=v.fcolor==='RAL לפי בחירה'?`RAL ${v.ral||''}`:(v.fcolor==='לבן'?'לבנה':v.fcolor==='שחור'?'שחורה':v.fcolor||'');return J('רגל',v.frame||'[דגם לאישור]',c)};
 function topLine(v,W,D){return J('פלטה',v.rugTop?'שטיח':'',v.th||28,'ממ',v.mat&&v.mat!=='מלמין'?v.mat:'',`${W||'?'}${S}${D||'?'}`,cl(v.color),v.edge&&v.edge!=='ישר'?`קנט ${v.edge.replace('PVC','PVC')} ${v.edgeColor||'תואם'}`:'',v.radius?'פינות מעוגלות':'',v.cut?'כולל מגרעת למחשב':'')}
 function frameLine(v,W,D,extra=''){return v.frame==='חשמלי'?J('רגל שולחן חשמלי',`${W}${S}${D}`,v.fcolor,v.motors):J(legName(v),extra,v.tele?'טלסקופית':'',v.disc?'כולל ניתוק':'',v.level?'כולל רגלי פילוס':'',`${W||'?'}${S}${D||'?'}`)}
-function retLine(v){const front=v.front&&v.front!==v.body?`חזית ${v.front}`:'';return J('שלוחה',v.kind&&v.kind!=='עומדת לבד'?v.kind:'',`ל${v.side==='ימין'?'ימין':'שמאל'}`,`H${v.rh||65}${S}${v.rd||40}${S}${v.rl||'?'}`,(v.arr||[]).join(' + '),`גוף ${v.body||'[לאישור]'}`,front,v.inset?'חזית שקועה':'',hnd(v),v.plinth?'צוקל':'',v.kasket?`קסקט ${v.kasket}`:'')}
+function retLine(v){const front=v.front&&v.front!==v.body?`חזית ${v.front}`:'';return J('שלוחה',v.kind&&v.kind!=='עומדת לבד'?v.kind:'',`ל${v.side==='ימין'?'ימין':'שמאל'}`,`H${v.rh||65}${S}${v.rd||40}${S}${v.rl||'?'}`,(v.mods&&v.mods.length?modsText(v.mods):(v.arr||[]).join(' + ')),`גוף ${v.body||'[לאישור]'}`,front,v.inset?'חזית שקועה':'',hnd(v),v.plinth?'צוקל':'',v.kasket?`קסקט ${v.kasket}`:'')}
 const LINES={
  desk(v,q){const n=v.layout&&v.layout!=='יחיד'?(+v.seats||2):1,W=+v.w,D=+v.d,L=[];
    if(v.layout==='פנים מול פנים'||v.layout==='בנץ׳'){const units=Math.ceil(n/2);L.push([topLine({...v,rugTop:true},W,D*2),q*units],[frameLine(v,W,D*2,'בנץ זוגי'),q*units])}
@@ -274,19 +286,110 @@ const LINES={
    L.push([retLine({...v,kind:v.ride?'':''})+(v.ride?' – השלד רוכב על השלוחה':''),q]);if(v.tray)L.push(['תעלת חשמל',q]);if(v.box)L.push(['קופסת תקשורת',q]);return L},
  ret:(v,q)=>[[retLine(v),q]],
  ped:(v,q)=>[[J(v.kind==='עגלת פח יבוא'?'עגלת מגירות פח יבוא':v.kind==='תומך שלוחה'?'ארגז מגירות תומך שלוחה':'ארגז מגירות נייד',v.cfg,cl(v.body),v.front&&v.front!==v.body?`חזית ${v.front}`:'',hnd(v),v.kasket?`קסקט ${v.kasket}`:'',v.cushion?'+ כרית ישיבה':'',v.lock?'נעילה':'',v.soft?'טריקה שקטה':''),q]],
- cab:(v,q)=>[[J('ארון',`H${v.h||'?'}${S}${v.d||40}${S}${v.w||'?'}`,(v.fronts||[]).join(' + '),`גוף ${v.body||'[לאישור]'}`,v.front&&v.front!==v.body?`חזית ${v.front}`:'',v.inset?'חזית שקועה':'',hnd(v),+v.shelves?`${v.shelves} מדפים ${v.shTh||17}`:'',v.plinth?'צוקל':'',v.back?'גב מלא':'',v.lock?'נעילה':'',v.niche?'בתוך נישה':'',v.kasket?`קסקט ${v.kasket}`:''),q]],
+ cab:(v,q)=>[[J('ארון',`H${v.h||'?'}${S}${v.d||40}${S}${v.w||'?'}`,(v.mods&&v.mods.length?modsText(v.mods):(v.fronts||[]).join(' + ')),`גוף ${v.body||'[לאישור]'}`,v.front&&v.front!==v.body?`חזית ${v.front}`:'',v.inset?'חזית שקועה':'',hnd(v),+v.shelves?`${v.shelves} מדפים ${v.shTh||17}`:'',v.plinth?'צוקל':'',v.back?'גב מלא':'',v.lock?'נעילה':'',v.niche?'בתוך נישה':'',v.kasket?`קסקט ${v.kasket}`:''),q]],
  shelf:(v,q)=>[[J(v.kind||'כוננית פתוחה',`H${v.h||'?'}${S}${v.d||'?'}${S}${v.w||'?'}`,+v.shelves?`${v.shelves} מדפים`:'',cl(v.body),v.back?'גב מלא':'',v.doorsLow?'דלתות בחלק התחתון':''),q]],
  locker:(v,q)=>[[J('ארון לוקרים',v.cells?`${v.cells} תאים`:'',v.cell?`${v.cell} כל תא`:'',`עומק ${v.d||40}`,`גוף ${v.body||'[לאישור]'}`,v.front?`חזית ${v.front}`:'',v.lockType&&v.lockType!=='ללא'?`+ ${v.lockType}`:'',v.numbers?'כולל מספור על החזיתות':''),q]],
  part:(v,q)=>{const L=[[J(v.kind==='שולחנית סקאנר'?'מחיצת סקאנר':v.kind==='דקה עם מסגרת'?`מחיצה דקה מסגרת מתכת ${v.frameColor||''}`:`מחיצה פריימלס`,v.kind==='שולחנית סקאנר'?`${v.w||'?'}${S}${v.h||'?'}`:`H${v.h||'?'} רוחב ${v.w||'?'}`,cl(v.color)),q]];if(+v.holders)L.push([`זוג מחזיקי מחיצה`,q*(+v.holders)]);if(+v.posts)L.push(['עמוד חיבור למחיצות',+v.posts]);return L},
  meet:(v,q)=>{const round=v.shape==='עגול',L=[];const size=round?`קוטר ${v.dia||'?'}`:`${v.w||'?'}${S}${v.d||'?'}`;
    L.push([J('פלטה',v.shape==='אובלי'?'אובלית':v.shape==='חבית'?'חבית':'',size,v.th||28,'ממ',cl(v.color),v.edge&&v.edge!=='ישר'?`קנט ${v.edge}`:'',v.ht&&v.ht.startsWith('105')?'גובה בר 105':''),q]);
    L.push([round?J('רגל',v.frame||'מדורה',v.fcolor==='לבן'?'לבנה':'שחורה',`לקוטר ${v.dia||'?'}`):frameLine(v,v.w,v.d),q]);if(v.box)L.push(['קופסת תקשורת לשולחן ישיבות',q]);if(v.tray)L.push(['תעלת חשמל',q]);return L},
- counter:(v,q)=>[[J('דלפק',v.style,`${v.w||'?'}${v.w2?'+'+v.w2:''} עומק ${v.d||80} גובה ${v.h||110}`,`גוף ${v.body||'[לאישור]'}`,v.front?`חזית ${v.front}`:'',v.top?`קאונטר ${v.top}`:'',v.ride?'+ שולחן רוכב':''),q]],
- kitchen:(v,q)=>[[J('מטבחון רוחב',v.w||'?',v.upper?'יחידה תחתונה + עליונה':'יחידה תחתונה',v.finish,`גוף ${v.body||'[לאישור]'}`,v.front?`חזיתות ${v.front}`:'',v.top?`משטח ${v.top}`:'',v.upper&&v.flap?`פתיחה עליונה ${v.flap}`:'',hnd(v),(v.appl||[]).length?`מקום ל${v.appl.join(', ')}`:''),q]],
+ counter:(v,q)=>[[J('דלפק',v.style,`${v.w||'?'}${v.w2?'+'+v.w2:''} עומק ${v.d||80} גובה ${v.h||110}`,`גוף ${v.body||'[לאישור]'}`,v.front?`חזית ${v.front}`:'',v.top?`קאונטר ${v.top}`:'',v.ride?'+ שולחן רוכב':'',modsText(v.mods)),q]],
+ kitchen:(v,q)=>[[J('מטבחון רוחב',v.w||'?',v.upper?'יחידה תחתונה + עליונה':'יחידה תחתונה',v.finish,`גוף ${v.body||'[לאישור]'}`,v.front?`חזיתות ${v.front}`:'',v.top?`משטח ${v.top}`:'',v.upper&&v.flap?`פתיחה עליונה ${v.flap}`:'',hnd(v),v.mods&&v.mods.length?'תחתון – '+modsText(v.mods):'',v.upper&&v.upMods&&v.upMods.length?'עליון – '+modsText(v.upMods):'',(v.appl||[]).length?`מקום ל${v.appl.join(', ')}`:''),q]],
  custom:(v,q)=>[[J(v.name||'פריט','לפי שרטוט מצורף',v.dims||'',v.color?cl(v.color):''),q]],
  service:(v,q)=>[[J(v.kind==='תיקון'?'הזמנת תיקון':v.kind,v.ref?`להזמנה ${v.ref}`:'',v.what||''),q]]
 };
 const itemLines=it=>{try{return (LINES[it.type](it.v,it.qty||1)||[]).map(([d,qq])=>({d:J(d,it.note?`[${it.note}]`:''),q:qq}))}catch(e){return [{d:'(שגיאה בבניית השורה)',q:it.qty||1}]}};
+
+/* ---------- live sketch: a plain line drawing of each item, redrawn on every change ---------- */
+const MODS={
+ cab:['דלת','2 דלתות','מגירות','תא פתוח','מדפים פתוחים','דלת זכוכית','הזזה'],
+ kitchen:['דלת','2 דלתות','מגירות','כיור','מדיח','מקרר מתחת לשיש','תנור / מיקרו','תא פתוח'],
+ kitchenUp:['דלת','2 דלתות','קלאפה','מדף פתוח','מיקרו בנישה'],
+ ret:['דלת','2 דלתות','מגירות','תא פתוח','מדפים'],
+ counter:['דלת','מגירות','תא פתוח','מדפים']
+};
+const modsText=m=>(m||[]).length?'חלוקה משמאל לימין: '+m.map(x=>x.t+(x.w?` ${x.w}`:'')).join(' | '):'';
+/* widths: given ones are kept, the rest share what is left */
+function modWidths(mods,W){const fixed=mods.reduce((a,m)=>a+(+m.w||0),0),free=mods.filter(m=>!+m.w).length,rest=Math.max(0,W-fixed);return mods.map(m=>+m.w||(free?rest/free:0))}
+const SK={W:340,H:200,pad:26};
+function svgWrap(inner,label){return `<svg viewBox="0 0 ${SK.W} ${SK.H}" role="img" aria-label="${label}" class="sk">${inner}</svg>`}
+function dimH(x1,x2,y,t){return `<path d="M${x1} ${y}H${x2}M${x1} ${y-4}v8M${x2} ${y-4}v8" class="dim"/><text x="${(x1+x2)/2}" y="${y-5}" class="dt">${t}</text>`}
+function dimV(x,y1,y2,t){return `<path d="M${x} ${y1}V${y2}M${x-4} ${y1}h8M${x-4} ${y2}h8" class="dim"/><text x="${x-6}" y="${(y1+y2)/2}" class="dt" transform="rotate(-90 ${x-6} ${(y1+y2)/2})">${t}</text>`}
+/* fit a W×H (cm) box into the drawing area; returns scale and origin */
+function fit(W,H,extraW=0,extraH=0){const aw=SK.W-SK.pad*2-extraW,ah=SK.H-SK.pad*2-extraH,k=Math.min(aw/Math.max(W,1),ah/Math.max(H,1));return{k,x0:(SK.W-W*k)/2,y0:(SK.H-H*k)/2}}
+/* front of a box split into modules (cabinets, kitchen, returns, counters) */
+function frontMods(mods,W,H,x0,y0,k,opts={}){
+  let s='',x=x0;const ws=modWidths(mods,W);
+  mods.forEach((m,i)=>{const w=ws[i]*k,h=H*k,cx=x+w/2,t=m.t;
+    s+=`<rect x="${x}" y="${y0}" width="${w}" height="${h}" class="b"/>`;
+    if(t==='מגירות'){const n=opts.drawers||3;for(let j=1;j<n;j++)s+=`<path d="M${x} ${y0+h*j/n}h${w}" class="l"/>`;for(let j=0;j<n;j++)s+=`<path d="M${cx-6} ${y0+h*(j+.5)/n}h12" class="h"/>`}
+    else if(t==='2 דלתות'){s+=`<path d="M${cx} ${y0}v${h}M${cx-4} ${y0+h*.45}v8M${cx+4} ${y0+h*.45}v8" class="l"/>`}
+    else if(t==='דלת'||t==='דלת זכוכית'){s+=`<path d="M${x+w-5} ${y0+h*.45}v8" class="h"/>`+(t==='דלת זכוכית'?`<path d="M${x+5} ${y0+5}l${w-10} ${h-10}" class="l faint"/>`:'')}
+    else if(t==='תא פתוח'||t==='מדפים פתוחים'||t==='מדף פתוח'||t==='מדפים'){const n=t==='תא פתוח'?1:3;for(let j=1;j<=n;j++)s+=`<path d="M${x+2} ${y0+h*j/(n+1)}h${w-4}" class="l"/>`;s+=`<rect x="${x+2}" y="${y0+2}" width="${w-4}" height="${h-4}" class="open"/>`}
+    else if(t==='הזזה'){s+=`<path d="M${x+3} ${y0+h*.5}h${w*.45}M${x+w-3} ${y0+h*.55}h-${w*.45}" class="l"/>`}
+    else if(t==='כיור'){s+=`<path d="M${cx-6} ${y0+h*.45}v8M${cx+6} ${y0+h*.45}v8" class="h"/><rect x="${x+w*.18}" y="${y0-7}" width="${w*.64}" height="5" rx="2" class="l"/><path d="M${cx} ${y0-7}v-8h7" class="l"/>`}
+    else if(t==='מדיח'){s+=`<path d="M${x+4} ${y0+8}h${w-8}" class="h"/><text x="${cx}" y="${y0+h*.6}" class="mt">מדיח</text>`}
+    else if(t==='מקרר מתחת לשיש'){s+=`<path d="M${x+w-5} ${y0+h*.2}v${h*.3}" class="h"/><text x="${cx}" y="${y0+h*.6}" class="mt">מקרר</text>`}
+    else if(t==='תנור / מיקרו'||t==='מיקרו בנישה'){s+=`<rect x="${x+4}" y="${y0+h*.2}" width="${w-8}" height="${h*.45}" class="l"/><text x="${cx}" y="${y0+h*.8}" class="mt">${t==='מיקרו בנישה'?'מיקרו':'תנור'}</text>`}
+    else if(t==='קלאפה'){s+=`<path d="M${cx-6} ${y0+h-6}h12" class="h"/><path d="M${x} ${y0}l${w/2} -6l${w/2} 6" class="l faint"/>`}
+    if(mods.length>1&&ws[i]&&w>18)s+=`<text x="${cx}" y="${y0+h+12}" class="mt">${Math.round(ws[i])}</text>`;
+    x+=w});
+  return s;
+}
+function sketch(it){
+  const v=it.v||{},T=it.type,num=x=>+x||0;
+  try{
+  if(T==='cab'||T==='ret'||T==='counter'||T==='kitchen'){
+    const W=num(T==='ret'?v.rl:v.w)||(T==='kitchen'?240:120),H=num(T==='ret'?v.rh:T==='kitchen'?90:v.h)||(T==='counter'?110:90);
+    const up=T==='kitchen'&&v.upper,UH=up?70:0,gap=up?40:0,TH=H+UH+gap;
+    const {k,x0,y0}=fit(W,TH,24,18);let s='';
+    const mods=(v.mods&&v.mods.length)?v.mods:[{t:T==='kitchen'?'2 דלתות':T==='ret'?'מגירות':'2 דלתות'}];
+    if(up){const um=(v.upMods&&v.upMods.length)?v.upMods:[{t:v.flap==='קלאפה'?'קלאפה':'2 דלתות'}];s+=frontMods(um,W,UH,x0,y0,k);s+=`<text x="${x0-6}" y="${y0+UH*k/2+3}" class="side" text-anchor="end">עליון</text>`}
+    const yl=y0+(UH+gap)*k;s+=frontMods(mods,W,H,x0,yl,k,{drawers:T==='ret'||T==='ped'?3:3});
+    if(T==='kitchen'||v.kasket)s+=`<path d="M${x0-3} ${yl-1}h${W*k+6}" class="top"/>`;
+    if(v.plinth)s+=`<path d="M${x0+3} ${yl+H*k+3}h${W*k-6}" class="l"/>`;
+    s+=dimH(x0,x0+W*k,y0-8,`${W}`)+dimV(x0-10,yl,yl+H*k,`${H}`);
+    if(T==='ret')s+=`<text x="${v.side==='ימין'?x0+W*k+4:x0-4}" y="${yl-6}" class="side" text-anchor="${v.side==='ימין'?'start':'end'}">← השולחן</text>`;
+    return svgWrap(s,'שרטוט חזית')}
+  if(T==='ped'){const H=60,W=42,{k,x0,y0}=fit(W,H,20,10);const n=v.cfg==='4 מגירות'?4:v.cfg==='3 מגירות'?3:0;let s=`<rect x="${x0}" y="${y0}" width="${W*k}" height="${H*k}" class="b"/>`;
+    if(n){for(let j=1;j<n;j++)s+=`<path d="M${x0} ${y0+H*k*j/n}h${W*k}" class="l"/>`;for(let j=0;j<n;j++)s+=`<path d="M${x0+W*k/2-6} ${y0+H*k*(j+.5)/n}h12" class="h"/>`}
+    else{s+=`<path d="M${x0} ${y0+H*k*.25}h${W*k}" class="l"/>${v.cfg==='מגירה + דלת'?`<path d="M${x0+W*k/2-6} ${y0+H*k*.12}h12" class="h"/>`:''}<path d="M${x0+W*k-5} ${y0+H*k*.55}v8" class="h"/>`}
+    if(v.kind!=='תומך שלוחה')s+=`<circle cx="${x0+6}" cy="${y0+H*k+4}" r="3" class="l"/><circle cx="${x0+W*k-6}" cy="${y0+H*k+4}" r="3" class="l"/>`;
+    if(v.cushion)s+=`<rect x="${x0}" y="${y0-6}" width="${W*k}" height="6" rx="3" class="l"/>`;return svgWrap(s,'שרטוט ארגז')}
+  if(T==='shelf'||T==='locker'){const W=num(v.w)||(T==='locker'?120:80),H=num(v.h)||(T==='locker'?180:210);const {k,x0,y0}=fit(W,H,24,18);let s=`<rect x="${x0}" y="${y0}" width="${W*k}" height="${H*k}" class="b"/>`;
+    if(T==='shelf'){const n=num(v.shelves)||4;for(let j=1;j<=n;j++)s+=`<path d="M${x0} ${y0+H*k*j/(n+1)}h${W*k}" class="l"/>`;if(v.doorsLow){const yy=y0+H*k*.58;s+=`<rect x="${x0}" y="${yy}" width="${W*k}" height="${y0+H*k-yy}" class="b"/><path d="M${x0+W*k/2} ${yy}V${y0+H*k}" class="l"/>`}}
+    else{const n=num(v.cells)||12,rows=Math.max(1,Math.round(Math.sqrt(n*H/W))),cols=Math.ceil(n/rows);for(let c=1;c<cols;c++)s+=`<path d="M${x0+W*k*c/cols} ${y0}v${H*k}" class="l"/>`;for(let r=1;r<rows;r++)s+=`<path d="M${x0} ${y0+H*k*r/rows}h${W*k}" class="l"/>`;
+      for(let c=0;c<cols;c++)for(let r=0;r<rows;r++){const i=r*cols+c+1;if(i<=n)s+=`<text x="${x0+W*k*(c+.5)/cols}" y="${y0+H*k*(r+.5)/rows+3}" class="mt">${v.numbers?i:''}</text><circle cx="${x0+W*k*(c+.85)/cols}" cy="${y0+H*k*(r+.5)/rows}" r="1.6" class="h"/>`}}
+    s+=dimH(x0,x0+W*k,y0-8,`${W}`)+dimV(x0-10,y0,y0+H*k,`${H}`);return svgWrap(s,'שרטוט')}
+  if(T==='part'){const W=num(v.w)||140,H=num(v.h)||(v.kind==='שולחנית סקאנר'?40:130);const {k,x0,y0}=fit(W,H,24,18);let s=`<rect x="${x0}" y="${y0}" width="${W*k}" height="${H*k}" class="b" ${v.kind==='שולחנית סקאנר'?'rx="6"':''}/>`;
+    if(v.kind==='שולחנית סקאנר')s+=`<path d="M${x0+W*k*.15} ${y0+H*k}v8M${x0+W*k*.85} ${y0+H*k}v8M${x0-6} ${y0+H*k+8}h${W*k+12}" class="l"/>`;else s+=`<path d="M${x0+8} ${y0+H*k}v6h12M${x0+W*k-8} ${y0+H*k}v6h-12" class="l"/>`;
+    return svgWrap(s+dimH(x0,x0+W*k,y0-8,`${W}`)+dimV(x0-10,y0,y0+H*k,`${H}`),'שרטוט מחיצה')}
+  if(T==='desk'||T==='manager'){
+    const W=num(v.w)||(T==='manager'?180:140),D=num(v.d)||70,two=T==='desk'&&(v.layout==='פנים מול פנים'||v.layout==='בנץ׳'),n=T==='desk'&&v.layout&&v.layout!=='יחיד'?Math.max(1,num(v.seats)||2):1;
+    const per=two?2:1,cols=two?Math.ceil(n/2):n,TW=W*cols,TD=D*per+(T==='manager'?0:0);
+    const RL=T==='manager'?num(v.rl)||140:0,RD=T==='manager'?num(v.rd)||40:0;
+    const totalW=TW+(T==='manager'?RD:0),totalD=Math.max(TD,T==='manager'?RL:0);
+    const {k,x0,y0}=fit(totalW,totalD,24,24);let s='';
+    const left=T==='manager'&&v.side!=='ימין',dx=T==='manager'&&left?RD*k:0;
+    for(let c=0;c<cols;c++)for(let r=0;r<per;r++){const x=x0+dx+c*W*k,y=y0+r*D*k;s+=`<rect x="${x}" y="${y}" width="${W*k}" height="${D*k}" class="b" ${v.radius?'rx="7"':''}/>`;
+      const chairY=r===0&&per===2?y-9:y+D*k+9;s+=`<path d="M${x+W*k/2-10} ${chairY}h20" class="chair"/>`;
+      if(v.apron)s+=`<path d="M${x+5*k} ${r===0&&per===2?y+3:y+D*k-3}h${(W-10)*k}" class="l faint"/>`;
+      if(v.box)s+=`<rect x="${x+W*k/2-6}" y="${y+(r===0&&per===2?D*k-10:4)}" width="12" height="6" class="l"/>`;
+      for(let hI=0;hI<(num(v.holes)||0);hI++)s+=`<circle cx="${x+W*k*(hI+1)/(num(v.holes)+1)}" cy="${y+6}" r="3" class="l"/>`;
+      if(v.cut)s+=`<path d="M${x+W*k*.7} ${y}v8h${W*k*.18}v-8" class="l"/>`}
+    if(T==='manager'){const rx=left?x0:x0+TW*k,ry=y0;s+=`<rect x="${rx}" y="${ry}" width="${RD*k}" height="${RL*k}" class="b hatch"/>`;s+=`<text x="${rx+RD*k/2}" y="${ry+RL*k/2}" class="mt" transform="rotate(-90 ${rx+RD*k/2} ${ry+RL*k/2})">שלוחה ${RL}</text>`;
+      s+=dimV(left?rx-10:rx+RD*k+18,ry,ry+RL*k,`${RL}`)}
+    s+=dimH(x0+dx,x0+dx+TW*k,y0-10,`${two||cols>1?`${cols}×${W}`:W}`)+dimV(T==='manager'&&left?x0+dx+TW*k+14:x0-10,y0,y0+TD*k,`${two?`2×${D}`:D}`);
+    s+=`<text x="${SK.W/2}" y="${SK.H-4}" class="side" text-anchor="middle">מבט מלמעלה${v.frame?` · רגל ${v.frame}`:''}</text>`;
+    return svgWrap(s,'שרטוט מבט על')}
+  if(T==='meet'){const round=v.shape==='עגול',W=round?num(v.dia)||90:num(v.w)||240,D=round?W:num(v.d)||110;const {k,x0,y0}=fit(W,D,40,40);let s='';const cx=x0+W*k/2,cy=y0+D*k/2;
+    if(round)s+=`<circle cx="${cx}" cy="${cy}" r="${W*k/2}" class="b"/>`;else if(v.shape==='אובלי')s+=`<rect x="${x0}" y="${y0}" width="${W*k}" height="${D*k}" rx="${D*k/2}" class="b"/>`;else if(v.shape==='חבית')s+=`<path d="M${x0} ${y0+D*k*.12}Q${cx} ${y0-D*k*.12} ${x0+W*k} ${y0+D*k*.12}V${y0+D*k*.88}Q${cx} ${y0+D*k*1.12} ${x0} ${y0+D*k*.88}Z" class="b"/>`;else s+=`<rect x="${x0}" y="${y0}" width="${W*k}" height="${D*k}" class="b"/>`;
+    const n=num(v.seats)||(round?4:8);for(let i=0;i<n;i++){if(round){const a=Math.PI*2*i/n;s+=`<circle cx="${cx+Math.cos(a)*(W*k/2+11)}" cy="${cy+Math.sin(a)*(W*k/2+11)}" r="5" class="chair"/>`}else{const side=i%2,j=Math.floor(i/2),m=Math.ceil(n/2);s+=`<circle cx="${x0+W*k*(j+.5)/m}" cy="${side?y0+D*k+11:y0-11}" r="5" class="chair"/>`}}
+    if(v.box)s+=`<rect x="${cx-7}" y="${cy-4}" width="14" height="8" class="l"/>`;
+    s+=round?`<text x="${cx}" y="${cy+4}" class="dt">ø${W}</text>`:dimH(x0,x0+W*k,y0-22,`${W}`)+dimV(x0-22,y0,y0+D*k,`${D}`);return svgWrap(s,'שרטוט שולחן')}
+  }catch(e){}
+  return '';
+}
 
 /* ---------- state ---------- */
 const HDR=[
@@ -313,6 +416,11 @@ function field(f,obj,onChange,idp){
   if(f.t==='num'||f.t==='text'||f.t==='tel'||f.t==='date'){const i=h('input',{id,type:f.t==='num'?'number':f.t,inputmode:f.t==='num'?'decimal':null,placeholder:f.ph||(f.t==='num'?'ס״מ':'')});i.value=obj[f.k]??'';i.oninput=()=>set(f.t==='num'?(i.value===''?'':+i.value):i.value);wrap.append(i)}
   else if(f.t==='color'){const i=h('input',{id,type:'text',list:'colors',placeholder:f.ph||'קוד / שם גוון'});i.value=obj[f.k]??'';i.oninput=()=>set(i.value);wrap.append(i)}
   else if(f.t==='seg'||f.t==='multi'){const g=h('div',{class:'seg',role:'group',id});f.o.forEach(o=>{const on=f.t==='multi'?(obj[f.k]||[]).includes(o):obj[f.k]===o;const b=h('button',{type:'button','aria-pressed':on?'true':'false'},o);b.onclick=()=>{if(f.t==='multi'){const a=new Set(obj[f.k]||[]);a.has(o)?a.delete(o):a.add(o);set([...a])}else set(obj[f.k]===o?'':o)};g.append(b)});wrap.append(g)}
+  else if(f.t==='modules'){wrap.classList.add('wide');wrap.firstChild.textContent=f.he+' – משמאל לימין, במבט מול הפריט';const box=h('div',{class:'mods',id});
+    const draw=()=>{const arr=obj[f.k]||(obj[f.k]=[]);box.replaceChildren(...arr.map((m,i)=>{const sel=h('select',{'aria-label':'סוג מודול'},...MODS[f.set].map(o=>{const op=h('option',{value:o},o);if(o===m.t)op.selected=true;return op}));sel.onchange=()=>{m.t=sel.value;onChange()};
+      const w=h('input',{type:'number',inputmode:'decimal',placeholder:'רוחב','aria-label':'רוחב המודול'});w.value=m.w||'';w.oninput=()=>{m.w=w.value===''?'':+w.value;onChange()};
+      const x=h('button',{type:'button','aria-label':'הסרת מודול'},'×');x.onclick=()=>{arr.splice(i,1);draw();onChange()};return h('div',{class:'mod'},sel,w,x)}),
+      (()=>{const b=h('button',{type:'button'},'+ מודול');b.onclick=()=>{arr.push({t:MODS[f.set][0],w:''});draw();onChange()};return b})())};draw();wrap.append(box)}
   else if(f.t==='frame'){wrap.classList.add('wide');const g=h('div',{class:'frames',id});Object.entries(FR).forEach(([n,svg])=>{const b=h('button',{type:'button','aria-pressed':obj[f.k]===n?'true':'false',html:svg+`<span>${n}</span>`});b.onclick=()=>set(obj[f.k]===n?'':n);g.append(b)});wrap.append(g)}
   return wrap;
 }
@@ -349,7 +457,7 @@ function roomEl(r){
   return h('div',{class:'room'},h('div',{class:'rh'},name,del),body);
 }
 function itemEl(r,it){
-  const t=TYPES[it.type],pv=h('div',{class:'preview'}),upd=()=>{pv.textContent=itemLines(it).map(l=>`${l.q}× ${l.d}`).join('\n');save()};
+  const t=TYPES[it.type],pv=h('div',{class:'preview'}),skb=h('div',{class:'sketch'}),upd=()=>{pv.textContent=itemLines(it).map(l=>`${l.q}× ${l.d}`).join('\n');const sv=sketch(it);skb.innerHTML=sv;skb.hidden=!sv;save()};
   const q=h('output',{},it.qty),minus=h('button',{type:'button','aria-label':'פחות'},'−'),plus=h('button',{type:'button','aria-label':'יותר'},'+');
   minus.onclick=()=>{it.qty=Math.max(1,it.qty-1);q.value=it.qty;upd()};plus.onclick=()=>{it.qty++;q.value=it.qty;upd()};
   const rm=h('button',{class:'iconbtn',type:'button'},'הסרה');
@@ -357,7 +465,7 @@ function itemEl(r,it){
   rm.onclick=()=>{r.items=r.items.filter(x=>x!==it);el.remove();save()};
   t.groups.forEach(([g,fs],i)=>el.append(h('div',{class:i?'sub':''},i?h('div',{class:'lbl'},g):null,fieldsBlock(fs,it.v,upd,it.id))));
   const note=h('input',{type:'text',id:it.id+'-note',placeholder:'הערה לשורה (למשל: לפי שרטוט, קודם מגירות ואז דלת)'});note.value=it.note||'';note.oninput=()=>{it.note=note.value;upd()};
-  el.append(h('div',{class:'f wide'},h('label',{class:'lbl',for:it.id+'-note'},'הערה'),note),photoBox(it.photos),pv);upd();return el;
+  el.append(h('div',{class:'f wide'},h('label',{class:'lbl',for:it.id+'-note'},'הערה'),note),photoBox(it.photos),skb,pv);upd();return el;
 }
 function sum(){const n=O.rooms.reduce((a,r)=>a+r.items.length,0);$('#sum').innerHTML=n?`<b>${O.rooms.length}</b> חדרים · <b>${n}</b> פריטים`+(O.header.customer?` · ${esc(O.header.customer)}`:''):'אין פריטים עדיין'}
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -370,7 +478,7 @@ let stEl;function status(msg,kind='ok'){if(!stEl){stEl=h('div',{class:'status',r
 /* ---------- send: through the hidden Elementor form on this page (saved under Elementor > Submissions) ---------- */
 function boot(){renderAll()}
 function payload(){
-  const rooms=O.rooms.map(r=>({name:r.name,items:r.items.map(it=>({type:it.type,typeHe:TYPES[it.type].he,qty:it.qty,v:it.v,note:it.note,photos:it.photos.map(p=>p.name),lines:itemLines(it)}))})).filter(r=>r.items.length);
+  const rooms=O.rooms.map(r=>({name:r.name,items:r.items.map(it=>({type:it.type,typeHe:TYPES[it.type].he,qty:it.qty,v:it.v,note:it.note,photos:it.photos.map(p=>p.name),sketch:sketch(it),lines:itemLines(it)}))})).filter(r=>r.items.length);
   const lines=rooms.flatMap(r=>[{d:`${r.name}-----------`,q:1},...r.items.flatMap(i=>i.lines)]);
   return {formVersion:1,sentAt:new Date().toISOString(),header:O.header,notes:O.notes,photos:O.photos.map(p=>p.name),rooms,lines};
 }
