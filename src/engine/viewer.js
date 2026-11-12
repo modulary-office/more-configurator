@@ -58,6 +58,7 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   /* demos set state directly: _set({len:280}) runs the same path as a control change */
   root._set = patch => { for (const [k, v] of Object.entries(patch)) { S[k] = v; P.update(k); } ui.refresh && ui.refresh(); };
   root._pmapNow = () => S.pmap;
+  root._state = () => JSON.parse(JSON.stringify(S));
   root._explode = v => { explodeGoal = v ? 1 : 0; };
   root._pick = k => { const msg = P.pick && P.pick(k); if (msg) { ui.refresh && ui.refresh(); } return !!msg; };
   let autoRot = true, lastInput = performance.now() - 9000, explode = 0, explodeGoal = 0;

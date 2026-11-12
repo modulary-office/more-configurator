@@ -1,0 +1,77 @@
+{
+ "product": "drawer-unit",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 7.8,
+ "bg": "#ffffff",
+ "camera": {},
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "front": "mob5"
+    }
+   }
+  ],
+  [
+   2.4,
+   {
+    "set": {
+     "face": "sage"
+    }
+   }
+  ],
+  [
+   3.2,
+   {
+    "set": {
+     "face": "navy"
+    }
+   }
+  ],
+  [
+   4.0,
+   {
+    "set": {
+     "base": "none"
+    }
+   }
+  ],
+  [
+   4.8,
+   {
+    "set": {
+     "handle": "integral"
+    }
+   }
+  ],
+  [
+   5.8,
+   {
+    "reset": true
+   }
+  ],
+  [
+   6.4,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}

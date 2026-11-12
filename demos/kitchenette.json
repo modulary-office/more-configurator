@@ -1,0 +1,77 @@
+{
+ "product": "kitchenette",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 7.8,
+ "bg": "#ffffff",
+ "camera": {},
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "w": 300
+    }
+   }
+  ],
+  [
+   2.4,
+   {
+    "set": {
+     "face": "terra"
+    }
+   }
+  ],
+  [
+   3.2,
+   {
+    "set": {
+     "body": "white"
+    }
+   }
+  ],
+  [
+   4.0,
+   {
+    "set": {
+     "face": "navy"
+    }
+   }
+  ],
+  [
+   4.8,
+   {
+    "set": {
+     "upper": false
+    }
+   }
+  ],
+  [
+   5.8,
+   {
+    "reset": true
+   }
+  ],
+  [
+   6.4,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}

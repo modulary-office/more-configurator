@@ -1,0 +1,93 @@
+{
+ "product": "manager-desk",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 8.8,
+ "bg": "#ffffff",
+ "camera": {},
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "rarr": "ddd"
+    }
+   }
+  ],
+  [
+   2.3,
+   {
+    "set": {
+     "rarr": "od"
+    }
+   }
+  ],
+  [
+   3.0,
+   {
+    "set": {
+     "rbody": "white"
+    }
+   }
+  ],
+  [
+   3.7,
+   {
+    "set": {
+     "rface": "terra"
+    }
+   }
+  ],
+  [
+   4.4,
+   {
+    "set": {
+     "rw": 200
+    }
+   }
+  ],
+  [
+   5.1,
+   {
+    "set": {
+     "decor": "oak"
+    }
+   }
+  ],
+  [
+   5.8,
+   {
+    "set": {
+     "fcolor": "9005"
+    }
+   }
+  ],
+  [
+   6.800000000000001,
+   {
+    "reset": true
+   }
+  ],
+  [
+   7.4,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}

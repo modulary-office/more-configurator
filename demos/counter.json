@@ -1,0 +1,77 @@
+{
+ "product": "counter",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 7.8,
+ "bg": "#ffffff",
+ "camera": {},
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "w": 240
+    }
+   }
+  ],
+  [
+   2.4,
+   {
+    "set": {
+     "face": "walnut"
+    }
+   }
+  ],
+  [
+   3.2,
+   {
+    "set": {
+     "style": "strips"
+    }
+   }
+  ],
+  [
+   4.0,
+   {
+    "set": {
+     "face": "terra"
+    }
+   }
+  ],
+  [
+   4.8,
+   {
+    "set": {
+     "body": "graphite"
+    }
+   }
+  ],
+  [
+   5.8,
+   {
+    "reset": true
+   }
+  ],
+  [
+   6.4,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}

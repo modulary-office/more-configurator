@@ -1,0 +1,86 @@
+{
+ "product": "office-desk",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 8.6,
+ "bg": "#ffffff",
+ "camera": {},
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "w": 180
+    }
+   }
+  ],
+  [
+   2.4,
+   {
+    "set": {
+     "fcolor": "1023"
+    }
+   }
+  ],
+  [
+   3.2,
+   {
+    "set": {
+     "decor": "walnut"
+    }
+   }
+  ],
+  [
+   4.0,
+   {
+    "set": {
+     "ret": "right"
+    }
+   }
+  ],
+  [
+   4.8,
+   {
+    "set": {
+     "rfaceOn": true,
+     "rface": "sage"
+    }
+   }
+  ],
+  [
+   5.6,
+   {
+    "set": {
+     "fcolor": "9016"
+    }
+   }
+  ],
+  [
+   6.6,
+   {
+    "reset": true
+   }
+  ],
+  [
+   7.199999999999999,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}

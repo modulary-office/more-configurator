@@ -1,0 +1,87 @@
+{
+ "product": "cabinet-low",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 8.4,
+ "bg": "#ffffff",
+ "camera": {
+  "r": 1.18
+ },
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "w": 240
+    }
+   }
+  ],
+  [
+   2.4,
+   {
+    "set": {
+     "face": "navy"
+    }
+   }
+  ],
+  [
+   3.2,
+   {
+    "set": {
+     "front": "doorsDrawers"
+    }
+   }
+  ],
+  [
+   4.0,
+   {
+    "set": {
+     "body": "graphite"
+    }
+   }
+  ],
+  [
+   4.8,
+   {
+    "set": {
+     "face": "terra"
+    }
+   }
+  ],
+  [
+   5.5,
+   {
+    "set": {
+     "base": "plinth"
+    }
+   }
+  ],
+  [
+   6.4,
+   {
+    "reset": true
+   }
+  ],
+  [
+   7.0,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}

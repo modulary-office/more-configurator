@@ -1,0 +1,77 @@
+{
+ "product": "bench-desk",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 8.0,
+ "bg": "#ffffff",
+ "camera": {},
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "n": 3
+    }
+   }
+  ],
+  [
+   2.5,
+   {
+    "set": {
+     "fcolor": "2004"
+    }
+   }
+  ],
+  [
+   3.3,
+   {
+    "set": {
+     "decor": "oak"
+    }
+   }
+  ],
+  [
+   4.1,
+   {
+    "set": {
+     "w": 360
+    }
+   }
+  ],
+  [
+   4.9,
+   {
+    "set": {
+     "fcolor": "5024"
+    }
+   }
+  ],
+  [
+   6.0,
+   {
+    "reset": true
+   }
+  ],
+  [
+   6.6,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}

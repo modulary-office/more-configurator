@@ -1,0 +1,77 @@
+{
+ "product": "shelf-open",
+ "size": [
+  600,
+  450
+ ],
+ "fps": 12,
+ "dur": 7.8,
+ "bg": "#ffffff",
+ "camera": {},
+ "timeline": [
+  [
+   0,
+   {
+    "explode": true
+   }
+  ],
+  [
+   0.5,
+   {
+    "explode": false
+   }
+  ],
+  [
+   1.6,
+   {
+    "set": {
+     "front": "open"
+    }
+   }
+  ],
+  [
+   2.4,
+   {
+    "set": {
+     "shelves": 4
+    }
+   }
+  ],
+  [
+   3.2,
+   {
+    "set": {
+     "body": "oak"
+    }
+   }
+  ],
+  [
+   4.0,
+   {
+    "set": {
+     "front": "openDoors"
+    }
+   }
+  ],
+  [
+   4.8,
+   {
+    "set": {
+     "face": "navy"
+    }
+   }
+  ],
+  [
+   5.8,
+   {
+    "reset": true
+   }
+  ],
+  [
+   6.4,
+   {
+    "explode": true
+   }
+  ]
+ ]
+}
