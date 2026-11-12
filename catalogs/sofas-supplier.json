@@ -1,0 +1,1193 @@
+{
+ "source": "ModularTech dealer collection (modulartech.tasklite.dev), read 2026-11-12",
+ "pricing": "retail = cost × 2 (100% markup) × 1.18 VAT, rounded to 10 ₪; sofas priced per running metre scale linearly with width",
+ "items": [
+  {
+   "supplier_name": "כסא קוקו",
+   "code": "S0105",
+   "w": 52.0,
+   "d": 52.0,
+   "h": 73.0,
+   "unit": "unit",
+   "cost": 450,
+   "retail": 1060
+  },
+  {
+   "supplier_name": "כורסה אלורה",
+   "code": "",
+   "w": 88.5,
+   "d": 78.5,
+   "h": 74.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070
+  },
+  {
+   "supplier_name": "ספה מודולרית SORANO | סוראנו",
+   "code": "SRN-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830
+  },
+  {
+   "supplier_name": "כורסא משרד נלה",
+   "code": "S0094",
+   "w": 58.0,
+   "d": 55.0,
+   "h": 75.0,
+   "unit": "unit",
+   "cost": 650,
+   "retail": 1530,
+   "more": {
+    "name": "Nella",
+    "id": 1477,
+    "slug": "nella"
+   }
+  },
+  {
+   "supplier_name": "ספה RIVANO | ריבאנו",
+   "code": "RVN-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1000,
+   "retail_per_m": 2360
+  },
+  {
+   "supplier_name": "ספה דאג",
+   "code": "S0054",
+   "w": 350.0,
+   "d": 75.0,
+   "h": 75.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 9910,
+   "more": {
+    "name": "Doug",
+    "id": 1380,
+    "slug": "doug"
+   }
+  },
+  {
+   "supplier_name": "ספה חופי",
+   "code": "S0049",
+   "w": 220.0,
+   "d": 120.0,
+   "h": 70.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 6230,
+   "more": {
+    "name": "Hofi",
+    "id": 1375,
+    "slug": "hofi"
+   }
+  },
+  {
+   "supplier_name": "כורסת PETALO | פטאלו",
+   "code": "PTL-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830
+  },
+  {
+   "supplier_name": "לאב סיט מיילו",
+   "code": "S0075",
+   "w": 110.0,
+   "d": 100.0,
+   "h": 71.0,
+   "unit": "unit",
+   "cost": 2000,
+   "retail": 4720,
+   "more": {
+    "name": "Milo",
+    "id": 1458,
+    "slug": "milo"
+   }
+  },
+  {
+   "supplier_name": "כורסא לולה",
+   "code": "S0059",
+   "w": 74.0,
+   "d": 74.0,
+   "h": 73.0,
+   "unit": "unit",
+   "cost": 1000,
+   "retail": 2360,
+   "more": {
+    "name": "Lola",
+    "id": 1442,
+    "slug": "lola"
+   }
+  },
+  {
+   "supplier_name": "כורסא ריו",
+   "code": "S0070",
+   "w": 75.0,
+   "d": 75.0,
+   "h": 80.0,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830,
+   "more": {
+    "name": "Rio",
+    "id": 1453,
+    "slug": "rio"
+   }
+  },
+  {
+   "supplier_name": "ספה חומי",
+   "code": "S0048",
+   "w": 260.0,
+   "d": 77.0,
+   "h": 75.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 7360,
+   "more": {
+    "name": "Humi",
+    "id": 1374,
+    "slug": "humi"
+   }
+  },
+  {
+   "supplier_name": "ספה LENTO | לנטו",
+   "code": "MT-SF-LNT-02",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1000,
+   "retail_per_m": 2360
+  },
+  {
+   "supplier_name": "ספה הולי",
+   "code": "S0056",
+   "w": 60.0,
+   "d": 60.0,
+   "h": 72.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 1700,
+   "more": {
+    "name": "Holly",
+    "id": 1382,
+    "slug": "holly"
+   }
+  },
+  {
+   "supplier_name": "ספה האנטר",
+   "code": "S0029",
+   "w": 400.0,
+   "d": 140.0,
+   "h": 70.0,
+   "unit": "meter",
+   "cost": 1300,
+   "retail_per_m": 3070,
+   "retail_at_listed_w": 12270,
+   "more": {
+    "name": "Hunter",
+    "id": 1355,
+    "slug": "hunter"
+   }
+  },
+  {
+   "supplier_name": "כורסה ORVEN | אורבן",
+   "code": "ORV-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070
+  },
+  {
+   "supplier_name": "כורסא מקס",
+   "code": "S0057",
+   "w": 80.0,
+   "d": 70.0,
+   "h": 70.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Max",
+    "id": 1383,
+    "slug": "max"
+   }
+  },
+  {
+   "supplier_name": "כורסא זאוס",
+   "code": "S0067",
+   "w": 106.0,
+   "d": 90.0,
+   "h": 76.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Zeus",
+    "id": 1450,
+    "slug": "zeus"
+   }
+  },
+  {
+   "supplier_name": "כורסא הירו",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830
+  },
+  {
+   "supplier_name": "ספה וולף",
+   "code": "S0038",
+   "w": 260.0,
+   "d": 100.0,
+   "h": 72.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 7360,
+   "more": {
+    "name": "Wolf",
+    "id": 1364,
+    "slug": "wolf"
+   }
+  },
+  {
+   "supplier_name": "ספה ברייק",
+   "code": "S0120",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1000,
+   "retail_per_m": 2360
+  },
+  {
+   "supplier_name": "כורסא בונד",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1000,
+   "retail": 2360
+  },
+  {
+   "supplier_name": "הדום פבלו",
+   "code": "S0115",
+   "w": 90.0,
+   "d": 90.0,
+   "h": 45.0,
+   "unit": "none",
+   "cost": null,
+   "more": {
+    "name": "Pablo",
+    "id": 1498,
+    "slug": "pablo"
+   }
+  },
+  {
+   "supplier_name": "כסא שדו",
+   "code": "S0103",
+   "w": 57.0,
+   "d": 53.0,
+   "h": 75.0,
+   "unit": "unit",
+   "cost": 450,
+   "retail": 1060
+  },
+  {
+   "supplier_name": "הדום שח מט",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "ספה הארלי",
+   "code": "S0031",
+   "w": 100.0,
+   "d": 100.0,
+   "h": 70.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 2830,
+   "more": {
+    "name": "Harley",
+    "id": 1357,
+    "slug": "harley"
+   }
+  },
+  {
+   "supplier_name": "ספה דו־מושבית ELORA | אלורה",
+   "code": "",
+   "w": 163.5,
+   "d": 78.5,
+   "h": 74.0,
+   "unit": "meter",
+   "cost": 1300,
+   "retail_per_m": 3070,
+   "retail_at_listed_w": 5020
+  },
+  {
+   "supplier_name": "כורסא סלט",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070
+  },
+  {
+   "supplier_name": "NUBO | הדום נובו",
+   "code": "MT-OT-152",
+   "w": 80.0,
+   "d": 80.0,
+   "h": 45.0,
+   "unit": "unit",
+   "cost": 800,
+   "retail": 1890
+  },
+  {
+   "supplier_name": "ספה ג'וייס",
+   "code": "S0053",
+   "w": 320.0,
+   "d": 90.0,
+   "h": 75.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 9060,
+   "more": {
+    "name": "Joyce",
+    "id": 1379,
+    "slug": "joyce"
+   }
+  },
+  {
+   "supplier_name": "VELORA | ולורה",
+   "code": "MT-SF-151",
+   "w": 200.0,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 3000,
+   "retail_per_m": 7080,
+   "retail_at_listed_w": 14160
+  },
+  {
+   "supplier_name": "הדום אטלס",
+   "code": "S0109",
+   "w": 100.0,
+   "d": 100.0,
+   "h": 40.0,
+   "unit": "unit",
+   "cost": 800,
+   "retail": 1890,
+   "more": {
+    "name": "Atlas",
+    "id": 1492,
+    "slug": "atlas"
+   }
+  },
+  {
+   "supplier_name": "הדום ארצ'י",
+   "code": "S0112",
+   "w": 60.0,
+   "d": 40.0,
+   "h": 40.0,
+   "unit": "none",
+   "cost": null,
+   "more": {
+    "name": "Archie",
+    "id": 1495,
+    "slug": "archie"
+   }
+  },
+  {
+   "supplier_name": "כורסא מוקה",
+   "code": "S0079",
+   "w": 85.0,
+   "d": 85.0,
+   "h": 75.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Mocha",
+    "id": 1462,
+    "slug": "mocha"
+   }
+  },
+  {
+   "supplier_name": "דגם באלי",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1500,
+   "retail": 3540
+  },
+  {
+   "supplier_name": "כסא לונה",
+   "code": "S0102",
+   "w": 61.0,
+   "d": 55.0,
+   "h": 90.0,
+   "unit": "unit",
+   "cost": 550,
+   "retail": 1300
+  },
+  {
+   "supplier_name": "כורסא רובי",
+   "code": "S0082",
+   "w": 80.0,
+   "d": 72.0,
+   "h": 75.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Ruby",
+    "id": 1465,
+    "slug": "ruby"
+   }
+  },
+  {
+   "supplier_name": "שולחן קפה ניבו",
+   "code": "",
+   "w": 63.0,
+   "d": 63.0,
+   "h": 38.0,
+   "unit": "unit",
+   "cost": 650,
+   "retail": 1530
+  },
+  {
+   "supplier_name": "הדום קובי",
+   "code": "S0113",
+   "w": 60.0,
+   "d": 60.0,
+   "h": 45.0,
+   "unit": "none",
+   "cost": null,
+   "more": {
+    "name": "Kobi",
+    "id": 1496,
+    "slug": "kobi"
+   }
+  },
+  {
+   "supplier_name": "כורסא ברוס",
+   "code": "S0085",
+   "w": 65.0,
+   "d": 75.0,
+   "h": 75.0,
+   "unit": "unit",
+   "cost": 1000,
+   "retail": 2360,
+   "more": {
+    "name": "Bruce",
+    "id": 1468,
+    "slug": "bruce"
+   }
+  },
+  {
+   "supplier_name": "הדום צ'אפו",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "כורסא טופי",
+   "code": "S0089",
+   "w": 70.0,
+   "d": 75.0,
+   "h": 72.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Toffee",
+    "id": 1472,
+    "slug": "toffee"
+   }
+  },
+  {
+   "supplier_name": "כסא מיקה",
+   "code": "S0101",
+   "w": 61.0,
+   "d": 60.0,
+   "h": 74.0,
+   "unit": "unit",
+   "cost": 450,
+   "retail": 1060
+  },
+  {
+   "supplier_name": "אורביט | ORBIT",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 400,
+   "retail": 940
+  },
+  {
+   "supplier_name": "כסא סאני",
+   "code": "S0104",
+   "w": 52.0,
+   "d": 52.0,
+   "h": 105.0,
+   "unit": "unit",
+   "cost": 550,
+   "retail": 1300
+  },
+  {
+   "supplier_name": "ספת שזלונג LUNARO | לונארו",
+   "code": "LNR-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830
+  },
+  {
+   "supplier_name": "ספה מודולרית FORMA | פורמה",
+   "code": "FRM-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830
+  },
+  {
+   "supplier_name": "הדום ONEM 80x80",
+   "code": "",
+   "w": 80.0,
+   "d": 80.0,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "הדום ONEM 60x160",
+   "code": "",
+   "w": 160.0,
+   "d": 60.0,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "הדום ONEM מעוגל 60x180",
+   "code": "",
+   "w": 180.0,
+   "d": 60.0,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "ספה דומינו",
+   "code": "S0027",
+   "w": 280.0,
+   "d": 100.0,
+   "h": 75.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 7930,
+   "more": {
+    "name": "Domino",
+    "id": 1353,
+    "slug": "domino"
+   }
+  },
+  {
+   "supplier_name": "ספה זורו",
+   "code": "S0044",
+   "w": 600.0,
+   "d": 80.0,
+   "h": 72.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 16990,
+   "more": {
+    "name": "Zorro",
+    "id": 1370,
+    "slug": "zorro"
+   }
+  },
+  {
+   "supplier_name": "טאבו | TAVO",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "מונול קובייה",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "הדום ONEM קוטר 80",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "הדום ONEM מעוגל 80x180",
+   "code": "",
+   "w": 180.0,
+   "d": 80.0,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "כורסא אבן",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070
+  },
+  {
+   "supplier_name": "הדום קרמל",
+   "code": "S0114",
+   "w": 60.0,
+   "d": 60.0,
+   "h": 45.0,
+   "unit": "none",
+   "cost": null,
+   "more": {
+    "name": "Caramel",
+    "id": 1497,
+    "slug": "caramel"
+   }
+  },
+  {
+   "supplier_name": "ספה האני",
+   "code": "S0030",
+   "w": 700.0,
+   "d": 80.0,
+   "h": 75.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 19820,
+   "more": {
+    "name": "Honey",
+    "id": 1356,
+    "slug": "honey"
+   }
+  },
+  {
+   "supplier_name": "קמל | CAMEL",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830
+  },
+  {
+   "supplier_name": "ספה דאפי",
+   "code": "S0023",
+   "w": 240.0,
+   "d": 90.0,
+   "h": 75.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 6800,
+   "more": {
+    "name": "Daffy",
+    "id": 1349,
+    "slug": "daffy"
+   }
+  },
+  {
+   "supplier_name": "כורסא ביילי",
+   "code": "S0080",
+   "w": 74.0,
+   "d": 60.0,
+   "h": 73.0,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830,
+   "more": {
+    "name": "Bailey",
+    "id": 1463,
+    "slug": "bailey"
+   }
+  },
+  {
+   "supplier_name": "כורסא ברונו",
+   "code": "S0065",
+   "w": 86.0,
+   "d": 76.0,
+   "h": 77.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Bruno",
+    "id": 1448,
+    "slug": "bruno"
+   }
+  },
+  {
+   "supplier_name": "כורסה ALERO | אלרו",
+   "code": "ALR-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 1000,
+   "retail": 2360
+  },
+  {
+   "supplier_name": "כיסא פינת אוכל NOLAN | נולאן",
+   "code": "NLN-101",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "unit",
+   "cost": 450,
+   "retail": 1060
+  },
+  {
+   "supplier_name": "הדום ONEM 80x160",
+   "code": "",
+   "w": 160.0,
+   "d": 80.0,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "ספה דובי",
+   "code": "S0024",
+   "w": 210.0,
+   "d": 70.0,
+   "h": 78.0,
+   "unit": "meter",
+   "cost": 1000,
+   "retail_per_m": 2360,
+   "retail_at_listed_w": 4960,
+   "more": {
+    "name": "Dobby",
+    "id": 1350,
+    "slug": "dobby"
+   }
+  },
+  {
+   "supplier_name": "כורסא קאי",
+   "code": "S0096",
+   "w": 90.0,
+   "d": 85.0,
+   "h": 70.0,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830,
+   "more": {
+    "name": "Kai",
+    "id": 1479,
+    "slug": "kai"
+   }
+  },
+  {
+   "supplier_name": "כורסא מילקי",
+   "code": "S0093",
+   "w": 70.0,
+   "d": 70.0,
+   "h": 72.0,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830,
+   "more": {
+    "name": "Milky",
+    "id": 1476,
+    "slug": "milky"
+   }
+  },
+  {
+   "supplier_name": "כורסא טיטו",
+   "code": "S0064",
+   "w": 78.0,
+   "d": 73.0,
+   "h": 73.0,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830,
+   "more": {
+    "name": "Tito",
+    "id": 1447,
+    "slug": "tito"
+   }
+  },
+  {
+   "supplier_name": "כורסא דייזי",
+   "code": "S0081",
+   "w": 80.0,
+   "d": 80.0,
+   "h": 78.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Daisy",
+    "id": 1464,
+    "slug": "daisy"
+   }
+  },
+  {
+   "supplier_name": "ספה ONEM שלושה מושבים",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1300,
+   "retail_per_m": 3070
+  },
+  {
+   "supplier_name": "כורסא גוסט",
+   "code": "S0095",
+   "w": 100.0,
+   "d": 90.0,
+   "h": 68.0,
+   "unit": "unit",
+   "cost": 1200,
+   "retail": 2830,
+   "more": {
+    "name": "Ghost",
+    "id": 1478,
+    "slug": "ghost"
+   }
+  },
+  {
+   "supplier_name": "ספה אוסטין",
+   "code": "S0010",
+   "w": 280.0,
+   "d": 100.0,
+   "h": 73.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 7930,
+   "more": {
+    "name": "Austin",
+    "id": 1336,
+    "slug": "austin"
+   }
+  },
+  {
+   "supplier_name": "כורסא לאו",
+   "code": "S0091",
+   "w": 75.0,
+   "d": 79.0,
+   "h": 71.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Leo",
+    "id": 1474,
+    "slug": "leo"
+   }
+  },
+  {
+   "supplier_name": "כורסא רוקי",
+   "code": "S0061",
+   "w": 90.0,
+   "d": 95.0,
+   "h": 78.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Rocky",
+    "id": 1444,
+    "slug": "rocky"
+   }
+  },
+  {
+   "supplier_name": "ספה אליפסה",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830
+  },
+  {
+   "supplier_name": "ספה אגטה",
+   "code": "S0012",
+   "w": 220.0,
+   "d": 75.0,
+   "h": 70.0,
+   "unit": "meter",
+   "cost": 1000,
+   "retail_per_m": 2360,
+   "retail_at_listed_w": 5190,
+   "more": {
+    "name": "Agatha",
+    "id": 1338,
+    "slug": "agatha"
+   }
+  },
+  {
+   "supplier_name": "הדום ONEM קוטר 120",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "כורסא מואנה",
+   "code": "S0071",
+   "w": 97.0,
+   "d": 98.0,
+   "h": 79.0,
+   "unit": "unit",
+   "cost": 2000,
+   "retail": 4720,
+   "more": {
+    "name": "Moana",
+    "id": 1454,
+    "slug": "moana"
+   }
+  },
+  {
+   "supplier_name": "כורסא שוקו",
+   "code": "S0078",
+   "w": 80.0,
+   "d": 75.0,
+   "h": 68.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Shoko",
+    "id": 1461,
+    "slug": "shoko"
+   }
+  },
+  {
+   "supplier_name": "ספה בוטן",
+   "code": "S0004",
+   "w": 250.0,
+   "d": 115.0,
+   "h": 74.0,
+   "unit": "meter",
+   "cost": 1500,
+   "retail_per_m": 3540,
+   "retail_at_listed_w": 8850,
+   "more": {
+    "name": "Peanut",
+    "id": 1330,
+    "slug": "peanut"
+   }
+  },
+  {
+   "supplier_name": "כורסא לילי",
+   "code": "S0083",
+   "w": 65.0,
+   "d": 65.0,
+   "h": 72.0,
+   "unit": "unit",
+   "cost": 1000,
+   "retail": 2360,
+   "more": {
+    "name": "Lily",
+    "id": 1466,
+    "slug": "lily"
+   }
+  },
+  {
+   "supplier_name": "ספה דאגלס",
+   "code": "S0022",
+   "w": 240.0,
+   "d": 80.0,
+   "h": 75.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 6800,
+   "more": {
+    "name": "Douglas",
+    "id": 1348,
+    "slug": "douglas"
+   }
+  },
+  {
+   "supplier_name": "ספה בומר",
+   "code": "S0005",
+   "w": 260.0,
+   "d": 120.0,
+   "h": 77.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 7360,
+   "more": {
+    "name": "Boomer",
+    "id": 1331,
+    "slug": "boomer"
+   }
+  },
+  {
+   "supplier_name": "ספה ג'ולי",
+   "code": "S0020",
+   "w": 196.0,
+   "d": 77.0,
+   "h": 80.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 5550,
+   "more": {
+    "name": "Julie",
+    "id": 1346,
+    "slug": "julie"
+   }
+  },
+  {
+   "supplier_name": "כורסא במבי",
+   "code": "S0100",
+   "w": 79.0,
+   "d": 86.0,
+   "h": 75.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070
+  },
+  {
+   "supplier_name": "מונול גבוה",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "ספה בולי",
+   "code": "S0052",
+   "w": 90.0,
+   "d": 80.0,
+   "h": 72.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 2550,
+   "more": {
+    "name": "Bully",
+    "id": 1378,
+    "slug": "bully"
+   }
+  },
+  {
+   "supplier_name": "ספה זויה",
+   "code": "S0045",
+   "w": 280.0,
+   "d": 80.0,
+   "h": 55.0,
+   "unit": "meter",
+   "cost": 1200,
+   "retail_per_m": 2830,
+   "retail_at_listed_w": 7930,
+   "more": {
+    "name": "Zoya",
+    "id": 1371,
+    "slug": "zoya"
+   }
+  },
+  {
+   "supplier_name": "כורסא צ'ארלי",
+   "code": "S0058",
+   "w": 90.0,
+   "d": 82.0,
+   "h": 70.0,
+   "unit": "unit",
+   "cost": 1300,
+   "retail": 3070,
+   "more": {
+    "name": "Charlie",
+    "id": 1441,
+    "slug": "charlie"
+   }
+  },
+  {
+   "supplier_name": "מונול נמוך",
+   "code": "",
+   "w": null,
+   "d": null,
+   "h": null,
+   "unit": "none",
+   "cost": null
+  },
+  {
+   "supplier_name": "ספה חואן",
+   "code": "S0050",
+   "w": 220.0,
+   "d": 80.0,
+   "h": 72.0,
+   "unit": "meter",
+   "cost": 1300,
+   "retail_per_m": 3070,
+   "retail_at_listed_w": 6750,
+   "more": {
+    "name": "Juan",
+    "id": 1376,
+    "slug": "juan"
+   }
+  }
+ ]
+}
