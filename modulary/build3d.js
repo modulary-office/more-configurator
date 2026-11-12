@@ -1,12 +1,13 @@
 /* MODULARY / MORE – "בונים בתלת־ממד": one page, every configurator product.
    Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>.
    #mb3d data attributes: data-quote (contact URL), data-brand (title suffix), data-prices="on" to show list prices. */
-const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@0a5432feb91414ce1c580f8e734f8b1bc2e301c4/dist/';
+const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@7f5527f/dist/';
 const GROUPS = [
   ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן']]],
   ['עמדות עבודה', [['bench-desk', 'עמדות משותפות'], ['duo-bench', 'Duo Bench עם מחיצות']]],
   ['ארונות ואחסון', [['cabinet-low', 'ארון נמוך'], ['cabinet-tall', 'ארון גבוה'], ['cabinet-sliding', 'דלתות הזזה'], ['file-cabinet', 'ארון תיקיות'], ['credenza', 'שלוחת מנהל'], ['drawer-unit', 'מגירות ועגלה'], ['shelf-open', 'כוננית'], ['cubby', 'כוורת תאים']]],
-  ['נגרות', [['counter', 'דלפק קבלה'], ['kitchenette', 'מטבחון']]]
+  ['נגרות', [['counter', 'דלפק קבלה'], ['kitchenette', 'מטבחון']]],
+  ['ספות וישיבה', [['hofi', 'Hofi מערכת ישיבה']]]
 ];
 const ALL = GROUPS.flatMap(g => g[1].map(p => p[0]));
 const host = document.getElementById('mb3d');
