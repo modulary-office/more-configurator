@@ -40,7 +40,11 @@
   "f_sofia": "sofia-1",
   "f_togo": "togo-1",
   "f_zoom": "zoom-1",
-  "f_venecia": "venecia-1"
+  "f_venecia": "venecia-1",
+  "pmode": "all",
+  "pmap": "",
+  "psel": "",
+  "pbase": ""
  },
  "sections": [
   {
@@ -200,6 +204,21 @@
    "id": "fabric",
    "title": "בד",
    "controls": [
+    {
+     "type": "seg",
+     "key": "pmode",
+     "label": "צביעה",
+     "options": [
+      {
+       "v": "all",
+       "label": "בד אחד לכל הספה"
+      },
+      {
+       "v": "part",
+       "label": "בד לכל מושב וגב"
+      }
+     ]
+    },
     {
      "type": "seg",
      "key": "fcol",

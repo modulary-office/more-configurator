@@ -80,6 +80,19 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   }
   function twoState() { const [a, b] = [...ptrs.values()]; return { d: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)), mx: (a.x + b.x) / 2, my: (a.y + b.y) / 2, r: goal.r }; }
   const touched = () => { moved = true; lastInput = performance.now(); const hnt = $('.mrc-hint'); if (hnt) hnt.style.opacity = 0; $$('[data-view]').forEach(b => b.classList.remove('on')); };
+  /* tap on a part: families that colour parts separately (lounge) get the mesh under the finger */
+  const ray = new THREE.Raycaster(); let tap0 = null;
+  el.addEventListener('pointerdown', e => { tap0 = { x: e.clientX, y: e.clientY, t: performance.now() }; }, true);
+  el.addEventListener('pointerup', e => {
+    if (!P.pick || !tap0 || Math.hypot(e.clientX - tap0.x, e.clientY - tap0.y) > 6 || performance.now() - tap0.t > 400) return;
+    const r = el.getBoundingClientRect();
+    ray.setFromCamera(new THREE.Vector2((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1), camera);
+    const hit = ray.intersectObjects(scene.children, true).find(h => { let o = h.object; while (o && !(o.userData && o.userData.part)) o = o.parent; return o; });
+    if (!hit) return;
+    let o = hit.object; while (!o.userData.part) o = o.parent;
+    const msg = P.pick(o.userData.part);
+    if (msg) { ui.refresh && ui.refresh(); if (msg.section) ui.openSec(msg.section); ui.toast(msg.text, msg.sw); }
+  });
   el.addEventListener('pointerdown', e => {
     if (e.isPrimary) ptrs.clear();
     ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY, btn: e.button, shift: e.shiftKey });
@@ -228,5 +241,5 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
     scene.traverse(o => { if (o.geometry) o.geometry.dispose(); if (o.material) [].concat(o.material).forEach(m => { if (m.map) m.map.dispose(); m.dispose(); }); });
     renderer.dispose(); try { renderer.forceContextLoss(); } catch (e) {}
   }
-  return { update, focus, snap, thumb, destroy };
+  return { update, focus, snap, thumb, destroy, mutates: !!P.pick };
 }

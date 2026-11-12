@@ -14,7 +14,7 @@ import { desk } from '../families/desk.js';
 import { lounge } from '../families/lounge.js';
 
 const FAMILIES = { bench, cabinet, desk, lounge };
-const VERSION = '1.6.0';
+const VERSION = '1.7.0';
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -247,6 +247,8 @@ function start(mount, product, cat, family) {
     toast(m[0], m[1]);
     writeHash(S);
     api && api.update(k);
+    /* a family may adjust the state while updating (e.g. per-part fabrics) */
+    if (api && api.mutates) { refreshUI(); writeHash(S); }
   }
   function share() {
     const url = location.href.split('#')[0] + location.hash;
@@ -292,7 +294,7 @@ function start(mount, product, cat, family) {
 
   /* ---------------- 3D ---------------- */
   let api = null;
-  const ui = { openSec, toast, code, name: NAME };
+  const ui = { openSec, toast, code, name: NAME, refresh: () => { refreshUI(); writeHash(S); } };
   try { api = createViewer({ root, stage, $, $$, S, product, cat, family, ui }); } catch (e) { console.error(e); $('.mrc-loading div').textContent = 'התצוגה התלת־ממדית אינה נתמכת בדפדפן זה'; }
 
   /* small public hook for debugging / later cart integration */

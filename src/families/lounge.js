@@ -18,6 +18,10 @@ function lists(product, cat) {
 const fabKey = S => 'f_' + (S.fcol || 'fast');
 const fabId = S => S[fabKey(S)];
 const cap = s => s ? s[0].toUpperCase() + s.slice(1) : '';
+/* per-part fabrics: S.pmap = "s0-1=moon-3;b1=fast-2" (only in "part" mode) */
+const pmapGet = S => Object.fromEntries(String(S.pmap || '').split(';').filter(Boolean).map(x => x.split('=')));
+const pmapSet = (S, m) => { S.pmap = Object.entries(m).map(([k, v]) => k + '=' + v).join(';'); };
+const partName = k => k[0] === 'b' ? `גב ${+k.slice(1) + 1}` : `מושב ${+k.split('-')[1] + 1}${k[1] === '1' ? ' (צד שני)' : ''}`;
 
 export const lounge = {
   ui(product, cat, S) {
@@ -44,15 +48,18 @@ export const lounge = {
       },
       toast: k => {
         const f = fab();
+        if (k === 'pmode') return [S.pmode === 'part' ? 'לחצו על מושב או גב בתלת־ממד ובחרו לו בד' : 'בד אחד לכל הספה'];
+        if ((k === 'fcol' || k.startsWith('f_')) && S.pmode === 'part' && S.psel) return [`${partName(S.psel)}: ${f.he}`, `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`];
         if (k === 'fcol' || k.startsWith('f_')) return [`בד: ${f.he}`, `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`];
         if (k === 'back') return [backTxt()];
         if (k === 'tables' || k === 'tdec') return [S.tables === 'none' ? 'ללא שולחנות צד' : `שולחן צד ${TABLES[S.tables]}, ${byId(DEC, S.tdec).he}`];
         if (k === 'leg') return [`שלד: ${(LEGS[S.leg] || LEGS.black).he}`];
         return [`${S.len} × ${D()} ס״מ · ${sides() === 2 ? 'דו־צדדי' : 'חד־צדדי'}`];
       },
-      code: () => `${product.codePrefix || 'LG'}-${sides() === 2 ? 'D' : 'S'}${S.len}-${String(S.back).toUpperCase()}-T${String(S.tables).toUpperCase()}-${fab().code || fabId(S)}-${String(S.leg).toUpperCase()}`,
+      code: () => `${product.codePrefix || 'LG'}-${sides() === 2 ? 'D' : 'S'}${S.len}-${String(S.back).toUpperCase()}-T${String(S.tables).toUpperCase()}-${fab().code || fabId(S)}${S.pmode === 'part' && S.pmap ? '-MIX' + Object.keys(pmapGet(S)).length : ''}-${String(S.leg).toUpperCase()}`,
       summary: () => [`${sides() === 2 ? 'דו־צדדי, גב אל גב' : 'חד־צדדי'}, אורך ${S.len} ס״מ`, `מידות ${S.len}×${D()}×70 ס״מ, גובה מושב 45`, backTxt(),
-        S.tables === 'none' ? '' : `שולחן צד ${TABLES[S.tables]}, ${byId(DEC, S.tdec).he}`, `בד: ${fab().he}`, `שלד: ${(LEGS[S.leg] || LEGS.black).he}`]
+        S.tables === 'none' ? '' : `שולחן צד ${TABLES[S.tables]}, ${byId(DEC, S.tdec).he}`, S.pmode === 'part' ? `בד בסיס: ${byId(FAB, S.pbase || fabId(S)).he}` : `בד: ${fab().he}`,
+        ...(S.pmode === 'part' ? Object.entries(pmapGet(S)).sort().map(([k, v]) => `${partName(k)}: ${byId(FAB, v).he}`) : []), `שלד: ${(LEGS[S.leg] || LEGS.black).he}`]
     };
   },
 
@@ -69,12 +76,18 @@ export const lounge = {
       t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.MirroredRepeatWrapping; t.anisotropy = maxAniso;
       return texCache[item.id] = t;
     }
-    const fabMat = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: .92, sheen: .8, sheenRoughness: .7, sheenColor: new THREE.Color(0xffffff).multiplyScalar(.25), envMapIntensity: .45 });
-    const backMat = fabMat;
+    const fabMats = {};
+    function matFor(id) {
+      if (fabMats[id]) return fabMats[id];
+      const it = byId(FAB, id), t = fabTex(it);
+      return fabMats[id] = new THREE.MeshPhysicalMaterial({ color: t ? 0xffffff : it.hex, map: t, roughness: .92, sheen: .8, sheenRoughness: .7, sheenColor: new THREE.Color(0xffffff).multiplyScalar(.25), envMapIntensity: .45 });
+    }
+    const fabMat = { needsUpdate: false };   /* texture callbacks */
+    const partFab = key => S.pmode === 'part' ? (pmapGet(S)[key] || S.pbase || fabId(S)) : fabId(S);
+    const selMat = new THREE.MeshBasicMaterial({ color: 0xf5d547, transparent: true, opacity: .0, depthWrite: false });
+    let selT = 0;
     function applyFab() {
-      const it = byId(FAB, fabId(S)), t = fabTex(it);
-      if (t) { fabMat.map = t; fabMat.color.set(0xffffff); } else { fabMat.map = null; fabMat.color.set(it.hex); }
-      fabMat.needsUpdate = true;
+      [G.seat, G.back].forEach(g => g.children.forEach(m => { if (m.userData.part) m.material = matFor(partFab(m.userData.part)); if (m.userData.sel) m.visible = m.userData.sel === S.psel && S.pmode === 'part'; }));
     }
     /* UVs in metres so the weave keeps its real size on every pad */
     const TILE = .3;
@@ -96,7 +109,6 @@ export const lounge = {
       tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = maxAniso; tex.repeat.set(1.6, 1.6);
       return woodMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: .55 });
     }
-    applyFab();
 
     function rr(w, h, r) {
       const s = new THREE.Shape(), x = -w / 2, y = -h / 2; r = Math.min(r, w / 2 - .001, h / 2 - .001);
@@ -125,7 +137,11 @@ export const lounge = {
       /* seat pads: split into pads of ≤ 1.1 m */
       const n = Math.max(1, Math.ceil(seatL / 1.1)), pw = seatL / n;
       sideZ.forEach((zc, si) => {
-        for (let i = 0; i < n; i++) G.seat.add(mk(pad(pw, SIDE_D, PAD_H, .09), fabMat, x0 + (i + .5) * pw, SEAT_Y - PAD_H, zc));
+        for (let i = 0; i < n; i++) {
+          const key = `s${si}-${i}`, geo = pad(pw, SIDE_D, PAD_H, .09), m = mk(geo, matFor(partFab(key)), x0 + (i + .5) * pw, SEAT_Y - PAD_H, zc);
+          m.userData.part = key; G.seat.add(m);
+          const h = new THREE.Mesh(geo, selMat); h.position.copy(m.position); h.scale.set(1.015, 1.06, 1.02); h.userData.sel = key; G.seat.add(h);
+        }
         /* back cushion: a slim reclined pad along the rear edge of this side */
         const dir = zc >= 0 && !two ? 1 : (si === 0 ? 1 : -1);  /* +1: sitter faces +z, back at the rear (−z) */
         let a = x0, b = x1;
@@ -137,8 +153,9 @@ export const lounge = {
         const bw = b - a, bh = .36, bt = .15;
         const g = new THREE.ExtrudeGeometry(rr(bw - .05, bh, .08), { depth: bt - .05, bevelEnabled: true, bevelThickness: .025, bevelSize: .025, bevelSegments: 5, curveSegments: 10 });
         g.translate(0, bh / 2, -(bt - .05) / 2); worldUV(g);
-        const m = mk(g, backMat, (a + b) / 2, SEAT_Y - .02, zc - dir * (SIDE_D / 2 - bt / 2 - .005));
-        m.rotation.x = -dir * .16; G.back.add(m);
+        const bkey = `b${si}`, m = mk(g, matFor(partFab(bkey)), (a + b) / 2, SEAT_Y - .02, zc - dir * (SIDE_D / 2 - bt / 2 - .005));
+        m.rotation.x = -dir * .16; m.userData.part = bkey; G.back.add(m);
+        const hb = new THREE.Mesh(g, selMat); hb.position.copy(m.position); hb.rotation.copy(m.rotation); hb.scale.set(1.01, 1.03, 1.08); hb.userData.sel = bkey; G.back.add(hb);
         if (si === 0) hotPts.back = new THREE.Vector3((a + b) / 2, SEAT_Y + .28, zc - dir * (SIDE_D / 2 - .1));
       });
       /* side tables: wooden trays at seat height on the same beam */
@@ -169,6 +186,7 @@ export const lounge = {
       hotPts.frame = new THREE.Vector3(-BL / 2 + .08, .2, zc + D / 2 - .1);
       ao.scale.set(L + .8, D + .8, 1); ao.position.z = zc;
       buildDims(L, D, zc);
+      applyFab();
     }
 
     function buildDims(L, D, zc) {
@@ -185,12 +203,15 @@ export const lounge = {
     let resizing = false;
     function update(k) {
       resizing = false;
+      if (k === 'pmode') { if (S.pmode !== 'part') { S.pmap = ''; S.psel = ''; S.pbase = ''; } else { S.pbase = S.pbase || fabId(S); if (!S.psel) S.psel = 's0-0'; } applyFab(); return; }
+      if (k.startsWith('f_') && S.pmode === 'part' && S.psel) { const m = pmapGet(S); m[S.psel] = fabId(S); pmapSet(S, m); applyFab(); return; }
       if (k === 'fcol' || k.startsWith('f_')) { applyFab(); return; }
       if (k === 'leg') { tweenColor(legMat, (LEGS[S.leg] || LEGS.black).hex); return; }
       if (k === 'len') { dimT = { a: dims.L, b: S.len / 100, t: 0 }; resizing = true; return; }
       build();
     }
     function tick(dt, ease) {
+      selT += dt; selMat.opacity = S.pmode === 'part' && S.psel ? .26 + .14 * Math.sin(selT * 4) : 0;
       if (!dimT) return;
       dimT.t = Math.min(1, dimT.t + dt / .6); dims = { L: dimT.a + (dimT.b - dimT.a) * ease(dimT.t) }; build();
       if (dimT.t >= 1) { dimT = null; return 'settled'; }
@@ -200,12 +221,19 @@ export const lounge = {
 
     return {
       build, update, tick, explode,
+      pick: part => {
+        if (S.pmode !== 'part') { S.pmode = 'part'; S.pbase = fabId(S); }
+        S.psel = part;
+        const f = byId(FAB, partFab(part)); if (f.col) { S.fcol = f.col; S['f_' + f.col] = f.id; }
+        applyFab();
+        return { section: 'fabric', text: `נבחר ${partName(part)} · בחרו לו בד`, sw: `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover` };
+      },
       isResizing: () => resizing,
       dimsGroup: G.dims,
       fitSpan: () => Math.max(dims.L, depth() * 1.6, 1.4),
       clampBox: () => ({ lx: dims.L / 2 + .5, lz: depth() / 2 + .5 }),
       hero: { th: .62, ph: 1.08 },
-      views: { fabric: fitR => ({ th: .35, ph: .95, r: fitR() * .55, tx: -dims.L * .15, ty: .4, tz: 0 }) },
+      views: { fabric: fitR => ({ th: .55, ph: 1.0, r: fitR() * .9, tx: 0, ty: .4, tz: 0 }) },
       focusView: k => ({ fabric: 'fabric' }[k] || 'hero'),
       hotspots: [['fabric', 'בד'], ['back', 'גב'], ['tables', 'שולחן צד'], ['frame', 'שלד']],
       hotPts: () => hotPts,

@@ -55,6 +55,8 @@ export function sanitize(product, cat, input) {
     const r = validOne(c, S, input[c.key], cat);
     if (r.ok) S[c.key] = r.v;
   }
+  /* family-owned values without a control (e.g. per-part fabrics) come back from the link as they were */
+  if (input && typeof input === 'object') for (const k of Object.keys(product.defaults)) if (!ctrls.some(c => c.key === k) && k in input && typeof input[k] === typeof product.defaults[k]) S[k] = input[k];
   /* defaults themselves must be consistent (e.g. d must exist for the chosen layout) */
   for (const c of ordered) {
     const fromInput = input && typeof input === 'object' && c.key in input;
