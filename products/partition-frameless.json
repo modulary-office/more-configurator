@@ -4,15 +4,20 @@
   "family": "partition",
   "kind": "frameless",
   "codePrefix": "PF",
-  "subtitle": "מחיצה מרופדת בעובי 35 מ״מ, בלי מסגרת נראית. בכל מידה, כולל אביזרי חיבור ורגליות פילוס. בחרו צורה, מידות וגוון בד.",
+  "subtitle": "מחיצה מרופדת בעובי 35 מ״מ עם סיומות מעוגלות, בלי מסגרת נראית. בכל מידה ובכל צורה, ואפשר להזמין כבר עם פלטות עבודה.",
   "note": "הגוונים במסך להמחשה. לבחירה מדויקת נשמח לשלוח דוגמת בד ודוגמת לוח.",
   "defaults": {
-    "shape": "L",
+    "shape": "X",
     "n": 2,
-    "w": 120,
+    "w": 140,
     "d": 80,
     "h": 120,
-    "fab": "rm010"
+    "fab": "rm016",
+    "ends": "round",
+    "top": "yes",
+    "topd": 70,
+    "tdec": "m610",
+    "ral": "9005"
   },
   "sections": [
     {
@@ -37,10 +42,19 @@
               "label": "ח"
             },
             {
+              "v": "E",
+              "label": "תאים בשורה"
+            },
+            {
               "v": "X",
               "label": "צלב, ארבע עמדות"
+            },
+            {
+              "v": "H",
+              "label": "תאים משני הצדדים"
             }
-          ]
+          ],
+          "layout": "list"
         },
         {
           "type": "stepper",
@@ -53,7 +67,9 @@
             "shape": [
               "I",
               "L",
-              "U"
+              "U",
+              "E",
+              "H"
             ]
           }
         }
@@ -146,7 +162,9 @@
             "shape": [
               "L",
               "U",
-              "X"
+              "E",
+              "X",
+              "H"
             ]
           }
         },
@@ -187,6 +205,87 @@
           "catalog": "fabrics",
           "style": "fabric",
           "out": "{he}"
+        },
+        {
+          "type": "seg",
+          "key": "ends",
+          "label": "סיומות",
+          "options": [
+            {
+              "v": "round",
+              "label": "מעוגלות"
+            },
+            {
+              "v": "square",
+              "label": "ישרות"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "tops",
+      "title": "פלטות עבודה",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "top",
+          "label": "פלטות עבודה",
+          "options": [
+            {
+              "v": "yes",
+              "label": "עם פלטות"
+            },
+            {
+              "v": "none",
+              "label": "בלי פלטות"
+            }
+          ]
+        },
+        {
+          "type": "seg",
+          "key": "topd",
+          "label": "עומק הפלטה (ס״מ)",
+          "options": [
+            {
+              "v": 60,
+              "label": "60"
+            },
+            {
+              "v": 70,
+              "label": "70"
+            },
+            {
+              "v": 80,
+              "label": "80"
+            }
+          ],
+          "num": true,
+          "showWhen": {
+            "top": "yes"
+          }
+        },
+        {
+          "type": "swatch",
+          "key": "tdec",
+          "label": "גוון הפלטה",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}",
+          "showWhen": {
+            "top": "yes"
+          }
+        },
+        {
+          "type": "swatch",
+          "key": "ral",
+          "label": "צבע רגלי הפלטה לפי RAL",
+          "catalog": "ral",
+          "style": "ral",
+          "out": "RAL {id} · {he}",
+          "showWhen": {
+            "top": "yes"
+          }
         }
       ]
     }
@@ -201,6 +300,12 @@
         "type": "unit",
         "label": "למטר רץ",
         "per": "lengthM",
+        "amount": 0
+      },
+      {
+        "type": "unit",
+        "label": "פלטה",
+        "per": "tops",
         "amount": 0
       }
     ]

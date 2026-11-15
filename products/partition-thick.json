@@ -4,19 +4,22 @@
   "family": "partition",
   "kind": "thick",
   "codePrefix": "PK",
-  "subtitle": "מחיצה בעובי 9.5 ס״מ, גוף מתכת בחיפוי פרופיל אלומיניום. בד, לוחות מלמין או שילוב, ואפשר פס זכוכית עליון.",
+  "subtitle": "מחיצה בעובי 6.5 ס״מ, גוף מתכת בחיפוי פרופיל אלומיניום צבוע. בד, לוחות מלמין או שילוב, פס זכוכית עליון, ואפשר להזמין כבר עם פלטות עבודה.",
   "note": "הגוונים במסך להמחשה. לבחירה מדויקת נשמח לשלוח דוגמת בד ודוגמת לוח.",
   "defaults": {
-    "shape": "L",
+    "shape": "X",
     "n": 2,
-    "w": 120,
+    "w": 140,
     "d": 80,
     "h": 150,
-    "fab": "rm010",
     "fill": "combo",
-    "dec": "m5172",
-    "glass": "none",
-    "frame": "silver"
+    "fab": "rm016",
+    "dec": "m615",
+    "glass": "frost",
+    "ral": "7035",
+    "top": "yes",
+    "topd": 70,
+    "tdec": "m610"
   },
   "sections": [
     {
@@ -41,10 +44,19 @@
               "label": "ח"
             },
             {
+              "v": "E",
+              "label": "תאים בשורה"
+            },
+            {
               "v": "X",
               "label": "צלב, ארבע עמדות"
+            },
+            {
+              "v": "H",
+              "label": "תאים משני הצדדים"
             }
-          ]
+          ],
+          "layout": "list"
         },
         {
           "type": "stepper",
@@ -57,7 +69,9 @@
             "shape": [
               "I",
               "L",
-              "U"
+              "U",
+              "E",
+              "H"
             ]
           }
         }
@@ -150,7 +164,9 @@
             "shape": [
               "L",
               "U",
-              "X"
+              "E",
+              "X",
+              "H"
             ]
           }
         },
@@ -232,30 +248,15 @@
     },
     {
       "id": "frame",
-      "title": "מסגרת וזכוכית",
+      "title": "פרופיל אלומיניום וזכוכית",
       "controls": [
         {
-          "type": "seg",
-          "key": "frame",
-          "label": "צבע מסגרת",
-          "options": [
-            {
-              "v": "silver",
-              "label": "אפור אלומיניום 9006"
-            },
-            {
-              "v": "white",
-              "label": "לבן"
-            },
-            {
-              "v": "black",
-              "label": "שחור"
-            },
-            {
-              "v": "graphite",
-              "label": "גרפיט"
-            }
-          ]
+          "type": "swatch",
+          "key": "ral",
+          "label": "צבע הפרופיל לפי RAL",
+          "catalog": "ral",
+          "style": "ral",
+          "out": "RAL {id} · {he}"
         },
         {
           "type": "seg",
@@ -277,6 +278,61 @@
           ]
         }
       ]
+    },
+    {
+      "id": "tops",
+      "title": "פלטות עבודה",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "top",
+          "label": "פלטות עבודה",
+          "options": [
+            {
+              "v": "yes",
+              "label": "עם פלטות"
+            },
+            {
+              "v": "none",
+              "label": "בלי פלטות"
+            }
+          ]
+        },
+        {
+          "type": "seg",
+          "key": "topd",
+          "label": "עומק הפלטה (ס״מ)",
+          "options": [
+            {
+              "v": 60,
+              "label": "60"
+            },
+            {
+              "v": 70,
+              "label": "70"
+            },
+            {
+              "v": 80,
+              "label": "80"
+            }
+          ],
+          "num": true,
+          "showWhen": {
+            "top": "yes"
+          }
+        },
+        {
+          "type": "swatch",
+          "key": "tdec",
+          "label": "גוון הפלטה",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}",
+          "showWhen": {
+            "top": "yes"
+          }
+        }
+      ]
     }
   ],
   "pricing": {
@@ -289,6 +345,12 @@
         "type": "unit",
         "label": "למטר רץ",
         "per": "lengthM",
+        "amount": 0
+      },
+      {
+        "type": "unit",
+        "label": "פלטה",
+        "per": "tops",
         "amount": 0
       }
     ]
