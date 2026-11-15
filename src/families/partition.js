@@ -75,12 +75,12 @@ export const partition = {
         if (k === 'glass') return [GLASS[glass()]];
         if (k === 'ral') return [`צבע פרופיל: RAL ${ral().id} · ${ral().he}`, `background:${ral().hex}`];
         if (k === 'top' || k === 'topd' || k === 'tdec') return [tops() ? topTxt() : 'ללא פלטות'];
-        if (k === 'ends') return [S.ends === 'round' ? 'סיומות מעוגלות' : 'סיומות ישרות'];
+        if (k === 'ends') return [S.ends === 'round' ? 'פינות מעוגלות' : 'פינות ישרות'];
         return [sizeTxt()];
       },
       code: () => `${product.codePrefix || 'PT'}-${shapeOf(S, product)}${S.n || 1}-${S.w}${P().D ? 'x' + (S.d || 80) : ''}x${S.h}-${fill()[0].toUpperCase()}-${fill() === 'melamine' ? '' : (fab().code || S.fab)}${fill() === 'fabric' ? '' : (fill() === 'combo' ? '+' : '') + (dec().code || S.dec)}${glass() === 'none' ? '' : '-G' + glass()[0].toUpperCase()}${K.framed || tops() ? '-R' + ral().id : ''}${tops() ? '-T' + tops() + 'x' + (S.topd || 70) : ''}`,
       summary: () => [`${K.he}, ${SHAPES[shapeOf(S, product)]}, ${P().segs.length} מודולים`, `מידות ${sizeTxt()}, עובי ${Math.round(K.t * 1000)} מ״מ`, `סה״כ ${P().run.toFixed(2).replace(/\.?0+$/, '')} מטר רץ`,
-        `חיפוי: ${finTxt()}`, K.framed ? `פרופיל אלומיניום צבוע RAL ${ral().id} · ${ral().he}` : (product.kind === 'frameless' ? (S.ends === 'round' ? 'סיומות מעוגלות' : 'סיומות ישרות') : ''),
+        `חיפוי: ${finTxt()}`, K.framed ? `פרופיל אלומיניום צבוע RAL ${ral().id} · ${ral().he}` : (product.kind === 'frameless' ? (S.ends === 'round' ? 'פינות מעוגלות' : 'פינות ישרות') : ''),
         tops() ? `פלטות: ${topTxt()}, גובה 74 ס״מ${K.framed ? '' : `, רגליים RAL ${ral().id}`}` : '', glass() === 'none' ? '' : `${GLASS[glass()]}, פס עליון ${Math.round(K.glassH * 100)} ס״מ`]
     };
   },
@@ -125,7 +125,9 @@ export const partition = {
     }
 
     const G = { fill: new THREE.Group(), frame: new THREE.Group(), glass: new THREE.Group(), feet: new THREE.Group(), tops: new THREE.Group(), dims: new THREE.Group() };
-    Object.values(G).forEach(g => scene.add(g));
+    /* everything hangs on one root, shifted so the layout sits around the origin (the camera looks at the origin) */
+    const root = new THREE.Group(); scene.add(root);
+    Object.values(G).forEach(g => root.add(g));
     const clear = g => { for (let i = g.children.length - 1; i >= 0; i--) { const o = g.children[i]; g.remove(o); o.traverse(c => c.geometry && c.geometry.dispose()); } };
     let hotPts = {}, dimLabels = [], cur = { L: 1, D: 0, zc: 0, H: 1.2 };
 
@@ -172,13 +174,32 @@ export const partition = {
       Object.values(G).forEach(clear); hotPts = {};
       const p = plan(S, product), H = S.h / 100;
       { const tz = p.tops.length ? K.t / 2 + p.topD : 0, z0 = Math.min(p.zmin, p.tops.some(t => t[2] < 0) ? -tz : 0), z1 = Math.max(p.zmax, tz); cur = { L: p.L, D: z1 - z0, zc: (z0 + z1) / 2, H }; }
+      /* joints of the layout: which segment ends meet where */
+      const joints = new Map(), jk = (x, z) => `${Math.round(x * 1000)}|${Math.round(z * 1000)}`;
+      const endPt = (sg, e) => sg.a ? [sg.x, sg.z + e * sg.len / 2] : [sg.x + e * sg.len / 2, sg.z];
+      p.segs.forEach(sg => [-1, 1].forEach(e => { const [x, z] = endPt(sg, e), k = jk(x, z); (joints.get(k) || joints.set(k, []).get(k)).push({ sg, e, x, z }); }));
+      /* frameless: a corner where one run meets one return is a single curved, upholstered piece (radius RC) */
+      const round = product.kind === 'frameless' && S.ends === 'round', RC = .15, trims = new Map();
+      const trim = (sg, e, v) => { const t = trims.get(sg) || trims.set(sg, { '-1': 0, '1': 0 }).get(sg); t[e] = Math.max(t[e], v); };
+      joints.forEach(list => {
+        const runs = list.filter(o => !o.sg.a), rets = list.filter(o => o.sg.a);
+        if (round && list.length === 2 && runs.length === 1 && rets.length === 1 && runs[0].sg.len > RC + .15 && rets[0].sg.len > RC + .15) {
+          const { x, z } = runs[0], ux = -runs[0].e, uz = -rets[0].e, y0 = .02;
+          trim(runs[0].sg, runs[0].e, RC); trim(rets[0].sg, rets[0].e, RC);
+          const a1 = uz * Math.PI / 2, a2 = ux > 0 ? Math.PI : 0; let dl = a2 - a1; while (dl > Math.PI) dl -= 2 * Math.PI; while (dl < -Math.PI) dl += 2 * Math.PI;
+          const cw = dl < 0, Ro = RC + K.t / 2, Ri = RC - K.t / 2, sh = new THREE.Shape();
+          sh.moveTo(Ro * Math.cos(a1), Ro * Math.sin(a1)); sh.absarc(0, 0, Ro, a1, a2, cw); sh.lineTo(Ri * Math.cos(a2), Ri * Math.sin(a2)); sh.absarc(0, 0, Ri, a2, a1, !cw); sh.closePath();
+          const g = new THREE.ExtrudeGeometry(sh, { depth: H - y0 - .006, bevelEnabled: true, bevelThickness: .006, bevelSize: .004, bevelSegments: 2, curveSegments: 20 });
+          g.rotateX(-Math.PI / 2); g.computeVertexNormals(); worldUV(g, .28);
+          G.fill.add(mk(g, fabMat, x + ux * RC, y0 + .006, z + uz * RC));
+        } else if (!K.framed && runs.length && rets.length) rets.forEach(o => trim(o.sg, o.e, K.t / 2));   /* returns butt against the run */
+      });
       p.segs.forEach(sg => {
-        const grp = {};
+        const grp = {}, t = trims.get(sg) || { '-1': 0, '1': 0 };
         const add = (name, mesh) => { (grp[name] = grp[name] || new THREE.Group()).add(mesh); };
-        /* frameless slabs butt against each other: the return starts after the thickness of the run */
-        const inset = !K.framed && sg.a ? K.t / 2 : 0;
-        module(sg.len - inset, H, add);
-        Object.entries(grp).forEach(([name, g]) => { g.position.set(sg.x, 0, sg.z + (sg.a ? Math.sign(sg.z || 1) * inset / 2 : 0)); g.rotation.y = sg.a ? Math.PI / 2 : 0; G[name].add(g); });
+        module(sg.len - t[-1] - t[1], H, add);
+        const off = (t[-1] - t[1]) / 2;
+        Object.entries(grp).forEach(([name, g]) => { g.position.set(sg.x + (sg.a ? 0 : off), 0, sg.z + (sg.a ? off : 0)); g.rotation.y = sg.a ? -Math.PI / 2 : 0; G[name].add(g); });
       });
       if (K.framed) {
         /* a post at every joint and end */
@@ -192,19 +213,13 @@ export const partition = {
       /* joints and ends of the layout (shared by posts, rounded caps and the worktop legs) */
       const ends = new Map();
       p.segs.forEach(sg => [-1, 1].forEach(e => { const x = sg.a ? sg.x : sg.x + e * sg.len / 2, z = sg.a ? sg.z + e * sg.len / 2 : sg.z, k = `${Math.round(x * 1000)}|${Math.round(z * 1000)}`; ends.set(k, [x, z, (ends.get(k) || [0, 0, 0])[2] + 1]); }));
-      if (product.kind === 'frameless' && S.ends === 'round') {
-        /* upholstered round posts at every end and joint, like a soft bullnose */
-        const r = .034, y0 = .02;
-        ends.forEach(([x, z]) => { const g = new THREE.CylinderGeometry(r, r, H - y0, 28, 1); g.translate(0, y0 + (H - y0) / 2, 0); const m = mk(g, fabMat, x, 0, z); m.material.map && (g.attributes.uv.needsUpdate = true); G.fill.add(m);
-          G.fill.add(mk(new THREE.SphereGeometry(r, 24, 12, 0, Math.PI * 2, 0, Math.PI / 2), fabMat, x, H - .0005, z)); });
-      }
       /* worktops: carried by the partition, a leg at every front corner that no return panel reaches */
       if (p.tops.length) {
         const tm = decMat(S.tdec), td = p.topD, half = K.t / 2 + .004;
         const held = (x, zf) => p.segs.some(sg => sg.a && Math.abs(sg.x - x) < .07 && Math.sign(sg.z) === Math.sign(zf) && sg.len >= Math.abs(zf) - .12);
         p.tops.forEach(([x0, x1, side]) => {
           const cx = (x0 + x1) / 2, wT = x1 - x0 - K.t - .012, zc = side * (half + td / 2), zf = side * (half + td);
-          const g = new THREE.ExtrudeGeometry(rr(wT, td, .012), { depth: TOP_T - .004, bevelEnabled: true, bevelThickness: .002, bevelSize: .002, bevelSegments: 2, curveSegments: 6 });
+          const g = new THREE.ExtrudeGeometry(rr(wT, td, round ? RC - K.t / 2 - .008 : .012), { depth: TOP_T - .004, bevelEnabled: true, bevelThickness: .002, bevelSize: .002, bevelSegments: 2, curveSegments: 6 });
           g.rotateX(-Math.PI / 2); worldUV(g, .9); G.tops.add(mk(g, tm, cx, TOP_H - TOP_T + .002, zc));
           /* slim rail under the back edge, fixed to the partition */
           G.tops.add(box(wT - .08, .03, .02, frameMat, cx, TOP_H - TOP_T - .015, side * (half + .012)));
@@ -218,8 +233,10 @@ export const partition = {
       hotPts.finish = new THREE.Vector3(mid.x, H * .62, K.t / 2 + .01);
       hotPts.size = new THREE.Vector3(p.L / 2, H, 0);
       hotPts.frame = new THREE.Vector3(-p.L / 2, H * .3, K.t / 2 + .01);
-      ao.scale.set(p.L + .7, Math.max(cur.D, .3) + .7, 1); ao.position.z = cur.zc;
+      ao.scale.set(p.L + .7, Math.max(cur.D, .3) + .7, 1); ao.position.z = 0;
       buildDims(p, H);
+      root.position.z = -cur.zc;
+      Object.values(hotPts).forEach(v => { v.z -= cur.zc; }); dimLabels.forEach(l => { l[0].z -= cur.zc; });
     }
 
     function buildDims(p, H) {
