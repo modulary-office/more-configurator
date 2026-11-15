@@ -1,0 +1,95 @@
+{
+  "id": "partition-mobile",
+  "name": "מחיצה ניידת",
+  "family": "partition",
+  "kind": "mobile",
+  "codePrefix": "PM",
+  "subtitle": "מחיצה מרופדת על רגליים עם גלגלים. בחרו רוחב, גובה וגוון בד.",
+  "note": "הגוונים במסך להמחשה. לבחירה מדויקת נשמח לשלוח דוגמת בד ודוגמת לוח.",
+  "defaults": {
+    "n": 1,
+    "w": 80,
+    "h": 180,
+    "fab": "rm010"
+  },
+  "sections": [
+    {
+      "id": "size",
+      "title": "מידות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "w",
+          "label": "רוחב (ס״מ)",
+          "options": [
+            {
+              "v": 80,
+              "label": "80"
+            },
+            {
+              "v": 120,
+              "label": "120"
+            }
+          ],
+          "num": true
+        },
+        {
+          "type": "stepper",
+          "key": "n",
+          "label": "כמה מחיצות",
+          "min": 1,
+          "max": 4,
+          "dots": true
+        },
+        {
+          "type": "seg",
+          "key": "h",
+          "label": "גובה (ס״מ)",
+          "options": [
+            {
+              "v": 160,
+              "label": "160"
+            },
+            {
+              "v": 180,
+              "label": "180"
+            },
+            {
+              "v": 200,
+              "label": "200"
+            }
+          ],
+          "num": true
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "title": "חיפוי וגוון",
+      "controls": [
+        {
+          "type": "swatch",
+          "key": "fab",
+          "label": "גוון בד",
+          "catalog": "fabrics",
+          "style": "fabric",
+          "out": "{he}"
+        }
+      ]
+    }
+  ],
+  "pricing": {
+    "_help": "כל הסכומים בשקלים. המחיר מוצג ללקוח רק כשהסכום הכולל גדול מ-0.",
+    "currency": "₪",
+    "label": "מחיר משוער",
+    "note": "לא כולל הובלה והרכבה",
+    "rules": [
+      {
+        "type": "unit",
+        "label": "למטר רץ",
+        "per": "lengthM",
+        "amount": 0
+      }
+    ]
+  }
+}

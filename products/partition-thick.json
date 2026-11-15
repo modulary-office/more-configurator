@@ -1,0 +1,296 @@
+{
+  "id": "partition-thick",
+  "name": "מחיצה עבה",
+  "family": "partition",
+  "kind": "thick",
+  "codePrefix": "PK",
+  "subtitle": "מחיצה בעובי 9.5 ס״מ, גוף מתכת בחיפוי פרופיל אלומיניום. בד, לוחות מלמין או שילוב, ואפשר פס זכוכית עליון.",
+  "note": "הגוונים במסך להמחשה. לבחירה מדויקת נשמח לשלוח דוגמת בד ודוגמת לוח.",
+  "defaults": {
+    "shape": "L",
+    "n": 2,
+    "w": 120,
+    "d": 80,
+    "h": 150,
+    "fab": "rm010",
+    "fill": "combo",
+    "dec": "m5172",
+    "glass": "none",
+    "frame": "silver"
+  },
+  "sections": [
+    {
+      "id": "shape",
+      "title": "צורה",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "shape",
+          "label": "צורה",
+          "options": [
+            {
+              "v": "I",
+              "label": "ישרה"
+            },
+            {
+              "v": "L",
+              "label": "פינה (ר)"
+            },
+            {
+              "v": "U",
+              "label": "ח"
+            },
+            {
+              "v": "X",
+              "label": "צלב, ארבע עמדות"
+            }
+          ]
+        },
+        {
+          "type": "stepper",
+          "key": "n",
+          "label": "מודולים לאורך",
+          "min": 1,
+          "max": 6,
+          "dots": true,
+          "showWhen": {
+            "shape": [
+              "I",
+              "L",
+              "U"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "size",
+      "title": "מידות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "w",
+          "label": "רוחב מודול (ס״מ)",
+          "options": [
+            {
+              "v": 80,
+              "label": "80"
+            },
+            {
+              "v": 100,
+              "label": "100"
+            },
+            {
+              "v": 120,
+              "label": "120"
+            },
+            {
+              "v": 140,
+              "label": "140"
+            },
+            {
+              "v": 160,
+              "label": "160"
+            },
+            {
+              "v": 180,
+              "label": "180"
+            }
+          ],
+          "num": true,
+          "custom": {
+            "label": "אחר",
+            "min": 40,
+            "max": 240,
+            "step": 1,
+            "unit": "ס״מ",
+            "inputLabel": "רוחב מודול בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "d",
+          "label": "עומק הצלע (ס״מ)",
+          "options": [
+            {
+              "v": 60,
+              "label": "60"
+            },
+            {
+              "v": 80,
+              "label": "80"
+            },
+            {
+              "v": 100,
+              "label": "100"
+            },
+            {
+              "v": 120,
+              "label": "120"
+            },
+            {
+              "v": 140,
+              "label": "140"
+            },
+            {
+              "v": 160,
+              "label": "160"
+            }
+          ],
+          "num": true,
+          "custom": {
+            "label": "אחר",
+            "min": 40,
+            "max": 240,
+            "step": 1,
+            "unit": "ס״מ",
+            "inputLabel": "עומק הצלע בס״מ"
+          },
+          "showWhen": {
+            "shape": [
+              "L",
+              "U",
+              "X"
+            ]
+          }
+        },
+        {
+          "type": "seg",
+          "key": "h",
+          "label": "גובה (ס״מ)",
+          "options": [
+            {
+              "v": 120,
+              "label": "120"
+            },
+            {
+              "v": 150,
+              "label": "150"
+            },
+            {
+              "v": 170,
+              "label": "170"
+            }
+          ],
+          "num": true
+        }
+      ]
+    },
+    {
+      "id": "finish",
+      "title": "חיפוי וגוון",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "fill",
+          "label": "חיפוי",
+          "options": [
+            {
+              "v": "fabric",
+              "label": "בד"
+            },
+            {
+              "v": "combo",
+              "label": "מלמין למטה, בד למעלה"
+            },
+            {
+              "v": "melamine",
+              "label": "לוחות מלמין"
+            }
+          ],
+          "layout": "list"
+        },
+        {
+          "type": "swatch",
+          "key": "fab",
+          "label": "גוון בד",
+          "catalog": "fabrics",
+          "style": "fabric",
+          "out": "{he}",
+          "showWhen": {
+            "fill": [
+              "fabric",
+              "combo"
+            ]
+          }
+        },
+        {
+          "type": "swatch",
+          "key": "dec",
+          "label": "גוון מלמין",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}",
+          "showWhen": {
+            "fill": [
+              "combo",
+              "melamine"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "frame",
+      "title": "מסגרת וזכוכית",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "frame",
+          "label": "צבע מסגרת",
+          "options": [
+            {
+              "v": "silver",
+              "label": "אפור אלומיניום 9006"
+            },
+            {
+              "v": "white",
+              "label": "לבן"
+            },
+            {
+              "v": "black",
+              "label": "שחור"
+            },
+            {
+              "v": "graphite",
+              "label": "גרפיט"
+            }
+          ]
+        },
+        {
+          "type": "seg",
+          "key": "glass",
+          "label": "פס זכוכית עליון",
+          "options": [
+            {
+              "v": "none",
+              "label": "ללא"
+            },
+            {
+              "v": "clear",
+              "label": "שקופה"
+            },
+            {
+              "v": "frost",
+              "label": "מחוסמת חלבית"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "pricing": {
+    "_help": "כל הסכומים בשקלים. המחיר מוצג ללקוח רק כשהסכום הכולל גדול מ-0.",
+    "currency": "₪",
+    "label": "מחיר משוער",
+    "note": "לא כולל הובלה והרכבה",
+    "rules": [
+      {
+        "type": "unit",
+        "label": "למטר רץ",
+        "per": "lengthM",
+        "amount": 0
+      }
+    ]
+  }
+}
