@@ -74,7 +74,7 @@ export function requestText(p) {
 const PRINT_CSS = `@page{size:A4;margin:0}*{box-sizing:border-box}html,body{margin:0;background:#fff;color:#1C1C1A;font-family:Heebo,Assistant,Arial,sans-serif;direction:rtl;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .pg{width:210mm;height:297mm;padding:14mm 15mm 11mm;display:flex;flex-direction:column;gap:5mm;overflow:hidden;page-break-after:always;break-after:page;position:relative}
 
-.pg.wm::after{content:attr(data-wmf);position:absolute;left:15mm;right:15mm;bottom:4mm;font:500 7.5pt Heebo,Arial,sans-serif;color:#5e5a52;text-align:center;pointer-events:none}.pg:last-child{page-break-after:auto;break-after:auto}
+.pg.wm::after{content:attr(data-wmf);position:absolute;left:15mm;right:15mm;bottom:4mm;font:500 7.5pt Heebo,Arial,sans-serif;color:#5e5a52;text-align:center;pointer-events:none}.pg:last-of-type{page-break-after:auto;break-after:auto}
 .brand{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #1C1C1A;padding-bottom:3mm;flex:none}.brand b{font-size:19pt;letter-spacing:.08em;direction:ltr;font-weight:700}.brand b i{font-style:normal;background:#F8DC55;padding:0 1.6mm}.brand span{font-size:9.5pt;color:#5e5a52}.brand .blogo{height:11mm;width:auto;display:block}
 h1{font-size:30pt;margin:0;line-height:1.1;font-weight:700}h2{font-size:17pt;margin:0;line-height:1.2;font-weight:700}h2 small{font-size:11pt;font-weight:400;color:#5e5a52;margin-inline-start:3mm}
 .lead{margin:0;font-size:12.5pt;color:#5e5a52}
@@ -91,7 +91,10 @@ table{width:100%;border-collapse:collapse;font-size:9.8pt}th,td{text-align:right
 .grid2{display:grid;grid-template-columns:1fr 78mm;gap:6mm;align-items:start}.grid2 img{width:100%;background:#F3EEE5;border-radius:2mm}
 @media screen{body{background:#e9e4da}.pg{margin:8mm auto;box-shadow:0 2px 14px rgba(0,0,0,.14);background:#fff}.bar{position:sticky;top:0;z-index:2;background:#1C1C1A;color:#fff;padding:10px 16px;display:flex;gap:12px;align-items:center;justify-content:center;font-size:14px}.bar button{font:inherit;background:#F8DC55;border:0;border-radius:8px;padding:8px 16px;font-weight:600;cursor:pointer}}
 @media screen and (max-width:820px){.pg{zoom:.45}}
-@media print{.bar{display:none}}`;
+@media print{.bar{display:none}html,body{height:auto}
+/* Safari and every iOS browser ignore @page size and margins and print with their own margins, so a full 297 mm page
+   spilled onto a second, empty sheet. There the page is kept shorter than the smallest printable area. */
+html.saf .pg{width:100%;max-width:210mm;height:248mm;margin:0 auto;padding:6mm 12mm 9mm;zoom:1}}`;
 
 function openDoc(title, body) {
   const w = window.open('', '_blank');
@@ -100,7 +103,7 @@ function openDoc(title, body) {
   w.document.write(`<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;600;700&display=swap"><style>${PRINT_CSS}</style></head>
 <body><div class="bar"><span>${esc(title)}</span><button onclick="print()">שמירה כ־PDF / הדפסה</button></div>${body}
-<script>addEventListener('load',function(){var im=[].slice.call(document.images),n=im.length;function go(){setTimeout(function(){print()},400)}if(!n)return go();im.forEach(function(i){if(i.complete){if(!--n)go()}else{i.onload=i.onerror=function(){if(!--n)go()}}})});<\/script></body></html>`);
+<script>(function(){var u=navigator.userAgent;if(/iP(hone|ad|od)/.test(u)||(/Macintosh/.test(u)&&navigator.maxTouchPoints>1)||/^((?!chrome|chromium|android|crios|fxios|edg).)*safari/i.test(u))document.documentElement.className+=' saf'})();addEventListener('load',function(){var im=[].slice.call(document.images),n=im.length;function go(){setTimeout(function(){print()},400)}if(!n)return go();im.forEach(function(i){if(i.complete){if(!--n)go()}else{i.onload=i.onerror=function(){if(!--n)go()}}})});<\/script></body></html>`);
   w.document.close();
   return true;
 }
@@ -124,7 +127,7 @@ ${i.note ? `<div class="note">${esc(i.note)}</div>` : ''}${foot(n + 2, N)}</sect
   pages.push(`<section class="pg">${brand('ריכוז')}<h2>ריכוז הפריטים</h2><table><tr><th></th><th>פריט</th><th class="n">כמות</th>${withPrices ? '<th class="n">ליחידה</th><th class="n">סה״כ</th>' : ''}</tr>
 ${p.items.map(i => `<tr><td style="width:32mm">${i.img ? `<img class="thumb" src="${i.img}" alt="">` : ''}</td><td><b>${esc(i.name)}</b><br><span class="small">${esc(i.lines.join(' · '))}</span></td><td class="n">${i.qty}</td>${withPrices ? `<td class="n">${priceCell(i, cur)}</td><td class="n">${!i.quote && i.price ? fmtPrice(i.price * i.qty, cur) : ''}</td>` : ''}</tr>`).join('')}
 ${withPrices && t.sum ? `<tr class="sum"><td></td><td>סה״כ משוער${t.quote ? ' (ללא פריטים לתמחור)' : ''}</td><td class="n">${t.units}</td><td></td><td class="n">${fmtPrice(t.sum, cur)}</td></tr>` : ''}</table>
-<p class="small">${withPrices ? 'המחירים כוללים מע״מ ומשוערים לפי המחירון ביום ההפקה. ההצעה הסופית תישלח מ־${siteBrand()}. ' : ''}ההדמיות להמחשה. גוונים במציאות עשויים להיות שונים מעט מהמסך.</p>${foot(N, N)}</section>`);
+<p class="small">${withPrices ? `המחירים כוללים מע״מ ומשוערים לפי המחירון ביום ההפקה. ההצעה הסופית תישלח מ־${siteBrand()}. ` : ''}ההדמיות להמחשה. גוונים במציאות עשויים להיות שונים מעט מהמסך.</p>${foot(N, N)}</section>`);
   /* every page of the client presentation carries the brand as a watermark and a rights line (not for the admin) */
   const wm = isAdmin() ? '' : ` wm" data-wm="${siteBrand()}" data-wmf="© ${siteBrand()} · ${siteHost()} · ההדמיות והמפרט שייכים ל-${siteBrand()}. אין להעתיק, להפיץ או להשתמש בהם ללא אישור בכתב.`;
   return openDoc(`${p.name} – ${siteBrand()}`, pages.join('').replace(/<section class="pg">/g, `<section class="pg${wm}">`));
