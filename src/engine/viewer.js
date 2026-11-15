@@ -2,7 +2,7 @@
    view presets, tools (auto-rotate, dimensions, exploded view, fullscreen), hotspots, snapshot, render loop.
    Everything product-specific comes from the family instance (see families/*.js). */
 import * as THREE from 'three';
-import { isAdmin, siteBrand, siteHost } from './project.js';
+import { isAdmin, siteBrand, siteHost, siteLogo } from './project.js';
 
 export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: false });
@@ -168,15 +168,27 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   /* snapshot */
   /* watermark for everything that leaves the page (image, project pictures): the brand, large and repeated, so the
      pictures cannot be passed on as someone else's work. Not drawn for the admin. */
+  /* the logo is loaded once, with CORS, so drawing it does not taint the exported canvas */
+  let logoImg = null;
+  if (!isAdmin()) { const im = new Image(); im.crossOrigin = 'anonymous'; im.onload = () => { logoImg = im; }; im.src = siteLogo(); }
   function watermark(x, w, h) {
     if (isAdmin()) return;
-    const name = siteBrand(), fs = Math.max(22, Math.round(w * .075));
-    x.save(); x.direction = 'ltr'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.translate(w / 2, h / 2); x.rotate(-.42);
-    x.font = `800 ${fs}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.16)'; x.strokeStyle = 'rgba(255,255,255,.22)'; x.lineWidth = Math.max(1, fs * .03);
-    x.strokeText(name, 0, 0); x.fillText(name, 0, 0);
-    x.font = `700 ${Math.round(fs * .34)}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.11)';
-    const line = name + ' · ' + siteHost(), stepX = x.measureText(line).width * 1.35, stepY = fs * 1.9, R = Math.hypot(w, h) / 2;
-    for (let yy = -R; yy <= R; yy += stepY) for (let xx = -R; xx <= R; xx += stepX) { if (Math.abs(yy) < stepY * .9) continue; x.fillText(line, xx + ((Math.round(yy / stepY) & 1) ? stepX / 2 : 0), yy); }
+    const host = siteHost(), fs = Math.max(11, Math.round(w * .026));
+    x.save(); x.direction = 'ltr'; x.textAlign = 'center'; x.textBaseline = 'middle';
+    /* the site address, repeated on a slant around the middle */
+    const lw = logoImg ? Math.min(w * .56, h * .8 * logoImg.width / logoImg.height) : w * .5, lh = logoImg ? lw * logoImg.height / logoImg.width : fs * 3;
+    x.translate(w / 2, h / 2); x.rotate(-.42);
+    x.font = `700 ${fs}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.13)';
+    const stepX = x.measureText(host).width * 1.7, stepY = fs * 4.2, R = Math.hypot(w, h) / 2, c = Math.cos(-.42), sn = Math.sin(-.42);
+    for (let yy = -R; yy <= R; yy += stepY) for (let xx = -R; xx <= R; xx += stepX) {
+      const px = xx + ((Math.round(yy / stepY) & 1) ? stepX / 2 : 0), ux = px * c - yy * sn, uy = px * sn + yy * c;   /* position on the upright picture */
+      if (Math.abs(ux) < lw * .58 && Math.abs(uy) < lh * .75) continue;                                              /* keep the logo clear */
+      x.fillText(host, px, yy);
+    }
+    x.rotate(.42);
+    /* the logo itself, upright, in the middle */
+    if (logoImg) { x.globalAlpha = .34; x.drawImage(logoImg, -lw / 2, -lh / 2, lw, lh); x.globalAlpha = 1; }
+    else { x.font = `800 ${Math.round(w * .075)}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.16)'; x.fillText(siteBrand(), 0, 0); }
     x.restore();
   }
   function snap() {

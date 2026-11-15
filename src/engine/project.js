@@ -35,6 +35,8 @@ export function active() { const d = load(); return d.list[d.active]; }
 export function count() { return active().items.reduce((n, i) => n + i.qty, 0); }
 /* the brand of the site the configurator runs on: exports carry it as a watermark */
 export const siteBrand = () => { try { return /modularymore/.test(location.hostname) ? 'MORE by MODULARY' : 'MODULARY'; } catch (e) { return 'MODULARY'; } };
+/* the real logo of the site, used as the watermark */
+export const siteLogo = () => new URL('../catalogs/brand/' + (siteBrand() === 'MODULARY' ? 'modulary' : 'more') + '.png', import.meta.url).href;
 export const siteHost = () => { try { return location.hostname.replace(/^www\./, '') || 'modulary.co.il'; } catch (e) { return 'modulary.co.il'; } };
 export function isAdmin() {
   try { if (/[?&]mrcfg-admin=1/.test(location.search)) localStorage.setItem(ADMIN_KEY, '1'); if (/[?&]mrcfg-admin=0/.test(location.search)) localStorage.removeItem(ADMIN_KEY); return localStorage.getItem(ADMIN_KEY) === '1'; }
@@ -71,9 +73,9 @@ export function requestText(p) {
 /* ---------------- printable documents ---------------- */
 const PRINT_CSS = `@page{size:A4;margin:0}*{box-sizing:border-box}html,body{margin:0;background:#fff;color:#1C1C1A;font-family:Heebo,Assistant,Arial,sans-serif;direction:rtl;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .pg{width:210mm;height:297mm;padding:14mm 15mm 11mm;display:flex;flex-direction:column;gap:5mm;overflow:hidden;page-break-after:always;break-after:page;position:relative}
-.pg.wm::before{content:attr(data-wm);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-32deg);font:800 54pt Heebo,Arial,sans-serif;letter-spacing:.06em;white-space:nowrap;color:#1C1C1A;opacity:.07;pointer-events:none;z-index:5;direction:ltr}
+
 .pg.wm::after{content:attr(data-wmf);position:absolute;left:15mm;right:15mm;bottom:4mm;font:500 7.5pt Heebo,Arial,sans-serif;color:#5e5a52;text-align:center;pointer-events:none}.pg:last-child{page-break-after:auto;break-after:auto}
-.brand{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #1C1C1A;padding-bottom:3mm;flex:none}.brand b{font-size:19pt;letter-spacing:.08em;direction:ltr;font-weight:700}.brand b i{font-style:normal;background:#F8DC55;padding:0 1.6mm}.brand span{font-size:9.5pt;color:#5e5a52}
+.brand{display:flex;justify-content:space-between;align-items:center;border-bottom:1.5px solid #1C1C1A;padding-bottom:3mm;flex:none}.brand b{font-size:19pt;letter-spacing:.08em;direction:ltr;font-weight:700}.brand b i{font-style:normal;background:#F8DC55;padding:0 1.6mm}.brand span{font-size:9.5pt;color:#5e5a52}.brand .blogo{height:11mm;width:auto;display:block}
 h1{font-size:30pt;margin:0;line-height:1.1;font-weight:700}h2{font-size:17pt;margin:0;line-height:1.2;font-weight:700}h2 small{font-size:11pt;font-weight:400;color:#5e5a52;margin-inline-start:3mm}
 .lead{margin:0;font-size:12.5pt;color:#5e5a52}
 .meta{display:grid;grid-template-columns:auto 1fr;gap:1.5mm 8mm;font-size:11pt;margin:0}.meta dt{color:#5e5a52}.meta dd{margin:0;font-weight:600}
@@ -103,8 +105,8 @@ function openDoc(title, body) {
   return true;
 }
 
-const brand = sub => `<div class="brand"><b>M<i>O</i>RE</b><span>${esc(sub)}</span></div>`;
-const foot = (n, of) => `<div class="foot"><span>MORE by MODULARY · modularymore.co.il</span><span>${today()}${n ? ` · עמוד ${n} מתוך ${of}` : ''}</span></div>`;
+const brand = sub => `<div class="brand"><img class="blogo" src="${siteLogo()}" alt="${siteBrand()}"><span>${esc(sub)}</span></div>`;
+const foot = (n, of) => `<div class="foot"><span>${siteBrand()} · ${siteHost()}</span><span>${today()}${n ? ` · עמוד ${n} מתוך ${of}` : ''}</span></div>`;
 /* the client sees what was chosen; "no" answers (no tray, no screen) only add noise there. The production sheet shows everything, with codes */
 const specGrid = (i, all) => { const rows = (i.spec || []).filter(r => all || (r[1] !== 'לא' && r[1] !== '0'));
   return `<div class="spec">${rows.map(r => `<div><span>${esc(r[0])}</span><b>${esc(r[1])}${all && r[2] ? ` <span class="code">${esc(r[2])}</span>` : ''}</b></div>`).join('')}</div>`; };
@@ -122,7 +124,7 @@ ${i.note ? `<div class="note">${esc(i.note)}</div>` : ''}${foot(n + 2, N)}</sect
   pages.push(`<section class="pg">${brand('ריכוז')}<h2>ריכוז הפריטים</h2><table><tr><th></th><th>פריט</th><th class="n">כמות</th>${withPrices ? '<th class="n">ליחידה</th><th class="n">סה״כ</th>' : ''}</tr>
 ${p.items.map(i => `<tr><td style="width:32mm">${i.img ? `<img class="thumb" src="${i.img}" alt="">` : ''}</td><td><b>${esc(i.name)}</b><br><span class="small">${esc(i.lines.join(' · '))}</span></td><td class="n">${i.qty}</td>${withPrices ? `<td class="n">${priceCell(i, cur)}</td><td class="n">${!i.quote && i.price ? fmtPrice(i.price * i.qty, cur) : ''}</td>` : ''}</tr>`).join('')}
 ${withPrices && t.sum ? `<tr class="sum"><td></td><td>סה״כ משוער${t.quote ? ' (ללא פריטים לתמחור)' : ''}</td><td class="n">${t.units}</td><td></td><td class="n">${fmtPrice(t.sum, cur)}</td></tr>` : ''}</table>
-<p class="small">${withPrices ? 'המחירים כוללים מע״מ ומשוערים לפי המחירון ביום ההפקה. ההצעה הסופית תישלח מ־MORE. ' : ''}ההדמיות להמחשה. גוונים במציאות עשויים להיות שונים מעט מהמסך.</p>${foot(N, N)}</section>`);
+<p class="small">${withPrices ? 'המחירים כוללים מע״מ ומשוערים לפי המחירון ביום ההפקה. ההצעה הסופית תישלח מ־${siteBrand()}. ' : ''}ההדמיות להמחשה. גוונים במציאות עשויים להיות שונים מעט מהמסך.</p>${foot(N, N)}</section>`);
   /* every page of the client presentation carries the brand as a watermark and a rights line (not for the admin) */
   const wm = isAdmin() ? '' : ` wm" data-wm="${siteBrand()}" data-wmf="© ${siteBrand()} · ${siteHost()} · ההדמיות והמפרט שייכים ל-${siteBrand()}. אין להעתיק, להפיץ או להשתמש בהם ללא אישור בכתב.`;
   return openDoc(`${p.name} – ${siteBrand()}`, pages.join('').replace(/<section class="pg">/g, `<section class="pg${wm}">`));
