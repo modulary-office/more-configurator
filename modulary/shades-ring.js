@@ -1,6 +1,6 @@
 /* MODULARY · shades ring
    A 3D ring of melamine shades (Makor Haformaika). Drag to spin; hover a leaf for a moment or tap it, and it is pulled out
-   of the ring and turned to face you as a sample chip, with its maker, number and finish. The three finishes (יער, מטריקס,
+   of the ring and turned to face you as a sample chip, with its maker, number and finish. The four finishes (חלק, יער, מטריקס,
    בטון) change the relief of the chip under a raking light, so the difference can be seen and not only read.
    Embed:
      <link rel="stylesheet" href="…/modulary/shades-ring.css">
@@ -11,10 +11,13 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.m
 
 const DEFAULT_DATA = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@7f863e762b3d63daa55b8d11cb6440a1e29ba98d/catalogs/';
 const FIN = {
+  smooth: { he: 'חלק', line: 'משטח חלק ואחיד, ללא מרקם.' },
   forest: { he: 'יער', line: 'טקסטורת עץ אמיתי: נקבוביות וסיבים לאורך הלוח, מורגשים במגע.' },
   matrix: { he: 'מטריקס', line: 'פסים אנכיים עדינים וטבעיים, משטח מט אחיד.' },
   concrete: { he: 'בטון', line: 'טקסטורת בטון: גבשושיות ונקבוביות קטנות, מגע מחוספס.' },
 };
+/* the finish a shade opens with: wood shades in יער, stone / marble / concrete shades in בטון, plain colours smooth. It can always be changed. */
+const defFin = item => item && item.fam === 'wood' ? 'forest' : item && item.fam === 'stone' ? 'concrete' : 'smooth';
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 /* ---------- relief maps for the finishes (height → normal), drawn once ---------- */
@@ -79,7 +82,7 @@ function boot(sec) {
   sec.setAttribute('dir', 'rtl');
   sec.innerHTML = `<div class="mshr__text">
   <div class="mshr__kicker">MODULARY · גוונים</div>
-  <h2 class="mshr__title">126 גוונים.<br>3 גימורים.</h2>
+  <h2 class="mshr__title">126 גוונים.<br>4 גימורים.</h2>
   <p class="mshr__body">כל הגוונים של מלמין מקור הפורמייקה, כפי שהם יוצאים לייצור. גררו את הטבעת, עצרו על גוון או הקישו עליו, והוא ייצא אליכם עם המספר שלו והגימור.</p>
   <div class="mshr__card" aria-live="polite" hidden>
     <div class="mshr__chip"></div>
@@ -152,7 +155,7 @@ function boot(sec) {
     const tmp = new THREE.Vector3(), X = new THREE.Vector3(), Y = new THREE.Vector3(), Z = new THREE.Vector3(), M4 = new THREE.Matrix4();
     const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
     let spin = 0, vel = .12, drag = null, open = 0, openT0 = null, visible = false, last = performance.now(), interacted = false;
-    let sel = null, selLeaf = -1, selT = 0, fin = 'forest', hover = { leaf: -1, t: 0 };
+    let sel = null, selLeaf = -1, selT = 0, fin = 'smooth', hover = { leaf: -1, t: 0 };
     const from = { p: new THREE.Vector3(), q: new THREE.Quaternion(), s: 1 };
 
     function layout(t) {
@@ -176,19 +179,20 @@ function boot(sec) {
     /* where the chip ends up: in front of the ring, a little lower on narrow screens */
     const chipHome = () => narrow.matches ? new THREE.Vector3(0, .95, 2.2) : new THREE.Vector3(0, 0, 2.6);
     function setFinish(k) {
-      fin = k; chipMat.normalMap = normalTex(k);
-      chipMat.roughness = k === 'concrete' ? .82 : k === 'matrix' ? .62 : .5; { const ns = k === 'concrete' ? 1.1 : k === 'matrix' ? .6 : .8; chipMat.normalScale.set(ns, ns); } chipMat.needsUpdate = true;
+      fin = k; chipMat.normalMap = k === 'smooth' ? null : normalTex(k);
+      chipMat.roughness = k === 'concrete' ? .82 : k === 'matrix' ? .62 : k === 'smooth' ? .42 : .5; { const ns = k === 'concrete' ? 1.1 : k === 'matrix' ? .6 : .8; chipMat.normalScale.set(ns, ns); } chipMat.needsUpdate = true;
       card.querySelectorAll('[data-fin]').forEach(b => b.setAttribute('aria-checked', b.dataset.fin === k));
       $('.mshr__finline').textContent = FIN[k].line; updateCTA(); selT = Math.min(selT, performance.now() - 900);
     }
     function updateCTA() { if (!sel) return; const subj = `גוון ${sel.code} (מקור הפורמייקה, מלמין) · גימור ${FIN[fin].he}`; $('.mshr__cta').href = CTA + (CTA.includes('?') ? '&' : '?') + 'subject=' + encodeURIComponent(subj); }
     function pull(item, leafIdx) {
       if (!item) return;
+      const same = sel === item;   /* the same shade again keeps the finish that was chosen for it */
       sel = item; selLeaf = leafIdx; selT = performance.now(); interacted = true; $('.mshr__hint').style.opacity = 0;
       chipMat.map = photo(item); chipMat.needsUpdate = true;
       if (leafIdx >= 0) { const m = leaves[leafIdx]; m.getWorldPosition(from.p); m.getWorldQuaternion(from.q); from.s = .8; }
       else { from.p.set(0, -3, 1); from.q.identity(); from.s = .6; }
-      chip.visible = true; setFinish(fin);
+      chip.visible = true; setFinish(same ? fin : defFin(item));
       card.hidden = false; $('.mshr__chip').style.backgroundImage = `url('${thumbURL(item)}')`;
       $('.mshr__code').textContent = `גוון ${item.code}`;
       const f = fams.find(x => x.id === item.fam); $('.mshr__fam').textContent = f ? f.he : '';
@@ -229,7 +233,8 @@ function boot(sec) {
 
     const hit = e => { const b = canvas.getBoundingClientRect(); ndc.set(((e.clientX - b.left) / b.width) * 2 - 1, -((e.clientY - b.top) / b.height) * 2 + 1); ray.setFromCamera(ndc, cam);
       const h = ray.intersectObjects(chip.visible ? [chip, ...leaves] : leaves)[0]; return h ? (h.object === chip ? 'chip' : leaves.indexOf(h.object)) : -1; };
-    stage.addEventListener('pointerdown', e => { drag = { x: e.clientX, s: spin, t: performance.now(), moved: false }; stage.setPointerCapture(e.pointerId); });
+    stage.addEventListener('pointerdown', e => { if (e.target.closest('.mshr__card')) return;   /* the card sits inside the stage on narrow screens: its buttons are not a drag or a tap on the ring */
+      drag = { x: e.clientX, s: spin, t: performance.now(), moved: false }; stage.setPointerCapture(e.pointerId); });
     stage.addEventListener('pointermove', e => {
       if (drag) {
         const dx = e.clientX - drag.x; if (Math.abs(dx) > 6) drag.moved = true;
