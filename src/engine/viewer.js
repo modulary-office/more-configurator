@@ -175,8 +175,8 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
     x.font = `800 ${fs}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.16)'; x.strokeStyle = 'rgba(255,255,255,.22)'; x.lineWidth = Math.max(1, fs * .03);
     x.strokeText(name, 0, 0); x.fillText(name, 0, 0);
     x.font = `700 ${Math.round(fs * .34)}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.11)';
-    const stepX = fs * 5.2, stepY = fs * 1.9, R = Math.hypot(w, h) / 2;
-    for (let yy = -R; yy <= R; yy += stepY) for (let xx = -R; xx <= R; xx += stepX) { if (Math.abs(yy) < stepY * .9) continue; x.fillText(name + ' · ' + siteHost(), xx + ((Math.round(yy / stepY) & 1) ? stepX / 2 : 0), yy); }
+    const line = name + ' · ' + siteHost(), stepX = x.measureText(line).width * 1.35, stepY = fs * 1.9, R = Math.hypot(w, h) / 2;
+    for (let yy = -R; yy <= R; yy += stepY) for (let xx = -R; xx <= R; xx += stepX) { if (Math.abs(yy) < stepY * .9) continue; x.fillText(line, xx + ((Math.round(yy / stepY) & 1) ? stepX / 2 : 0), yy); }
     x.restore();
   }
   function snap() {
