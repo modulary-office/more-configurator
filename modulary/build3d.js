@@ -1,9 +1,9 @@
 /* MODULARY / MORE – "בונים בתלת־ממד": one page, every configurator product.
    Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>.
    #mb3d data attributes: data-quote (contact URL), data-brand (title suffix), data-prices="on" to show list prices. */
-const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@d628e7640543ed9226c53bc18f25a1fb6aacf223/dist/';
+const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@24e086c0240570a3a2fb0896fd14f5219c333ac7/dist/';
 const GROUPS = [
-  ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן']]],
+  ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן'], ['meeting-table', 'שולחן ישיבות']]],
   ['עמדות עבודה', [['bench-desk', 'עמדות משותפות'], ['duo-bench', 'Duo Bench עם מחיצות']]],
   ['מחיצות Open Space', [['partition-thin', 'מחיצה דקה'], ['partition-thick', 'מחיצה עבה'], ['partition-frameless', 'מחיצה פריימלס'], ['partition-mobile', 'מחיצה ניידת']]],
   ['ארונות ואחסון', [['cabinet-low', 'ארון נמוך'], ['cabinet-tall', 'ארון גבוה'], ['cabinet-sliding', 'דלתות הזזה'], ['file-cabinet', 'ארון תיקיות'], ['credenza', 'שלוחת מנהל'], ['drawer-unit', 'מגירות ועגלה'], ['shelf-open', 'כוננית'], ['cubby', 'כוורת תאים']]],
