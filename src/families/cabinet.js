@@ -305,39 +305,45 @@ export const cabinet = {
       return { y0, cols };
     }
 
-    /* ---- reception counter ---- */
+    /* ---- reception counter ----
+       Main run of length W: front panel towards the visitor (+z), two side panels, a work surface at 75 cm that sits
+       between the panels, and an optional rider (raised shelf at the top, projecting inwards over the work surface).
+       Corner version: a return of length W2 is ADDED behind one end (left or right, seen from the front); the main run
+       keeps its full length. Decoration is applied on the outside of the fronts: horizontal aluminium lines, or
+       vertical melamine slats 28 × 28 mm with a 30 mm gap. */
     function buildCounter() {
-      const { W, H, D, W2 } = dims, bm = bodyMat(), fm = faceMat(), t = .028, rd = .32, ws = .75;
-      const corner = isCorner(S) && W2 > .3;
-      const wing = (len, ox, oz, rotY) => {
-        const g = new THREE.Group(); g.position.set(ox, 0, oz); g.rotation.y = rotY;
-        /* front panel */
-        g.add(board(len, H - t, t, bm, 0, (H - t) / 2, D / 2 - t / 2));
-        /* rider (raised top) */
-        g.add(board(len + .01, t, rd, fm, 0, H - t / 2, D / 2 - rd / 2 + .04));
-        /* rider inner face */
-        g.add(board(len, H - ws - t, t, bm, 0, ws + (H - ws - t) / 2, D / 2 - rd + .04 + t / 2));
-        /* work surface */
-        g.add(board(len, t, D - .05, fm, 0, ws - t / 2, -.005));
-        /* decoration */
-        const st = S.style === 'alucorner' ? 'alu' : (S.style || 'plain');
-        if (st === 'alu') for (let y = .22; y < H - .12; y += .24) g.add(board(len - .004, .006, .004, metal, 0, y, D / 2 + .002));
-        if (st === 'strips') { const n = Math.max(3, Math.round(len / .14)); for (let i = 0; i < n; i++) if (i % 2) g.add(board(len / n - .004, H - t - .06, .012, fm, -len / 2 + (i + .5) * len / n, (H - t) / 2, D / 2 + .006)); }
-        G.body.add(g); return g;
-      };
-      if (!corner) {
-        wing(W, 0, 0, 0);
-        [-1, 1].forEach(sx => G.body.add(board(t, H - t, D, bm, sx * (W / 2 - t / 2), (H - t) / 2, 0)));
-        G.base.add(board(W - .1, .05, D - .12, dark, 0, .025, -.03));
-      } else {
-        /* L shape: the main run starts after the corner; the side wing runs back from the front-left corner */
-        wing(W - D, D / 2, 0, 0);
-        G.body.add(board(t, H - t, D, bm, W / 2 - t / 2, (H - t) / 2, 0));
-        wing(W2, -W / 2 + D / 2, D / 2 - W2 / 2, -Math.PI / 2);
-        G.body.add(board(D, H - t, t, bm, -W / 2 + D / 2, (H - t) / 2, D / 2 - t / 2));
-        G.body.add(board(D, H - t, t, bm, -W / 2 + D / 2, (H - t) / 2, D / 2 - W2 + t / 2));
-        G.base.add(board(W - D - .05, .05, D - .12, dark, D / 2, .025, -.03));
-        G.base.add(board(D - .12, .05, W2 - .05, dark, -W / 2 + D / 2 + .03, .025, D / 2 - W2 / 2));
+      const { W, H, D, W2 } = dims, bm = bodyMat(), fm = faceMat(), t = .028, rd = .32, ws = .75, e = .001;
+      const corner = isCorner(S) && W2 > .3, rider = S.rider !== false, sx = S.side === 'right' ? 1 : -1;
+      const Hp = rider ? H - t : H, zo = corner ? W2 / 2 : 0;          /* zo centres the L in the view */
+      const st = S.style === 'alucorner' ? 'alu' : (S.style || 'plain');
+      const B = (w, h, d, m, x, y, z, g = G.body) => g.add(board(w, h, d, m, x, y, z + zo));
+      /* fronts and sides */
+      B(W, Hp, t, bm, 0, Hp / 2, D / 2 - t / 2);
+      [-1, 1].forEach(q => { if (corner && q === sx) return; B(t, Hp, D - t - e, bm, q * (W / 2 - t / 2), Hp / 2, -t / 2); });
+      /* work surface: between the side panels and behind the front, so nothing shows through */
+      B(W - 2 * t - 2 * e, t, D - t - 2 * e, fm, 0, ws - t / 2, -t / 2, G.top);
+      if (rider) {
+        B(W + .01, t, rd, fm, 0, H - t / 2, D / 2 - rd / 2, G.top);
+        B(W - 2 * t - 2 * e - (corner ? rd - t : 0), H - ws - t, t, bm, corner ? -sx * (rd - t) / 2 : 0, ws + (H - ws - t) / 2, D / 2 - rd + t / 2);
+      }
+      G.base.add(board(W - .1, .05, D - .12, dark, 0, .025, -.03 + zo));
+      /* decoration on the front */
+      const y0 = .03, y1 = Hp - .03;
+      if (st === 'alu') for (let y = .22; y < Hp - .1; y += .24) B(W - .004, .006, .004, metal, 0, y, D / 2 + .002);
+      if (st === 'strips') { const n = Math.floor((W + .03) / .058), x0 = -(n * .058 - .03) / 2 + .014; for (let k = 0; k < n; k++) B(.028, y1 - y0, .028, fm, x0 + k * .058, (y0 + y1) / 2, D / 2 + .014, G.fronts); }
+      if (corner) {
+        const L2 = W2 + D, zc = -W2 / 2, xo = sx * (W / 2 - t / 2);
+        B(t, Hp, L2 - e, bm, xo, Hp / 2, zc - e / 2);                                  /* outer panel: the side of the run and the front of the return, one board */
+        B(D - t - e, Hp, t, bm, sx * (W / 2 - t - (D - t) / 2), Hp / 2, -D / 2 - W2 + t / 2);   /* end panel */
+        B(D - t - 2 * e, t, W2 - t - e, fm, sx * (W / 2 - t - (D - t) / 2), ws - t / 2, -D / 2 - (W2 - t) / 2, G.top);
+        if (rider) {
+          const rl = W2 + D - rd, rz = (-W2 - rd) / 2;
+          B(rd, t, rl + .005, fm, sx * (W / 2 - rd / 2 + .005), H - t / 2, rz - .0025, G.top);
+          B(t, H - ws - t, rl - t, bm, sx * (W / 2 - rd + t / 2), ws + (H - ws - t) / 2, rz + t / 2);
+        }
+        G.base.add(board(D - .12, .05, W2 - .05, dark, sx * (W / 2 - D / 2 - .03), .025, -D / 2 - W2 / 2 + zo));
+        if (st === 'alu') for (let y = .22; y < Hp - .1; y += .24) B(.004, .006, L2 - .004, metal, sx * (W / 2 + .002), y, zc);
+        if (st === 'strips') { const n = Math.floor((L2 + .03) / .058), z0 = zc - (n * .058 - .03) / 2 + .014; for (let k = 0; k < n; k++) B(.028, y1 - y0, .028, fm, sx * (W / 2 + .014), (y0 + y1) / 2, z0 + k * .058, G.fronts); }
       }
       return { y0: 0 };
     }
@@ -381,7 +387,7 @@ export const cabinet = {
       void info;
       const Ht = kind === 'kitchen' ? (S.upper ? 2.15 : .9) : H, Dt = kind === 'kitchen' ? .6 : D;
       const corner = kind === 'counter' && isCorner(S);
-      ao.scale.set(W + .6, (corner ? dims.W2 : Dt) + .6, 1); ao.position.z = corner ? -(dims.W2 - Dt) / 2 : 0;
+      ao.scale.set(W + .6, (corner ? dims.W2 + Dt : Dt) + .6, 1); ao.position.z = 0;
       hotPts = {
         size: new THREE.Vector3(W / 2, Ht * .55, Dt / 2),
         fronts: new THREE.Vector3(-W * .18, Math.min(Ht * .62, Ht - .1), Dt / 2 + .03),
@@ -420,10 +426,10 @@ export const cabinet = {
       build, update, tick, explode,
       dimsGroup: G.dims,
       hero: M.hero || { th: .62, ph: 1.22 },
-      fitSpan: () => Math.max(dims.W * .95, height() * 1.05, (kind === 'counter' && isCorner(S) ? dims.W2 : dims.D) * 1.2, .7),
+      fitSpan: () => Math.max(dims.W * .95, height() * 1.05, (kind === 'counter' && isCorner(S) ? dims.W2 + dims.D : dims.D) * 1.2, .7),
       targetY: () => height() * .48,
       maxY: () => Math.max(1.4, height()),
-      clampBox: () => ({ lx: dims.W / 2 + .4, lz: Math.max(dims.D, dims.W2 || 0) / 2 + .4 }),
+      clampBox: () => ({ lx: dims.W / 2 + .4, lz: Math.max(dims.D, (dims.W2 || 0) + dims.D) / 2 + .4 }),
       views: {},
       focusView: () => 'hero',
       hotspots: (M.hotspots || [['size', 'מידות'], ['fronts', 'חזיתות'], ['finish', 'גימור']]).filter(([k]) => product.sections.some(s => s.id === k)),

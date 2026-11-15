@@ -2,6 +2,7 @@
    view presets, tools (auto-rotate, dimensions, exploded view, fullscreen), hotspots, snapshot, render loop.
    Everything product-specific comes from the family instance (see families/*.js). */
 import * as THREE from 'three';
+import { isAdmin, siteBrand, siteHost } from './project.js';
 
 export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }) {
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: false });
@@ -165,18 +166,31 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   }
 
   /* snapshot */
+  /* watermark for everything that leaves the page (image, project pictures): the brand, large and repeated, so the
+     pictures cannot be passed on as someone else's work. Not drawn for the admin. */
+  function watermark(x, w, h) {
+    if (isAdmin()) return;
+    const name = siteBrand(), fs = Math.max(22, Math.round(w * .075));
+    x.save(); x.direction = 'ltr'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.translate(w / 2, h / 2); x.rotate(-.42);
+    x.font = `800 ${fs}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.16)'; x.strokeStyle = 'rgba(255,255,255,.22)'; x.lineWidth = Math.max(1, fs * .03);
+    x.strokeText(name, 0, 0); x.fillText(name, 0, 0);
+    x.font = `700 ${Math.round(fs * .34)}px Heebo, Arial, sans-serif`; x.fillStyle = 'rgba(28,28,26,.11)';
+    const stepX = fs * 5.2, stepY = fs * 1.9, R = Math.hypot(w, h) / 2;
+    for (let yy = -R; yy <= R; yy += stepY) for (let xx = -R; xx <= R; xx += stepX) { if (Math.abs(yy) < stepY * .9) continue; x.fillText(name + ' · ' + siteHost(), xx + ((Math.round(yy / stepY) & 1) ? stepX / 2 : 0), yy); }
+    x.restore();
+  }
   function snap() {
     renderFrame(0);
     const src = renderer.domElement, w = src.width, h = src.height, c = document.createElement('canvas');
     c.width = w; c.height = h + Math.round(h * .16); const x = c.getContext('2d');
     const gr = x.createRadialGradient(w / 2, h * .38, 10, w / 2, h * .5, w * .8); gr.addColorStop(0, '#FFFDF9'); gr.addColorStop(1, '#E9E2D6'); x.fillStyle = gr; x.fillRect(0, 0, w, c.height);
-    x.drawImage(src, 0, 0);
+    x.drawImage(src, 0, 0); watermark(x, w, h);
     const fy = h, fh = c.height - h; x.fillStyle = '#1C1C1A'; x.fillRect(0, fy, w, fh);
-    const fs = Math.round(fh * .26); x.fillStyle = '#F8DC55'; x.font = `700 ${fs}px sans-serif`; x.textAlign = 'left'; x.fillText('MORE', fh * .3, fy + fh * .45);
+    const fs = Math.round(fh * .26); x.fillStyle = '#F8DC55'; x.font = `700 ${fs}px sans-serif`; x.textAlign = 'left'; x.fillText(siteBrand(), fh * .3, fy + fh * .45);
     x.fillStyle = '#F3EEE5'; x.font = `500 ${Math.round(fs * .55)}px sans-serif`; x.fillText(`${ui.name} · ${ui.code()}`, fh * .3, fy + fh * .78);
     x.textAlign = 'right'; x.direction = 'rtl'; x.fillText(P.snapLine(), w - fh * .3, fy + fh * .45);
-    x.fillText('modularymore.co.il', w - fh * .3, fy + fh * .78);
-    c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `MORE-${ui.code()}.png`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); ui.toast('התמונה נשמרה'); }, 'image/png');
+    x.fillText('© ' + siteHost(), w - fh * .3, fy + fh * .78);
+    c.toBlob(b => { const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = `${siteBrand().replace(/\s+/g, '-')}-${ui.code()}.png`; document.body.appendChild(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 2000); ui.toast('התמונה נשמרה'); }, 'image/png');
   }
 
   /* picture for a project item: always the same front three-quarter angle, at a fixed 4:3 size, cropped to the product
@@ -201,6 +215,7 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
       const k = Math.min(1, maxW / fw), c = document.createElement('canvas'); c.width = Math.round(fw * k); c.height = Math.round(fh * k);
       const x = c.getContext('2d'); x.fillStyle = '#F3EEE5'; x.fillRect(0, 0, c.width, c.height);
       x.drawImage(t, x0 - pad - (fw - cw) / 2, y0 - pad - (fh - ch) / 2, fw, fh, 0, 0, c.width, c.height);
+      watermark(x, c.width, c.height);
       out = c.toDataURL('image/jpeg', .85);
     } catch (e) { out = ''; }
     Object.assign(cam, keep); explode = keepEx;
