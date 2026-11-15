@@ -9,9 +9,15 @@ import { topTexture, thumbTop } from '../engine/textures.js';
 const FALLBACK = { id: '', he: '', hex: '#2b2b2d' };
 const byId = (arr, id) => (arr || []).find(x => x.id === id) || (arr || [])[0] || FALLBACK;
 const SHAPES = { rect: 'ישרה', round: 'פינות מעוגלות', ellipse: 'אליפסה', oval: 'אובאלית', egg: 'ביצתית' };
-const LEGS = { cone: 'רגלי קונוס', posts: 'אינטל, רגל ישרה', loop: 'רוז, מסגרת סגורה', xleg: 'איקס', aframe: 'ברצלונה', trapez: 'לוטוס, טרפז' };
+const LEGS = { cone: 'רגלי קונוס', wave: 'רגלי גלי', posts: 'אינטל, רגל ישרה', loop: 'רוז, מסגרת סגורה', xleg: 'איקס', aframe: 'ברצלונה', trapez: 'לוטוס, טרפז' };
 const EDGES = { straight: 'קנט ישר', bevel: 'קנט מדוקק' };
-const H = .75, T = .028, BOARD = 2.8;
+const H = .75, T = .028;
+const MIDS = { cabinet: 'ארון תקשורת באמצע', hh: 'רגלי ח פנימיות' };
+const PEDESTAL = k => k === 'cone' || k === 'wave';
+/* one top up to 240 × 120 cm; a bigger table is made of two or more tops, none longer than 240 cm */
+const partsOf = (w, d) => (w <= 240 && d <= 120) ? 1 : Math.max(2, Math.ceil(w / 240 - 1e-6));
+/* power boxes: one in the middle up to 240 cm, above that one on each side */
+const boxesOf = S => S.box ? (S.w <= 240 ? 1 : 2) : 0;
 
 function lists(cat) { const items = n => (cat[n] && cat[n].items) || []; return { DEC: items('decors'), RAL: items('ral') }; }
 /* half depth of the top at x (metres), for each outline */
@@ -45,9 +51,10 @@ export const meeting = {
     const { DEC, RAL } = lists(cat);
     const dec = () => byId(DEC, S.decor), ral = () => byId(RAL, S.ral), ecol = () => byId(RAL, S.ecol);
     const seats = () => { const side = Math.floor((S.w - (S.shape === 'ellipse' || S.shape === 'oval' ? S.d * .6 : 0)) / 65), end = S.d >= 100 ? (S.d >= 160 ? 2 : 1) : 0; return 2 * side + 2 * end; };
-    const parts = () => Math.ceil(S.w / 100 / BOARD - 1e-6);
+    const parts = () => partsOf(S.w, S.d);
+    const midTxt = () => !PEDESTAL(S.legs) && S.w > 320 ? `, תמיכה פנימית: ${MIDS[S.mid] || MIDS.cabinet}` : '';
     const edgeTxt = () => `${EDGES[S.edge] || EDGES.straight}, ${S.edgec === 'color' ? `RAL ${ecol().id} ${ecol().he}` : 'PVC תואם'}`;
-    const boxes = () => S.box ? Math.max(1, Math.round(S.w / 180)) : 0;
+    const boxes = () => boxesOf(S);
     const sizeTxt = () => `${S.w} × ${S.d} × 75 ס״מ`;
     return {
       metrics: () => ({ lengthM: S.w / 100, areaM2: S.w * S.d / 1e4, topParts: parts(), boxes: boxes(), seats: seats() }),
@@ -56,21 +63,21 @@ export const meeting = {
         shape: SHAPES[S.shape] || SHAPES.rect,
         size: `${sizeTxt()} · כ־${seats()} מקומות`,
         top: `<i style="background-image:url(${thumbTop(dec())})"></i>${dec().he} · ${EDGES[S.edge] || EDGES.straight}`,
-        legs: `<i style="background:${ral().hex}"></i>${LEGS[S.legs] || LEGS.cone}`,
-        extra: boxes() ? `${boxes()} תיבות תקשורת` : 'ללא'
+        legs: `<i style="background:${ral().hex}"></i>${LEGS[S.legs] || LEGS.cone}${midTxt()}`,
+        extra: boxes() === 1 ? 'תיבה אחת באמצע' : boxes() ? 'שתי תיבות, ימין ושמאל' : 'ללא'
       }[k]),
       toast: k => {
         if (k === 'decor' || k === 'decorFin') return [`פלטה: ${dec().he}`, `background-image:url(${thumbTop(dec())})`];
         if (k === 'edge' || k === 'edgec' || k === 'ecol') return [edgeTxt()];
-        if (k === 'legs') return [LEGS[S.legs] || LEGS.cone];
+        if (k === 'legs' || k === 'mid') return [(LEGS[S.legs] || LEGS.cone) + midTxt()];
         if (k === 'ral') return [`צבע רגליים: RAL ${ral().id} · ${ral().he}`, `background:${ral().hex}`];
-        if (k === 'box') return [boxes() ? `${boxes()} תיבות תקשורת משולבות בפלטה` : 'ללא תיבת תקשורת'];
+        if (k === 'box') return [boxes() === 1 ? 'תיבת תקשורת שחורה באמצע הפלטה' : boxes() ? 'שתי תיבות תקשורת שחורות, מימין ומשמאל' : 'ללא תיבת תקשורת'];
         if (k === 'shape') return [`פלטה ${SHAPES[S.shape] || SHAPES.rect}`];
-        return [`${sizeTxt()} · כ־${seats()} מקומות ישיבה`];
+        return [`${sizeTxt()} · ${parts() > 1 ? parts() + ' פלטות' : 'פלטה אחת'} · כ־${seats()} מקומות`];
       },
-      code: () => `${product.codePrefix || 'MT'}-${String(S.shape).toUpperCase()}-${S.w}x${S.d}-${(dec().code || S.decor)}-${S.edge === 'bevel' ? 'BV' : 'ST'}${S.edgec === 'color' ? 'R' + ecol().id : ''}-${String(S.legs).toUpperCase()}-R${ral().id}${boxes() ? '-PB' + boxes() : ''}`,
-      summary: () => [`שולחן ישיבות, פלטה ${SHAPES[S.shape] || SHAPES.rect}`, `מידות ${sizeTxt()}, כ־${seats()} מקומות ישיבה`, `פלטה: ${dec().he}, 28 מ״מ${parts() > 1 ? `, ב־${parts()} חלקים` : ''}`, edgeTxt(),
-        `רגליים: ${LEGS[S.legs] || LEGS.cone}, RAL ${ral().id} · ${ral().he}`, boxes() ? `${boxes()} תיבות תקשורת משולבות בפלטה` : '']
+      code: () => `${product.codePrefix || 'MT'}-${String(S.shape).toUpperCase()}-${S.w}x${S.d}-${(dec().code || S.decor)}-${S.edge === 'bevel' ? 'BV' : 'ST'}${S.edgec === 'color' ? 'R' + ecol().id : ''}-${String(S.legs).toUpperCase()}${!PEDESTAL(S.legs) && S.w > 320 ? (S.mid === 'hh' ? '-HH' : '-CAB') : ''}-R${ral().id}${boxes() ? '-PB' + boxes() : ''}`,
+      summary: () => [`שולחן ישיבות, פלטה ${SHAPES[S.shape] || SHAPES.rect}`, `מידות ${sizeTxt()}, כ־${seats()} מקומות ישיבה`, `פלטה: ${dec().he}, 28 מ״מ, ${parts() > 1 ? `${parts()} פלטות של ${Math.round(S.w / parts())}×${S.d} ס״מ` : 'פלטה אחת'}`, edgeTxt(),
+        `רגליים: ${LEGS[S.legs] || LEGS.cone}${midTxt()}, RAL ${ral().id} · ${ral().he}`, boxes() === 1 ? 'תיבת תקשורת שחורה באמצע הפלטה' : boxes() ? 'שתי תיבות תקשורת שחורות, מימין ומשמאל' : '']
     };
   },
 
@@ -81,8 +88,8 @@ export const meeting = {
     const edgeMat = new THREE.MeshStandardMaterial({ color: hexOf(S.ecol), roughness: .5, metalness: .05 });
     const footMat = new THREE.MeshStandardMaterial({ color: 0x161617, roughness: .7 });
     const boxMat = new THREE.MeshStandardMaterial({ color: 0x1f1f21, roughness: .4, metalness: .5 });
-    const lidMat = new THREE.MeshStandardMaterial({ color: 0xb9bcc0, roughness: .3, metalness: .85 });
-    const seamMat = new THREE.MeshBasicMaterial({ color: 0x1c1c1a, transparent: true, opacity: .35 });
+    const lidMat = new THREE.MeshStandardMaterial({ color: 0x0f0f10, roughness: .35, metalness: .4 });
+    const seamMat = new THREE.MeshBasicMaterial({ color: 0x1c1c1a, transparent: true, opacity: .6 });
     const decMats = {};
     function decMat(id) {
       if (decMats[id]) return decMats[id];
@@ -122,49 +129,81 @@ export const meeting = {
         G.top.add(slab(shape, L, D, 0, yT - .008, yT, [tm, em]));
         const steps = 5; for (let i = 0; i < steps; i++) G.top.add(slab(shape, L, D, .004 + (i + 1) * .0045, yT - .008 - (i + 1) * (T - .008) / steps, yT - .008 - i * (T - .008) / steps, [em, em]));
       } else G.top.add(slab(shape, L, D, 0, yB, yT, [tm, em]));
-      /* a top longer than one board is made in parts: a fine seam where they meet */
-      const parts = Math.ceil(L / BOARD - 1e-6);
-      for (let i = 1; i < parts; i++) { const x = -L / 2 + i * L / parts; G.top.add(box(.0015, .0006, 2 * halfDepth(shape, L, D, x) - .01, seamMat, x, yT + .0004, 0)); }
-      /* supports: number by length, each placed where the outline still leaves room for it */
-      const n = L <= 3.2 ? 2 : L <= 4.6 ? 3 : L <= 5.6 ? 4 : 5;
-      const endIn = shape === 'ellipse' ? L * .2 : shape === 'oval' ? Math.max(.45, D * .42) : shape === 'egg' ? .5 : .42;
-      const xs = Array.from({ length: n }, (_, i) => -L / 2 + endIn + i * (L - 2 * endIn) / (n - 1));
+      /* a table bigger than one top is made of several tops: a visible joint where they meet */
+      const parts = partsOf(Math.round(L * 100), Math.round(D * 100));
+      for (let i = 1; i < parts; i++) { const x = -L / 2 + i * L / parts; G.top.add(box(.003, .0008, 2 * halfDepth(shape, L, D, x) - .004, seamMat, x, yT + .0005, 0)); }
       const style = LEGS[S.legs] ? S.legs : 'cone', yt = yB;
-      xs.forEach(x => {
-        const hd = halfDepth(shape, L, D, x), z = Math.max(.2, hd - .17);
-        if (style === 'cone') {
-          [-1, 1].forEach(s => { const g = new THREE.CylinderGeometry(.045, .02, yt - .012, 24); G.legs.add(mk(g, legMat, x, .012 + (yt - .012) / 2, s * z)); G.legs.add(mk(new THREE.CylinderGeometry(.021, .021, .012, 16), footMat, x, .006, s * z));
-            G.legs.add(mk(new THREE.CylinderGeometry(.07, .07, .006, 24), legMat, x, yt - .003, s * z)); });
-        } else if (style === 'posts') {
-          [-1, 1].forEach(s => { G.legs.add(box(.06, yt - .03, .06, legMat, x, (yt - .03) / 2, s * z)); G.legs.add(box(.08, .006, .08, footMat, x, .003, s * z)); });
-          G.legs.add(box(.06, .03, 2 * z + .06, legMat, x, yt - .015, 0));
-        } else if (style === 'loop') {
-          [-1, 1].forEach(s => G.legs.add(box(.06, yt - .06, .03, legMat, x, yt / 2, s * z)));
-          G.legs.add(box(.06, .03, 2 * z + .03, legMat, x, yt - .015, 0)); G.legs.add(box(.06, .03, 2 * z + .03, legMat, x, .015, 0));
-        } else if (style === 'xleg') {
-          G.legs.add(bar(V(x, .01, -z), V(x, yt - .02, z), .05, legMat, true)); G.legs.add(bar(V(x, .01, z), V(x, yt - .02, -z), .05, legMat, true));
-          G.legs.add(box(.06, .03, 2 * z + .1, legMat, x, yt - .015, 0));
-        } else if (style === 'aframe') {
-          [-1, 1].forEach(s => { G.legs.add(bar(V(x, .01, s * (z + .06)), V(x, yt - .03, s * (z - .16)), .05, legMat, true)); G.legs.add(box(.07, .008, .07, footMat, x, .004, s * (z + .06))); });
-          G.legs.add(box(.06, .03, 2 * z - .2, legMat, x, yt - .015, 0));
-        } else {   /* trapeze: a closed frame, wider at the floor */
-          [-1, 1].forEach(s => G.legs.add(bar(V(x, .03, s * z), V(x, yt - .03, s * (z - .2)), .05, legMat, true)));
-          G.legs.add(box(.06, .03, 2 * z - .34, legMat, x, yt - .015, 0)); G.legs.add(box(.06, .03, 2 * z + .05, legMat, x, .015, 0));
+      let railX = null;
+      if (PEDESTAL(style)) {
+        /* pedestals on the centre line: their number follows the length, their size the depth */
+        const n = L <= 3.4 ? 2 : L <= 5 ? 3 : 4, endIn = Math.max(.55, L * (shape === 'ellipse' ? .24 : .2));
+        const xs = Array.from({ length: n }, (_, i) => -L / 2 + endIn + i * (L - 2 * endIn) / (n - 1));
+        xs.forEach(x => {
+          if (style === 'cone') {
+            const rb = Math.min(.34, Math.max(.22, D * .27)), rt = rb * .5;
+            G.legs.add(mk(new THREE.CylinderGeometry(rt, rb, yt - .004, 48), legMat, x, (yt - .004) / 2 + .004, 0));
+            G.legs.add(mk(new THREE.CylinderGeometry(rb + .004, rb + .004, .004, 48), footMat, x, .002, 0));
+          } else {
+            /* "wave" leg: a tall slab with fully rounded ends, set across the table */
+            const wz = Math.min(1.15, Math.max(.5, 2 * halfDepth(shape, L, D, x) * .62)), tx = .24, r = tx / 2, pts = [];
+            const c = wz / 2 - r;
+            for (let i = 0; i <= 24; i++) { const t = i / 24 * Math.PI; pts.push(new THREE.Vector2(r * Math.cos(t), c + r * Math.sin(t))); }
+            for (let i = 0; i <= 24; i++) { const t = Math.PI + i / 24 * Math.PI; pts.push(new THREE.Vector2(r * Math.cos(t), -c + r * Math.sin(t))); }
+            const g = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: yt, bevelEnabled: false, curveSegments: 4 }); g.rotateX(-Math.PI / 2);
+            G.legs.add(mk(g, legMat, x, 0, 0));
+          }
+        });
+        hotPts.legs = V(xs[0], .4, .2);
+      } else {
+        /* frames only at the two ends, so nobody sits against a leg; a long table gets an inner support instead */
+        const endIn = shape === 'ellipse' ? L * .2 : shape === 'oval' ? Math.max(.45, D * .42) : shape === 'egg' ? .5 : .42, xs = [-L / 2 + endIn, L / 2 - endIn];
+        xs.forEach(x => {
+          const hd = halfDepth(shape, L, D, x), z = Math.max(.2, hd - .17);
+          if (style === 'posts') {
+            [-1, 1].forEach(s => { G.legs.add(box(.06, yt - .03, .06, legMat, x, (yt - .03) / 2, s * z)); G.legs.add(box(.08, .006, .08, footMat, x, .003, s * z)); });
+            G.legs.add(box(.06, .03, 2 * z + .06, legMat, x, yt - .015, 0));
+          } else if (style === 'loop') {
+            [-1, 1].forEach(s => G.legs.add(box(.06, yt - .06, .03, legMat, x, yt / 2, s * z)));
+            G.legs.add(box(.06, .03, 2 * z + .03, legMat, x, yt - .015, 0)); G.legs.add(box(.06, .03, 2 * z + .03, legMat, x, .015, 0));
+          } else if (style === 'xleg') {
+            G.legs.add(bar(V(x, .01, -z), V(x, yt - .02, z), .05, legMat, true)); G.legs.add(bar(V(x, .01, z), V(x, yt - .02, -z), .05, legMat, true));
+            G.legs.add(box(.06, .03, 2 * z + .1, legMat, x, yt - .015, 0));
+          } else if (style === 'aframe') {
+            [-1, 1].forEach(s => { G.legs.add(bar(V(x, .01, s * (z + .06)), V(x, yt - .03, s * (z - .16)), .05, legMat, true)); G.legs.add(box(.07, .008, .07, footMat, x, .004, s * (z + .06))); });
+            G.legs.add(box(.06, .03, 2 * z - .2, legMat, x, yt - .015, 0));
+          } else {
+            [-1, 1].forEach(s => G.legs.add(bar(V(x, .03, s * z), V(x, yt - .03, s * (z - .2)), .05, legMat, true)));
+            G.legs.add(box(.06, .03, 2 * z - .34, legMat, x, yt - .015, 0)); G.legs.add(box(.06, .03, 2 * z + .05, legMat, x, .015, 0));
+          }
+        });
+        railX = xs;
+        if (L > 3.2) {
+          const nm = L > 4.8 ? 2 : 1, mx = nm === 1 ? [0] : [-L / 6, L / 6];
+          if (S.mid === 'hh') mx.forEach(x => {
+            /* inner ח frames: narrow, well inside the knee line */
+            [-1, 1].forEach(q => { const xx = x + q * .3; [-1, 1].forEach(s => G.legs.add(box(.05, yt - .03, .05, legMat, xx, (yt - .03) / 2, s * .2))); G.legs.add(box(.05, .03, .45, legMat, xx, yt - .015, 0)); G.legs.add(box(.05, .02, .45, legMat, xx, .01, 0)); });
+          });
+          else mx.forEach(x => {
+            /* a slim cabinet for power and data under the middle of the table carries it too */
+            const cw = Math.min(1.2, L * .24), cd = .42;
+            G.legs.add(box(cw, yt - .06, cd, legMat, x, .06 + (yt - .06) / 2, 0)); G.legs.add(box(cw - .06, .06, cd - .06, footMat, x, .03, 0));
+            [-1, 1].forEach(s => G.legs.add(box(cw - .03, yt - .1, .002, boxMat, x, .08 + (yt - .1) / 2, s * (cd / 2 + .001))));
+          });
         }
-      });
-      /* a rail under the top ties the supports together */
-      G.legs.add(box(xs[xs.length - 1] - xs[0], .04, .06, legMat, 0, yt - .05, 0));
-      /* integral power and data boxes: a flush lid in the top, the box under it */
-      if (S.box) {
-        const nb = Math.max(1, Math.round(L / 1.8));
-        for (let i = 0; i < nb; i++) {
-          const x = -L / 2 + (i + .5) * L / nb;
-          G.extra.add(box(.27, .002, .13, lidMat, x, yT + .001, 0)); G.extra.add(box(.23, .0025, .012, boxMat, x, yT + .0015, .045));
-          G.extra.add(box(.26, .09, .12, boxMat, x, yB - .045, 0));
-        }
-        hotPts.extra = V(-L / 2 + .5 * L / nb, yT + .01, 0);
+        hotPts.legs = V(xs[0], .35, halfDepth(shape, L, D, xs[0]) - .17);
       }
-      hotPts.top = V(L * .22, yT + .005, D * .18); hotPts.legs = V(xs[0], .35, halfDepth(shape, L, D, xs[0]) - .17); hotPts.size = V(L / 2, yT, 0);
+      /* a rail under the top ties the supports together */
+      if (railX) G.legs.add(box(railX[1] - railX[0], .04, .06, legMat, 0, yt - .05, 0));
+      /* integral power and data boxes: a flush lid in the top, the box under it */
+      const nb = boxesOf(S);
+      if (nb) {
+        (nb === 1 ? [0] : [-L / 4, L / 4]).forEach(x => {
+          G.extra.add(box(.3, .003, .14, boxMat, x, yT + .0015, 0)); G.extra.add(box(.26, .0035, .1, lidMat, x, yT + .0018, 0));
+          G.extra.add(box(.28, .09, .12, boxMat, x, yB - .045, 0));
+        });
+        hotPts.extra = V(nb === 1 ? 0 : -L / 4, yT + .01, 0);
+      }
+      hotPts.top = V(L * .1, yT + .005, D * .22); hotPts.size = V(L / 2, yT, 0);
       ao.scale.set(L + .7, D + .7, 1); ao.position.z = 0;
       buildDims(L, D);
     }
@@ -181,6 +220,7 @@ export const meeting = {
     function update(k) {
       resizing = false;
       if (k === 'ral') { tweenColor(legMat, hexOf(S.ral), 350); return; }
+      if (k === 'w' || k === 'd') { /* fallthrough below */ }
       if (k === 'ecol') { tweenColor(edgeMat, hexOf(S.ecol), 350); return; }
       if (k === 'w' || k === 'd') { dimT = { a: { ...cur }, b: { L: S.w / 100, D: S.d / 100 }, t: 0 }; resizing = true; return; }
       build();
