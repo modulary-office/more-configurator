@@ -14,7 +14,7 @@ const SHAPES = { rect: 'ישרה', round: 'פינות מעוגלות', ellipse: 
 const LEGS = { cone: 'רגלי קונוס', wave: 'רגלי גלי', posts: 'אינטל, רגל ישרה', loop: 'רוז, מסגרת סגורה', xleg: 'איקס', aframe: 'ברצלונה', trapez: 'לוטוס, טרפז' };
 const EDGES = { straight: 'קנט ישר', bevel: 'קנט מדוקק' };
 const H = .75, T = .028;
-const MIDS = { cabinet: 'ארון תקשורת באמצע', hh: 'רגלי ח פנימיות' };
+const MIDS = { cabinet: 'תיבה 40×40 ס״מ באמצע', hh: 'רגלי ח פנימיות' };
 const PEDESTAL = k => k === 'cone' || k === 'wave';
 /* one top up to 240 × 120 cm; a bigger table is made of two or more tops, none longer than 240 cm */
 const partsOf = (w, d) => (w <= 240 && d <= 120) ? 1 : Math.max(2, Math.ceil(w / 240 - 1e-6));
@@ -140,7 +140,7 @@ export const meeting = {
       let railX = null;
       if (PEDESTAL(style)) {
         /* pedestals on the centre line: their number follows the length, their size the depth */
-        const n = L <= 3.4 ? 2 : L <= 5 ? 3 : 4, endIn = Math.max(.55, L * (shape === 'ellipse' ? .24 : .2));
+        const n = L <= 3.4 ? 2 : 3, endIn = Math.max(.55, L * (shape === 'ellipse' ? .24 : .2));
         const xs = Array.from({ length: n }, (_, i) => -L / 2 + endIn + i * (L - 2 * endIn) / (n - 1));
         xs.forEach(x => {
           if (style === 'cone') {
@@ -187,12 +187,10 @@ export const meeting = {
             /* inner ח frames: narrow, well inside the knee line */
             [-1, 1].forEach(q => { const xx = x + q * .3; [-1, 1].forEach(s => G.legs.add(box(.05, yt - .03, .05, legMat, xx, (yt - .03) / 2, s * .2))); G.legs.add(box(.05, .03, .45, legMat, xx, yt - .015, 0)); G.legs.add(box(.05, .02, .45, legMat, xx, .01, 0)); });
           });
-          else mx.forEach(x => {
-            /* a slim cabinet for power and data under the middle of the table carries it too */
-            const cw = Math.min(1.2, L * .24), cd = .42;
-            G.legs.add(box(cw, yt - .06, cd, legMat, x, .06 + (yt - .06) / 2, 0)); G.legs.add(box(cw - .06, .06, cd - .06, footMat, x, .03, 0));
-            [-1, 1].forEach(s => G.legs.add(box(cw - .03, yt - .1, .002, boxMat, x, .08 + (yt - .1) / 2, s * (cd / 2 + .001))));
-          });
+          else {
+            /* one square box column, 40 × 40 cm, under the middle of the table: it carries the top and takes the cables */
+            G.legs.add(box(.4, yt - .02, .4, legMat, 0, .02 + (yt - .02) / 2, 0)); G.legs.add(box(.36, .02, .36, footMat, 0, .01, 0));
+          }
         }
         hotPts.legs = V(xs[0], .35, halfDepth(shape, L, D, xs[0]) - .17);
       }

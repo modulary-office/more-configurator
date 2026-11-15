@@ -17,7 +17,7 @@ import { partition } from '../families/partition.js';
 import { meeting } from '../families/meeting.js';
 
 const FAMILIES = { bench, cabinet, desk, lounge, sofa, partition, meeting };
-const VERSION = "1.17.0";
+const VERSION = "1.17.1";
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
