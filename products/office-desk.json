@@ -129,7 +129,8 @@
     "rfaceOn": false,
     "rface": "m5172",
     "rinset": "over",
-    "rhandle": "h"
+    "rhandle": "h",
+    "chairs": false
   },
   "sections": [
     {
@@ -1027,6 +1028,12 @@
               ]
             }
           }
+        },
+        {
+          "type": "toggle",
+          "key": "chairs",
+          "title": "להציג עם כיסאות",
+          "sub": "להמחשת פרופורציה בלבד. הכיסאות אינם חלק מההזמנה"
         }
       ]
     },

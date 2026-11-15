@@ -120,7 +120,8 @@
     "fcolor": "7024",
     "motor": "single",
     "holes": false,
-    "tray": false
+    "tray": false,
+    "chairs": false
   },
   "sections": [
     {
@@ -1018,6 +1019,12 @@
               ]
             }
           }
+        },
+        {
+          "type": "toggle",
+          "key": "chairs",
+          "title": "להציג עם כיסאות",
+          "sub": "להמחשת פרופורציה בלבד. הכיסאות אינם חלק מההזמנה"
         }
       ]
     },

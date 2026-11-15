@@ -28,7 +28,8 @@
   "body": "m8170",
   "face": "m5172",
   "side": "left",
-  "rider": true
+  "rider": true,
+  "chairs": false
  },
  "sections": [
   {
@@ -143,6 +144,12 @@
      "showWhen": {
       "style": "alucorner"
      }
+    },
+    {
+     "type": "toggle",
+     "key": "chairs",
+     "title": "להציג עם כיסאות",
+     "sub": "להמחשת פרופורציה בלבד. הכיסאות אינם חלק מההזמנה"
     }
    ]
   },

@@ -16,7 +16,8 @@
     "legs": "cone",
     "ral": "9005",
     "box": true,
-    "mid": "cabinet"
+    "mid": "cabinet",
+    "chairs": true
   },
   "sections": [
     {
@@ -171,6 +172,12 @@
             "unit": "ס״מ",
             "inputLabel": "עומק בס״מ"
           }
+        },
+        {
+          "type": "toggle",
+          "key": "chairs",
+          "title": "להציג עם כיסאות",
+          "sub": "להמחשת פרופורציה בלבד. הכיסאות אינם חלק מההזמנה"
         }
       ]
     },

@@ -3,6 +3,8 @@
    Layouts: single · row (desks side by side sharing legs, "riders") · pair (two facing desks) · bench (long double-sided table)
    State keys: frame · layout · n · w · d (cm) · top (top type or "none") · decor · fcolor (RAL id) · holes · tray · motor */
 import { genTop, topTexture, thumbTop } from '../engine/textures.js';
+import { makeChair, chairTone } from '../engine/chair.js';
+
 
 const FALLBACK = { id: '', he: '', hex: '#2b2b2d', base: '#d8d2c8', kind: 'solid' };
 const byId = (arr, id) => (arr || []).find(x => x.id === id) || (arr || [])[0] || FALLBACK;
@@ -114,6 +116,7 @@ export const desk = {
 
     const G = { top: new THREE.Group(), frame: new THREE.Group(), dims: new THREE.Group() };
     Object.values(G).forEach(g => scene.add(g));
+    const chairsG = new THREE.Group(); scene.add(chairsG);   /* chairs for scale only */
     const sh = m => { m.castShadow = m.receiveShadow = true; return m; };
     const UP = new THREE.Vector3(0, 1, 0);
     /* rectangular tube between two points; sx across, sz depth of profile */
@@ -330,6 +333,16 @@ export const desk = {
       ao.scale.set(total + .5, zMax + D / 2 + .5, 1); ao.position.z = 0;
       const zs = (zMax - D / 2) / 2; ext = { x: total, z: zMax + D / 2 }; [G.top, G.frame, G.dims].forEach(g => g.position.z = -zs);
       hotPts = { frame: V(xs[xs.length - 1], .35, D / 2 - .05), top: V(-total * .25, .76, D * .15) };
+      /* chairs, for scale only: one per desk, on the user's side */
+      clear(chairsG); chairsG.position.z = -zs;
+      if (S.chairs) {
+        const tone = chairTone(topDef ? byId(DEC, S.decor).base : '#cccccc', byId(COL, S.fcolor).hex);
+        const put = (x, side) => { const c = makeChair(THREE, tone); c.position.set(x, 0, side * (D / 2 + .32)); c.rotation.y = side > 0 ? 0 : Math.PI; chairsG.add(c); };
+        if (lay === 'row') for (let i = 0; i < n; i++) put(-total / 2 + (i + .5) * L, 1);
+        else if (lay === 'pair') { put(0, 1); put(0, -1); }
+        else if (lay === 'bench') [-1, 1].forEach(q => { put(q * total / 4, 1); put(q * total / 4, -1); });
+        else put(0, 1);
+      }
       /* dimensions */
       const m = new THREE.LineBasicMaterial({ color: 0x1c1c1a, transparent: true, opacity: .75 }), seg = (a, b) => G.dims.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints([a, b]), m));
       const zf = zMax + .14, xr = (ret ? -rs : 1) * (total / 2 + .14), y = .004, tk = .04;
@@ -362,7 +375,7 @@ export const desk = {
       if (dimT.t >= .5) dims.n = dimT.b.n;
       build(); if (dimT.t >= 1) { dimT = null; return 'settled'; }
     }
-    function explode(ex) { G.top.position.y = .28 * ex; }
+    function explode(ex) { G.top.position.y = .28 * ex; chairsG.visible = ex < .05; }
     const totalLen = () => (S.layout === 'row' ? dims.L * dims.n : dims.L);
     return {
       build, update, tick, explode, dimsGroup: G.dims,

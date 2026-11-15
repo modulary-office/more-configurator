@@ -5,6 +5,8 @@
    follow the length and the outline of the top. Optional integral power / data boxes in the top.
    State: shape · w (length, cm) · d (depth, cm) · decor · edge · edgec · ecol · legs · ral · box */
 import { topTexture, thumbTop } from '../engine/textures.js';
+import { makeChair, chairTone } from '../engine/chair.js';
+
 
 const FALLBACK = { id: '', he: '', hex: '#2b2b2d' };
 const byId = (arr, id) => (arr || []).find(x => x.id === id) || (arr || [])[0] || FALLBACK;
@@ -16,6 +18,8 @@ const MIDS = { cabinet: 'ארון תקשורת באמצע', hh: 'רגלי ח פ�
 const PEDESTAL = k => k === 'cone' || k === 'wave';
 /* one top up to 240 × 120 cm; a bigger table is made of two or more tops, none longer than 240 cm */
 const partsOf = (w, d) => (w <= 240 && d <= 120) ? 1 : Math.max(2, Math.ceil(w / 240 - 1e-6));
+/* seats along each long side and at each end */
+const seatPlan = S => ({ side: Math.max(1, Math.floor((S.w - (S.shape === 'ellipse' || S.shape === 'oval' ? S.d * .6 : 0)) / 65)), end: S.d >= 100 ? (S.d >= 160 ? 2 : 1) : 0 });
 /* power boxes: one in the middle up to 240 cm, above that one on each side */
 const boxesOf = S => S.box ? (S.w <= 240 ? 1 : 2) : 0;
 
@@ -50,7 +54,7 @@ export const meeting = {
   ui(product, cat, S) {
     const { DEC, RAL } = lists(cat);
     const dec = () => byId(DEC, S.decor), ral = () => byId(RAL, S.ral), ecol = () => byId(RAL, S.ecol);
-    const seats = () => { const side = Math.floor((S.w - (S.shape === 'ellipse' || S.shape === 'oval' ? S.d * .6 : 0)) / 65), end = S.d >= 100 ? (S.d >= 160 ? 2 : 1) : 0; return 2 * side + 2 * end; };
+    const seats = () => { const { side, end } = seatPlan(S); return 2 * side + 2 * end; };
     const parts = () => partsOf(S.w, S.d);
     const midTxt = () => !PEDESTAL(S.legs) && S.w > 320 ? `, תמיכה פנימית: ${MIDS[S.mid] || MIDS.cabinet}` : '';
     const edgeTxt = () => `${EDGES[S.edge] || EDGES.straight}, ${S.edgec === 'color' ? `RAL ${ecol().id} ${ecol().he}` : 'PVC תואם'}`;
@@ -115,7 +119,7 @@ export const meeting = {
       return mk(g, mats);
     }
 
-    const G = { top: new THREE.Group(), legs: new THREE.Group(), extra: new THREE.Group(), dims: new THREE.Group() };
+    const G = { top: new THREE.Group(), legs: new THREE.Group(), extra: new THREE.Group(), chairs: new THREE.Group(), dims: new THREE.Group() };
     Object.values(G).forEach(g => scene.add(g));
     const clear = g => { for (let i = g.children.length - 1; i >= 0; i--) { const o = g.children[i]; g.remove(o); o.traverse(c => c.geometry && c.geometry.dispose()); } };
     let hotPts = {}, dimLabels = [], cur = { L: 2.4, D: 1.2 }, dimT = null, resizing = false;
@@ -203,6 +207,14 @@ export const meeting = {
         });
         hotPts.extra = V(nb === 1 ? 0 : -L / 4, yT + .01, 0);
       }
+      /* chairs, for scale only: as many as the seat count, along the outline */
+      if (S.chairs) {
+        const { side, end } = seatPlan(S), tone = chairTone(byId(DEC, S.decor).base, hexOf(S.ral));
+        const span = L - (shape === 'ellipse' || shape === 'oval' ? D * .6 : .3);
+        for (let i = 0; i < side; i++) { const x = -span / 2 + (i + .5) * span / side, z = halfDepth(shape, L, D, x) + .3; [1, -1].forEach(q => { const c = makeChair(THREE, tone); c.position.set(x, 0, q * z); c.rotation.y = q > 0 ? 0 : Math.PI; G.chairs.add(c); }); }
+        const hw = shape === 'egg' ? D * .72 : D;
+        for (let i = 0; i < end; i++) { const z = end === 1 ? 0 : (i ? 1 : -1) * Math.min(.38, hw * .22); [1, -1].forEach(q => { const c = makeChair(THREE, tone); c.position.set(q * (L / 2 + .3), 0, z); c.rotation.y = q * Math.PI / 2; G.chairs.add(c); }); }
+      }
       hotPts.top = V(L * .1, yT + .005, D * .22); hotPts.size = V(L / 2, yT, 0);
       ao.scale.set(L + .7, D + .7, 1); ao.position.z = 0;
       buildDims(L, D);
@@ -233,10 +245,10 @@ export const meeting = {
     }
     cur = { L: S.w / 100, D: S.d / 100 };
     return {
-      build, update, tick, explode: ex => { G.top.position.y = .26 * ex; G.extra.position.y = .4 * ex; },
+      build, update, tick, explode: ex => { G.top.position.y = .26 * ex; G.extra.position.y = .4 * ex; G.chairs.visible = ex < .05; },
       isResizing: () => resizing,
       dimsGroup: G.dims,
-      fitSpan: () => Math.max(cur.L * .95, cur.D * 1.5, 1.6),
+      fitSpan: () => Math.max(cur.L * .95, cur.D * 1.5, 1.6) + (S.chairs ? .5 : 0),
       clampBox: () => ({ lx: cur.L / 2 + .5, lz: cur.D / 2 + .5 }),
       hero: { th: .7, ph: 1.02 },
       views: { top: fitR => ({ th: .5, ph: .7, r: fitR() * .8, tx: 0, ty: H, tz: 0 }) },

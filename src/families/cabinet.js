@@ -7,6 +7,8 @@
    w h d (cm) · front (variant) · body / face (decor ids) · ral (epoxy colour) · handle · base · back · side28 ·
    shelves · lock · glass · drawers · upper · finish · shape · w2 · style · rails · softclose */
 import { genTop, topTexture, thumbTop } from '../engine/textures.js';
+import { makeChair, chairTone } from '../engine/chair.js';
+
 
 const FALLBACK = { id: '', he: '', hex: '#999999', base: '#d8d2c8', kind: 'solid' };
 const byId = (arr, id) => (arr || []).find(x => x.id === id) || (arr || [])[0] || FALLBACK;
@@ -136,7 +138,7 @@ export const cabinet = {
       summary: () => {
         const out = [`מידות ${S.w}×${Math.round(D() * 100)}×${Math.round(H() * 100)} ס״מ`];
         allControls(product).forEach(c => {
-          if (['w', 'h', 'd'].includes(c.key)) return;
+          if (['w', 'h', 'd', 'chairs'].includes(c.key)) return;
           if (c.showWhen && !Object.entries(c.showWhen).every(([k, v]) => Array.isArray(v) ? v.includes(S[k]) : S[k] === v)) return;
           if (c.type === 'seg') out.push(`${c.label}: ${c.key === 'w2' ? S.w2 + ' ס״מ' : optLabel(product, c.key, S[c.key])}`);
           if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : DEC, S[c.key]); out.push(`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`); }
@@ -191,6 +193,7 @@ export const cabinet = {
 
     const G = { body: new THREE.Group(), fronts: new THREE.Group(), base: new THREE.Group(), top: new THREE.Group(), dims: new THREE.Group() };
     Object.values(G).forEach(g => scene.add(g));
+    const chairsG = new THREE.Group(); scene.add(chairsG);   /* chairs for scale only */
     let hotPts = {}, dimLabels = [], dims = null, dimT = null;
     const target = () => ({ W: S.w / 100, H: (S.h || M.h || 75) / 100, D: (S.d || M.d || 40) / 100, W2: (S.w2 || 0) / 100 });
     dims = target();
@@ -345,6 +348,11 @@ export const cabinet = {
         if (st === 'alu') for (let y = .22; y < Hp - .1; y += .24) B(.004, .006, L2 - .004, metal, sx * (W / 2 + .002), y, zc);
         if (st === 'strips') { const n = Math.floor((L2 + .03) / .058), z0 = zc - (n * .058 - .03) / 2 + .014; for (let k = 0; k < n; k++) B(.028, y1 - y0, .028, fm, sx * (W / 2 + .014), (y0 + y1) / 2, z0 + k * .058, G.fronts); }
       }
+      /* chairs, for scale only: behind the counter, at the work surface */
+      if (S.chairs) {
+        const tone = chairTone(byId(DEC, S.face).base, byId(DEC, S.body).base), nC = Math.max(1, Math.round(W / 1.5));
+        for (let i = 0; i < nC; i++) { const c = makeChair(THREE, tone); c.position.set(-W / 2 + (i + .5) * W / nC - (corner ? sx * .25 : 0), 0, -D / 2 - .3 + zo); c.rotation.y = Math.PI; chairsG.add(c); }
+      }
       return { y0: 0 };
     }
 
@@ -381,6 +389,7 @@ export const cabinet = {
       Object.values(G).forEach(clearGroup);
       const { W, H, D } = dims;
       let info;
+      for (let i = chairsG.children.length - 1; i >= 0; i--) chairsG.remove(chairsG.children[i]);
       if (kind === 'counter') info = buildCounter();
       else if (kind === 'kitchen') info = buildKitchen();
       else info = buildBox(W, H, D, resolveTpl(M, S));
@@ -419,7 +428,7 @@ export const cabinet = {
       build();
       if (dimT.t >= 1) { dimT = null; return 'settled'; }
     }
-    function explode(ex) { G.fronts.position.z = .22 * ex; G.top.position.y = .2 * ex; G.base.position.y = -.04 * ex; }
+    function explode(ex) { chairsG.visible = ex < .05; G.fronts.position.z = .22 * ex; G.top.position.y = .2 * ex; G.base.position.y = -.04 * ex; }
 
     const height = () => kind === 'kitchen' ? (S.upper ? 2.15 : .9) : dims.H;
     return {
