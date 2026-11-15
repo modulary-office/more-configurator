@@ -19,10 +19,28 @@ if (host) {
   const id = ALL.includes(q) ? q : 'office-desk';
   const name = GROUPS.flatMap(g => g[1]).find(p => p[0] === id)[1];
   const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = ENGINE + 'mrcfg.min.css'; document.head.appendChild(css);
-  host.innerHTML = `<nav class="mb3d-nav" aria-label="בחירת מוצר">${GROUPS.map(([g, ps]) => `<div class="mb3d-g"><span>${g}</span><div>${ps.map(([pid, he]) =>
-    `<a href="?p=${pid}#mb3d"${pid === id ? ' aria-current="page"' : ''}>${he}</a>`).join('')}</div></div>`).join('')}</nav>
+  const svg = b => `<svg viewBox="0 0 48 48" fill="none" stroke="#1C1C1A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${b}</svg>`;
+  const ICONS = {
+    'שולחנות': '<rect x="6" y="14" width="36" height="6" fill="#F8DC55"/><path d="M10 20v20M38 20v20"/>',
+    'עמדות עבודה': '<rect x="21" y="8" width="6" height="18" fill="#F8DC55"/><path d="M4 22h40M8 22v18M40 22v18M24 26v14"/>',
+    'מחיצות Open Space': '<rect x="8" y="10" width="14" height="26" fill="#F8DC55"/><rect x="8" y="10" width="32" height="26"/><path d="M22 10v26M12 36v4M36 36v4"/>',
+    'ארונות ואחסון': '<rect x="8" y="8" width="32" height="32"/><rect x="8" y="8" width="16" height="16" fill="#F8DC55"/><path d="M24 8v32M8 24h32"/>',
+    'קונסולות וספריות מתכת': '<rect x="10" y="20" width="28" height="4" fill="#F8DC55"/><path d="M10 6v36M38 6v36M10 8h28M10 34h28M24 8v12M18 24v10"/>',
+    'נגרות': '<path d="M8 34l14-22 18 6-12 20z" fill="#F8DC55"/><path d="M22 12l6 26"/>',
+    'ספות וישיבה': '<rect x="10" y="22" width="28" height="8" fill="#F8DC55"/><path d="M12 22v-8h24v8M6 20h4v14H6zM38 20h4v14h-4zM10 34h28M11 34v5M37 34v5"/>'
+  };
+  const cur = GROUPS.findIndex(g => g[1].some(p => p[0] === id));
+  host.innerHTML = `<nav class="mb3d-nav" aria-label="בחירת מוצר"><div class="mb3d-tabs" role="tablist" aria-label="קטגוריות">${GROUPS.map(([g, ps], i) =>
+    `<button type="button" role="tab" id="mb3d-t${i}" aria-controls="mb3d-p${i}" aria-selected="${i === cur}" tabindex="${i === cur ? 0 : -1}">${svg(ICONS[g] || '')}<span>${g}</span><small>${ps.length}</small></button>`).join('')}</div>
+    ${GROUPS.map(([g, ps], i) => `<div class="mb3d-g" role="tabpanel" id="mb3d-p${i}" aria-labelledby="mb3d-t${i}"${i === cur ? '' : ' hidden'}>${ps.map(([pid, he]) =>
+    `<a href="?p=${pid}#mb3d"${pid === id ? ' aria-current="page"' : ''}>${he}</a>`).join('')}</div>`).join('')}</nav>
     <div id="mrcfg-mount" data-product="${id}" data-quote="${QUOTE}"></div>
     <p class="mb3d-note">המידות, הגימורים והגוונים במסך להמחשה. אחרי שבניתם, שלחו לנו את התצורה ונחזור עם הצעת מחיר מדויקת.</p>`;
+  const tabs = [...host.querySelectorAll('.mb3d-tabs [role="tab"]')];
+  const pick = (i, focus) => { tabs.forEach((t, j) => { const on = j === i; t.setAttribute('aria-selected', on); t.tabIndex = on ? 0 : -1; host.querySelector('#mb3d-p' + j).hidden = !on; }); if (focus) tabs[i].focus(); tabs[i].scrollIntoView({ block: 'nearest', inline: 'nearest' }); };
+  tabs.forEach((t, i) => { t.addEventListener('click', () => pick(i));
+    t.addEventListener('keydown', e => { const d = { ArrowLeft: 1, ArrowRight: -1 }[e.key]; if (d) { e.preventDefault(); pick((i + d + tabs.length) % tabs.length, true); } else if (e.key === 'Home') { e.preventDefault(); pick(0, true); } else if (e.key === 'End') { e.preventDefault(); pick(tabs.length - 1, true); } }); });
+  { const tb = host.querySelector('.mb3d-tabs'), ct = tabs[cur]; if (ct) tb.scrollLeft = ct.offsetLeft - (tb.clientWidth - ct.offsetWidth) / 2; }
   import(ENGINE + 'mrcfg.min.js').catch(() => { const m = document.getElementById('mrcfg-mount'); if (m) m.textContent = 'לא ניתן לטעון את הקונפיגורטור כרגע.'; });
   document.title = name + ' – בונים בתלת־ממד | ' + BRAND;
 }
