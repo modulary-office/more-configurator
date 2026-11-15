@@ -1,0 +1,309 @@
+{
+  "id": "meeting-table",
+  "name": "שולחן ישיבות",
+  "family": "meeting",
+  "codePrefix": "MT",
+  "subtitle": "שולחן ישיבות באורך 240 עד 600 ס״מ ובעומק 90 עד 210 ס״מ. בוחרים צורת פלטה, קנט, רגליים ותיבות תקשורת, והרגליים מסתדרות לפי המידה והצורה.",
+  "note": "הגוונים במסך להמחשה. פלטה ארוכה מלוח אחד מיוצרת בכמה חלקים.",
+  "defaults": {
+    "shape": "round",
+    "w": 300,
+    "d": 120,
+    "decor": "m614",
+    "edge": "bevel",
+    "edgec": "color",
+    "ecol": "9005",
+    "legs": "cone",
+    "ral": "9005",
+    "box": true
+  },
+  "sections": [
+    {
+      "id": "shape",
+      "title": "צורת הפלטה",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "shape",
+          "label": "צורה",
+          "options": [
+            {
+              "v": "rect",
+              "label": "ישרה"
+            },
+            {
+              "v": "round",
+              "label": "פינות מעוגלות"
+            },
+            {
+              "v": "ellipse",
+              "label": "אליפסה"
+            },
+            {
+              "v": "oval",
+              "label": "אובאלית"
+            },
+            {
+              "v": "egg",
+              "label": "ביצתית"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "size",
+      "title": "מידות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "w",
+          "label": "אורך (ס״מ)",
+          "options": [
+            {
+              "v": 240,
+              "label": "240"
+            },
+            {
+              "v": 270,
+              "label": "270"
+            },
+            {
+              "v": 300,
+              "label": "300"
+            },
+            {
+              "v": 330,
+              "label": "330"
+            },
+            {
+              "v": 360,
+              "label": "360"
+            },
+            {
+              "v": 400,
+              "label": "400"
+            },
+            {
+              "v": 440,
+              "label": "440"
+            },
+            {
+              "v": 480,
+              "label": "480"
+            },
+            {
+              "v": 520,
+              "label": "520"
+            },
+            {
+              "v": 560,
+              "label": "560"
+            },
+            {
+              "v": 600,
+              "label": "600"
+            }
+          ],
+          "num": true,
+          "custom": {
+            "label": "אחר",
+            "min": 240,
+            "max": 600,
+            "step": 10,
+            "unit": "ס״מ",
+            "inputLabel": "אורך בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "d",
+          "label": "עומק (ס״מ)",
+          "options": [
+            {
+              "v": 90,
+              "label": "90"
+            },
+            {
+              "v": 100,
+              "label": "100"
+            },
+            {
+              "v": 110,
+              "label": "110"
+            },
+            {
+              "v": 120,
+              "label": "120"
+            },
+            {
+              "v": 130,
+              "label": "130"
+            },
+            {
+              "v": 140,
+              "label": "140"
+            },
+            {
+              "v": 150,
+              "label": "150"
+            },
+            {
+              "v": 160,
+              "label": "160"
+            },
+            {
+              "v": 180,
+              "label": "180"
+            },
+            {
+              "v": 210,
+              "label": "210"
+            }
+          ],
+          "num": true,
+          "custom": {
+            "label": "אחר",
+            "min": 90,
+            "max": 210,
+            "step": 5,
+            "unit": "ס״מ",
+            "inputLabel": "עומק בס״מ"
+          }
+        }
+      ]
+    },
+    {
+      "id": "top",
+      "title": "פלטה וקנט",
+      "controls": [
+        {
+          "type": "swatch",
+          "key": "decor",
+          "label": "גוון הפלטה",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}"
+        },
+        {
+          "type": "seg",
+          "key": "edge",
+          "label": "פרופיל הקנט",
+          "options": [
+            {
+              "v": "straight",
+              "label": "ישר"
+            },
+            {
+              "v": "bevel",
+              "label": "מדוקק"
+            }
+          ]
+        },
+        {
+          "type": "seg",
+          "key": "edgec",
+          "label": "צבע הקנט",
+          "options": [
+            {
+              "v": "match",
+              "label": "PVC תואם לפלטה"
+            },
+            {
+              "v": "color",
+              "label": "בצבע"
+            }
+          ]
+        },
+        {
+          "type": "swatch",
+          "key": "ecol",
+          "label": "צבע הקנט לפי RAL",
+          "catalog": "ral",
+          "style": "ral",
+          "out": "RAL {id} · {he}",
+          "showWhen": {
+            "edgec": "color"
+          }
+        }
+      ]
+    },
+    {
+      "id": "legs",
+      "title": "רגליים",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "legs",
+          "label": "סוג רגליים",
+          "options": [
+            {
+              "v": "cone",
+              "label": "רגלי קונוס"
+            },
+            {
+              "v": "posts",
+              "label": "אינטל, רגל ישרה"
+            },
+            {
+              "v": "loop",
+              "label": "רוז, מסגרת סגורה"
+            },
+            {
+              "v": "xleg",
+              "label": "איקס"
+            },
+            {
+              "v": "aframe",
+              "label": "ברצלונה"
+            },
+            {
+              "v": "trapez",
+              "label": "לוטוס, טרפז"
+            }
+          ],
+          "layout": "list"
+        },
+        {
+          "type": "swatch",
+          "key": "ral",
+          "label": "צבע הרגליים לפי RAL",
+          "catalog": "ral",
+          "style": "ral",
+          "out": "RAL {id} · {he}"
+        }
+      ]
+    },
+    {
+      "id": "extra",
+      "title": "תקשורת",
+      "controls": [
+        {
+          "type": "toggle",
+          "key": "box",
+          "title": "תיבת תקשורת אינטגרלית",
+          "sub": "תיבת חשמל ותקשורת שקועה בפלטה, עם מכסה. מספר התיבות לפי אורך השולחן"
+        }
+      ]
+    }
+  ],
+  "pricing": {
+    "_help": "כל הסכומים בשקלים. המחיר מוצג ללקוח רק כשהסכום הכולל גדול מ-0.",
+    "currency": "₪",
+    "label": "מחיר משוער",
+    "note": "לא כולל הובלה והרכבה",
+    "rules": [
+      {
+        "type": "area",
+        "label": "פלטה למ״ר",
+        "amount": 0
+      },
+      {
+        "type": "unit",
+        "label": "תיבת תקשורת",
+        "per": "boxes",
+        "amount": 0
+      }
+    ]
+  }
+}
