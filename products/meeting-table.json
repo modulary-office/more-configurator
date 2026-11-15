@@ -17,7 +17,7 @@
     "ral": "9005",
     "box": true,
     "mid": "cabinet",
-    "chairs": true
+    "chairs": false
   },
   "sections": [
     {
