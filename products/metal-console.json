@@ -1,0 +1,294 @@
+{
+  "id": "metal-console",
+  "name": "קונסולת מתכת",
+  "family": "metalshelf",
+  "codePrefix": "MC",
+  "subtitle": "קונסולה במסגרת מתכת מפרופיל 20/20 צבוע בתנור, עם פלטה ומדפים מפח או מעץ. לכניסה, לחדר ישיבות או מאחורי ספה, בכל מידה לפי שרטוט.",
+  "note": "הגוונים במסך להמחשה. כל יחידה מיוצרת לפי מידה: אפשר להזין כל מידה לפי שרטוט, ולצרף שרטוט לבקשת ההצעה.",
+  "defaults": {
+    "w": 120,
+    "h": 80,
+    "d": 35,
+    "layout": "open",
+    "levels": 2,
+    "cols": 2,
+    "shelf": "wood",
+    "decor": "m5172",
+    "ral": "9005",
+    "back": "none",
+    "backw": "full"
+  },
+  "sections": [
+    {
+      "id": "size",
+      "title": "מידות",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "w",
+          "label": "רוחב (ס״מ)",
+          "options": [
+            {
+              "v": 80,
+              "label": "80"
+            },
+            {
+              "v": 100,
+              "label": "100"
+            },
+            {
+              "v": 120,
+              "label": "120"
+            },
+            {
+              "v": 140,
+              "label": "140"
+            },
+            {
+              "v": 160,
+              "label": "160"
+            },
+            {
+              "v": 180,
+              "label": "180"
+            },
+            {
+              "v": 200,
+              "label": "200"
+            }
+          ],
+          "num": true,
+          "custom": {
+            "label": "לפי שרטוט",
+            "min": 40,
+            "max": 300,
+            "step": 1,
+            "unit": "ס״מ",
+            "inputLabel": "רוחב בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "h",
+          "label": "גובה (ס״מ)",
+          "options": [
+            {
+              "v": 75,
+              "label": "75"
+            },
+            {
+              "v": 80,
+              "label": "80"
+            },
+            {
+              "v": 90,
+              "label": "90"
+            },
+            {
+              "v": 100,
+              "label": "100"
+            },
+            {
+              "v": 110,
+              "label": "110"
+            }
+          ],
+          "num": true,
+          "custom": {
+            "label": "לפי שרטוט",
+            "min": 40,
+            "max": 120,
+            "step": 1,
+            "unit": "ס״מ",
+            "inputLabel": "גובה בס״מ"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "d",
+          "label": "עומק (ס״מ)",
+          "options": [
+            {
+              "v": 30,
+              "label": "30"
+            },
+            {
+              "v": 35,
+              "label": "35"
+            },
+            {
+              "v": 40,
+              "label": "40"
+            },
+            {
+              "v": 45,
+              "label": "45"
+            }
+          ],
+          "num": true,
+          "custom": {
+            "label": "לפי שרטוט",
+            "min": 20,
+            "max": 60,
+            "step": 1,
+            "unit": "ס״מ",
+            "inputLabel": "עומק בס״מ"
+          }
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "title": "פריסה ומדפים",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "layout",
+          "label": "פריסה",
+          "options": [
+            {
+              "v": "stagger",
+              "label": "מדורג"
+            },
+            {
+              "v": "grid",
+              "label": "תאים שווים"
+            },
+            {
+              "v": "open",
+              "label": "מדפים בלבד"
+            }
+          ]
+        },
+        {
+          "type": "stepper",
+          "key": "levels",
+          "label": "מפלסים",
+          "min": 2,
+          "max": 4
+        },
+        {
+          "type": "stepper",
+          "key": "cols",
+          "label": "תאים לרוחב",
+          "min": 2,
+          "max": 5,
+          "showWhen": {
+            "layout": "grid"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shelf",
+      "title": "מדפים",
+      "controls": [
+        {
+          "type": "seg",
+          "key": "shelf",
+          "label": "חומר המדף",
+          "options": [
+            {
+              "v": "metal",
+              "label": "פח"
+            },
+            {
+              "v": "wood",
+              "label": "עץ"
+            }
+          ]
+        },
+        {
+          "type": "swatch",
+          "key": "decor",
+          "label": "גוון המדף",
+          "catalog": "decors",
+          "style": "decor",
+          "out": "{he}",
+          "showWhen": {
+            "shelf": "wood"
+          }
+        }
+      ]
+    },
+    {
+      "id": "frame",
+      "title": "מסגרת וגב",
+      "controls": [
+        {
+          "type": "swatch",
+          "key": "ral",
+          "label": "צבע המסגרת לפי RAL",
+          "catalog": "ral",
+          "style": "ral",
+          "out": "RAL {id} · {he}"
+        },
+        {
+          "type": "seg",
+          "key": "back",
+          "label": "גב",
+          "options": [
+            {
+              "v": "none",
+              "label": "ללא"
+            },
+            {
+              "v": "mesh",
+              "label": "רשת"
+            },
+            {
+              "v": "bars",
+              "label": "פסי מתכת"
+            }
+          ]
+        },
+        {
+          "type": "seg",
+          "key": "backw",
+          "label": "רוחב הגב",
+          "options": [
+            {
+              "v": "full",
+              "label": "מלא"
+            },
+            {
+              "v": "half",
+              "label": "חצי"
+            }
+          ],
+          "showWhen": {
+            "back": [
+              "mesh",
+              "bars"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "pricing": {
+    "_help": "כל הסכומים בשקלים. המחיר מוצג ללקוח רק כשהסכום הכולל גדול מ-0.",
+    "currency": "₪",
+    "label": "מחיר משוער",
+    "note": "לא כולל הובלה והרכבה",
+    "rules": [
+      {
+        "type": "area",
+        "label": "מסגרת למ״ר חזית",
+        "amount": 0
+      },
+      {
+        "type": "unit",
+        "label": "מדף",
+        "per": "shelves",
+        "amount": 0
+      },
+      {
+        "type": "unit",
+        "label": "גב למ״ר",
+        "per": "backM2",
+        "amount": 0
+      }
+    ]
+  }
+}

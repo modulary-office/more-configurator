@@ -170,8 +170,10 @@ export const desk = {
           g.add(box(.035, .035, 2 * zi, metal, x, yt - .018, z0));
           break;
         case 'zigzag': {
-          [-1, 1].forEach(s => { const pts = [V(x, yt, z0 + s * zi), V(x + side * .07, yt * .66, z0 + s * zi), V(x, yt * .33, z0 + s * zi), V(x + side * .07, 0, z0 + s * zi)]; for (let i = 0; i < 3; i++) g.add(bar(pts[i], pts[i + 1], .03, .05)); });
-          g.add(box(.03, .03, 2 * zi + .05, metal, x, yt - .015, z0)); g.add(box(.03, .03, 2 * zi + .05, metal, x + side * .07, .015, z0));
+          /* Venice: one closed loop cut from flat steel plate, standing across the desk – straight at the user's side,
+             a long diagonal at the far side */
+          const A = V(x, yt - .008, z0 - zi), B = V(x, yt - .008, z0 + zi), C = V(x, .008, z0 + zi - .03), D = V(x, .008, z0 - zi * .28);
+          [[A, B], [B, C], [C, D], [D, A]].forEach(([a, b]) => g.add(bar(a, b, .016, .075)));
           break;
         }
         case 'tripod':
