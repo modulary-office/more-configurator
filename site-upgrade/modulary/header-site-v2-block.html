@@ -1,0 +1,62 @@
+
+<!-- site v2 type (15.11.2026): one type system on every page (Heebo instead of leftover Rubik), heading weights, touch sizes on mobile, two-column galleries on mobile, staggered reveal on inner pages, alt text fallback. To undo: delete from this comment to "site v2 end". -->
+<style>
+:is([data-elementor-type="wp-page"],[data-elementor-type="wp-post"],[data-elementor-type="footer"],[data-elementor-type="single-post"],[data-elementor-type="archive"]) :is(h1,h2,h3,h4,h5,h6,p,a,li,label,button,input,select,textarea,blockquote,figcaption,.elementor-button-text,.elementor-icon-list-text,.elementor-post__excerpt,.elementor-heading-title){font-family:var(--mod-font,Heebo,Arial,sans-serif)!important}
+:is([data-elementor-type="wp-page"],[data-elementor-type="wp-post"]) h1.elementor-heading-title{font-weight:800!important;letter-spacing:-.015em;line-height:1.12!important;text-wrap:balance}
+:is([data-elementor-type="wp-page"],[data-elementor-type="wp-post"]) h2.elementor-heading-title{font-weight:700!important;line-height:1.2!important;letter-spacing:-.01em;text-wrap:balance}
+.elementor-post__title{font-weight:700!important;line-height:1.3!important}
+.elementor-post__title a{display:block;padding-block:6px}
+.elementor-post__excerpt p{font-size:16px!important;line-height:1.65!important;color:var(--mod-text,#4A4843)}
+a.elementor-post__read-more{display:inline-flex!important;align-items:center;min-height:44px;font-size:16px!important;font-weight:600!important;color:var(--mod-ink,#1C1C1A)!important;text-decoration:underline;text-underline-offset:4px;text-decoration-thickness:1px}
+a.elementor-post__read-more:hover{text-decoration-thickness:2px}
+.elementor-post__thumbnail img{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.elementor-post:hover .elementor-post__thumbnail img{transform:scale(1.03)}
+.mc-crumbs a{display:inline-flex;align-items:center;min-height:44px;padding-inline:4px}
+:is([data-elementor-type="wp-page"],[data-elementor-type="wp-post"],[data-elementor-type="footer"]) a:focus-visible{outline:2px solid var(--mod-ink,#1C1C1A);outline-offset:3px}
+@media (max-width:767px){
+  [data-elementor-type="footer"] h4.elementor-heading-title a{display:inline-flex;align-items:center;min-height:40px}
+  .elementor-social-icon{min-width:44px;min-height:44px}
+  .elementor-widget-image-gallery .gallery{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}
+  .elementor-widget-image-gallery .gallery .gallery-item{width:auto!important;max-width:none!important;margin:0!important;padding:0!important;float:none!important}
+  .elementor-widget-image-gallery .gallery .gallery-item img{width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;display:block;border-radius:var(--mod-r,2px)}
+  .elementor-widget-image-gallery .gallery br{display:none}
+}
+html.mrv .mrv-el{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.2,1) var(--mrv-d,0ms),transform .7s cubic-bezier(.2,.7,.2,1) var(--mrv-d,0ms)}
+html.mrv .mrv-el.mrv-in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html.mrv .mrv-el{opacity:1!important;transform:none!important;transition:none!important}.elementor-post__thumbnail img{transition:none}}
+</style>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var page=document.querySelector('[data-elementor-type="wp-page"],[data-elementor-type="wp-post"]'); if(!page) return;
+  /* alt text fallback: an image without a description gets the caption, the post title or the page title */
+  try{
+    var h1=(document.querySelector('h1')||{}).textContent||document.title; h1=h1.trim();
+    [].forEach.call(page.querySelectorAll('img:not([alt]),img[alt=""]'),function(im,i){
+      var post=im.closest('.elementor-post'), fig=im.closest('figure,.gallery-item'), cap=fig&&fig.querySelector('figcaption');
+      var t=post&&post.querySelector('.elementor-post__title');
+      im.alt=(cap&&cap.textContent.trim())||(t&&t.textContent.trim())||(h1+' – תמונה '+(i+1));
+    });
+  }catch(e){}
+  /* staggered reveal on inner pages (the home page has its own) */
+  if(page.classList.contains('elementor-3716')||document.documentElement.classList.contains('mrv')) return;
+  if(!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches||window.MR_STILL) return;
+  var els=[];
+  [].forEach.call(page.children,function(sec,i){
+    if(i<1||sec.querySelector('.elementor-invisible')||getComputedStyle(sec).display==='none') return;
+    var kids=sec.querySelectorAll('.gallery-item, .elementor-post');
+    if(kids.length>1){ [].forEach.call(kids,function(k,j){ k.style.setProperty('--mrv-d',(j%3)*70+'ms'); els.push(k); }); }
+    else els.push(sec);
+  });
+  var vh=innerHeight;
+  els=els.filter(function(e){ return e.getBoundingClientRect().top>vh*.92; });
+  if(!els.length) return;
+  els.forEach(function(e){ e.classList.add('mrv-el'); });
+  document.documentElement.classList.add('mrv');
+  var io=new IntersectionObserver(function(es){ es.forEach(function(en){ if(en.isIntersecting){ en.target.classList.add('mrv-in'); io.unobserve(en.target); } }); },{rootMargin:'0px 0px -4% 0px',threshold:.03});
+  els.forEach(function(e){ io.observe(e); });
+  var t; addEventListener('scroll',function(){ clearTimeout(t); t=setTimeout(function(){ els.forEach(function(e){ if(!e.classList.contains('mrv-in')&&e.getBoundingClientRect().top<innerHeight) e.classList.add('mrv-in'); }); },120); },{passive:true});
+  /* safety: nothing stays hidden if the observer never fires */
+  setTimeout(function(){ if(!document.querySelector('.mrv-in')) els.forEach(function(e){ if(e.getBoundingClientRect().top<innerHeight) e.classList.add('mrv-in'); }); },2500);
+});
+</script>
+<!-- site v2 end -->
