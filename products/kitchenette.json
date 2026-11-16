@@ -348,7 +348,8 @@
         "amount": 800,
         "when": {
           "stone": true
-        }
+        },
+        "final": true
       },
       {
         "type": "fixed",
@@ -356,7 +357,8 @@
         "amount": 1000,
         "when": {
           "sink": true
-        }
+        },
+        "final": true
       },
       {
         "type": "fixed",
@@ -364,7 +366,8 @@
         "amount": 450,
         "when": {
           "faucet": true
-        }
+        },
+        "final": true
       }
     ]
   }

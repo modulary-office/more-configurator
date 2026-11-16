@@ -54,7 +54,7 @@ export function price(product, S, metrics) {
   const P = product.pricing; if (!P || !Array.isArray(P.rules)) return { total: 0, lines: [] };
   const ctrls = controlsOf(product);
   if (P.customQuote && ctrls.some(c => c.custom && isCustom(c, S))) return { total: 0, list: 0, lines: [], quote: true };
-  let sub = 0; const lines = [];
+  let sub = 0, fin = 0; const lines = [];
   const m = k => (k in metrics ? num(metrics[k]) : num(S[k]));
   for (const r of P.rules) {
     if (!matches(r.when, S)) continue;
@@ -90,9 +90,11 @@ export function price(product, S, metrics) {
         a = tablePrice(rows, dims, t); break;
       }
     }
-    if (a) { sub += a; lines.push({ label: r.label || r.type, amount: a }); }
+    /* final: a customer price, added as is – no markup or VAT on top */
+    if (a && r.final) { fin += a; lines.push({ label: r.label || r.type, amount: a, final: true }); }
+    else if (a) { sub += a; lines.push({ label: r.label || r.type, amount: a }); }
   }
-  let total = sub * (1 + num(P.markup) / 100) * (1 + num(P.vat) / 100);
+  let total = sub * (1 + num(P.markup) / 100) * (1 + num(P.vat) / 100) + fin;
   const step = num(P.roundTo) || 1;
   total = Math.max(0, Math.round(total / step) * step);
   return { total, list: Math.round(sub), lines };
