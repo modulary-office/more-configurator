@@ -1,0 +1,105 @@
+<!-- live mosaic (16.11.2026): seven tiles that change one at a time from the project photos; hover, focus or the pause button stops them; a click opens the photo large. Reduced motion: still. To undo: restore the widget backup. -->
+<div class="mpm" data-mpm>
+ <div class="mpm__grid">
+  <button type="button" class="mpm__t mpm__t--a" data-pool="wide"></button>
+  <button type="button" class="mpm__t mpm__t--b" data-pool="tall"></button>
+  <button type="button" class="mpm__t mpm__t--c" data-pool="wide"></button>
+  <button type="button" class="mpm__t mpm__t--d" data-pool="wide"></button>
+  <button type="button" class="mpm__t mpm__t--e" data-pool="wide"></button>
+  <button type="button" class="mpm__t mpm__t--f" data-pool="wide"></button>
+  <button type="button" class="mpm__t mpm__t--g" data-pool="wide"></button>
+ </div>
+ <div class="mpm__bar">
+  <p class="mpm__hint"><span class="mpm__n"></span> תמונות מפרויקטים שלנו · לחצו על תמונה כדי לראות אותה בגדול</p>
+  <button type="button" class="mpm__pp" aria-pressed="false"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg><span>עצירת התמונות</span></button>
+ </div>
+ <dialog class="mpm__dlg" aria-label="תמונות מפרויקטים">
+  <figure class="mpm__fig"><img alt=""><figcaption><span class="mpm__cap"></span><span class="mpm__cnt"></span></figcaption></figure>
+  <button type="button" class="mpm__x" aria-label="סגירה">×</button>
+  <button type="button" class="mpm__nav mpm__prev" aria-label="התמונה הקודמת">‹</button>
+  <button type="button" class="mpm__nav mpm__next" aria-label="התמונה הבאה">›</button>
+ </dialog>
+</div>
+<style>
+.mpm{--ink:var(--mod-ink,#1C1C1A);--y:var(--mod-accent,#F8DC55);--cr:var(--mod-cream,#F3EEE5);--mut:var(--mod-muted,#6F6A62)}
+.mpm__grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:repeat(3,clamp(140px,16vw,230px));grid-template-areas:"a a b c" "a a b d" "e f f g";gap:clamp(8px,1vw,14px)}
+.mpm__t{position:relative;display:block;padding:0;border:0;margin:0;overflow:hidden;border-radius:var(--mod-r,2px);background:var(--cr);cursor:zoom-in;font:inherit}
+.mpm__t--a{grid-area:a}.mpm__t--b{grid-area:b}.mpm__t--c{grid-area:c}.mpm__t--d{grid-area:d}.mpm__t--e{grid-area:e}.mpm__t--f{grid-area:f}.mpm__t--g{grid-area:g}
+.mpm__t img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:opacity 1.1s cubic-bezier(.2,.7,.2,1),transform 6s cubic-bezier(.2,.7,.2,1)}
+.mpm__t img.is-new{opacity:0;transform:scale(1.06)}
+.mpm__t img.is-old{opacity:0}
+.mpm__t:hover img:not(.is-new),.mpm__t:focus-visible img:not(.is-new){transform:scale(1.03)}
+.mpm__t:focus-visible{outline:3px solid var(--y);outline-offset:3px}
+.mpm__bar{display:flex;justify-content:space-between;align-items:center;gap:12px 20px;flex-wrap:wrap;margin-top:14px}
+.mpm__hint{margin:0;font-size:14px;color:var(--mut)}
+.mpm__pp{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px;border:1px solid var(--mod-line,#D8D2C6);border-radius:999px;background:transparent;color:var(--ink);font:inherit;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+.mpm__pp:hover{background:var(--cr)}
+.mpm__pp:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.mpm__pp svg{width:16px;height:16px;fill:currentColor}
+.mpm__pp .i-play,.mpm.is-held .mpm__pp .i-pause{display:none}.mpm.is-held .mpm__pp .i-play{display:block}
+.mpm__dlg{width:min(1180px,94vw);max-width:none;max-height:92vh;padding:0;border:0;border-radius:10px;background:#111;color:#fff;overflow:hidden}
+.mpm__dlg::backdrop{background:rgba(17,17,17,.82)}
+.mpm__dlg[open]{animation:mpmIn .3s cubic-bezier(.2,.7,.2,1)}
+@keyframes mpmIn{from{opacity:0;transform:scale(.97)}}
+.mpm__fig{margin:0;display:flex;flex-direction:column}
+.mpm__fig img{display:block;width:100%;max-height:calc(92vh - 56px);object-fit:contain;background:#111}
+.mpm__fig figcaption{display:flex;justify-content:space-between;gap:16px;padding:14px 18px;font-size:15px;line-height:1.4;direction:rtl}
+.mpm__cnt{color:#b9b4ab;white-space:nowrap}
+.mpm__x,.mpm__nav{position:absolute;display:grid;place-items:center;width:48px;height:48px;border:0;border-radius:50%;background:rgba(17,17,17,.62);color:#fff;font-size:30px;line-height:1;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.mpm__x{top:10px;left:10px}
+.mpm__nav{top:calc(50% - 52px)}
+.mpm__prev{right:10px}.mpm__next{left:10px}
+.mpm__x:focus-visible,.mpm__nav:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+@media (max-width:767px){
+ .mpm__grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(5,clamp(120px,34vw,190px));grid-template-areas:"a a" "b c" "b d" "f f" "e g"}
+}
+@media (prefers-reduced-motion:reduce){.mpm__t img{transition:none!important;transform:none!important}.mpm__dlg[open]{animation:none}}
+</style>
+<script>
+(function(){
+var root=document.querySelector('[data-mpm]'); if(!root||root.dataset.on) return; root.dataset.on=1;
+var D={"base":"https://modulary.co.il/wp-content/uploads/","wide":[["2026/11/e0a1036b-bc86-4c72-abd6-4a9d58d7245a.webp",1050,700,"חדר ישיבות עם שולחן כהה, כיסאות שחורים ותקרת עץ עם גופי תאורה עגולים"],["2026/11/88efd054-a852-46b4-8171-0f9c0917584e.webp",1050,700,"שולחן ישיבות ארוך מול קיר ארונות כהה ונישת מדפים מוארת"],["2026/11/20f4f262-b4da-41e1-9447-2e01ef9e569c.webp",1050,700,"תא ישיבה עגול בגוון טורקיז עם שולחן כהה ומבט לחלל העבודה"],["2026/11/365beaed-e5ea-41de-a6d7-956c2289072c.webp",1050,700,"קיר עם תאי ישיבה עגולים בכחול ובטורקיז ומדרגות לקומת גלריה"],["2026/11/3f637b7f-87e8-486b-b6e4-c904df588344.webp",1050,700,"מעבר עם עמדת ישיבה מרופדת בתוך קשת כחולה ורצפת עץ"],["2026/11/d384a6a2-2c7f-47ef-9334-c271f8c2f5eb.webp",1050,700,"פינת המתנה עם ספת עור חומה, כורסאות לבנות ושולחנות קפה עגולים"],["2026/11/2829fcd9-3157-40b0-a3da-c93c62692fca.webp",1049,700,"שולחנות עבודה משושים מעץ בהיר המחוברים לצורה גמישה, מבט מלמעלה"],["2026/11/4da4741e-2c18-403a-9dc1-cc0c29827d3f.webp",1050,700,"אנשים עובדים בתוך תאי ישיבה עגולים בקיר עץ בהיר"],["2026/11/f80cc903-3071-4afc-9ef6-2e680b1dea34.webp",1050,700,"מבואה עם מחיצות זכוכית ופרופיל שחור וגופי תאורה עגולים"],["2026/11/b8ccdc53-9d51-4130-bcd6-e85b68dbb3a8.webp",1050,700,"חדר ישיבות עם שולחן עגול מעץ, כיסאות כחולים וספרייה מוארת"],["2026/11/fc895c8b-accf-4f4b-baae-baa273bbef59.webp",933,700,"חלל עבודה ולמידה פתוח עם שולחנות לבנים, כיסאות ועציצים תלויים"],["2026/11/e5e7d01e-7b24-40c7-ade6-7b56bf908864.webp",1050,700,"חדר מנהל עם שולחן, כיסאות ארגונומיים, כורסאות וספרייה"],["2026/11/3dec99a5-95ef-4681-bb79-88f5bd2a7022.webp",1049,700,"שולחנות משושים מעץ בהיר עם כיסאות שחורים וחורי חשמל בשולחן"],["2026/11/29311d6d-6de9-4b38-ba9e-5bd84e6c277a.webp",1050,700,"חלל דו־קומתי עם תאי ישיבה עגולים, שולחנות עבודה וחלונות גבוהים"],["2026/11/9ae5564b-a021-40df-8bdb-dc37df88913a.webp",1033,700,"תאי ישיבה עגולים בכחול ובטורקיז בתוך קיר עץ"],["2026/11/f0cd1ede-16df-4335-8a55-9b24d959f38d.webp",1050,700,"כניסה בכחול עז עם קיר ירוק מעל הדלת"],["2026/11/078fe9eb-233b-4e2c-bc4e-017b014eb6b2.webp",897,700,"שולחן ישיבות כהה בחדר עם קירות זכוכית ותקרת עץ"],["2026/11/img_8735.webp",933,700,"חלל למידה עם שולחנות עגולים, כיסאות ומדפים לאורך הקיר"],["2026/11/518bf030-1620-48e4-9ee7-3198ed49fdff.webp",1049,700,"חדר ישיבות עם שולחן ארוך, כיסאות שחורים ומסך גדול"],["2026/11/3b9ade03-51aa-4657-9741-df09d7754382.webp",1049,700,"מבט דרך תא ישיבה עגול אל חלל העבודה והגלריה"],["2026/11/24e8a1ac-77a2-4d59-853d-d746c7f1750a.webp",1050,700,"שולחנות עבודה מעץ בהיר ליד חלון גבוה ותאי ישיבה עגולים"],["2026/11/23982749-0272-49a1-8d3e-76e264aaacb3.webp",1049,700,"מסך על עמוד, עציצים ושולחן ישיבות אובלי בחדר עם תקרת עץ"],["2026/11/4673d176-fdf7-43a8-a296-2e82a85b4fe1.webp",1049,700,"שולחנות עבודה משושים מעץ בהיר בחלל פתוח"],["2026/11/e60ea0a0-4b67-47f6-a9fa-8b473126c37e.webp",1048,700,"ארון מטבח בהיר עם נישה בגימור עץ"],["2026/11/551e2cb1-d601-48d2-9af0-b257dce67520.webp",1050,700,"מעבר עם קיר בטון ועמדות ישיבה בתוך קשתות כחולות"],["2021/03/IMG_4511-1024x683.jpg",1024,683,"חלל עבודה פתוח עם פינת ישיבה, כיסאות נדנדה ושולחנות בר מול חלונות"],["2021/03/IMG_4515-768x512.jpg",768,512,"מטבחון משרדי עם דלפק בר לבן וארונות כהים"],["2020/06/E96F53BB-FD97-43C7-B034-E96B31469B0F-768x513.jpeg",768,513,"פינת המתנה צבעונית עם ספות, כורסאות והדומים"],["2021/03/IMG_4520-768x512.jpg",768,512,"נישת ישיבה מרופדת בתוך קיר לבן"],["2026/11/147c17ed-f78c-4e87-9de8-bcddc7ba8300.webp",779,700,"שולחן ישיבות ארוך בחדר עם תקרת עץ ותאורה עגולה"],["2026/11/76490ef9-3d6e-4e74-9fe9-370b0e677b6d.webp",782,700,"תאי ישיבה עגולים בקיר עץ ומדרגות שחורות"]],"tall":[["2026/11/cb74035c-d81f-4571-83ae-22e71ee162a8.webp",466,700,"שולחן ישיבות כהה עם כיסאות שחורים ועציץ"],["2026/11/65c2f996-645e-4733-9e39-097a985a706a.webp",467,700,"קיר תאי ישיבה עגולים מעל שולחנות עבודה מעץ"],["2026/11/c91ef34a-00cb-446a-a97c-79a6e1ee97b8.webp",466,700,"תאי ישיבה עגולים בכחול ובטורקיז, מבט מהצד"],["2026/11/img_5901-scaled-1.webp",525,700,"פינת ישיבה עם שולחן עגול מעץ והדומים צבעוניים"],["2026/11/6071c529-b165-4d22-ad72-2034029d8e98.webp",467,700,"שולחן ישיבות עם כיסאות שחורים ומנורות קש תלויות"],["2026/11/2afdf087-5c7a-4b77-a5de-c6dacd3b6e7b.webp",467,700,"שולחן עבודה עם רגלי מתכת שחורות וארונות בהירים"]]}, B=D.base, all=D.wide.concat(D.tall);
+var tiles=[].slice.call(root.querySelectorAll('.mpm__t')), pp=root.querySelector('.mpm__pp'), ppl=pp.querySelector('span');
+root.querySelector('.mpm__n').textContent=all.length;
+var queue={wide:D.wide.map(function(_,i){return i}),tall:D.tall.map(function(_,i){return i})};
+var shown={}, cur=[];
+function src(p,size){ var s=B+p[0]; if(size&&/-\d+x\d+\./.test(s)===false&&/\.webp$/.test(s)) return s; return s; }
+function next(pool){ var q=queue[pool], list=D[pool]; for(var k=0;k<q.length;k++){ var i=q[k]; if(!shown[pool+i]){ q.splice(k,1); q.push(i); return i; } } return q[0]; }
+function img(p,eager){ var im=new Image(); im.src=B+p[0]; im.width=p[1]; im.height=p[2]; im.alt=p[3]; im.decoding='async'; if(!eager) im.loading='lazy'; return im; }
+tiles.forEach(function(t,ti){ var pool=t.dataset.pool, i=next(pool); shown[pool+i]=1; cur[ti]=[pool,i]; var im=img(D[pool][i],ti===0); t.appendChild(im); t.setAttribute('aria-label','הגדלת התמונה: '+D[pool][i][3]); });
+/* rotation: one tile at a time, never the one under the pointer or focus */
+var calm=matchMedia('(prefers-reduced-motion: reduce)').matches, held=calm, inView=false, over=false, last=-1, timer=null;
+function swap(){
+  var cand=tiles.map(function(_,i){return i}).filter(function(i){return i!==last && !tiles[i].matches(':hover') && tiles[i]!==document.activeElement});
+  if(!cand.length) return; var ti=cand[Math.floor(Math.random()*cand.length)], t=tiles[ti], pool=t.dataset.pool;
+  var i=next(pool), p=D[pool][i], im=img(p,true); im.classList.add('is-new');
+  var go=function(){ var old=t.querySelector('img:not(.is-new)'); t.appendChild(im); requestAnimationFrame(function(){ requestAnimationFrame(function(){ im.classList.remove('is-new'); if(old) old.classList.add('is-old'); }); });
+    setTimeout(function(){ if(old&&old.parentNode) old.parentNode.removeChild(old); },1300);
+    delete shown[cur[ti][0]+cur[ti][1]]; shown[pool+i]=1; cur[ti]=[pool,i]; last=ti; t.setAttribute('aria-label','הגדלת התמונה: '+p[3]); };
+  if(im.complete) go(); else { im.onload=go; im.onerror=function(){}; }
+}
+function run(){ stop(); if(!held && inView && !over && !document.hidden) timer=setInterval(swap,3200); }
+function stop(){ if(timer){ clearInterval(timer); timer=null; } }
+function ui(){ root.classList.toggle('is-held',held); pp.setAttribute('aria-pressed',held?'true':'false'); ppl.textContent=held?'הפעלת התמונות':'עצירת התמונות'; }
+pp.addEventListener('click',function(){ held=!held; ui(); run(); });
+var grid=root.querySelector('.mpm__grid');
+grid.addEventListener('pointerenter',function(){ over=true; stop(); }); grid.addEventListener('pointerleave',function(){ over=false; run(); });
+grid.addEventListener('focusin',function(){ over=true; stop(); }); grid.addEventListener('focusout',function(){ over=false; run(); });
+document.addEventListener('visibilitychange',run);
+if('IntersectionObserver' in window) new IntersectionObserver(function(es){ es.forEach(function(e){ inView=e.isIntersecting; run(); }); },{threshold:.3}).observe(grid);
+ui();
+/* large view: every photo, arrows, swipe, Esc */
+var dlg=root.querySelector('.mpm__dlg'), dimg=dlg.querySelector('img'), cap=dlg.querySelector('.mpm__cap'), cnt=dlg.querySelector('.mpm__cnt'), at=0, opener=null;
+function show(k){ at=(k+all.length)%all.length; var p=all[at]; dimg.src=B+p[0]; dimg.alt=p[3]; cap.textContent=p[3]; cnt.textContent=(at+1)+' / '+all.length; var n=all[(at+1)%all.length]; (new Image()).src=B+n[0]; }
+function open(k){ opener=document.activeElement; show(k); if(dlg.showModal) dlg.showModal(); else dlg.setAttribute('open',''); held=true; ui(); stop(); }
+tiles.forEach(function(t,ti){ t.addEventListener('click',function(){ var c=cur[ti]; open(c[0]==='wide'?c[1]:D.wide.length+c[1]); }); });
+dlg.querySelector('.mpm__x').addEventListener('click',function(){ dlg.close(); });
+dlg.querySelector('.mpm__prev').addEventListener('click',function(){ show(at-1); });
+dlg.querySelector('.mpm__next').addEventListener('click',function(){ show(at+1); });
+dlg.addEventListener('keydown',function(e){ if(e.key==='ArrowRight') show(at-1); else if(e.key==='ArrowLeft') show(at+1); });
+dlg.addEventListener('click',function(e){ if(e.target===dlg) dlg.close(); });
+dlg.addEventListener('close',function(){ held=calm; ui(); run(); if(opener&&opener.focus) opener.focus(); });
+var x0=null; dimg.addEventListener('touchstart',function(e){ x0=e.touches[0].clientX; },{passive:true});
+dimg.addEventListener('touchend',function(e){ if(x0===null) return; var dx=e.changedTouches[0].clientX-x0; if(Math.abs(dx)>40) show(at+(dx>0?1:-1)); x0=null; });
+})();
+</script>
