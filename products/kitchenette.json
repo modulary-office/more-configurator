@@ -3,7 +3,7 @@
   "name": "מטבחון",
   "family": "cabinet",
   "codePrefix": "MCM",
-  "subtitle": "מטבחון משרדי לפי מטר רץ: ארונות תחתונים עם משטח, ואפשרות לארונות עליונים עם קלפה, משטח שיש, כיור וברז.",
+  "subtitle": "מטבחון משרדי לפי מטר רץ: ארונות תחתונים עם משטח, ואפשרות לארון עליון עם קלפה באורך שתבחרו, משטח שיש, כיור וברז.",
   "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
   "model": {
     "kind": "kitchen",
@@ -27,10 +27,11 @@
     "base": "plinth",
     "dtc": false,
     "softclose": false,
-    "uw": 80,
+    "uw": 0,
     "sink": false,
     "faucet": false,
-    "stone": false
+    "stone": false,
+    "upos": "center"
   },
   "sections": [
     {
@@ -155,21 +156,21 @@
           "type": "toggle",
           "key": "upper",
           "title": "ארונות עליונים",
-          "sub": "קלפה עם מנגנון הרמה DTC"
+          "sub": "קלפה עם מנגנון הרמה, באורך לבחירה"
         },
         {
           "type": "seg",
           "key": "uw",
-          "label": "רוחב קלפה / ארון עליון (ס״מ)",
+          "label": "אורך הארון העליון (ס״מ)",
           "num": true,
           "options": [
             {
-              "v": 80,
-              "label": "80"
+              "v": 0,
+              "label": "כל האורך"
             },
             {
-              "v": 90,
-              "label": "90"
+              "v": 80,
+              "label": "80"
             },
             {
               "v": 100,
@@ -178,16 +179,50 @@
             {
               "v": 120,
               "label": "120"
+            },
+            {
+              "v": 160,
+              "label": "160"
+            },
+            {
+              "v": 180,
+              "label": "180"
+            },
+            {
+              "v": 240,
+              "label": "240"
             }
           ],
           "custom": {
             "label": "אחר",
             "min": 80,
-            "max": 120,
+            "max": 400,
             "step": 1,
             "unit": "ס״מ",
-            "inputLabel": "רוחב קלפה בס״מ"
+            "inputLabel": "אורך הארון העליון בס״מ"
           },
+          "showWhen": {
+            "upper": true
+          }
+        },
+        {
+          "type": "seg",
+          "key": "upos",
+          "label": "מיקום הארון העליון",
+          "options": [
+            {
+              "v": "right",
+              "label": "ימין"
+            },
+            {
+              "v": "center",
+              "label": "מרכז"
+            },
+            {
+              "v": "left",
+              "label": "שמאל"
+            }
+          ],
           "showWhen": {
             "upper": true
           }
@@ -294,7 +329,7 @@
       {
         "type": "unit",
         "label": "עליון קלפה DTC למטר",
-        "per": "lengthM",
+        "per": "upperLengthM",
         "amount": 900,
         "when": {
           "upper": true

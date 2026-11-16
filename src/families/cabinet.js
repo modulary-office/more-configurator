@@ -87,8 +87,9 @@ const isCorner = S => S.style === 'alucorner' || S.shape === 'corner';
 
 const count = (cols, k) => cols.reduce((s, c) => s + c.cells.filter(x => x.k === k).length, 0);
 
-/* upper flap cabinets: equal units, nearest to the chosen width, kept between 80 and 120 cm where the run allows */
-export const upperCount = (w, uw) => { const u = Math.max(80, uw || 80), hi = Math.max(1, Math.floor(w / 80)), lo = Math.min(Math.ceil(w / 120), hi); return Math.min(hi, Math.max(lo, Math.round(w / u))); };
+/* upper flap cabinet: its own length (whole run, or shorter – from 80 cm), split into equal flaps of up to 120 cm */
+export const upperLen = (w, uw) => uw ? Math.min(w, Math.max(80, uw)) : w;
+export const upperCount = (w, uw) => Math.max(1, Math.ceil(upperLen(w, uw) / 120 - 1e-6));
 
 export const cabinet = {
   /* ---------- numbers, texts, code ---------- */
@@ -110,7 +111,7 @@ export const cabinet = {
         return {
           w: S.w, h: S.h || M.h || 0, d: S.d || M.d || 0, lengthM: S.w / 100, areaM2: S.w * (S.d || M.d || 40) / 1e4,
           doors, doorPairs: Math.ceil(doors / 2), slideDoors: count(c, 'slide') * 2, drawers, glassPairs: Math.ceil(count(c, 'glass') / 2),
-          per80: Math.max(1, Math.ceil(S.w / 80)), per120: Math.max(1, Math.ceil(S.w / 120)), modules: kitchenMods(), upperUnits: S.upper ? upperMods() : 0,
+          per80: Math.max(1, Math.ceil(S.w / 80)), per120: Math.max(1, Math.ceil(S.w / 120)), modules: kitchenMods(), upperUnits: S.upper ? upperMods() : 0, upperLengthM: S.upper ? upperLen(S.w, S.uw) / 100 : 0,
           wing: isCorner(S) ? (S.w2 || 0) : 0, run: S.w + (isCorner(S) ? (S.w2 || 0) : 0)
         };
       },
@@ -134,19 +135,20 @@ export const cabinet = {
         const c = allControls(product).find(c => c.key === k);
         if (!c) return [''];
         if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : DEC, S[k]); return [`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`, c.catalog === 'ral' ? `background:${it.hex}` : `background-image:url(${thumbTop(it)})`]; }
-        if (k === 'uw') { const n = upperMods(); return [`${n} ${n === 1 ? 'קלפה' : 'קלפות'} ברוחב ${Math.round(S.w / n * 10) / 10} ס״מ`]; }
+        if (k === 'uw') { const n = upperMods(), u = upperLen(S.w, S.uw); return [`ארון עליון ${u} ס״מ · ${n === 1 ? 'קלפה אחת' : n + ' קלפות'}`]; }
         if (c.type === 'toggle') return [`${S[k] ? 'נוסף' : 'הוסר'}: ${c.title}`];
         if (c.type === 'stepper') return [`${c.label}: ${S[k]}`];
         if (['w', 'h', 'd', 'w2'].includes(k)) return [`${S.w} × ${Math.round(D() * 100)} × ${Math.round(H() * 100)} ס״מ`];
         return [`${c.label}: ${optLabel(product, k, S[k])}`];
       },
-      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' + (S.uw || '') : '', S.stone ? 'ST' : '', S.sink ? 'SK' : '', S.faucet ? 'FC' : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
+      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' + (upperLen(S.w, S.uw) < S.w ? upperLen(S.w, S.uw) + (S.upos || 'center')[0].toUpperCase() : '') : '', S.stone ? 'ST' : '', S.sink ? 'SK' : '', S.faucet ? 'FC' : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
       summary: () => {
         const out = [`מידות ${S.w}×${Math.round(D() * 100)}×${Math.round(H() * 100)} ס״מ`];
         allControls(product).forEach(c => {
           if (['w', 'h', 'd', 'chairs'].includes(c.key)) return;
           if (c.showWhen && !Object.entries(c.showWhen).every(([k, v]) => Array.isArray(v) ? v.includes(S[k]) : S[k] === v)) return;
-          if (c.key === 'uw') { const n = upperMods(); out.push(`ארונות עליונים: ${n} ${n === 1 ? 'קלפה' : 'קלפות'} ברוחב ${Math.round(S.w / n * 10) / 10} ס״מ`); return; }
+          if (c.key === 'uw') { const n = upperMods(), u = upperLen(S.w, S.uw); out.push(`ארון עליון: אורך ${u} ס״מ, ${n === 1 ? 'קלפה אחת' : n + ' קלפות ברוחב ' + Math.round(u / n * 10) / 10 + ' ס״מ'}`); return; }
+          if (c.key === 'upos' && upperLen(S.w, S.uw) >= S.w) return;
           if (c.type === 'seg') out.push(`${c.label}: ${c.key === 'w2' ? S.w2 + ' ס״מ' : optLabel(product, c.key, S[c.key])}`);
           if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : DEC, S[c.key]); out.push(`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`); }
           if (c.type === 'toggle' && S[c.key]) out.push(c.title);
@@ -402,12 +404,13 @@ export const cabinet = {
       /* upper flap cabinets */
       if (S.upper) {
         const uy = 1.45, uh = .7, ud = .35, uz = -D / 2 + ud / 2 + .01;
-        [-1, 1].forEach(s => G.body.add(board(t, uh, ud, bm, s * (W / 2 - t / 2), uy + uh / 2, uz)));
-        G.body.add(board(W - 2 * t, t, ud, bm, 0, uy + t / 2, uz)); G.body.add(board(W - 2 * t, t, ud, bm, 0, uy + uh - t / 2, uz));
-        G.body.add(board(W, uh, .004, bm, 0, uy + uh / 2, -D / 2 + .012));
-        const nu = upperCount(S.w, S.uw), mw = W / nu;
-        for (let i = 1; i < nu; i++) G.body.add(board(t, uh - 2 * t, ud - .004, bm, -W / 2 + i * mw, uy + uh / 2, uz));
-        for (let i = 0; i < nu; i++) { const cx = -W / 2 + (i + .5) * mw; const p = board(mw - .008, uh - .006, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .009); p.userData.front = 1; G.fronts.add(p);
+        const UL = Math.min(W, upperLen(S.w, S.uw) / 100), ux = (W - UL) / 2 * (S.upos === 'right' ? 1 : S.upos === 'left' ? -1 : 0);
+        [-1, 1].forEach(s => G.body.add(board(t, uh, ud, bm, ux + s * (UL / 2 - t / 2), uy + uh / 2, uz)));
+        G.body.add(board(UL - 2 * t, t, ud, bm, ux, uy + t / 2, uz)); G.body.add(board(UL - 2 * t, t, ud, bm, ux, uy + uh - t / 2, uz));
+        G.body.add(board(UL, uh, .004, bm, ux, uy + uh / 2, -D / 2 + .012));
+        const nu = upperCount(S.w, S.uw), mw = UL / nu;
+        for (let i = 1; i < nu; i++) G.body.add(board(t, uh - 2 * t, ud - .004, bm, ux - UL / 2 + i * mw, uy + uh / 2, uz));
+        for (let i = 0; i < nu; i++) { const cx = ux - UL / 2 + (i + .5) * mw; const p = board(mw - .008, uh - .006, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .009); p.userData.front = 1; G.fronts.add(p);
           if (S.finish === 'epoxy' || S.handle === 'integral') G.fronts.add(board(mw * .8, .014, .022, metal, cx, uy + .007 + .003, uz + ud / 2 + .013)); else if (S.handle === 'bar') G.fronts.add(board(Math.min(.16, mw * .5), .012, .012, metal, cx, uy + .05, uz + ud / 2 + .026)); }
       }
       return { y0: 0 };
