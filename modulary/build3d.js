@@ -11,14 +11,17 @@ const GROUPS = [
   ['נגרות', [['counter', 'דלפק קבלה'], ['kitchenette', 'מטבחון']]],
   ['ספות וישיבה', [['hofi', 'Hofi מערכת ישיבה'], ['agatha', 'Agatha'], ['austin', 'Austin'], ['boomer', 'Boomer'], ['break', 'Break'], ['bully', 'Bully'], ['daffy', 'Daffy'], ['dobby', 'Dobby'], ['domino', 'Domino'], ['douglas', 'Douglas'], ['ellipse', 'Ellipse'], ['elora-duo', 'Elora Duo'], ['forma', 'Forma'], ['harley', 'Harley'], ['honey', 'Honey'], ['humi', 'Humi'], ['joyce', 'Joyce'], ['juan', 'Juan'], ['julie', 'Julie'], ['lento', 'Lento'], ['lunaro', 'Lunaro'], ['onem-3-seater', 'Onem 3-Seater'], ['peanut', 'Peanut'], ['rivano', 'Rivano'], ['sorano', 'Sorano'], ['velora', 'Velora'], ['wolf', 'Wolf'], ['zorro', 'Zorro'], ['zoya', 'Zoya']]]
 ];
-const ALL = GROUPS.flatMap(g => g[1].map(p => p[0]));
 const host = document.getElementById('mb3d');
 if (host) {
+  /* on a category page only the groups that belong there are offered: data-groups="name,name", data-default="product id",
+     data-title="off" keeps the page title, data-lazy loads the 3D engine only when the block comes near the screen */
+  const want = (host.dataset.groups || '').split(',').map(x => x.trim()).filter(Boolean);
+  if (want.length) { const keep = GROUPS.filter(g => want.includes(g[0])); if (keep.length) GROUPS.splice(0, GROUPS.length, ...keep); }
+  const ALL = GROUPS.flatMap(g => g[1].map(p => p[0]));
   const QUOTE = host.dataset.quote || '/צור-קשר/', BRAND = host.dataset.brand || 'מודולרי';
   const q = new URLSearchParams(location.search).get('p');
-  const id = ALL.includes(q) ? q : 'office-desk';
+  const id = ALL.includes(q) ? q : ALL.includes(host.dataset.default) ? host.dataset.default : ALL.includes('office-desk') ? 'office-desk' : ALL[0];
   const name = GROUPS.flatMap(g => g[1]).find(p => p[0] === id)[1];
-  const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = ENGINE + 'mrcfg.min.css'; document.head.appendChild(css);
   const svg = b => `<svg viewBox="0 0 48 48" fill="none" stroke="#1C1C1A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${b}</svg>`;
   const ICONS = {
     'שולחנות': '<rect x="6" y="14" width="36" height="6" fill="#F8DC55"/><path d="M10 20v20M38 20v20"/>',
@@ -41,6 +44,9 @@ if (host) {
   tabs.forEach((t, i) => { t.addEventListener('click', () => pick(i));
     t.addEventListener('keydown', e => { const d = { ArrowLeft: 1, ArrowRight: -1 }[e.key]; if (d) { e.preventDefault(); pick((i + d + tabs.length) % tabs.length, true); } else if (e.key === 'Home') { e.preventDefault(); pick(0, true); } else if (e.key === 'End') { e.preventDefault(); pick(tabs.length - 1, true); } }); });
   { const tb = host.querySelector('.mb3d-tabs'), ct = tabs[cur]; if (ct) tb.scrollLeft = ct.offsetLeft - (tb.clientWidth - ct.offsetWidth) / 2; }
-  import(ENGINE + 'mrcfg.min.js').catch(() => { const m = document.getElementById('mrcfg-mount'); if (m) m.textContent = 'לא ניתן לטעון את הקונפיגורטור כרגע.'; });
-  document.title = name + ' – בונים בתלת־ממד | ' + BRAND;
+  const load = () => { const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = ENGINE + 'mrcfg.min.css'; document.head.appendChild(css);
+    import(ENGINE + 'mrcfg.min.js').catch(() => { const m = document.getElementById('mrcfg-mount'); if (m) m.textContent = 'לא ניתן לטעון את הקונפיגורטור כרגע.'; }); };
+  if (host.dataset.lazy && 'IntersectionObserver' in window && !q) { const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '600px 0px' }); io.observe(host); }
+  else load();
+  if (host.dataset.title !== 'off') document.title = name + ' – בונים בתלת־ממד | ' + BRAND;
 }
