@@ -1,0 +1,20 @@
+<!-- MORE – custom tables category: the 3D builder (tables only) above the products (16.11.2026). It copies the builder's version from /build-3d/, so it updates with it. To undo: unpublish this snippet. -->
+<style>
+body.term-custom-tables .mct3d{max-width:1320px;margin:8px auto 34px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));direction:rtl}
+body.term-custom-tables .mct3d h2{margin:0 0 6px;font-size:clamp(22px,2.6vw,32px);font-weight:800;line-height:1.15;letter-spacing:-.01em;color:#1C1C1A;text-wrap:balance}
+body.term-custom-tables .mct3d p{margin:0 0 14px;color:#4a4741;font-size:16px;line-height:1.55;max-width:68ch}
+</style>
+<script>
+(function(){ if(!document.body.classList.contains('term-custom-tables')) return;
+var anchor=document.querySelector('ul.products')||document.querySelector('.woocommerce-result-count'); if(!anchor) return;
+fetch('/build-3d/',{credentials:'omit'}).then(function(r){return r.text()}).then(function(t){
+  var m=t.match(/more-configurator@([0-9a-f]{40})\/modulary\/build3d\.js/); if(!m) return;
+  var base='https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@'+m[1]+'/modulary/build3d';
+  var l=document.createElement('link'); l.rel='stylesheet'; l.href=base+'.css'; document.head.appendChild(l);
+  var w=document.createElement('section'); w.className='mct3d';
+  w.innerHTML='<h2>בונים את השולחן שלכם בתלת־ממד</h2><p>בוחרים שולחן, משנים מידות, גימורים וצבעים, ורואים את התוצאה ואת המחיר בזמן אמת.</p><div id="mb3d" data-quote="/contact/" data-brand="MORE by MODULARY" data-prices="on" data-groups="שולחנות,עמדות עבודה" data-default="office-desk" data-title="off"></div>';
+  var wrap=anchor.closest('.woocommerce-products-header')?anchor:anchor; var first=document.querySelector('.woocommerce-notices-wrapper')||anchor; first.parentNode.insertBefore(w,first);
+  var s=document.createElement('script'); s.type='module'; s.src=base+'.js'; document.body.appendChild(s);
+}).catch(function(){});
+})();
+</script>
