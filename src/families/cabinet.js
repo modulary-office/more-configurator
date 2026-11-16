@@ -96,7 +96,7 @@ export const cabinet = {
   ui(product, cat, S) {
     const M = product.model || {};
     const kind = M.kind || 'cabinet';
-    const DEC = (cat.decors && cat.decors.items) || [], RAL = (cat.ral && cat.ral.items) || [];
+    const DEC = (cat.decors && cat.decors.items) || [], RAL = (cat.ral && cat.ral.items) || [], STN = (cat.stone && cat.stone.items) || [];
     const tpl = () => resolveTpl(M, S);
     const VK = M.variantKey || 'front';
     const W = () => S.w / 100, H = () => (S.h || M.h || 75) / 100, D = () => (S.d || M.d || 40) / 100;
@@ -134,14 +134,14 @@ export const cabinet = {
       toast: k => {
         const c = allControls(product).find(c => c.key === k);
         if (!c) return [''];
-        if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : DEC, S[k]); return [`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`, c.catalog === 'ral' ? `background:${it.hex}` : `background-image:url(${thumbTop(it)})`]; }
+        if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : c.catalog === 'stone' ? STN : DEC, S[k]); return [`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`, c.catalog === 'decors' ? `background-image:url(${thumbTop(it)})` : `background:${it.hex}`]; }
         if (k === 'uw') { const n = upperMods(), u = upperLen(S.w, S.uw); return [`ארון עליון ${u} ס״מ · ${n === 1 ? 'קלפה אחת' : n + ' קלפות'}`]; }
         if (c.type === 'toggle') return [`${S[k] ? 'נוסף' : 'הוסר'}: ${c.title}`];
         if (c.type === 'stepper') return [`${c.label}: ${S[k]}`];
         if (['w', 'h', 'd', 'w2'].includes(k)) return [`${S.w} × ${Math.round(D() * 100)} × ${Math.round(H() * 100)} ס״מ`];
         return [`${c.label}: ${optLabel(product, k, S[k])}`];
       },
-      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' + (upperLen(S.w, S.uw) < S.w ? upperLen(S.w, S.uw) + (S.upos || 'center')[0].toUpperCase() : '') : '', S.stone ? 'ST' : '', S.sink ? 'SK' : '', S.faucet ? 'FC' : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
+      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' + (upperLen(S.w, S.uw) < S.w ? upperLen(S.w, S.uw) + (S.upos || 'center')[0].toUpperCase() : '') : '', S.stone ? 'ST' + (S.stoneColor || '') : '', S.sink ? 'SK' : '', S.faucet ? 'FC' : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
       summary: () => {
         const out = [`מידות ${S.w}×${Math.round(D() * 100)}×${Math.round(H() * 100)} ס״מ`];
         allControls(product).forEach(c => {
@@ -150,7 +150,7 @@ export const cabinet = {
           if (c.key === 'uw') { const n = upperMods(), u = upperLen(S.w, S.uw); out.push(`ארון עליון: אורך ${u} ס״מ, ${n === 1 ? 'קלפה אחת' : n + ' קלפות ברוחב ' + Math.round(u / n * 10) / 10 + ' ס״מ'}`); return; }
           if (c.key === 'upos' && upperLen(S.w, S.uw) >= S.w) return;
           if (c.type === 'seg') out.push(`${c.label}: ${c.key === 'w2' ? S.w2 + ' ס״מ' : optLabel(product, c.key, S[c.key])}`);
-          if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : DEC, S[c.key]); out.push(`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`); }
+          if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : c.catalog === 'stone' ? STN : DEC, S[c.key]); out.push(`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`); }
           if (c.type === 'toggle' && S[c.key]) out.push(c.title);
           if (c.type === 'stepper' && S[c.key]) out.push(`${c.label}: ${S[c.key]}`);
         });
@@ -163,7 +163,7 @@ export const cabinet = {
   create({ THREE, scene, maxAniso, ao, S, product, cat, tweenColor, showDims }) {
     const M = product.model || {};
     const kind = M.kind || 'cabinet';
-    const DEC = (cat.decors && cat.decors.items) || [], RAL = (cat.ral && cat.ral.items) || [];
+    const DEC = (cat.decors && cat.decors.items) || [], RAL = (cat.ral && cat.ral.items) || [], STN = (cat.stone && cat.stone.items) || [];
 
     /* materials */
     const decMats = {};
@@ -177,7 +177,18 @@ export const cabinet = {
     const epoxyMat = new THREE.MeshStandardMaterial({ color: byId(RAL, S.ral).hex, roughness: .35, metalness: .05, envMapIntensity: .9 });
     const metal = new THREE.MeshStandardMaterial({ color: 0xb9bcbe, roughness: .3, metalness: .9 });
     const dark = new THREE.MeshStandardMaterial({ color: 0x1b1b1c, roughness: .55 });
-    const stoneMat = new THREE.MeshStandardMaterial({ color: 0xe8e6e1, roughness: .22, metalness: .02, envMapIntensity: .9 });
+    const stoneMats = {};
+    const stoneMat = () => {
+      const it = byId(STN, S.stoneColor) || { id: 'x', hex: '#e8e6e1', speck: '#d8d5cf', grain: 1 };
+      if (stoneMats[it.id]) return stoneMats[it.id];
+      const c = document.createElement('canvas'); c.width = c.height = 256; const g = c.getContext('2d');
+      g.fillStyle = it.hex; g.fillRect(0, 0, 256, 256); g.fillStyle = it.speck;
+      let sd = 7 + it.id.length * 13; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+      const gr = it.grain || 1; for (let i = 0; i < 2600 / gr; i++) { g.globalAlpha = .35 + rnd() * .5; const r = (.4 + rnd() * .9) * gr; g.beginPath(); g.arc(rnd() * 256, rnd() * 256, r, 0, 6.3); g.fill(); }
+      const tex = new THREE.CanvasTexture(c); tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(4, 1.2); if (THREE.SRGBColorSpace) tex.colorSpace = THREE.SRGBColorSpace;
+      return stoneMats[it.id] = new THREE.MeshStandardMaterial({ map: tex, roughness: .22, metalness: .02, envMapIntensity: .9 });
+    };
+    const blackMat = new THREE.MeshStandardMaterial({ color: 0x151516, roughness: .5, metalness: .35 });
     const sinkIn = new THREE.MeshStandardMaterial({ color: 0x6f7376, roughness: .45, metalness: .85 });
     const rubber = new THREE.MeshStandardMaterial({ color: 0x232325, roughness: .8 });
     const glassMat = new THREE.MeshPhysicalMaterial({ color: 0xdfe8e6, roughness: .05, metalness: 0, transparent: true, opacity: .28, envMapIntensity: 1.2, depthWrite: false });
@@ -384,7 +395,8 @@ export const cabinet = {
       }
       /* worktop */
       const tt = S.stone ? .02 : .038, ty = Hb - .038 + tt;
-      G.top.add(board(W + .01, tt, D + .02, S.stone ? stoneMat : bm, 0, ty - tt / 2, .0));
+      if (S.stone) stoneMat().map.repeat.set(W / .3, D / .3);
+      G.top.add(board(W + .01, tt, D + .02, S.stone ? stoneMat() : bm, 0, ty - tt / 2, .0));
       if (S.stone) G.body.add(board(W, .038 - tt, D - .02, bm, 0, Hb - .038 + (.038 - tt) / 2, -.01));
       /* sink + faucet, centred on the run */
       if (S.sink) {
@@ -394,12 +406,20 @@ export const cabinet = {
         G.top.add(cyl(.022, .004, metal, 0, ty + .0065, sz, 20));
       }
       if (S.faucet) {
-        const fz = -D / 2 + .07;
-        G.top.add(cyl(.024, .012, metal, 0, ty + .006, fz, 20));
-        G.top.add(cyl(.011, .3, metal, 0, ty + .15, fz));
-        G.top.add(board(.02, .02, .17, metal, 0, ty + .3, fz + .075));
-        G.top.add(cyl(.009, .035, metal, 0, ty + .275, fz + .15));
-        G.top.add(board(.012, .012, .07, metal, .045, ty + .09, fz));
+        /* black pull-down faucet: body, spring riser arcing forward, spray head and its holder arm */
+        const fz = -D / 2 + .07, k = blackMat, R = .075, ay = ty + .42;
+        const add = m => { G.top.add(m); return m; };
+        add(cyl(.027, .014, k, 0, ty + .007, fz, 20));
+        add(cyl(.019, .2, k, 0, ty + .114, fz, 20));
+        add(board(.05, .012, .012, k, .042, ty + .13, fz));
+        add(cyl(.009, .22, k, 0, ty + .31, fz));
+        for (let i = 0; i < 16; i++) { const r = sh(new THREE.Mesh(new THREE.TorusGeometry(.0125, .0028, 6, 14), k)); r.rotation.x = Math.PI / 2; r.position.set(0, ty + .225 + i * .0125, fz); add(r); }
+        const arc = sh(new THREE.Mesh(new THREE.TorusGeometry(R, .009, 8, 24, Math.PI), k)); arc.rotation.y = -Math.PI / 2; arc.position.set(0, ay, fz + R); add(arc);
+        for (let i = 0; i <= 14; i++) { const a = Math.PI * i / 14, r = sh(new THREE.Mesh(new THREE.TorusGeometry(.0125, .0028, 6, 14), k)); r.rotation.x = Math.PI / 2 - a; r.position.set(0, ay + R * Math.sin(a), fz + R - R * Math.cos(a)); add(r); }
+        add(cyl(.011, .05, k, 0, ay - .025, fz + 2 * R));
+        add(cyl(.017, .1, k, 0, ay - .1, fz + 2 * R, 18));
+        add(board(.014, .014, 2 * R, k, 0, ty + .225, fz + R));
+        const clip = sh(new THREE.Mesh(new THREE.TorusGeometry(.02, .005, 6, 16), k)); clip.rotation.x = Math.PI / 2; clip.position.set(0, ty + .225, fz + 2 * R); add(clip);
       }
       /* upper flap cabinets */
       if (S.upper) {

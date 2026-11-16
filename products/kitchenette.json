@@ -31,17 +31,18 @@
     "sink": false,
     "faucet": false,
     "stone": false,
-    "upos": "center"
+    "upos": "center",
+    "stoneColor": "2141"
   },
   "sections": [
     {
       "id": "size",
-      "title": "אורך",
+      "title": "אורך וארון עליון",
       "controls": [
         {
           "type": "seg",
           "key": "w",
-          "label": "אורך",
+          "label": "אורך הארון התחתון",
           "num": true,
           "options": [
             {
@@ -64,6 +65,81 @@
             "min": 80,
             "max": 400,
             "inputLabel": "אורך בס״מ"
+          }
+        },
+        {
+          "type": "toggle",
+          "key": "upper",
+          "title": "ארון עליון",
+          "sub": "קלפה עם מנגנון הרמה, באורך לבחירה"
+        },
+        {
+          "type": "seg",
+          "key": "uw",
+          "label": "אורך הארון העליון (ס״מ)",
+          "num": true,
+          "options": [
+            {
+              "v": 0,
+              "label": "כל האורך"
+            },
+            {
+              "v": 80,
+              "label": "80"
+            },
+            {
+              "v": 100,
+              "label": "100"
+            },
+            {
+              "v": 120,
+              "label": "120"
+            },
+            {
+              "v": 160,
+              "label": "160"
+            },
+            {
+              "v": 180,
+              "label": "180"
+            },
+            {
+              "v": 240,
+              "label": "240"
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "min": 80,
+            "max": 400,
+            "step": 1,
+            "unit": "ס״מ",
+            "inputLabel": "אורך הארון העליון בס״מ"
+          },
+          "showWhen": {
+            "upper": true
+          }
+        },
+        {
+          "type": "seg",
+          "key": "upos",
+          "label": "מיקום הארון העליון",
+          "options": [
+            {
+              "v": "right",
+              "label": "ימין"
+            },
+            {
+              "v": "center",
+              "label": "מרכז"
+            },
+            {
+              "v": "left",
+              "label": "שמאל"
+            }
+          ],
+          "showWhen": {
+            "upper": true
           }
         }
       ]
@@ -153,81 +229,6 @@
       "title": "תוספות",
       "controls": [
         {
-          "type": "toggle",
-          "key": "upper",
-          "title": "ארונות עליונים",
-          "sub": "קלפה עם מנגנון הרמה, באורך לבחירה"
-        },
-        {
-          "type": "seg",
-          "key": "uw",
-          "label": "אורך הארון העליון (ס״מ)",
-          "num": true,
-          "options": [
-            {
-              "v": 0,
-              "label": "כל האורך"
-            },
-            {
-              "v": 80,
-              "label": "80"
-            },
-            {
-              "v": 100,
-              "label": "100"
-            },
-            {
-              "v": 120,
-              "label": "120"
-            },
-            {
-              "v": 160,
-              "label": "160"
-            },
-            {
-              "v": 180,
-              "label": "180"
-            },
-            {
-              "v": 240,
-              "label": "240"
-            }
-          ],
-          "custom": {
-            "label": "אחר",
-            "min": 80,
-            "max": 400,
-            "step": 1,
-            "unit": "ס״מ",
-            "inputLabel": "אורך הארון העליון בס״מ"
-          },
-          "showWhen": {
-            "upper": true
-          }
-        },
-        {
-          "type": "seg",
-          "key": "upos",
-          "label": "מיקום הארון העליון",
-          "options": [
-            {
-              "v": "right",
-              "label": "ימין"
-            },
-            {
-              "v": "center",
-              "label": "מרכז"
-            },
-            {
-              "v": "left",
-              "label": "שמאל"
-            }
-          ],
-          "showWhen": {
-            "upper": true
-          }
-        },
-        {
           "type": "seg",
           "key": "flap",
           "label": "מנגנון קלפה",
@@ -280,7 +281,18 @@
           "type": "toggle",
           "key": "stone",
           "title": "משטח שיש",
-          "sub": "במקום משטח פורמיקה, לפי מטר רץ"
+          "sub": "במקום משטח פורמיקה, בגוון לבחירה"
+        },
+        {
+          "type": "swatch",
+          "key": "stoneColor",
+          "label": "גוון השיש",
+          "catalog": "stone",
+          "style": "swatch",
+          "out": "{he}",
+          "showWhen": {
+            "stone": true
+          }
         },
         {
           "type": "toggle",

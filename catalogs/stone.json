@@ -1,0 +1,68 @@
+{
+ "_note": "גווני משטח שיש למטבחון, לפי לוח הדוגמאות שהבעלים צילם (16.11.2026). הגוונים במסך להמחשה בלבד. speck = גוון הגרגר, grain = גודל הגרגר.",
+ "items": [
+  {
+   "id": "2141",
+   "he": "2141 Blizzard",
+   "hex": "#ecebe6",
+   "speck": "#e2e0da",
+   "grain": 1
+  },
+  {
+   "id": "1141",
+   "he": "1141 Pure White",
+   "hex": "#f2f1ed",
+   "speck": "#e9e7e2",
+   "grain": 1
+  },
+  {
+   "id": "9141",
+   "he": "9141 Ice Snow",
+   "hex": "#e7e3d9",
+   "speck": "#cfc9bb",
+   "grain": 2
+  },
+  {
+   "id": "3141",
+   "he": "3141 Eggshell",
+   "hex": "#e4e0d5",
+   "speck": "#c9c3b5",
+   "grain": 2
+  },
+  {
+   "id": "6041",
+   "he": "6041 Nordic Loft",
+   "hex": "#d6d3cc",
+   "speck": "#aaa69d",
+   "grain": 3
+  },
+  {
+   "id": "3040",
+   "he": "3040 Cement",
+   "hex": "#c2c0b9",
+   "speck": "#a3a097",
+   "grain": 2
+  },
+  {
+   "id": "4030",
+   "he": "4030 Pebble",
+   "hex": "#a59f94",
+   "speck": "#928c81",
+   "grain": 1
+  },
+  {
+   "id": "7380",
+   "he": "7380 Brown Stucco",
+   "hex": "#5b3b2b",
+   "speck": "#4a2f22",
+   "grain": 1
+  },
+  {
+   "id": "3100",
+   "he": "3100 Jet Black",
+   "hex": "#1d1d1f",
+   "speck": "#3a3a3d",
+   "grain": 2
+  }
+ ]
+}
