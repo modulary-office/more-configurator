@@ -3,7 +3,7 @@
   "name": "מטבחון",
   "family": "cabinet",
   "codePrefix": "MCM",
-  "subtitle": "מטבחון משרדי לפי מטר רץ: ארונות תחתונים עם משטח, ואפשרות לארונות עליונים עם קלפה.",
+  "subtitle": "מטבחון משרדי לפי מטר רץ: ארונות תחתונים עם משטח, ואפשרות לארונות עליונים עם קלפה ברוחב שתבחרו.",
   "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
   "model": {
     "kind": "kitchen",
@@ -26,7 +26,8 @@
     "flap": "dtc",
     "base": "plinth",
     "dtc": false,
-    "softclose": false
+    "softclose": false,
+    "uw": 60
   },
   "sections": [
     {
@@ -155,6 +156,49 @@
         },
         {
           "type": "seg",
+          "key": "uw",
+          "label": "רוחב קלפה / ארון עליון (ס״מ)",
+          "num": true,
+          "options": [
+            {
+              "v": 45,
+              "label": "45"
+            },
+            {
+              "v": 60,
+              "label": "60"
+            },
+            {
+              "v": 80,
+              "label": "80"
+            },
+            {
+              "v": 90,
+              "label": "90"
+            },
+            {
+              "v": 100,
+              "label": "100"
+            },
+            {
+              "v": 120,
+              "label": "120"
+            }
+          ],
+          "custom": {
+            "label": "אחר",
+            "min": 40,
+            "max": 120,
+            "step": 1,
+            "unit": "ס״מ",
+            "inputLabel": "רוחב קלפה בס״מ"
+          },
+          "showWhen": {
+            "upper": true
+          }
+        },
+        {
+          "type": "seg",
           "key": "flap",
           "label": "מנגנון קלפה",
           "options": [
@@ -214,7 +258,7 @@
     "markup": 100,
     "vat": 18,
     "roundTo": 10,
-    "customQuote": true,
+    "customQuote": false,
     "rules": [
       {
         "type": "unit",

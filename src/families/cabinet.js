@@ -99,13 +99,15 @@ export const cabinet = {
     const cols = () => kind === 'cabinet' ? layout(tpl(), W(), H()) : [];
     const has = k => allControls(product).some(c => c.key === k);
     const kitchenMods = () => Math.max(1, Math.round(S.w / 60));
+    /* upper flap cabinets: the run is divided evenly into units close to the chosen width */
+    const upperMods = () => { const u = S.uw || 60; let n = Math.max(1, Math.round(S.w / u)); if (S.w / n > u * 1.08) n++; return n; };
     return {
       metrics: () => {
         const c = cols(), doors = count(c, 'door') + count(c, 'glass'), drawers = count(c, 'drawer') + (S.drawers || 0) + (kind === 'kitchen' ? Math.ceil(kitchenMods() / 3) * 3 : 0);
         return {
           w: S.w, h: S.h || M.h || 0, d: S.d || M.d || 0, lengthM: S.w / 100, areaM2: S.w * (S.d || M.d || 40) / 1e4,
           doors, doorPairs: Math.ceil(doors / 2), slideDoors: count(c, 'slide') * 2, drawers, glassPairs: Math.ceil(count(c, 'glass') / 2),
-          per80: Math.max(1, Math.ceil(S.w / 80)), per120: Math.max(1, Math.ceil(S.w / 120)), modules: kitchenMods(), upperUnits: S.upper ? kitchenMods() : 0,
+          per80: Math.max(1, Math.ceil(S.w / 80)), per120: Math.max(1, Math.ceil(S.w / 120)), modules: kitchenMods(), upperUnits: S.upper ? upperMods() : 0,
           wing: isCorner(S) ? (S.w2 || 0) : 0, run: S.w + (isCorner(S) ? (S.w2 || 0) : 0)
         };
       },
@@ -134,12 +136,13 @@ export const cabinet = {
         if (['w', 'h', 'd', 'w2'].includes(k)) return [`${S.w} × ${Math.round(D() * 100)} × ${Math.round(H() * 100)} ס״מ`];
         return [`${c.label}: ${optLabel(product, k, S[k])}`];
       },
-      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
+      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' + (S.uw && S.uw !== 60 ? S.uw : '') : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
       summary: () => {
         const out = [`מידות ${S.w}×${Math.round(D() * 100)}×${Math.round(H() * 100)} ס״מ`];
         allControls(product).forEach(c => {
           if (['w', 'h', 'd', 'chairs'].includes(c.key)) return;
           if (c.showWhen && !Object.entries(c.showWhen).every(([k, v]) => Array.isArray(v) ? v.includes(S[k]) : S[k] === v)) return;
+          if (c.key === 'uw') { const n = upperMods(); out.push(`ארונות עליונים: ${n} ${n === 1 ? 'קלפה' : 'קלפות'} ברוחב ${Math.round(S.w / n * 10) / 10} ס״מ`); return; }
           if (c.type === 'seg') out.push(`${c.label}: ${c.key === 'w2' ? S.w2 + ' ס״מ' : optLabel(product, c.key, S[c.key])}`);
           if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : DEC, S[c.key]); out.push(`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`); }
           if (c.type === 'toggle' && S[c.key]) out.push(c.title);
@@ -379,7 +382,8 @@ export const cabinet = {
         [-1, 1].forEach(s => G.body.add(board(t, uh, ud, bm, s * (W / 2 - t / 2), uy + uh / 2, uz)));
         G.body.add(board(W - 2 * t, t, ud, bm, 0, uy + t / 2, uz)); G.body.add(board(W - 2 * t, t, ud, bm, 0, uy + uh - t / 2, uz));
         G.body.add(board(W, uh, .004, bm, 0, uy + uh / 2, -D / 2 + .012));
-        for (let i = 0; i < n; i++) { const cx = -W / 2 + (i + .5) * mw; const p = board(mw - .004, uh - .006, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .009); p.userData.front = 1; G.fronts.add(p);
+        const uwm = (S.uw || 60) / 100; let nu = Math.max(1, Math.round(W / uwm)); if (W / nu > uwm * 1.08) nu++; const mw = W / nu;
+        for (let i = 0; i < nu; i++) { const cx = -W / 2 + (i + .5) * mw; const p = board(mw - .004, uh - .006, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .009); p.userData.front = 1; G.fronts.add(p);
           if (S.finish === 'epoxy' || S.handle === 'integral') G.fronts.add(board(mw * .8, .014, .022, metal, cx, uy + .007 + .003, uz + ud / 2 + .013)); else if (S.handle === 'bar') G.fronts.add(board(Math.min(.16, mw * .5), .012, .012, metal, cx, uy + .05, uz + ud / 2 + .026)); }
       }
       return { y0: 0 };
