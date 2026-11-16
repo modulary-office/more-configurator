@@ -87,6 +87,9 @@ const isCorner = S => S.style === 'alucorner' || S.shape === 'corner';
 
 const count = (cols, k) => cols.reduce((s, c) => s + c.cells.filter(x => x.k === k).length, 0);
 
+/* upper flap cabinets: equal units, nearest to the chosen width, kept between 80 and 120 cm where the run allows */
+export const upperCount = (w, uw) => { const u = Math.max(80, uw || 80), hi = Math.max(1, Math.floor(w / 80)), lo = Math.min(Math.ceil(w / 120), hi); return Math.min(hi, Math.max(lo, Math.round(w / u))); };
+
 export const cabinet = {
   /* ---------- numbers, texts, code ---------- */
   ui(product, cat, S) {
@@ -100,7 +103,7 @@ export const cabinet = {
     const has = k => allControls(product).some(c => c.key === k);
     const kitchenMods = () => Math.max(1, Math.round(S.w / 60));
     /* upper flap cabinets: the run is divided evenly into units close to the chosen width */
-    const upperMods = () => { const u = S.uw || 60; let n = Math.max(1, Math.round(S.w / u)); if (S.w / n > u * 1.08) n++; return n; };
+    const upperMods = () => upperCount(S.w, S.uw);
     return {
       metrics: () => {
         const c = cols(), doors = count(c, 'door') + count(c, 'glass'), drawers = count(c, 'drawer') + (S.drawers || 0) + (kind === 'kitchen' ? Math.ceil(kitchenMods() / 3) * 3 : 0);
@@ -131,12 +134,13 @@ export const cabinet = {
         const c = allControls(product).find(c => c.key === k);
         if (!c) return [''];
         if (c.type === 'swatch') { const it = byId(c.catalog === 'ral' ? RAL : DEC, S[k]); return [`${c.label}: ${c.catalog === 'ral' ? 'RAL ' + it.id + ' ' : ''}${it.he}`, c.catalog === 'ral' ? `background:${it.hex}` : `background-image:url(${thumbTop(it)})`]; }
+        if (k === 'uw') { const n = upperMods(); return [`${n} ${n === 1 ? 'קלפה' : 'קלפות'} ברוחב ${Math.round(S.w / n * 10) / 10} ס״מ`]; }
         if (c.type === 'toggle') return [`${S[k] ? 'נוסף' : 'הוסר'}: ${c.title}`];
         if (c.type === 'stepper') return [`${c.label}: ${S[k]}`];
         if (['w', 'h', 'd', 'w2'].includes(k)) return [`${S.w} × ${Math.round(D() * 100)} × ${Math.round(H() * 100)} ס״מ`];
         return [`${c.label}: ${optLabel(product, k, S[k])}`];
       },
-      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' + (S.uw && S.uw !== 60 ? S.uw : '') : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
+      code: () => [product.codePrefix || 'MC', `${S.w}x${Math.round(D() * 100)}x${Math.round(H() * 100)}`, S.front, isCorner(S) ? 'L' + S.w2 : '', S.style, S.finish, S.body && String(S.body).toUpperCase(), S.face && S.face !== S.body ? String(S.face).toUpperCase() : '', S.finish === 'epoxy' && S.ral ? 'R' + S.ral : '', S.handle && S.handle !== 'none' ? S.handle.toUpperCase().slice(0, 3) : '', S.base && S.base !== (product.defaults || {}).base ? S.base.toUpperCase().slice(0, 3) : '', S.glass && S.glass !== 'none' ? 'G' + S.glass[0].toUpperCase() : '', S.lock ? 'LK' : '', S.back ? 'BK' : '', S.side28 ? 'S28' : '', S.shelves ? 'SH' + S.shelves : '', S.drawers ? 'DR' + S.drawers : '', S.upper ? 'UP' + (S.uw || '') : '', S.stone ? 'ST' : '', S.sink ? 'SK' : '', S.faucet ? 'FC' : '', S.softclose ? 'SC' : '', S.rails === 'alu' ? 'ALR' : '', S.thick ? 'T' + S.thick : ''].filter(Boolean).join('-').replace(/[^A-Za-z0-9-]/g, ''),
       summary: () => {
         const out = [`מידות ${S.w}×${Math.round(D() * 100)}×${Math.round(H() * 100)} ס״מ`];
         allControls(product).forEach(c => {
@@ -171,6 +175,8 @@ export const cabinet = {
     const epoxyMat = new THREE.MeshStandardMaterial({ color: byId(RAL, S.ral).hex, roughness: .35, metalness: .05, envMapIntensity: .9 });
     const metal = new THREE.MeshStandardMaterial({ color: 0xb9bcbe, roughness: .3, metalness: .9 });
     const dark = new THREE.MeshStandardMaterial({ color: 0x1b1b1c, roughness: .55 });
+    const stoneMat = new THREE.MeshStandardMaterial({ color: 0xe8e6e1, roughness: .22, metalness: .02, envMapIntensity: .9 });
+    const sinkIn = new THREE.MeshStandardMaterial({ color: 0x6f7376, roughness: .45, metalness: .85 });
     const rubber = new THREE.MeshStandardMaterial({ color: 0x232325, roughness: .8 });
     const glassMat = new THREE.MeshPhysicalMaterial({ color: 0xdfe8e6, roughness: .05, metalness: 0, transparent: true, opacity: .28, envMapIntensity: 1.2, depthWrite: false });
     const glassTempered = glassMat.clone(); glassTempered.color.set(0xd2e2df); glassTempered.opacity = .34;
@@ -375,15 +381,33 @@ export const cabinet = {
         else { const p = board(mw - .004, fh, .018, fm, cx, fy0 + fh / 2 + .003, D / 2 - .01); p.userData.front = 1; G.fronts.add(p); handle(G.fronts, 'door', cx, fy0 + fh / 2 + .003, D / 2 - .01, mw - .004, fh, i % 2 ? 'r' : 'l'); }
       }
       /* worktop */
-      G.top.add(board(W + .01, .038, D + .02, bm, 0, Hb - .019, .0));
+      const tt = S.stone ? .02 : .038, ty = Hb - .038 + tt;
+      G.top.add(board(W + .01, tt, D + .02, S.stone ? stoneMat : bm, 0, ty - tt / 2, .0));
+      if (S.stone) G.body.add(board(W, .038 - tt, D - .02, bm, 0, Hb - .038 + (.038 - tt) / 2, -.01));
+      /* sink + faucet, centred on the run */
+      if (S.sink) {
+        const sw = Math.min(.5, W - .2), sd = .4, sz = .02;
+        G.top.add(board(sw + .03, .004, sd + .03, metal, 0, ty + .002, sz));
+        G.top.add(board(sw, .003, sd, sinkIn, 0, ty + .0045, sz));
+        G.top.add(cyl(.022, .004, metal, 0, ty + .0065, sz, 20));
+      }
+      if (S.faucet) {
+        const fz = -D / 2 + .07;
+        G.top.add(cyl(.024, .012, metal, 0, ty + .006, fz, 20));
+        G.top.add(cyl(.011, .3, metal, 0, ty + .15, fz));
+        G.top.add(board(.02, .02, .17, metal, 0, ty + .3, fz + .075));
+        G.top.add(cyl(.009, .035, metal, 0, ty + .275, fz + .15));
+        G.top.add(board(.012, .012, .07, metal, .045, ty + .09, fz));
+      }
       /* upper flap cabinets */
       if (S.upper) {
         const uy = 1.45, uh = .7, ud = .35, uz = -D / 2 + ud / 2 + .01;
         [-1, 1].forEach(s => G.body.add(board(t, uh, ud, bm, s * (W / 2 - t / 2), uy + uh / 2, uz)));
         G.body.add(board(W - 2 * t, t, ud, bm, 0, uy + t / 2, uz)); G.body.add(board(W - 2 * t, t, ud, bm, 0, uy + uh - t / 2, uz));
         G.body.add(board(W, uh, .004, bm, 0, uy + uh / 2, -D / 2 + .012));
-        const uwm = (S.uw || 60) / 100; let nu = Math.max(1, Math.round(W / uwm)); if (W / nu > uwm * 1.08) nu++; const mw = W / nu;
-        for (let i = 0; i < nu; i++) { const cx = -W / 2 + (i + .5) * mw; const p = board(mw - .004, uh - .006, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .009); p.userData.front = 1; G.fronts.add(p);
+        const nu = upperCount(S.w, S.uw), mw = W / nu;
+        for (let i = 1; i < nu; i++) G.body.add(board(t, uh - 2 * t, ud - .004, bm, -W / 2 + i * mw, uy + uh / 2, uz));
+        for (let i = 0; i < nu; i++) { const cx = -W / 2 + (i + .5) * mw; const p = board(mw - .008, uh - .006, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .009); p.userData.front = 1; G.fronts.add(p);
           if (S.finish === 'epoxy' || S.handle === 'integral') G.fronts.add(board(mw * .8, .014, .022, metal, cx, uy + .007 + .003, uz + ud / 2 + .013)); else if (S.handle === 'bar') G.fronts.add(board(Math.min(.16, mw * .5), .012, .012, metal, cx, uy + .05, uz + ud / 2 + .026)); }
       }
       return { y0: 0 };

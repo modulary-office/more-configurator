@@ -3,7 +3,7 @@
   "name": "מטבחון",
   "family": "cabinet",
   "codePrefix": "MCM",
-  "subtitle": "מטבחון משרדי לפי מטר רץ: ארונות תחתונים עם משטח, ואפשרות לארונות עליונים עם קלפה ברוחב שתבחרו.",
+  "subtitle": "מטבחון משרדי לפי מטר רץ: ארונות תחתונים עם משטח, ואפשרות לארונות עליונים עם קלפה, משטח שיש, כיור וברז.",
   "note": "הגוונים במסך להמחשה. נשמח לשלוח דוגמאות פיזיות של הגימורים.",
   "model": {
     "kind": "kitchen",
@@ -18,16 +18,19 @@
   "defaults": {
     "w": 240,
     "finish": "formica",
-    "body": "m7904",
-    "face": "m7130",
+    "body": "m3161",
+    "face": "m7101",
     "ral": "9016",
-    "handle": "bar",
+    "handle": "integral",
     "upper": true,
     "flap": "dtc",
     "base": "plinth",
     "dtc": false,
     "softclose": false,
-    "uw": 60
+    "uw": 80,
+    "sink": false,
+    "faucet": false,
+    "stone": false
   },
   "sections": [
     {
@@ -161,14 +164,6 @@
           "num": true,
           "options": [
             {
-              "v": 45,
-              "label": "45"
-            },
-            {
-              "v": 60,
-              "label": "60"
-            },
-            {
               "v": 80,
               "label": "80"
             },
@@ -187,7 +182,7 @@
           ],
           "custom": {
             "label": "אחר",
-            "min": 40,
+            "min": 80,
             "max": 120,
             "step": 1,
             "unit": "ס״מ",
@@ -245,6 +240,24 @@
           "key": "softclose",
           "title": "טריקה שקטה למגירות",
           "sub": "דפנות מתכת DTC"
+        },
+        {
+          "type": "toggle",
+          "key": "stone",
+          "title": "משטח שיש",
+          "sub": "במקום משטח פורמיקה, לפי מטר רץ"
+        },
+        {
+          "type": "toggle",
+          "key": "sink",
+          "title": "כיור",
+          "sub": "מותקן במרכז המשטח"
+        },
+        {
+          "type": "toggle",
+          "key": "faucet",
+          "title": "ברז",
+          "sub": "מעל הכיור"
         }
       ]
     }
@@ -326,6 +339,31 @@
         "amount": 200,
         "when": {
           "softclose": true
+        }
+      },
+      {
+        "type": "unit",
+        "label": "משטח שיש למטר",
+        "per": "lengthM",
+        "amount": 800,
+        "when": {
+          "stone": true
+        }
+      },
+      {
+        "type": "fixed",
+        "label": "כיור",
+        "amount": 1000,
+        "when": {
+          "sink": true
+        }
+      },
+      {
+        "type": "fixed",
+        "label": "ברז",
+        "amount": 450,
+        "when": {
+          "faucet": true
         }
       }
     ]
