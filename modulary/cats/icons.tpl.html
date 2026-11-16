@@ -1,0 +1,40 @@
+<!-- chair categories as animated line icons, transparent background (16.11.2026). Replaces the four photo tiles (kept hidden, not deleted). To undo: delete this widget and un-hide the old tiles section. -->
+<nav class="mci" aria-label="סוגי כיסאות">
+<style>
+.mci{--ink:var(--mod-ink,#1C1C1A);--y:var(--mod-accent,#F8DC55);direction:rtl;max-width:1120px;margin:0 auto;padding:8px 16px 24px;font-family:var(--mod-font,Heebo,Arial,sans-serif)}
+.mci ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (min-width:800px){.mci ul{grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}}
+.mci a{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 10px 20px;border-radius:18px;background:transparent;color:var(--ink)!important;text-decoration:none!important;text-align:center;transition:transform .12s ease-out,background .25s ease}
+
+.mci a:active{transform:scale(.97)}
+.mci a:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.mci svg{width:clamp(84px,9vw,112px);height:auto;overflow:visible;fill:none;stroke:var(--ink);stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.mci .f{fill:var(--y)}
+.mci b{font-size:clamp(17px,1.5vw,21px);font-weight:700;line-height:1.25;text-wrap:balance}
+.mci b::after{content:"";display:block;width:0;height:4px;border-radius:2px;background:var(--y);margin:8px auto 0;transition:width .35s cubic-bezier(.2,.7,.2,1)}
+.mci a:hover b::after,.mci a:focus-visible b::after{width:36px}
+/* each icon has one moving part; it moves from where it is and comes back the same way */
+.mci .mv{transform-box:fill-box;transition:transform .55s cubic-bezier(.2,.9,.25,1.15)}
+.mci .i-bar .mv{transform-origin:50% 100%}.mci a:hover .i-bar .mv,.mci a:focus-visible .i-bar .mv{transform:rotate(-14deg)}
+.mci .i-guest .mv{transform-origin:50% 100%}.mci a:hover .i-guest .mv,.mci a:focus-visible .i-guest .mv{transform:rotate(7deg)}
+.mci .i-mgr .mv{transform-origin:20% 100%}.mci a:hover .i-mgr .mv,.mci a:focus-visible .i-mgr .mv{transform:rotate(-9deg)}
+.mci .i-work .mv{transform-origin:50% 50%}.mci a:hover .i-work .mv,.mci a:focus-visible .i-work .mv{transform:translateX(-4px)}
+/* drawn once when the row scrolls into view */
+.mci.is-ready path,.mci.is-ready rect,.mci.is-ready circle,.mci.is-ready ellipse{stroke-dasharray:1;stroke-dashoffset:1}
+.mci.is-ready .f{fill-opacity:0}
+.mci.is-in path,.mci.is-in rect,.mci.is-in circle,.mci.is-in ellipse{stroke-dashoffset:0;transition:stroke-dashoffset .9s cubic-bezier(.3,.6,.2,1) var(--d,0ms)}
+.mci.is-in .f{fill-opacity:1;transition:fill-opacity .5s ease calc(var(--d,0ms) + .45s),stroke-dashoffset .9s cubic-bezier(.3,.6,.2,1) var(--d,0ms)}
+@media (prefers-reduced-motion:reduce){.mci .mv,.mci a,.mci b::after{transition:none}.mci a:hover .mv,.mci a:focus-visible .mv{transform:none}.mci a:active{transform:none}.mci.is-ready path,.mci.is-ready rect,.mci.is-ready circle,.mci.is-ready ellipse{stroke-dasharray:none;stroke-dashoffset:0}.mci.is-ready .f{fill-opacity:1}}
+</style>
+<ul>
+<li style="--d:0ms"><a href="@L0@"><svg class="i-bar" viewBox="0 0 48 48" aria-hidden="true"><g class="mv"><path class="f" pathLength="1" d="M15 6c0 8 2 13 4 15h12c3-1 4-3 3-5l-9-2c-2-2-3-5-4-8z"/></g><path pathLength="1" d="M24 21v7"/><path pathLength="1" d="M20 28h8l5 16M20 28l-5 16"/><path pathLength="1" d="M17.5 37h13"/></svg><b>@T0@</b></a></li>
+<li style="--d:90ms"><a href="@L1@"><svg class="i-guest" viewBox="0 0 48 48" aria-hidden="true"><g class="mv"><path class="f" pathLength="1" d="M11 14c0 8 1 13 4 16h18c3-3 4-8 4-16-3 0-5 3-5 8H16c0-5-2-8-5-8z"/></g><path pathLength="1" d="M24 30v5"/><path pathLength="1" d="M24 35l-10 9M24 35l10 9M24 35v9"/></svg><b>@T1@</b></a></li>
+<li style="--d:180ms"><a href="@L2@"><svg class="i-mgr" viewBox="0 0 48 48" aria-hidden="true"><g class="mv"><rect pathLength="1" x="18" y="3" width="12" height="5" rx="2"/><path pathLength="1" d="M24 8v3"/><path class="f" pathLength="1" d="M16 11h16l-1 14H17z"/></g><path pathLength="1" d="M13 27h22v4H13z"/><path pathLength="1" d="M12 21v6M36 21v6"/><path pathLength="1" d="M24 31v7"/><path pathLength="1" d="M24 38l-11 4M24 38l11 4M24 38v5"/><circle pathLength="1" cx="12" cy="43.5" r="1.5"/><circle pathLength="1" cx="36" cy="43.5" r="1.5"/></svg><b>@T2@</b></a></li>
+<li style="--d:270ms"><a href="@L3@"><svg class="i-work" viewBox="0 0 48 48" aria-hidden="true"><g class="mv"><rect pathLength="1" x="16" y="6" width="16" height="15" rx="3"/><path pathLength="1" d="M20 10v7M24 10v7M28 10v7"/><path pathLength="1" d="M24 21v4"/><rect class="f" pathLength="1" x="13" y="25" width="22" height="5" rx="2"/><path pathLength="1" d="M24 30v7"/><path pathLength="1" d="M24 37l-11 4M24 37l11 4M24 37v5"/><circle pathLength="1" cx="12" cy="42.5" r="1.5"/><circle pathLength="1" cx="24" cy="43.5" r="1.5"/><circle pathLength="1" cx="36" cy="42.5" r="1.5"/></g></svg><b>@T3@</b></a></li>
+</ul>
+<script>
+(function(){var n=document.currentScript.closest('.mci');if(!n||!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+n.classList.add('is-ready');var io=new IntersectionObserver(function(es){if(es[0].isIntersecting){requestAnimationFrame(function(){n.classList.add('is-in')});io.disconnect()}},{threshold:.25});io.observe(n);
+setTimeout(function(){n.classList.add('is-in')},4000);})();
+</script>
+</nav>
