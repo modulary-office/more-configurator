@@ -1,0 +1,76 @@
+<!-- 3D builder page: hero with the explainer film (16.11.2026). Muted, no sound. Plays only while on screen, never when the visitor asked for reduced motion, and has a visible pause button. To undo: restore the page backup. -->
+<style>
+.mbv{--ink:#1C1C1A;--y:#F8DC55;--mut:#4a4741;--line:#E6E0D5;direction:rtl;max-width:1320px;margin:28px auto 10px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:clamp(20px,4vw,56px);align-items:center;font-family:inherit}
+.mbv h1{margin:0 0 8px;font-size:clamp(28px,4vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.01em;color:var(--ink);text-wrap:balance}
+.mbv-lead{margin:0 0 18px;color:var(--mut);font-size:17px;line-height:1.6;max-width:56ch}
+.mbv-k{margin:0 0 8px;font-size:14px;font-weight:700;color:var(--ink)}
+.mbv-k span{font-weight:400;color:var(--mut)}
+.mbv-tr{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin:0 0 18px;max-width:56ch}
+.mbv-tr summary{cursor:pointer;padding:10px 0;font-size:15px;color:var(--ink);list-style-position:inside}
+.mbv-tr summary:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.mbv-tr ol{margin:0 0 12px;padding-inline-start:20px;display:grid;gap:4px;font-size:15px;line-height:1.55;color:var(--mut)}
+.mbv-go{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 20px;border-radius:999px;background:var(--y);color:var(--ink)!important;font-weight:700;text-decoration:none!important;transition:transform .12s ease-out}
+.mbv-go:active{transform:scale(.97)}
+.mbv-go:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+.mbv-fig{position:relative;margin:0;border-radius:16px;overflow:hidden;background:#F3EEE5;box-shadow:0 18px 40px rgba(28,28,26,.14);aspect-ratio:16/9}
+.mbv-fig video{display:block;width:100%;height:100%;object-fit:cover;cursor:pointer}
+.mbv-btn{position:absolute;inset-inline-end:12px;bottom:14px;display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 16px 0 14px;border:0;border-radius:999px;background:rgba(28,28,26,.82);color:#fff;font:inherit;font-size:14px;font-weight:700;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .2s,transform .12s ease-out}
+.mbv-btn:hover{background:rgba(28,28,26,.95)}
+.mbv-btn:active{transform:scale(.96)}
+.mbv-btn:focus-visible{outline:3px solid var(--y);outline-offset:2px}
+.mbv-btn svg{width:18px;height:18px;fill:currentColor}
+.mbv-btn .i-play{display:none}
+.mbv.is-paused .mbv-btn .i-play{display:block}.mbv.is-paused .mbv-btn .i-pause{display:none}
+.mbv-bar{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgba(28,28,26,.18)}
+.mbv-bar i{display:block;height:100%;width:100%;background:var(--y);transform-origin:right;transform:scaleX(0)}
+@media (max-width:767px){
+ .mbv{grid-template-columns:minmax(0,1fr);gap:18px;margin-top:20px}
+ .mbv-fig{aspect-ratio:9/16;width:min(100%,calc(64vh * 9 / 16));margin:0 auto}
+}
+@media (prefers-reduced-motion:reduce){.mbv-go,.mbv-btn{transition:none}}
+</style>
+<section class="mbv is-paused" aria-labelledby="mbv-t">
+ <div class="mbv-txt">
+  <h1 id="mbv-t">בונים בתלת־ממד</h1>
+  <p class="mbv-lead">בוחרים מוצר, משנים מידות, גימורים, צבעים ואביזרים, ורואים את התוצאה בזמן אמת. כשהתצורה מוכנה, שולחים אותה אלינו בלחיצה.</p>
+  <p class="mbv-k">איך זה עובד <span>· סרטון של 38 שניות, בלי קול</span></p>
+  <details class="mbv-tr">
+   <summary>מה רואים בסרטון</summary>
+   <ol id="mbv-desc">
+    <li>שולחן ישיבות: בוחרים מידה, מ־240 עד 480 ס״מ, ומשנים עומק.</li>
+    <li>מחליפים גוון של הפלטה ובד של ספה.</li>
+    <li>משנים רגליים ואת צבע השלד.</li>
+    <li>עוברים בין מוצרים: שולחנות, עמדות עבודה, מחיצות, אחסון, ספריות מתכת וספות.</li>
+    <li>רואים את הבחירה בתלת־ממד, עם כיסאות להמחשת הפרופורציה, ושומרים לפרויקט.</li>
+   </ol>
+  </details>
+  <a class="mbv-go" href="#mb3d">מתחילים לבנות <span aria-hidden="true">↓</span></a>
+ </div>
+ <figure class="mbv-fig">
+  <video muted playsinline loop preload="none" aria-label="סרטון הדגמה של מנוע התלת־ממד, בלי קול" aria-describedby="mbv-desc"
+   data-d-mp4="@DMP4@" data-d-webm="@DWEBM@" data-d-poster="@DPOS@"
+   data-m-mp4="@MMP4@" data-m-webm="@MWEBM@" data-m-poster="@MPOS@"></video>
+  <button type="button" class="mbv-btn" aria-label="הפעלת הסרטון"><svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg><span class="mbv-lbl">הפעלה</span></button>
+  <div class="mbv-bar" aria-hidden="true"><i></i></div>
+ </figure>
+</section>
+<script>
+(function(){
+var s=document.querySelector('.mbv'); if(!s||s.dataset.on) return; s.dataset.on=1;
+var v=s.querySelector('video'), b=s.querySelector('.mbv-btn'), lb=s.querySelector('.mbv-lbl'), bar=s.querySelector('.mbv-bar i');
+var mob=matchMedia('(max-width:767px)').matches, k=mob?'m':'d', d=v.dataset;
+v.poster=d[k+'Poster'];
+[['webm','video/webm'],['mp4','video/mp4']].forEach(function(t){var src=document.createElement('source');src.src=d[k+t[0].charAt(0).toUpperCase()+t[0].slice(1)];src.type=t[1];v.appendChild(src);});
+var calm=matchMedia('(prefers-reduced-motion: reduce)').matches, userPaused=calm, inView=false;
+function ui(){var p=v.paused; s.classList.toggle('is-paused',p); lb.textContent=p?'הפעלה':'עצירה'; b.setAttribute('aria-label',p?'הפעלת הסרטון':'עצירת הסרטון');}
+function play(){v.preload='auto'; var r=v.play(); if(r&&r.catch) r.catch(function(){ui();});}
+function toggle(){ if(v.paused){userPaused=false; play();} else {userPaused=true; v.pause();} }
+b.addEventListener('click',toggle); v.addEventListener('click',toggle);
+v.addEventListener('play',ui); v.addEventListener('pause',ui);
+v.addEventListener('timeupdate',function(){ if(v.duration) bar.style.transform='scaleX('+(v.currentTime/v.duration)+')'; });
+if('IntersectionObserver' in window){ new IntersectionObserver(function(es){ es.forEach(function(e){ inView=e.isIntersecting; if(inView&&!userPaused) play(); else if(!inView&&!v.paused) v.pause(); }); },{threshold:.35}).observe(v); }
+else if(!userPaused) play();
+document.addEventListener('visibilitychange',function(){ if(document.hidden&&!v.paused) v.pause(); else if(!document.hidden&&inView&&!userPaused) play(); });
+ui();
+})();
+</script>

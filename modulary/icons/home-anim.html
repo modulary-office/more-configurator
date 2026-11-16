@@ -1,0 +1,27 @@
+<!-- home categories: line icons in the MORE language, drawn when they scroll in, redrawn on hover, a slow wave on touch screens (16.11.2026). To undo: restore the widget backup. -->
+<style>
+.mc-cats .mc-cat svg.mr-cat{display:block;width:min(150px,100%);height:auto;overflow:visible;margin:0}
+.mc-cat .mr-cat{transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+.mc-cat:hover .mr-cat,.mc-cat:focus-visible .mr-cat{transform:translateY(-4px)}
+.mr-cat .ln{fill:none;stroke:#1C1C1A;stroke-width:7;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .75s cubic-bezier(.3,.6,.2,1);transition-delay:calc(var(--j,0) * 50ms)}
+.mr-cat .fl{transform-box:fill-box;transform-origin:center;transform:scale(.92);opacity:0;transition:transform .7s cubic-bezier(.2,.7,.2,1),opacity .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--j,0) * 50ms + 150ms)}
+.mr-cat.mr-in .ln{stroke-dashoffset:0}
+.mr-cat.mr-in .fl{transform:none;opacity:1}
+@keyframes mcRedraw{0%{stroke-dashoffset:1}100%{stroke-dashoffset:0}}
+@keyframes mcPop{0%{transform:scale(0) rotate(-8deg)}65%{transform:scale(1.12) rotate(3deg)}100%{transform:none}}
+@keyframes mcWaveLn{0%,100%{stroke-dashoffset:0}5%{stroke-dashoffset:1}17%{stroke-dashoffset:0}}
+@keyframes mcWaveFl{0%,100%{transform:none}5%{transform:scale(0)}15%{transform:scale(1.12) rotate(3deg)}20%{transform:none}}
+@media (hover:hover){.mc-cat:hover .mr-cat.mr-in .ln,.mc-cat:focus-visible .mr-cat.mr-in .ln{animation:mcRedraw .85s cubic-bezier(.3,.6,.2,1) both}.mc-cat:hover .mr-cat.mr-in .ln:nth-of-type(2n){animation-delay:.12s}.mc-cat:hover .mr-cat.mr-in .fl,.mc-cat:focus-visible .mr-cat.mr-in .fl{animation:mcPop .6s cubic-bezier(.3,1.5,.5,1) .4s both}}
+@media (hover:none){.mr-cat.mr-wave .ln{animation:mcWaveLn 9s cubic-bezier(.3,.6,.2,1) infinite;animation-delay:var(--w,2s)}.mr-cat.mr-wave .fl{animation:mcWaveFl 9s cubic-bezier(.3,1.4,.5,1) infinite;animation-delay:var(--w,2s)}}
+@media (prefers-reduced-motion:reduce){.mr-cat .ln,.mr-cat .fl{transition:none!important;animation:none!important;stroke-dashoffset:0!important;opacity:1!important;transform:none!important}.mc-cat .mr-cat{transition:none}}
+</style>
+<script>
+(function(){
+var list=[].slice.call(document.querySelectorAll('svg.mr-cat:not([data-w])')); if(!list.length) return;
+list.forEach(function(s,i){ s.setAttribute('data-w',1); s.style.setProperty('--w',(2.2+i*.35).toFixed(2)+'s'); });
+function on(s){ s.classList.add('mr-in'); setTimeout(function(){ s.classList.add('mr-wave'); },1600); }
+if(!('IntersectionObserver' in window)){ list.forEach(on); return; }
+var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ on(e.target); io.unobserve(e.target); } }); },{threshold:.25});
+list.forEach(function(s){ io.observe(s); });
+})();
+</script>
