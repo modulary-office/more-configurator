@@ -1,0 +1,44 @@
+<!-- MORE – chairs category: sub-categories as animated line icons on a transparent ground (16.11.2026). To undo: unpublish this snippet. -->
+<style>
+body.term-chairs ul.products li.product-category{background:transparent!important;border:0!important;box-shadow:none!important;text-align:center}
+html body.term-chairs.term-chairs.term-chairs.term-chairs ul.products li.product-category :is(a,div,h2,span,mark),html body.term-chairs.term-chairs.term-chairs.term-chairs ul.products li.product-category:hover :is(a,div,h2,span,mark),html body.term-chairs.term-chairs.term-chairs.term-chairs ul.products li.product-category h2.woocommerce-loop-category__title{background:transparent!important;background-color:transparent!important;border:0!important;box-shadow:none!important}
+body.term-chairs ul.products li.product-category::before,body.term-chairs ul.products li.product-category::after{display:none!important}
+body.term-chairs ul.products li.product-category:hover{transform:none!important;box-shadow:none!important}
+body.term-chairs ul.products li.product-category>a{display:flex;flex-direction:column;align-items:center;gap:14px;padding:22px 10px 18px;border-radius:18px;text-decoration:none!important;transition:transform .12s ease-out}
+body.term-chairs ul.products li.product-category>a:active{transform:scale(.97)}
+body.term-chairs ul.products li.product-category>a:focus-visible{outline:3px solid #F8DC55;outline-offset:2px}
+body.term-chairs ul.products li.product-category img{display:none!important}
+body.term-chairs .mxi{width:clamp(84px,9vw,112px);height:auto;overflow:visible;fill:none;stroke:#1C1C1A;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+body.term-chairs .mxi .f{fill:#F8DC55}
+body.term-chairs li.product-category .woocommerce-loop-category__title{display:block!important;font-size:clamp(17px,1.5vw,21px)!important;font-weight:700!important;line-height:1.25!important;color:#1C1C1A!important;margin:0!important;padding:0!important;text-wrap:balance}
+body.term-chairs li.product-category .woocommerce-loop-category__title::after{content:"";display:block;width:0;height:4px;border-radius:2px;background:#F8DC55;margin:8px auto 0;transition:width .35s cubic-bezier(.2,.7,.2,1)}
+body.term-chairs li.product-category>a:hover .woocommerce-loop-category__title::after,body.term-chairs li.product-category>a:focus-visible .woocommerce-loop-category__title::after{width:36px}
+body.term-chairs li.product-category mark.count{display:block;background:none!important;font-size:13px!important;font-weight:400!important;color:#6B665E!important;margin-top:6px}
+body.term-chairs .mxi .mv{transform-box:fill-box;transform-origin:50% 100%;transition:transform .55s cubic-bezier(.2,.9,.25,1.15)}
+body.term-chairs li.product-category>a:hover .mxi .mv,body.term-chairs li.product-category>a:focus-visible .mxi .mv{transform:var(--mv,rotate(-8deg))}
+body.term-chairs .mxi.is-ready *{stroke-dasharray:1;stroke-dashoffset:1}
+body.term-chairs .mxi.is-ready .f{fill-opacity:0}
+body.term-chairs .mxi.is-in *{stroke-dashoffset:0;transition:stroke-dashoffset .9s cubic-bezier(.3,.6,.2,1) var(--d,0ms)}
+body.term-chairs .mxi.is-in .f{fill-opacity:1;transition:fill-opacity .5s ease calc(var(--d,0ms) + .45s),stroke-dashoffset .9s cubic-bezier(.3,.6,.2,1) var(--d,0ms)}
+body.term-chairs .mxi.is-in .mv{transition:transform .55s cubic-bezier(.2,.9,.25,1.15)}
+@media (prefers-reduced-motion:reduce){body.term-chairs .mxi .mv,body.term-chairs ul.products li.product-category>a{transition:none}body.term-chairs li.product-category>a:hover .mxi .mv{transform:none}}
+</style>
+<script>
+(function(){ if(!document.body.classList.contains('term-chairs')) return;
+var I={
+'lounge-armchairs':['rotate(5deg)','<g class="mv"><path class="f" d="M10 20c0-4 3-6 6-6h16c3 0 6 2 6 6v8H10z"/></g><path d="M5 24h5v10H5zM38 24h5v10h-5z"/><path d="M10 34h28"/><path d="M12 34l-2 7M36 34l2 7"/>'],
+'outdoor-chairs':['rotate(40deg)','<g class="mv" style="transform-origin:50% 50%"><circle class="f" cx="37" cy="10" r="4.500"/><path d="M37 2v2M37 16v2M29 10h2M43 10h2M31.500 4.500l1.500 1.500M41 14l1.500 1.500M42.500 4.500L41 6M33 14l-1.500 1.500"/></g><path d="M12 12v16h16"/><path d="M12 18h13M12 23h13"/><path d="M12 28l-3 14M28 28l3 14M12 28v0"/><path d="M10.500 36h19"/>'],
+'restaurant-cafe-chairs':['rotate(-7deg)','<g class="mv"><path d="M15 26V14a9 9 0 0118 0v12"/><path d="M19 26V15a5 5 0 0110 0v11"/></g><ellipse class="f" cx="24" cy="28" rx="11" ry="3.500"/><path d="M15 30l-3 13M33 30l3 13M20 31l-1 10M28 31l1 10"/><path d="M14 38h20"/>'],
+'metal-chairs':['rotate(-6deg)','<g class="mv"><path d="M17 26l1-19h12l1 19"/><path d="M21 12h6"/><path d="M24 12v14"/></g><path class="f" d="M14 26h20v4H14z"/><path d="M16 30l-4 13M32 30l4 13M21 30l-1 9M27 30l1 9"/>'],
+'dining-chairs':['rotate(-7deg)','<g class="mv"><rect class="f" x="16" y="6" width="16" height="16" rx="3"/></g><path d="M18 22v4M30 22v4"/><rect class="f" x="13" y="26" width="22" height="5" rx="2"/><path d="M15 31l-2 12M33 31l2 12"/>'],
+'plastic-chairs':['rotate(-6deg)','<g class="mv"><path class="f" d="M15 7c0 10 1 16 4 20h13c3-1 4-3 3-5l-9-2c-2-3-3-7-4-13z"/></g><path d="M19 27l-4 16M30 27l5 16M22 27l-1 12M28 27l2 12"/>'],
+'%d7%9b%d7%99%d7%a1%d7%90%d7%95%d7%aa-%d7%a8%d7%90%d7%98%d7%9f':['rotate(-6deg)','<g class="mv"><path d="M14 26V15a10 10 0 0120 0v11"/><path d="M17 12l14 12M21 8l12 10M31 12L17 24M27 8L15 18"/></g><path class="f" d="M12 26h24v4H12z"/><path d="M14 30l-2 13M34 30l2 13"/><path d="M13 37h22"/>']
+};
+var ok='IntersectionObserver' in window&&!matchMedia('(prefers-reduced-motion: reduce)').matches, svgs=[];
+[].forEach.call(document.querySelectorAll('ul.products li.product-category>a'),function(a,i){ var h=a.getAttribute('href')||'', k=Object.keys(I).filter(function(s){return h.toLowerCase().indexOf('/'+s+'/')>-1})[0]; if(!k) return;
+  var d=document.createElement('div'); d.innerHTML='<svg class="mxi" viewBox="0 0 48 48" aria-hidden="true" style="--d:'+(i*80)+'ms;--mv:'+I[k][0]+'">'+I[k][1].replace(/\.500/g,'.5')+'</svg>'; var s=d.firstChild;
+  [].forEach.call(s.querySelectorAll('path,rect,circle,ellipse'),function(p){p.setAttribute('pathLength','1')});
+  var img=a.querySelector('img'); if(img) a.insertBefore(s,img); else a.insertBefore(s,a.firstChild); if(ok){s.classList.add('is-ready');svgs.push(s);} });
+if(svgs.length){ var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){requestAnimationFrame(function(){e.target.classList.add('is-in')});io.unobserve(e.target)}})},{threshold:.2}); svgs.forEach(function(s){io.observe(s)}); setTimeout(function(){svgs.forEach(function(s){s.classList.add('is-in')})},4000); }
+})();
+</script>
