@@ -192,7 +192,7 @@
     "markup": 100,
     "vat": 18,
     "roundTo": 10,
-    "customQuote": true,
+    "customQuote": false,
     "rules": [
       {
         "type": "table",
