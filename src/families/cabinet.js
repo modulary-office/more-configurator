@@ -6,6 +6,7 @@
    State keys used (all optional, a product offers only what it needs):
    w h d (cm) · front (variant) · body / face (decor ids) · ral (epoxy colour) · handle · base · back · side28 ·
    shelves · lock · glass · drawers · upper · finish · shape · w2 · style · rails · softclose */
+import { easeBox } from '../engine/geo.js';
 import { genTop, topTexture, thumbTop } from '../engine/textures.js';
 import { makeChair, chairTone } from '../engine/chair.js';
 
@@ -169,9 +170,10 @@ export const cabinet = {
     const decMats = {};
     function decMat(id) {
       if (decMats[id]) return decMats[id];
-      const def = byId(DEC, id), tex = topTexture(THREE, def, 512);
-      tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = maxAniso;
-      const span = def.kind === 'wood' ? 1.0 : 1.1; tex.repeat.set(1 / span, 1 / span);
+      const def = byId(DEC, id), tex = topTexture(THREE, def, 1024);
+      /* mirrored repeat: the swatch photo tiles without a visible seam, so the grain can be drawn at a believable size */
+      tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.MirroredRepeatWrapping; tex.anisotropy = maxAniso;
+      const span = def.kind === 'wood' ? .62 : 1.1; tex.repeat.set(1 / span, 1 / span);
       return decMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: def.kind === 'marble' ? .3 : def.kind === 'wood' ? .62 : .5, envMapIntensity: .7 });
     }
     const epoxyMat = new THREE.MeshStandardMaterial({ color: byId(RAL, S.ral).hex, roughness: .35, metalness: .05, envMapIntensity: .9 });
@@ -209,7 +211,7 @@ export const cabinet = {
       const U = [d, d, w, w, w, w], V = [h, h, d, d, h, h];
       /* vertical faces: grain runs up the board (like real door and side panels); horizontal faces: along the width */
       for (let i = 0; i < uv.count; i++) { const f = Math.floor(i / 4), u = uv.getX(i) * U[f], v = uv.getY(i) * V[f]; if (f === 2 || f === 3) uv.setXY(i, u, v); else uv.setXY(i, v, u); }
-      const m = sh(new THREE.Mesh(g, mat)); m.position.set(x, y, z); return m;
+      const m = sh(new THREE.Mesh(easeBox(g), mat)); m.position.set(x, y, z); return m;
     }
     const cyl = (r, h, mat, x, y, z, seg = 16) => { const m = sh(new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat)); m.position.set(x, y, z); return m; };
 

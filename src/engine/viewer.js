@@ -8,32 +8,73 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: false });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.02;
-  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 1.0;
+  renderer.shadowMap.enabled = true; renderer.shadowMap.type = THREE.PCFShadowMap;
   stage.insertBefore(renderer.domElement, stage.firstChild);
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(30, 1, .05, 60);
 
-  /* environment */
+  /* environment: a photo studio – a large soft top light, a strong key softbox on one side, a weak cool fill on the
+     other, a rim strip behind, dark surroundings. The contrast between them is what gives surfaces their shape. */
   const pm = new THREE.PMREMGenerator(renderer);
   const es = new THREE.Scene();
-  const room = new THREE.Mesh(new THREE.BoxGeometry(12, 7, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(.55, .52, .48), side: THREE.BackSide })); room.position.y = 3; es.add(room);
-  const panel = (w, h, p, i) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(i, i * .98, i * .95), side: THREE.DoubleSide })); m.position.set(...p); m.lookAt(0, 1, 0); es.add(m); };
-  panel(5, 3, [0, 6.4, 0], 5); panel(3, 2.5, [5.9, 2.5, 1], 3.2); panel(3, 2.5, [-5.9, 2.8, -1.5], 2); panel(4, 2, [0, 2.5, 5.9], 1.6);
-  const floorE = new THREE.Mesh(new THREE.PlaneGeometry(12, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(.75, .7, .62) })); floorE.rotation.x = -Math.PI / 2; floorE.position.y = -.4; es.add(floorE);
-  scene.environment = pm.fromScene(es, .04).texture;
+  const room = new THREE.Mesh(new THREE.BoxGeometry(14, 8, 14), new THREE.MeshBasicMaterial({ color: new THREE.Color(.2, .19, .18), side: THREE.BackSide })); room.position.y = 3.4; es.add(room);
+  const softC = document.createElement('canvas'); softC.width = softC.height = 64; { const g = softC.getContext('2d'), gr = g.createRadialGradient(32, 32, 6, 32, 32, 34); gr.addColorStop(0, '#fff'); gr.addColorStop(.7, '#d8d8d8'); gr.addColorStop(1, '#3a3a3a'); g.fillStyle = gr; g.fillRect(0, 0, 64, 64); }
+  const softT = new THREE.CanvasTexture(softC);
+  const panel = (w, h, p, i, tint = [1, .98, .95]) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: softT, color: new THREE.Color(i * tint[0], i * tint[1], i * tint[2]), side: THREE.DoubleSide })); m.position.set(...p); m.lookAt(0, 1, 0); es.add(m); };
+  panel(7, 5, [0, 7.2, .5], 4.2);                              /* top */
+  panel(4.5, 4, [6.4, 3.4, 2.6], 5.5, [1, .96, .9]);           /* key, warm */
+  panel(4, 3.2, [-6.6, 2.6, 1.2], 1.25, [.9, .95, 1]);         /* fill, cool */
+  panel(6, 1.6, [-1.5, 4.6, -6.6], 3.2);                       /* rim */
+  panel(5, 2.6, [0, 2.2, 6.8], .9);                            /* front bounce */
+  const floorE = new THREE.Mesh(new THREE.PlaneGeometry(14, 14), new THREE.MeshBasicMaterial({ color: new THREE.Color(.62, .58, .52) })); floorE.rotation.x = -Math.PI / 2; floorE.position.y = -.4; es.add(floorE);
+  scene.environment = pm.fromScene(es, .035).texture;
 
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xd9cfbf, .55));
-  const key = new THREE.DirectionalLight(0xfff6ea, 2.1); key.position.set(2.6, 5.5, 3.4); key.castShadow = true;
-  key.shadow.mapSize.set(2048, 2048); key.shadow.bias = -.0004; key.shadow.normalBias = .02;
+  scene.add(new THREE.HemisphereLight(0xffffff, 0xcfc4b3, .28));
+  const key = new THREE.DirectionalLight(0xfff3e2, 1.75); key.position.set(3.4, 5.2, 3.0); key.castShadow = true;
+  key.shadow.mapSize.set(1536, 1536); key.shadow.bias = -.0003; key.shadow.normalBias = .018; key.shadow.radius = 3.2;
   const sc = key.shadow.camera; sc.left = -3.4; sc.right = 3.4; sc.top = 3.4; sc.bottom = -3.4; sc.near = 1; sc.far = 14;
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xe9efff, .5); fill.position.set(-4, 3, -2); scene.add(fill);
+  const fill = new THREE.DirectionalLight(0xe4ecff, .32); fill.position.set(-4, 3, -2); scene.add(fill);
 
-  const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: .2 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
-  const aoC = document.createElement('canvas'); aoC.width = aoC.height = 128; { const g = aoC.getContext('2d'), gr = g.createRadialGradient(64, 64, 4, 64, 64, 64); gr.addColorStop(0, 'rgba(60,45,30,.55)'); gr.addColorStop(1, 'rgba(60,45,30,0)'); g.fillStyle = gr; g.fillRect(0, 0, 128, 128); }
-  const ao = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(aoC), transparent: true, depthWrite: false }));
-  ao.rotation.x = -Math.PI / 2; ao.position.y = .001; scene.add(ao);
+  const floor = new THREE.Mesh(new THREE.PlaneGeometry(30, 30), new THREE.ShadowMaterial({ opacity: .13 })); floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+  /* the old soft blob stays as an object (families size it) but is no longer drawn */
+  const ao = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), new THREE.MeshBasicMaterial({ visible: false })); ao.visible = false; scene.add(ao);
+
+  /* contact shadow: the scene's depth seen from under the floor, blurred – dark where something touches or hovers just
+     above the ground, fading with height. This is what makes furniture sit on the floor. */
+  const CS = { size: 1, h: 1.15, res: 512, spread: .075, dark: 1.9, every: 2 };
+  const csRT = new THREE.WebGLRenderTarget(CS.res, CS.res), csRT2 = new THREE.WebGLRenderTarget(CS.res, CS.res);
+  csRT.texture.generateMipmaps = csRT2.texture.generateMipmaps = false;
+  const csGeo = new THREE.PlaneGeometry(CS.size, CS.size).rotateX(Math.PI / 2);
+  const csG = new THREE.Group(); csG.position.y = .0015; scene.add(csG);
+  const csPlane = new THREE.Mesh(csGeo, new THREE.MeshBasicMaterial({ map: csRT.texture, color: 0x1d1610, transparent: true, opacity: .82, depthWrite: false, side: THREE.DoubleSide })); csPlane.renderOrder = 1; csPlane.scale.y = -1; csG.add(csPlane);
+  const csBlurPlane = new THREE.Mesh(csGeo); csBlurPlane.visible = false; csG.add(csBlurPlane);
+  const csCam = new THREE.OrthographicCamera(-CS.size / 2, CS.size / 2, CS.size / 2, -CS.size / 2, 0, CS.h); csCam.rotation.x = Math.PI / 2; csCam.position.y = -.03; csG.add(csCam);   /* just under the floor, so parts standing exactly on it are seen */
+  const csDepth = new THREE.MeshDepthMaterial(); csDepth.side = THREE.DoubleSide;
+  csDepth.onBeforeCompile = sh => { sh.uniforms.darkness = { value: CS.dark }; sh.fragmentShader = 'uniform float darkness;\n' + sh.fragmentShader.replace('gl_FragColor = vec4( vec3( 1.0 - fragCoordZ ), opacity );', 'gl_FragColor = vec4( vec3( 1.0 ), pow( 1.0 - fragCoordZ, 2.6 ) * darkness );'); };
+  const blurMat = dir => new THREE.ShaderMaterial({ uniforms: { tDiffuse: { value: null }, d: { value: 1 / CS.res } }, depthTest: false,
+    vertexShader: 'varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 ); }',
+    fragmentShader: `uniform sampler2D tDiffuse; uniform float d; varying vec2 vUv; void main(){ vec4 s = vec4(0.0); vec2 o = ${dir ? 'vec2(d,0.0)' : 'vec2(0.0,d)'};
+      s += texture2D(tDiffuse, vUv - 4.0*o)*0.051; s += texture2D(tDiffuse, vUv - 3.0*o)*0.0918; s += texture2D(tDiffuse, vUv - 2.0*o)*0.12245; s += texture2D(tDiffuse, vUv - o)*0.1531;
+      s += texture2D(tDiffuse, vUv)*0.1633; s += texture2D(tDiffuse, vUv + o)*0.1531; s += texture2D(tDiffuse, vUv + 2.0*o)*0.12245; s += texture2D(tDiffuse, vUv + 3.0*o)*0.0918; s += texture2D(tDiffuse, vUv + 4.0*o)*0.051; gl_FragColor = s; }` });
+  const csH = blurMat(1), csV = blurMat(0);
+  const csBlur = amt => { csBlurPlane.visible = true;
+    csBlurPlane.material = csH; csH.uniforms.tDiffuse.value = csRT.texture; csH.uniforms.d.value = amt / CS.res; renderer.setRenderTarget(csRT2); renderer.render(csBlurPlane, csCam);
+    csBlurPlane.material = csV; csV.uniforms.tDiffuse.value = csRT2.texture; csV.uniforms.d.value = amt / CS.res; renderer.setRenderTarget(csRT); renderer.render(csBlurPlane, csCam);
+    csBlurPlane.visible = false; };
+  let csN = 0;
+  function contactShadow() {
+    if (csN++ % CS.every) return;
+    /* the map covers the product's footprint (the families size `ao` to it), so small feet keep their shape */
+    const span = Math.max(ao.scale.x, ao.scale.y, 1) + .5; csG.scale.set(span, 1, span); csG.position.z = ao.position.z; csG.updateMatrixWorld(true);
+    const px = Math.min(5, Math.max(.8, CS.spread / (span / CS.res) / 4));
+    const bg = scene.background, fv = floor.visible; scene.background = null; floor.visible = false; csPlane.visible = false;
+    const cc = renderer.getClearColor(new THREE.Color()), ca = renderer.getClearAlpha(); renderer.setClearColor(0x000000, 0);
+    scene.overrideMaterial = csDepth; renderer.setRenderTarget(csRT); renderer.clear(); renderer.render(scene, csCam); scene.overrideMaterial = null;
+    csBlur(px); csBlur(px * .45);
+    renderer.setRenderTarget(null); renderer.setClearColor(cc, ca); scene.background = bg; floor.visible = fv; csPlane.visible = true;
+  }
 
   /* colour tweens shared by all families */
   const tweens = [];
@@ -253,6 +294,7 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
     const sp = Math.sin(cam.ph);
     camera.position.set(cam.tx + cam.r * sp * Math.sin(cam.th), cam.ty + cam.r * Math.cos(cam.ph), cam.tz + cam.r * sp * Math.cos(cam.th));
     camera.lookAt(cam.tx, cam.ty, cam.tz);
+    contactShadow();
     renderer.render(scene, camera);
     const W = stage.clientWidth, Hh = stage.clientHeight;
     const place = (elx, p, offY = 0) => { v3.copy(p); v3.y += offY; v3.project(camera); const on = v3.z < 1 && Math.abs(v3.x) < 1.05 && Math.abs(v3.y) < 1.05; elx.style.transform = `translate(${(v3.x * .5 + .5) * W}px,${(-v3.y * .5 + .5) * Hh}px)`; return on; };

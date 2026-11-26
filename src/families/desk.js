@@ -1,3 +1,4 @@
+import { easeBox } from '../engine/geo.js';
 /* Family: desk – office desks and desk frames on metal legs.
    Frame styles (model.frames[id].type): loop · trapez · posts · aframe · splay · bow · zigzag · tripod · angled · xleg · electric
    Layouts: single · row (desks side by side sharing legs, "riders") · pair (two facing desks) · bench (long double-sided table)
@@ -100,8 +101,8 @@ export const desk = {
     function decMat(id) {
       if (decMats[id]) return decMats[id];
       const def = byId(DEC, id), tex = topTexture(THREE, def, 1024);
-      tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.anisotropy = maxAniso;
-      const span = def.kind === 'wood' ? 1.6 : 1.2; tex.repeat.set(1 / span, 1 / span);
+      tex.colorSpace = THREE.SRGBColorSpace; tex.wrapS = tex.wrapT = THREE.MirroredRepeatWrapping; tex.anisotropy = maxAniso;
+      const span = def.kind === 'wood' ? .9 : 1.2; tex.repeat.set(1 / span, 1 / span);
       return decMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: def.kind === 'marble' ? .28 : def.kind === 'wood' ? .6 : .5, envMapIntensity: .7 });
     }
     const metal = new THREE.MeshStandardMaterial({ color: byId(COL, S.fcolor).hex, roughness: .4, metalness: .35, envMapIntensity: .9 });
@@ -120,11 +121,11 @@ export const desk = {
     const sh = m => { m.castShadow = m.receiveShadow = true; return m; };
     const UP = new THREE.Vector3(0, 1, 0);
     /* rectangular tube between two points; sx across, sz depth of profile */
-    const bar = (a, b, sx, sz, mat = metal) => { const d = new THREE.Vector3().subVectors(b, a), m = sh(new THREE.Mesh(new THREE.BoxGeometry(sx, d.length(), sz), mat)); m.position.copy(a).add(b).multiplyScalar(.5); m.quaternion.setFromUnitVectors(UP, d.normalize()); return m; };
+    const bar = (a, b, sx, sz, mat = metal) => { const d = new THREE.Vector3().subVectors(b, a), m = sh(new THREE.Mesh(easeBox(new THREE.BoxGeometry(sx, d.length(), sz), .002), mat)); m.position.copy(a).add(b).multiplyScalar(.5); m.quaternion.setFromUnitVectors(UP, d.normalize()); return m; };
     /* round tube between two points, optional taper */
     const tube = (a, b, r1, r2 = r1, mat = metal) => { const d = new THREE.Vector3().subVectors(b, a), m = sh(new THREE.Mesh(new THREE.CylinderGeometry(r2, r1, d.length(), 16), mat)); m.position.copy(a).add(b).multiplyScalar(.5); m.quaternion.setFromUnitVectors(UP, d.normalize()); return m; };
     const V = (x, y, z) => new THREE.Vector3(x, y, z);
-    const box = (w, h, d, mat, x, y, z) => { const m = sh(new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat)); m.position.set(x, y, z); return m; };
+    const box = (w, h, d, mat, x, y, z) => { const m = sh(new THREE.Mesh(easeBox(new THREE.BoxGeometry(w, h, d)), mat)); m.position.set(x, y, z); return m; };
     function rr(w, h, r) { const s = new THREE.Shape(), x = -w / 2, y = -h / 2; r = Math.min(r, w / 2, h / 2); s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h); s.lineTo(x + r, y + h); s.quadraticCurveTo(x, y + h, x, y + h - r); s.lineTo(x, y + r); s.quadraticCurveTo(x, y, x + r, y); return s; }
 
     let ext = { x: S.w / 100, z: S.d / 100 }, dims = { L: S.w / 100, D: S.d / 100, n: S.n || 2 }, dimT = null, hotPts = {}, dimLabels = [];
