@@ -177,7 +177,8 @@ export const cabinet = {
       return decMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: def.kind === 'marble' ? .3 : def.kind === 'wood' ? .62 : .5, envMapIntensity: .7 });
     }
     const epoxyMat = new THREE.MeshStandardMaterial({ color: byId(RAL, S.ral).hex, roughness: .35, metalness: .05, envMapIntensity: .9 });
-    const metal = new THREE.MeshStandardMaterial({ color: 0xb9bcbe, roughness: .3, metalness: .9 });
+    const metal = new THREE.MeshStandardMaterial({ color: 0xb9bcbe, roughness: .3, metalness: .9 }), metalNickel = metal;
+    const handleBlack = new THREE.MeshStandardMaterial({ color: 0x18181a, roughness: .42, metalness: .6, envMapIntensity: 1 });
     const dark = new THREE.MeshStandardMaterial({ color: 0x1b1b1c, roughness: .55 });
     const stoneMats = {};
     const stoneMat = () => {
@@ -210,7 +211,9 @@ export const cabinet = {
       const g = new THREE.BoxGeometry(w, h, d), uv = g.attributes.uv;
       const U = [d, d, w, w, w, w], V = [h, h, d, d, h, h];
       /* vertical faces: grain runs up the board (like real door and side panels); horizontal faces: along the width */
-      for (let i = 0; i < uv.count; i++) { const f = Math.floor(i / 4), u = uv.getX(i) * U[f], v = uv.getY(i) * V[f]; if (f === 2 || f === 3) uv.setXY(i, u, v); else uv.setXY(i, v, u); }
+      /* grain: upright boards (doors, sides) run it along their height, the way boards are cut from a sheet; a front much wider
+         than tall (drawer, flap, plinth) and every horizontal board run it along the length */
+      for (let i = 0; i < uv.count; i++) { const f = Math.floor(i / 4), u = uv.getX(i) * U[f], v = uv.getY(i) * V[f]; if (f === 2 || f === 3 || U[f] > 2 * V[f]) uv.setXY(i, v, u); else uv.setXY(i, u, v); }
       const m = sh(new THREE.Mesh(easeBox(g), mat)); m.position.set(x, y, z); return m;
     }
     /* shadow gap: a near-black strip just behind a front, a little larger than it. Real doors stand 2 mm off the carcass with
@@ -232,7 +235,7 @@ export const cabinet = {
 
     /* ---- handles ---- */
     function handle(group, kindCell, x, y, z, fw, fh, hinge) {
-      const hs = S.handle || M.handle || 'none';
+      const hs = S.handle || M.handle || 'none', metal = S.hcolor === 'nickel' ? metalNickel : handleBlack;
       if (S.finish === 'epoxy' || hs === 'integral') {
         /* integral aluminium grip profile along the top edge */
         const len = kindCell === 'drawer' ? fw * .86 : Math.min(.2, fw * .5);

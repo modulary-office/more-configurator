@@ -1,3 +1,4 @@
+import { easeBox } from '../engine/geo.js';
 /* Family: bench – shared desks built from end frames, centre supports, a top, optional screens, tray, power boxes.
    Used by Duo Bench. Options and prices come from products/<id>.json; geometry lives here. */
 import { genTop, topTexture, genWeave, thumbTop } from '../engine/textures.js';
@@ -115,7 +116,7 @@ export const bench = {
     const UP = new THREE.Vector3(0, 1, 0);
     function strut(a, b, sx, sz, mat) {
       const dir = new THREE.Vector3().subVectors(b, a), len = dir.length();
-      const m = new THREE.Mesh(new THREE.BoxGeometry(sx, len, sz), mat);
+      const m = new THREE.Mesh(easeBox(new THREE.BoxGeometry(sx, len, sz)), mat);
       m.position.copy(a).add(b).multiplyScalar(.5); m.quaternion.setFromUnitVectors(UP, dir.normalize());
       m.castShadow = m.receiveShadow = true; return m;
     }
@@ -128,10 +129,10 @@ export const bench = {
       g.add(mk(seat, chairFab, 0, .43, 0));
       const back = new THREE.ExtrudeGeometry(rr(.45, .5, .09), { depth: .055, bevelEnabled: true, bevelSize: .012, bevelThickness: .012, bevelSegments: 3, curveSegments: 6 });
       const bm = mk(back, chairFab, 0, .83, .25); bm.rotation.x = -.12; g.add(bm);
-      g.add(mk(new THREE.BoxGeometry(.04, .3, .03), chairBase, 0, .62, .245));
+      g.add(mk(easeBox(new THREE.BoxGeometry(.04, .3, .03)), chairBase, 0, .62, .245));
       g.add(mk(new THREE.CylinderGeometry(.022, .026, .32, 14), chairBase, 0, .26, 0));
       for (let i = 0; i < 5; i++) {
-        const a = i / 5 * Math.PI * 2, arm = mk(new THREE.BoxGeometry(.04, .03, .3), chairBase, Math.sin(a) * .15, .07, Math.cos(a) * .15); arm.rotation.y = a; g.add(arm);
+        const a = i / 5 * Math.PI * 2, arm = mk(easeBox(new THREE.BoxGeometry(.04, .03, .3)), chairBase, Math.sin(a) * .15, .07, Math.cos(a) * .15); arm.rotation.y = a; g.add(arm);
         g.add(mk(new THREE.SphereGeometry(.026, 12, 8), footMat, Math.sin(a) * .3, .026, Math.cos(a) * .3));
       }
       return g;
@@ -181,19 +182,19 @@ export const bench = {
       /* power boxes */
       if (S.power) for (let i = 0; i < n; i++) {
         const cx = -L / 2 + (i + .5) * W, zs = dbl ? [.2, -.2] : [D / 2 - .2];
-        zs.forEach(z => { G.top.add(mk(new THREE.BoxGeometry(.26, .008, .11), boxMat, cx, H + .002, z)); G.top.add(mk(new THREE.BoxGeometry(.24, .009, .006), hwMat, cx, H + .003, z - .03)); });
+        zs.forEach(z => { G.top.add(mk(easeBox(new THREE.BoxGeometry(.26, .008, .11)), boxMat, cx, H + .002, z)); G.top.add(mk(easeBox(new THREE.BoxGeometry(.24, .009, .006)), hwMat, cx, H + .003, z - .03)); });
       }
       /* end frames */
       [-1, 1].forEach(sx => {
         const g = sx < 0 ? G.fL : G.fR, xE = sx * (L / 2 - .13), zl = dbl ? D / 2 - .11 : D / 2 - .07;
-        g.add(mk(new THREE.BoxGeometry(.055, .055, 2 * zl + .06), legMat, xE, y0 - .028, 0));
+        g.add(mk(easeBox(new THREE.BoxGeometry(.055, .055, 2 * zl + .06)), legMat, xE, y0 - .028, 0));
         [-1, 1].forEach(sz => {
           const a = new THREE.Vector3(xE, y0 - .03, sz * zl), b = new THREE.Vector3(xE + sx * .1, .014, sz * (zl + .03));
           g.add(strut(a, b, .055, .045, legMat));
           g.add(mk(new THREE.CylinderGeometry(.021, .021, .014, 14), footMat, b.x, .007, b.z));
         });
       });
-      G.ctr.add(mk(new THREE.BoxGeometry(Math.max(.1, L - .4), .04, .05), legMat, 0, y0 - .02, dbl ? 0 : -D / 2 + .2));
+      G.ctr.add(mk(easeBox(new THREE.BoxGeometry(Math.max(.1, L - .4), .04, .05)), legMat, 0, y0 - .02, dbl ? 0 : -D / 2 + .2));
       /* central supports */
       for (let i = 1; i < n; i++) {
         const x = -L / 2 + i * W, pw = .2, ph = y0, pd = dbl ? .34 : .28;
@@ -209,14 +210,14 @@ export const bench = {
         const sg = new THREE.ExtrudeGeometry(rr(sw, sh, .045), { depth: .016, bevelEnabled: true, bevelSize: .006, bevelThickness: .006, bevelSegments: 3, curveSegments: 8 });
         sg.translate(0, sh / 2, -.008);
         G.scr.add(mk(sg, fabMat, cx, H + .022, zs));
-        [-1, 1].forEach(a => { const c = mk(new THREE.BoxGeometry(.04, .075, .05), hwMat, cx + a * (sw / 2 - .13), H + .036, zs); G.scr.add(c); });
+        [-1, 1].forEach(a => { const c = mk(easeBox(new THREE.BoxGeometry(.04, .075, .05)), hwMat, cx + a * (sw / 2 - .13), H + .036, zs); G.scr.add(c); });
         if (i === 0) hotPts.screen = new THREE.Vector3(cx, H + .022 + sh * .8, zs);
       }
       /* tray */
       if (S.tray) {
         const lt = Math.max(.4, L - .6), z = dbl ? 0 : -D / 2 + .17, y = y0 - .13;
-        G.tray.add(mk(new THREE.BoxGeometry(lt, .004, .17), legMat, 0, y, z));
-        [-1, 1].forEach(s => G.tray.add(mk(new THREE.BoxGeometry(lt, .075, .004), legMat, 0, y + .036, z + s * .085)));
+        G.tray.add(mk(easeBox(new THREE.BoxGeometry(lt, .004, .17)), legMat, 0, y, z));
+        [-1, 1].forEach(s => G.tray.add(mk(easeBox(new THREE.BoxGeometry(lt, .075, .004)), legMat, 0, y + .036, z + s * .085)));
       }
       /* chairs */
       clearGroup(G.chairs);

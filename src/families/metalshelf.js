@@ -1,3 +1,4 @@
+import { easeBox } from '../engine/geo.js';
 /* Family: metalshelf – metal consoles and bookcases: a welded frame of 20 × 20 mm profile with shelves of sheet
    metal or wood. Layouts: "stagger" (offset uprights and half shelves, like a designer étagère), "grid" (even bays)
    and "open" (shelves only). Optional back: wire mesh or vertical bars, full or on half of the unit.
@@ -68,8 +69,8 @@ export const metalshelf = {
       return decMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: .6, metalness: 0, envMapIntensity: .6 });
     }
     const mk = (geo, mat, x = 0, y = 0, z = 0) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; return m; };
-    const box = (w, h, d, mat, x, y, z) => mk(new THREE.BoxGeometry(w, h, d), mat, x, y, z);
-    function board(w, t, d, mat, x, y, z) { const g = new THREE.BoxGeometry(w, t, d), p = g.attributes.position, uv = g.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / .9, p.getZ(i) / .9); return mk(g, mat, x, y, z); }
+    const box = (w, h, d, mat, x, y, z) => mk(easeBox(new THREE.BoxGeometry(w, h, d)), mat, x, y, z);
+    function board(w, t, d, mat, x, y, z) { const g = easeBox(new THREE.BoxGeometry(w, t, d)), p = g.attributes.position, uv = g.attributes.uv; for (let i = 0; i < p.count; i++) uv.setXY(i, p.getX(i) / .9, p.getZ(i) / .9); return mk(g, mat, x, y, z); }
     const V = (x, y, z) => new THREE.Vector3(x, y, z);
     const G = { frame: new THREE.Group(), shelves: new THREE.Group(), back: new THREE.Group(), dims: new THREE.Group() };
     Object.values(G).forEach(g => scene.add(g));

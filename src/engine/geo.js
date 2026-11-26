@@ -17,7 +17,7 @@ export function easeBox(g, b = .0015) {
     const v = ax.map(a => (a === f ? get[a](i) : get[a](i) - Math.sign(get[a](i)) * b));
     p.setXYZ(i, v[0], v[1], v[2]);
   }
-  const idx = Array.from(g.index.array), P = i => [p.getX(i), p.getY(i), p.getZ(i)];
+  const n0 = g.index.count, idx = Array.from(g.index.array), P = i => [p.getX(i), p.getY(i), p.getZ(i)];
   const tri = (a, c, d) => {
     const A = P(a), C = P(c), D = P(d), u = [C[0] - A[0], C[1] - A[1], C[2] - A[2]], w = [D[0] - A[0], D[1] - A[1], D[2] - A[2]];
     const nx = u[1] * w[2] - u[2] * w[1], ny = u[2] * w[0] - u[0] * w[2], nz = u[0] * w[1] - u[1] * w[0];
@@ -34,6 +34,6 @@ export function easeBox(g, b = .0015) {
     }
   }
   g.setIndex(idx); p.needsUpdate = true;
-  if (g.groups.length) g.clearGroups();
+  if (g.groups.length) g.addGroup(n0, idx.length - n0, 0);
   return g;
 }

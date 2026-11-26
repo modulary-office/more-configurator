@@ -32,7 +32,8 @@
     "faucet": false,
     "stone": false,
     "upos": "center",
-    "stoneColor": "2141"
+    "stoneColor": "2141",
+    "hcolor": "black"
   },
   "sections": [
     {
@@ -180,6 +181,24 @@
             {
               "v": "none",
               "label": "ללא (לחיצה)"
+            }
+          ],
+          "showWhen": {
+            "finish": "formica"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "hcolor",
+          "label": "צבע הידית",
+          "options": [
+            {
+              "v": "black",
+              "label": "שחור"
+            },
+            {
+              "v": "nickel",
+              "label": "ניקל"
             }
           ],
           "showWhen": {

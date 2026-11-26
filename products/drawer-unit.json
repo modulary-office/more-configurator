@@ -35,11 +35,12 @@
     "w": 42,
     "d": 55,
     "h": 60,
-    "body": "m8170",
-    "face": "m8170",
+    "body": "m3161",
+    "face": "m6810",
     "handle": "bar",
     "base": "wheels",
-    "softclose": false
+    "softclose": false,
+    "hcolor": "black"
   },
   "sections": [
     {
@@ -90,6 +91,21 @@
             {
               "v": "none",
               "label": "ללא (לחיצה)"
+            }
+          ]
+        },
+        {
+          "type": "seg",
+          "key": "hcolor",
+          "label": "צבע הידית",
+          "options": [
+            {
+              "v": "black",
+              "label": "שחור"
+            },
+            {
+              "v": "nickel",
+              "label": "ניקל"
             }
           ]
         }

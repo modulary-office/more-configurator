@@ -1,3 +1,4 @@
+import { easeBox } from '../engine/geo.js';
 /* Family: meeting – conference tables.
    Top shapes: straight · rounded corners · ellipse · oval (round ends) · barrel ("egg": the long sides bow out).
    Edge: straight or undercut ("מדוקק"), in the colour of the top (matching PVC) or in a RAL colour.
@@ -102,11 +103,11 @@ export const meeting = {
       return decMats[id] = new THREE.MeshStandardMaterial({ map: tex, roughness: .55, metalness: 0, envMapIntensity: .7 });
     }
     const mk = (geo, mat, x = 0, y = 0, z = 0) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; return m; };
-    const box = (w, h, d, mat, x, y, z) => mk(new THREE.BoxGeometry(w, h, d), mat, x, y, z);
+    const box = (w, h, d, mat, x, y, z) => mk(easeBox(new THREE.BoxGeometry(w, h, d)), mat, x, y, z);
     /* a bar between two points */
     function bar(a, b, r, mat, sq) {
       const dir = new THREE.Vector3().subVectors(b, a), len = dir.length();
-      const g = sq ? new THREE.BoxGeometry(r, len, r) : new THREE.CylinderGeometry(r, r, len, 14);
+      const g = sq ? easeBox(new THREE.BoxGeometry(r, len, r)) : new THREE.CylinderGeometry(r, r, len, 14);
       const m = mk(g, mat); m.position.copy(a).add(b).multiplyScalar(.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize()); return m;
     }
     const V = (x, y, z) => new THREE.Vector3(x, y, z);

@@ -1,3 +1,4 @@
+import { easeBox } from '../engine/geo.js';
 /* Family: partition – open-space partitions.
    product.kind: 'frameless' (35 mm upholstered slab), 'thin' (32 mm, aluminium frame), 'thick' (65 mm, metal body with
    aluminium profiles), 'mobile' (upholstered slab on castor feet).
@@ -112,7 +113,7 @@ export const partition = {
       uv.needsUpdate = true; return geo;
     }
     const mk = (geo, mat, x = 0, y = 0, z = 0) => { const m = new THREE.Mesh(geo, mat); m.position.set(x, y, z); m.castShadow = m.receiveShadow = true; return m; };
-    const box = (w, h, d, mat, x, y, z, tile) => mk(tile ? worldUV(new THREE.BoxGeometry(w, h, d), tile) : new THREE.BoxGeometry(w, h, d), mat, x, y, z);
+    const box = (w, h, d, mat, x, y, z, tile) => mk(tile ? worldUV(easeBox(new THREE.BoxGeometry(w, h, d)), tile) : easeBox(new THREE.BoxGeometry(w, h, d)), mat, x, y, z);
     function rr(w, h, r) {
       const s = new THREE.Shape(), x = -w / 2, y = -h / 2; r = Math.min(r, w / 2 - .001, h / 2 - .001);
       s.moveTo(x + r, y); s.lineTo(x + w - r, y); s.quadraticCurveTo(x + w, y, x + w, y + r); s.lineTo(x + w, y + h - r); s.quadraticCurveTo(x + w, y + h, x + w - r, y + h);

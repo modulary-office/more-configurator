@@ -1,3 +1,4 @@
+import { easeBox } from '../engine/geo.js';
 /* Family: lounge – modular upholstered seating on a steel beam (Hofi): seat pads, back cushions,
    wooden side tables, one- or two-sided. Price per running metre of seat, so length scales the price.
    Fabrics: catalogs/upholstery.json (swatch photos from the supplier's fabric books → textures). */
@@ -184,16 +185,16 @@ export const lounge = {
         const td = half ? SIDE_D : D, tz = half ? sideZ[0] : (two ? 0 : .025);
         const tg = new THREE.ExtrudeGeometry(rr(TW - .03, td - .03, .05), { depth: .025, bevelEnabled: true, bevelThickness: .004, bevelSize: .004, bevelSegments: 2, curveSegments: 8 });
         tg.rotateX(-Math.PI / 2); G.table.add(mk(tg, tm, x, SEAT_Y - .1, tz));
-        G.table.add(mk(new THREE.BoxGeometry(TW - .12, .05, td - .14), legMat, x, SEAT_Y - .125, tz));
+        G.table.add(mk(easeBox(new THREE.BoxGeometry(TW - .12, .05, td - .14)), legMat, x, SEAT_Y - .125, tz));
         if (!hotPts.tables) hotPts.tables = new THREE.Vector3(x, SEAT_Y - .06, tz + td / 4);
       });
       /* frame: one beam along the length, cross arms under the pads, splayed legs */
       const by = SEAT_Y - PAD_H - .03, zc = two ? 0 : .025, BL = L - .25;
-      G.frame.add(mk(new THREE.BoxGeometry(BL, .05, .09), legMat, 0, by, zc));
+      G.frame.add(mk(easeBox(new THREE.BoxGeometry(BL, .05, .09)), legMat, 0, by, zc));
       const nl = Math.max(2, Math.ceil(BL / 1.6) + 1);
       for (let i = 0; i < nl; i++) {
         const x = -BL / 2 + .08 + i * (BL - .16) / (nl - 1), arm = D - .16;
-        G.frame.add(mk(new THREE.BoxGeometry(.06, .035, arm), legMat, x, by + .01, zc));
+        G.frame.add(mk(easeBox(new THREE.BoxGeometry(.06, .035, arm)), legMat, x, by + .01, zc));
         [-1, 1].forEach(s => {
           const top = new THREE.Vector3(x, by, zc + s * (arm / 2 - .03)), bot = new THREE.Vector3(x + (i === 0 ? -.03 : i === nl - 1 ? .03 : 0), .01, zc + s * (arm / 2 + .02));
           const dir = new THREE.Vector3().subVectors(bot, top), len = dir.length();

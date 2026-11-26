@@ -22,15 +22,16 @@
     "h": 210,
     "d": 40,
     "front": "openDoors",
-    "body": "m8170",
-    "face": "m5172",
+    "body": "m3161",
+    "face": "m6810",
     "handle": "bar",
     "glass": "none",
     "base": "none",
     "lock": false,
     "back": false,
     "side28": false,
-    "shelves": 0
+    "shelves": 0,
+    "hcolor": "black"
   },
   "sections": [
     {
@@ -159,6 +160,24 @@
             {
               "v": "none",
               "label": "ללא (לחיצה)"
+            }
+          ],
+          "showWhen": {
+            "front": "openDoors"
+          }
+        },
+        {
+          "type": "seg",
+          "key": "hcolor",
+          "label": "צבע הידית",
+          "options": [
+            {
+              "v": "black",
+              "label": "שחור"
+            },
+            {
+              "v": "nickel",
+              "label": "ניקל"
             }
           ],
           "showWhen": {

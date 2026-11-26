@@ -1,3 +1,4 @@
+import { easeBox } from '../engine/geo.js';
 /* Family: sofa – upholstered sofas built from a few parametric styles.
    product.model.style:
      "block"  – seat base, arms, back (tight or loose cushions), seat cushions; legs / plinth / sled;
@@ -125,7 +126,7 @@ export const sofa = {
     function leg(x, z) {
       const h = LEG_H;
       if (M.base === 'plinth') return;
-      if (M.legStyle === 'block') { const b = new THREE.Mesh(new THREE.BoxGeometry(.05, h, .05), legMat); b.position.set(x, h / 2, z); b.castShadow = true; G.legs.add(b); return; }
+      if (M.legStyle === 'block') { const b = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.05, h, .05)), legMat); b.position.set(x, h / 2, z); b.castShadow = true; G.legs.add(b); return; }
       const wood = !(LEGS[S.leg] || LEGS.black).metal, m = new THREE.Mesh(new THREE.CylinderGeometry(wood ? .02 : .012, wood ? .013 : .011, h, 14), legMat);
       m.position.set(x, h / 2, z); m.castShadow = true; G.legs.add(m);
     }
@@ -205,7 +206,7 @@ export const sofa = {
       if (S.pillows) [-1, 1].forEach((s, i) => { const m = part(block(.44, .42, .13, .06), 'p' + i, s * (sw / 2 - .3) + (sx0 + sx1) / 2, SH - .01, z0 + BT + (loose ? .2 : .1)); m.rotation.set(-.25, s * .2, s * .05); });
       /* legs */
       if (M.base === 'sled') { [-1, 1].forEach(s => sled(s * (L / 2 - .12), z0 + .08, -z0 - .08)); }
-      else if (M.legStyle === 'plank') { const ins = cm(M.legInset || 25); [-1, 1].forEach(s => { const b = new THREE.Mesh(new THREE.BoxGeometry(.035, LEG_H, D * .72), legMat); b.position.set(s * (L / 2 - ins), LEG_H / 2, 0); b.castShadow = true; G.legs.add(b); }); }
+      else if (M.legStyle === 'plank') { const ins = cm(M.legInset || 25); [-1, 1].forEach(s => { const b = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.035, LEG_H, D * .72)), legMat); b.position.set(s * (L / 2 - ins), LEG_H / 2, 0); b.castShadow = true; G.legs.add(b); }); }
       else if (M.legStyle === 'tleg') { const ins = cm(M.legInset || 22); [-1, 1].forEach(s => tleg(s * (L / 2 - ins), z0 + .08, -z0 - .1)); }
       else {
         const xs = [-L / 2 + .07, L / 2 - .07]; if (L > 2.2) xs.push(0);
