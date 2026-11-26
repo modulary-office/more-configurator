@@ -29,7 +29,7 @@ export const sofa = {
     const { FAB } = lists(cat), M = product.model || {};
     const fab = () => byId(FAB, fabId(S));
     const D = () => M.d || 90, H = () => M.h || 75;
-    const shapeTxt = () => M.style === 'curved' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
+    const shapeTxt = () => M.style === 'curved' || M.style === 'shell' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
     const run = () => S.len + (S.shape && S.shape !== 'straight' ? (M.chaiseD || 160) - D() : 0);
     const texCss = f => `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`;
     return {
@@ -68,19 +68,31 @@ export const sofa = {
     const LEG_H = M.base === 'plinth' ? .02 : cm(M.legH || 14), CUSH = cm(M.cushT || 14);
 
     /* fabrics */
-    const loader = new THREE.TextureLoader(); loader.setCrossOrigin('anonymous');
-    const texCache = {}, mats = {};
+    const mats = {};
     function matFor(id) {
       if (mats[id]) return mats[id];
-      const it = byId(FAB, id); let t = null;
-      if (it.tex) {
-        t = texCache[id] = loader.load(new URL(it.tex, TEX_BASE).href);
-        t.colorSpace = THREE.SRGBColorSpace; t.wrapS = t.wrapT = THREE.MirroredRepeatWrapping; t.anisotropy = maxAniso;
+      const it = byId(FAB, id);
+      /* the swatch photos are too small to tile (mirrored, they read as a kaleidoscope), so the cloth is the swatch's colour
+         over one shared seamless bouclé grain that also drives the bump */
+      const m = new THREE.MeshPhysicalMaterial({ color: it.hex, map: weave(), bumpMap: weave(), bumpScale: 1.6, roughness: .95, sheen: .7, sheenRoughness: .75, sheenColor: new THREE.Color(it.hex).lerp(new THREE.Color(0xffffff), .55).multiplyScalar(.3), envMapIntensity: .4, side: THREE.DoubleSide });
+      return mats[id] = m;
+    }
+    let weaveT = null;
+    function weave() {
+      if (weaveT) return weaveT;
+      const n = 256, c = document.createElement('canvas'); c.width = c.height = n; const x = c.getContext('2d');
+      x.fillStyle = '#e9e9e9'; x.fillRect(0, 0, n, n);
+      let sd = 7; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+      for (let i = 0; i < 5200; i++) {
+        const px = rnd() * n, py = rnd() * n, r = 1.1 + rnd() * 2.2, v = 205 + Math.round(rnd() * 50);
+        x.fillStyle = `rgba(${v},${v},${v},.75)`;
+        for (const ox of [-n, 0, n]) for (const oy of [-n, 0, n]) { x.beginPath(); x.arc(px + ox, py + oy, r, 0, 7); x.fill(); }
       }
-      return mats[id] = new THREE.MeshPhysicalMaterial({ color: t ? 0xffffff : it.hex, map: t, roughness: .92, sheen: .8, sheenRoughness: .7, sheenColor: new THREE.Color(0xffffff).multiplyScalar(.25), envMapIntensity: .45 });
+      weaveT = new THREE.CanvasTexture(c); weaveT.colorSpace = THREE.SRGBColorSpace; weaveT.wrapS = weaveT.wrapT = THREE.RepeatWrapping; weaveT.anisotropy = maxAniso;
+      return weaveT;
     }
     const partFab = key => S.pmode === 'part' ? (pmapGet(S)[key] || S.pbase || fabId(S)) : fabId(S);
-    const TILE = .3;
+    const TILE = .16;   /* a swatch photo covers about 16 cm: the weave reads as cloth, not as a pattern */
     function worldUV(geo) {
       const p = geo.attributes.position, n = geo.attributes.normal, uv = geo.attributes.uv;
       for (let i = 0; i < p.count; i++) {
@@ -256,9 +268,52 @@ export const sofa = {
       return { W: L, Dz: sag + D, zc: 0 };
     }
 
+    /* "shell": one soft body whose plan is a rounded pill, optionally bent like a bean; the back is a single band that follows
+       the outline, full height behind and dropping as it wraps round the ends (Onem, Elora, Ellipse, Boomer, Velora, Wolf, Zoya). */
+    function buildShell() {
+      const L = dims.L, a = L / 2, b = D / 2, n = M.planN || 2.6, k = (M.bend || 0) * L, baseY = LEG_H, seatY = SH - CUSH;
+      const C = (ph, ia = 0, ib = 0) => { const c = Math.cos(ph), sn = Math.sin(ph), ux = Math.sign(c) * Math.pow(Math.abs(c), 2 / n), uz = Math.sign(sn) * Math.pow(Math.abs(sn), 2 / n); return [(a - ia) * ux, (b - ib) * uz + k * (ux * ux - .45)]; };
+      const extr = (inset, h, bv, mat) => {
+        const pts = []; for (let i = 0; i < 120; i++) { const [x, z] = C(i / 120 * Math.PI * 2, inset + bv, inset + bv); pts.push(new THREE.Vector2(x, -z)); }
+        const g = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: Math.max(.002, h - 2 * bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 6, curveSegments: 4 });
+        g.rotateX(-Math.PI / 2); g.translate(0, bv, 0); return worldUV(g);
+      };
+      part(extr(0, seatY - baseY, Math.min(.05, (seatY - baseY) / 2 - .002)), 'base', 0, baseY, 0);
+      part(extr(.035, CUSH + .01, Math.min(.06, CUSH / 2 - .002)), 's0', 0, seatY - .01, 0);
+      /* back band */
+      const wrap = (M.wrap ?? .8) * Math.PI, armF = M.armF ?? .6, flat = M.backFlat ?? .45, J = 96, K = 16, pos = [], uv = [], idx = [];
+      const smooth = t => t * t * (3 - 2 * t);
+      let arc = 0, prev = null;
+      for (let j = 0; j <= J; j++) {
+        const sN = -1 + 2 * j / J, e = Math.abs(sN), ph = -Math.PI / 2 + sN * wrap;
+        const [x, z] = C(ph), [x1, z1] = C(ph + .002), [x0, z0] = C(ph - .002);
+        let nx = z1 - z0, nz = -(x1 - x0); const nl = Math.hypot(nx, nz) || 1; nx /= nl; nz /= nl; if (nx * x + nz * (z - k * .1) < 0) { nx = -nx; nz = -nz; }
+        const q = .8, fh = e < flat ? 1 : e < q ? 1 + (armF - 1) * smooth((e - flat) / (q - flat)) : armF * Math.sqrt(Math.max(0, 1 - Math.pow((e - q) / (1 - q), 2)));
+        const top = seatY + .03 + (H - seatY - .03) * Math.max(.02, fh), T = BT * (.7 + .3 * Math.min(1, fh)), r = Math.min(T / 2, (top - seatY) * .9), y0 = baseY + .035;
+        if (prev) arc += Math.hypot(x - prev[0], z - prev[1]); prev = [x, z];
+        const prof = [[-.008, y0], [-.012, (y0 + top - r) / 2]]; for (let t = 0; t <= K - 4; t++) { const th = t / (K - 4) * Math.PI; prof.push([-.008 + (T / 2 + .004) - (T / 2 + .004) * Math.cos(th), top - r + r * Math.sin(th)]); } prof.push([T, seatY - .02]);
+        let pl = 0;
+        prof.forEach(([u, y], i) => { if (i) pl += Math.hypot(u - prof[i - 1][0], y - prof[i - 1][1]); pos.push(x - nx * u, y, z - nz * u); uv.push(arc / TILE, pl / TILE); });
+      }
+      const P = K;   /* points per ring */
+      for (let j = 0; j < J; j++) for (let i = 0; i < P - 1; i++) { const A = j * P + i, B = A + 1, Cc = A + P, Dd = Cc + 1; idx.push(A, Cc, B, B, Cc, Dd); }
+      const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
+      if (g.attributes.normal.getZ((J / 2) * P + 1) > 0) { for (let i = 0; i < idx.length; i += 3) { const t = idx[i + 1]; idx[i + 1] = idx[i + 2]; idx[i + 2] = t; } g.setIndex(idx); g.computeVertexNormals(); }
+      const bm = part(g, 'back', 0, 0, 0); bm.material = bm.material; bm.userData.double = 1;
+      /* what it stands on */
+      if (M.legStyle === 'plank') { const ins = cm(M.legInset || 30); [-1, 1].forEach(sg => { const p = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.04, LEG_H, D * .62), .004), legMat); p.position.set(sg * (a - ins), LEG_H / 2, k * .2); p.castShadow = true; G.legs.add(p); }); }
+      else if (M.legStyle === 'frame') { const fx = a - cm(M.legInset || 45), fz = b - .14, y = LEG_H - .012, V = (x, yy, z) => new THREE.Vector3(x, yy, z);
+        [-1, 1].forEach(sx => { [-1, 1].forEach(sz => bar(V(sx * fx, 0, sz * fz), V(sx * fx, LEG_H, sz * fz), .009)); bar(V(sx * fx, y, -fz), V(sx * fx, y, fz), .008); });
+        [-1, 1].forEach(sz => bar(V(-fx, y, sz * fz), V(fx, y, sz * fz), .008)); }
+      else if (M.base === 'plinth') { const p = new THREE.Mesh(extr(.07, baseY + .01, .004), footMat); p.position.y = 0; G.legs.add(p); }
+      else { [-1, 1].forEach(sx => [-1, 1].forEach(sz => leg(sx * (a - .3), sz * (b - .16) + k * .1))); }
+      hotPts = { fabric: new THREE.Vector3(0, SH + .01, .1), legs: new THREE.Vector3(a - .3, LEG_H / 2, b - .1) };
+      return { W: L, Dz: D + Math.abs(k), zc: 0 };
+    }
+
     function build() {
       Object.values(G).forEach(clear);
-      const r = M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
+      const r = M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
       ao.scale.set(r.W + .8, r.Dz + .8, 1); ao.position.z = r.zc;
       buildDims(r.W, r.Dz, r.zc); applyFab();
       ext = r;

@@ -48,7 +48,7 @@ export function createViewer({ root, stage, $, $$, S, product, cat, family, ui }
   csRT.texture.generateMipmaps = csRT2.texture.generateMipmaps = false;
   const csGeo = new THREE.PlaneGeometry(CS.size, CS.size).rotateX(Math.PI / 2);
   const csG = new THREE.Group(); csG.position.y = .0015; scene.add(csG);
-  const csPlane = new THREE.Mesh(csGeo, new THREE.MeshBasicMaterial({ map: csRT.texture, color: 0x1d1610, transparent: true, opacity: .82, depthWrite: false, side: THREE.DoubleSide })); csPlane.renderOrder = 1; csPlane.scale.y = -1; csG.add(csPlane);
+  const csPlane = new THREE.Mesh(csGeo, new THREE.MeshBasicMaterial({ map: csRT.texture, color: 0x1d1610, transparent: true, opacity: .62, depthWrite: false, side: THREE.DoubleSide })); csPlane.renderOrder = 1; csPlane.scale.y = -1; csG.add(csPlane);
   const csBlurPlane = new THREE.Mesh(csGeo); csBlurPlane.visible = false; csG.add(csBlurPlane);
   const csCam = new THREE.OrthographicCamera(-CS.size / 2, CS.size / 2, CS.size / 2, -CS.size / 2, 0, CS.h); csCam.rotation.x = Math.PI / 2; csCam.position.y = -.03; csG.add(csCam);   /* just under the floor, so parts standing exactly on it are seen */
   const csDepth = new THREE.MeshDepthMaterial(); csDepth.side = THREE.DoubleSide;
