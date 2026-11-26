@@ -29,7 +29,7 @@ export const sofa = {
     const { FAB } = lists(cat), M = product.model || {};
     const fab = () => byId(FAB, fabId(S));
     const D = () => M.d || 90, H = () => M.h || 75;
-    const shapeTxt = () => M.style === 'pouf' ? 'הדום' : M.style === 'corner' ? 'פינתית' : M.style === 'curved' || M.style === 'shell' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
+    const shapeTxt = () => M.kindHe ? M.kindHe : M.style === 'pouf' ? 'הדום' : M.style === 'corner' ? 'פינתית' : M.style === 'curved' || M.style === 'shell' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
     const run = () => S.len + (S.shape && S.shape !== 'straight' ? (M.chaiseD || 160) - D() : 0);
     const texCss = f => `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`;
     return {
@@ -337,7 +337,7 @@ export const sofa = {
         [-1, 1].forEach(sx => { [-1, 1].forEach(sz => bar(V(sx * fx, 0, sz * fz), V(sx * fx, LEG_H, sz * fz), .009)); bar(V(sx * fx, y, -fz), V(sx * fx, y, fz), .008); });
         [-1, 1].forEach(sz => bar(V(-fx, y, sz * fz), V(fx, y, sz * fz), .008)); }
       else if (M.base === 'plinth') { const p = new THREE.Mesh(extr(.07, baseY + .01, .004), footMat); p.position.y = 0; G.legs.add(p); }
-      else { [-1, 1].forEach(sx => [-1, 1].forEach(sz => leg(sx * (a - .3), sz * (b - .16) + k * .1))); }
+      else { [-1, 1].forEach(sx => [-1, 1].forEach(sz => leg(sx * Math.max(a * .58, a - .3), sz * Math.max(b * .58, b - .16) + k * .1))); }
       hotPts = { fabric: new THREE.Vector3(0, SH + .01, .1), legs: new THREE.Vector3(a - .3, LEG_H / 2, b - .1) };
       return { W: L, Dz: D + Math.abs(k), zc: 0 };
     }
@@ -466,7 +466,7 @@ export const sofa = {
       build, update, tick, explode,
       isResizing: () => resizing,
       dimsGroup: G.dims,
-      fitSpan: () => Math.max(ext.W, ext.Dz * 1.5, 1.3),
+      fitSpan: () => Math.max(ext.W, ext.Dz * 1.5, H * 2.5, 1.3),
       clampBox: () => ({ lx: ext.W / 2 + .5, lz: ext.Dz / 2 + .5 }),
       hero: { th: .62, ph: 1.12 },
       views: {},
