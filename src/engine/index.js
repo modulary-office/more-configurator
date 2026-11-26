@@ -18,7 +18,7 @@ import { meeting } from '../families/meeting.js';
 import { metalshelf } from '../families/metalshelf.js';
 
 const FAMILIES = { bench, cabinet, desk, lounge, sofa, partition, meeting, metalshelf };
-const VERSION = "1.22.0";
+const VERSION = "1.23.0";
 /* repository root: dist/mrcfg.min.js → ../ */
 const ROOT = new URL('../', import.meta.url);
 
@@ -115,7 +115,7 @@ function start(mount, product, cat, family) {
   <div class="mrc-foot">
       <div class="mrc-price" data-out="price" hidden></div>
       <div class="mrc-code"><span data-out="summary"></span><code data-out="code"></code></div>
-      <div class="mrc-ctas"><button class="mrc-cta" data-act="add">${ico.plus}הוספה לפרויקט</button><button class="mrc-ghost mrc-quote-btn" data-act="quote">${ico.send}בקשת הצעת מחיר לתצורה הזו</button></div>
+      <div class="mrc-ctas"><button class="mrc-cta" data-act="add">${ico.plus}הוספה לפרויקט</button><button class="mrc-ghost mrc-quote-btn" data-act="quote">${ico.send}בקשת הצעת מחיר לתצורה הזו</button><p class="mrc-note">ההדמיה בתלת־ממד היא להמחשה בלבד. ייתכנו הבדלים קלים בגוון, במרקם ובפרטי הצורה בין ההדמיה למוצר בפועל.</p></div>
       <div class="mrc-row"><button class="mrc-ghost" data-act="project">${ico.folder}הפרויקט שלי <span class="mrc-cnt" data-out="pcount"></span></button><button class="mrc-ghost" data-act="share">${ico.share}שיתוף</button><button class="mrc-ghost" data-act="snap">${ico.cam}תמונה</button></div>
       <p class="mrc-note">${esc(product.note || '')}</p>
     </div>
