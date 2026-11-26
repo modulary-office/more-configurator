@@ -1,7 +1,7 @@
 /* MODULARY / MORE – "בונים בתלת־ממד": one page, every configurator product.
    Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>.
    #mb3d data attributes: data-quote (contact URL), data-brand (title suffix), data-prices="on" to show list prices. */
-const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@31afe5c03d90d169b0a26defe2ee6e27e781e37f/dist/';
+const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@5be75b9fe79e837470b7dc541ff8a0fb2bf620fb/dist/';
 const GROUPS = [
   ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן'], ['meeting-table', 'שולחן ישיבות']]],
   ['עמדות עבודה', [['bench-desk', 'עמדות משותפות'], ['duo-bench', 'Duo Bench עם מחיצות']]],
@@ -10,7 +10,7 @@ const GROUPS = [
   ['קונסולות וספריות מתכת', [['metal-console', 'קונסולת מתכת'], ['metal-shelf', 'ספריית מתכת']]],
   ['נגרות', [['counter', 'דלפק קבלה'], ['kitchenette', 'מטבחון']]],
   ['ספות וישיבה', [['hofi', 'Hofi מערכת ישיבה'], ['agatha', 'Agatha'], ['austin', 'Austin'], ['boomer', 'Boomer'], ['break', 'Break'], ['bully', 'Bully'], ['daffy', 'Daffy'], ['dobby', 'Dobby'], ['domino', 'Domino'], ['douglas', 'Douglas'], ['ellipse', 'Ellipse'], ['elora-duo', 'Elora Duo'], ['forma', 'Forma'], ['harley', 'Harley'], ['honey', 'Honey'], ['humi', 'Humi'], ['joyce', 'Joyce'], ['juan', 'Juan'], ['julie', 'Julie'], ['lento', 'Lento'], ['lunaro', 'Lunaro'], ['onem-3-seater', 'Onem 3-Seater'], ['peanut', 'Peanut'], ['rivano', 'Rivano'], ['sorano', 'Sorano'], ['velora', 'Velora'], ['wolf', 'Wolf'], ['zorro', 'Zorro'], ['zoya', 'Zoya']]],
-  ['כורסאות', [['alfie', 'Alfie'], ['bailey', 'Bailey'], ['bella', 'Bella'], ['bruno', 'Bruno'], ['charlie', 'Charlie'], ['chester', 'Chester'], ['chico', 'Chico'], ['daisy', 'Daisy'], ['hero', 'Hero'], ['lola', 'Lola'], ['louie', 'Louie'], ['lucky', 'Lucky'], ['milky', 'Milky'], ['moana', 'Moana'], ['mocha', 'Mocha'], ['orven', 'Orven'], ['oscar', 'Oscar'], ['panda', 'Panda'], ['panda-pu', 'Panda PU'], ['petalo', 'Petalo'], ['rex', 'Rex'], ['rio', 'Rio'], ['rocky', 'Rocky'], ['ruby', 'Ruby'], ['simba', 'Simba'], ['sky', 'Sky'], ['teddy', 'Teddy'], ['tito', 'Tito'], ['zeus', 'Zeus']]],
+  ['כורסאות', [['bed-lounger', 'כורסת מיטה'], ['alfie', 'Alfie'], ['bailey', 'Bailey'], ['bella', 'Bella'], ['bruno', 'Bruno'], ['charlie', 'Charlie'], ['chester', 'Chester'], ['chico', 'Chico'], ['daisy', 'Daisy'], ['hero', 'Hero'], ['lola', 'Lola'], ['louie', 'Louie'], ['lucky', 'Lucky'], ['milky', 'Milky'], ['moana', 'Moana'], ['mocha', 'Mocha'], ['orven', 'Orven'], ['oscar', 'Oscar'], ['panda', 'Panda'], ['panda-pu', 'Panda PU'], ['petalo', 'Petalo'], ['rex', 'Rex'], ['rio', 'Rio'], ['rocky', 'Rocky'], ['ruby', 'Ruby'], ['simba', 'Simba'], ['sky', 'Sky'], ['teddy', 'Teddy'], ['tito', 'Tito'], ['zeus', 'Zeus']]],
   ['הדומים', [['onem-d80', 'Onem Ø80'], ['onem-d120', 'Onem Ø120'], ['onem-80x80', 'Onem 80×80'], ['onem-60x160', 'Onem 60×160'], ['onem-80x160', 'Onem 80×160'], ['onem-oval-60x180', 'Onem Oval 60×180'], ['onem-oval-80x180', 'Onem Oval 80×180'], ['archie', 'Archie'], ['atlas', 'Atlas'], ['bubble', 'Bubble'], ['caramel', 'Caramel'], ['chapo', 'Chapo'], ['checkmate', 'Checkmate'], ['cloud', 'Cloud'], ['felix', 'Felix'], ['kobi', 'Kobi'], ['nubo', 'Nubo'], ['pablo', 'Pablo'], ['pepita', 'Pepita'], ['pico', 'Pico'], ['scooter', 'Scooter'], ['sputnik', 'Sputnik']]]
 ];
 const host = document.getElementById('mb3d');
