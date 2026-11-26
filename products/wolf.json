@@ -14,7 +14,7 @@
     "pbase": "",
     "fcol": "fast",
     "leg": "black",
-    "pillows": false,
+    "pillows": true,
     "f_fast": "fast-1",
     "f_solly": "solly-1",
     "f_moon": "moon-1",
@@ -1074,6 +1074,15 @@
     "planN": 2.4,
     "bend": 0.07,
     "base": "plinth",
-    "dropAt": 1
+    "dropAt": 1,
+    "pillows": [
+      {
+        "x": -0.02
+      },
+      {
+        "x": 0.5
+      }
+    ],
+    "frontDip": 16
   }
 }

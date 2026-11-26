@@ -290,10 +290,10 @@ export const sofa = {
     /* "shell": one soft body whose plan is a rounded pill, optionally bent like a bean; the back is a single band that follows
        the outline, full height behind and dropping as it wraps round the ends (Onem, Elora, Ellipse, Boomer, Velora, Wolf, Zoya). */
     function buildShell() {
-      const L = dims.L, a = L / 2, b = D / 2, n = M.planN || 2.6, k = (M.bend || 0) * L, baseY = LEG_H, seatY = SH - CUSH;
-      const C = (ph, ia = 0, ib = 0) => { const c = Math.cos(ph), sn = Math.sin(ph), ux = Math.sign(c) * Math.pow(Math.abs(c), 2 / n), uz = Math.sign(sn) * Math.pow(Math.abs(sn), 2 / n); return [(a - ia) * ux, (b - ib) * uz + k * (ux * ux - .45)]; };
-      const extr = (inset, h, bv, mat) => {
-        const pts = []; for (let i = 0; i < 120; i++) { const [x, z] = C(i / 120 * Math.PI * 2, inset + bv, inset + bv); pts.push(new THREE.Vector2(x, -z)); }
+      const L = dims.L, a = L / 2, b = D / 2, n = M.planN || 2.6, k = (M.bend || 0) * L, dip = cm(M.frontDip || 0), baseY = LEG_H, seatY = SH - CUSH;
+      const C = (ph, ia = 0, ib = 0, nn = n) => { const c = Math.cos(ph), sn = Math.sin(ph), ux = Math.sign(c) * Math.pow(Math.abs(c), 2 / nn), uz = Math.sign(sn) * Math.pow(Math.abs(sn), 2 / nn); return [(a - ia) * ux, (b - ib) * uz + k * (ux * ux - .45) - (sn > 0 ? dip * Math.pow(1 - ux * ux, 2) : 0)]; };   /* dip: the front edge curves gently in towards the back at the centre */
+      const extr = (inset, h, bv, nn) => {
+        const pts = []; for (let i = 0; i < 120; i++) { const [x, z] = C(i / 120 * Math.PI * 2, inset + bv, inset + bv, nn); pts.push(new THREE.Vector2(x, -z)); }
         const g = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: Math.max(.002, h - 2 * bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 6, curveSegments: 4 });
         g.rotateX(-Math.PI / 2); g.translate(0, bv, 0); return worldUV(g);
       };
@@ -301,7 +301,7 @@ export const sofa = {
       /* the back is its own body: a shell that stands on the floor line and wraps round the seat, which sits inside it
          (backOnSeat: the back is a roll resting on top of the seat instead – Onem, Elora) */
       const wrapSeat = !M.backOnSeat, bo = wrapSeat ? .03 : .008;
-      part(extr(wrapSeat ? .022 : 0, SH - baseY, Math.min(wrapSeat ? .11 : .07, (SH - baseY) / 2 - .002)), 'base', 0, baseY, 0);   /* generous edge so the seat reads as a full cushion */
+      part(extr(wrapSeat ? .022 : 0, SH - baseY, Math.min(M.seatR != null ? cm(M.seatR) : wrapSeat ? .11 : .07, (SH - baseY) / 2 - .002), M.seatN), 'base', 0, baseY, 0);   /* generous edge so the seat reads as a full cushion */
       /* back band */
       const wrap = (M.wrap ?? .8) * Math.PI, armF = M.armF ?? .6, flat = M.backFlat ?? .45, J = 96, K = 16, pos = [], uv = [], idx = [];
       const smooth = t => t * t * (3 - 2 * t);
@@ -313,7 +313,7 @@ export const sofa = {
         const [x, z] = C(ph), [x1, z1] = C(ph + .002), [x0, z0] = C(ph - .002);
         let nx = z1 - z0, nz = -(x1 - x0); const nl = Math.hypot(nx, nz) || 1; nx /= nl; nz /= nl; if (nx * x + nz * (z - k * .1) < 0) { nx = -nx; nz = -nz; }
         const q = M.dropAt ?? .8, fh = q >= 1 ? (e < flat ? 1 : 1 + (armF - 1) * smooth((e - flat) / (1 - flat))) : e < flat ? 1 : e < q ? 1 + (armF - 1) * smooth((e - flat) / (q - flat)) : armF * Math.sqrt(Math.max(0, 1 - Math.pow((e - q) / (1 - q), 2)));
-        const top = seatY + .03 + (H - seatY - .03) * Math.max(.02, fh), T = BT * (.7 + .3 * Math.min(1, fh)), r = Math.min(T / 2, (top - seatY) * .9), y0 = wrapSeat ? baseY : baseY + .035;
+        const top = seatY + .03 + (H - seatY - .03) * Math.max(.02, fh), T = BT * (.7 + .3 * Math.min(1, fh)), r = Math.min(T / 2, (top - seatY) * .9), y0 = wrapSeat ? baseY + cm(M.backLift || 0) : baseY + .035;   /* backLift: the shell stops above the bottom of the seat and floats */
         if (prev) arc += Math.hypot(x - prev[0], z - prev[1]); prev = [x, z];
         const prof = [[-bo, y0], [-bo - .004, (y0 + top - r) / 2]]; for (let t = 0; t <= K - 4; t++) { const th = t / (K - 4) * Math.PI; prof.push([-bo + (T / 2 + bo / 2) - (T / 2 + bo / 2) * Math.cos(th), top - r + r * Math.sin(th)]); } prof.push([T, seatY - .02]);
         if (roundEnd) { const capL = T * .55, dE = Math.min(arc, totLen - arc); if (dE < capL) { const w = Math.sqrt(Math.max(.02, 1 - Math.pow(1 - dE / capL, 2))), cc = (T - bo) / 2; prof.forEach(p => { p[0] = cc + (p[0] - cc) * w; }); } }
@@ -326,6 +326,11 @@ export const sofa = {
       const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
       if (g.attributes.normal.getZ((J / 2) * P + 1) > 0) { for (let i = 0; i < idx.length; i += 3) { const t = idx[i + 1]; idx[i + 1] = idx[i + 2]; idx[i + 2] = t; } g.setIndex(idx); g.computeVertexNormals(); }
       const bm = part(g, 'back', 0, 0, 0); bm.material = bm.material; bm.userData.double = 1;
+      if (S.pillows) (M.pillows || [{ x: -.5 }, { x: .5 }]).forEach((p, i) => {
+        const px = p.x * (a - BT - .12), pz = -b + k * (p.x * p.x * .6 - .45) + (wrapSeat ? BT : BT * .8) + .1;
+        if (p.k === 'round') { const g = new THREE.SphereGeometry(.17, 24, 16); g.scale(1, 1, .62); const m = part(g, 'p' + i, px, SH + .15, pz + .02); m.rotation.x = -.2; }
+        else { const m = part(block(.38, .37, .12, .055), 'p' + i, px, SH - .01, pz); m.rotation.set(-.25, -Math.sign(p.x) * .12, Math.sign(p.x) * .04); }
+      });
       /* what it stands on */
       if (M.legStyle === 'plank') { const ins = cm(M.legInset || 30); [-1, 1].forEach(sg => { const p = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.04, LEG_H, D * .62), .004), legMat); p.position.set(sg * (a - ins), LEG_H / 2, k * .2); p.castShadow = true; G.legs.add(p); }); }
       else if (M.legStyle === 'frame') { const fx = a - cm(M.legInset || 45), fz = b - .14, y = LEG_H - .012, V = (x, yy, z) => new THREE.Vector3(x, yy, z);

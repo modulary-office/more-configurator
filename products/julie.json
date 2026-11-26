@@ -1087,14 +1087,25 @@
     "d": 77,
     "h": 80,
     "sh": 42,
-    "backT": 8,
+    "backT": 13,
     "cushT": 12,
     "legH": 16,
     "wrap": 0.68,
     "armF": 1,
     "dropAt": 1,
     "backFlat": 0.3,
-    "planN": 7,
-    "base": "legs"
+    "planN": 6,
+    "base": "legs",
+    "backLift": 11,
+    "seatN": 14,
+    "seatR": 4,
+    "pillows": [
+      {
+        "x": -0.5
+      },
+      {
+        "x": 0.25
+      }
+    ]
   }
 }

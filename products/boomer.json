@@ -1074,6 +1074,7 @@
     "planN": 2.3,
     "bend": 0.11,
     "base": "plinth",
-    "dropAt": 1
+    "dropAt": 1,
+    "frontDip": 20
   }
 }
