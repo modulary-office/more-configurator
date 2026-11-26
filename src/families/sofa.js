@@ -29,7 +29,7 @@ export const sofa = {
     const { FAB } = lists(cat), M = product.model || {};
     const fab = () => byId(FAB, fabId(S));
     const D = () => M.d || 90, H = () => M.h || 75;
-    const shapeTxt = () => M.style === 'corner' ? 'פינתית' : M.style === 'curved' || M.style === 'shell' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
+    const shapeTxt = () => M.style === 'pouf' ? 'הדום' : M.style === 'corner' ? 'פינתית' : M.style === 'curved' || M.style === 'shell' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
     const run = () => S.len + (S.shape && S.shape !== 'straight' ? (M.chaiseD || 160) - D() : 0);
     const texCss = f => `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`;
     return {
@@ -385,9 +385,49 @@ export const sofa = {
       return { W: L, Dz: Math.max(D, SL), zc: zb + Math.max(D, SL) / 2 };
     }
 
+    /* "pouf": one upholstered body with no back. plan: superellipse (planN 2 = round, 4+ = soft square), optional bend (kidney).
+       kind: 'drum' (default, straight sides) | 'pillow' (all soft) | 'mushroom' (wide top on a narrower foot) | 'arch' (bridge: top on two sides) */
+    function buildPouf() {
+      const L = dims.L, a = L / 2, b = D / 2, n = M.planN || 2, k = (M.bend || 0) * L, baseY = M.base === 'legs' ? LEG_H : M.base === 'wheels' ? .07 : .012, top = H;
+      const C = (ph, sc = 1, ins = 0) => { const c = Math.cos(ph), sn = Math.sin(ph), ux = Math.sign(c) * Math.pow(Math.abs(c), 2 / n), uz = Math.sign(sn) * Math.pow(Math.abs(sn), 2 / n); return [(a * sc - ins) * ux, (b * sc - ins) * uz + k * (ux * ux - .45) * sc]; };
+      const body = (sc, y0, y1, bv, bvBottom) => {
+        const pts = []; for (let i = 0; i < 96; i++) { const [x, z] = C(i / 96 * Math.PI * 2, sc, bv); pts.push(new THREE.Vector2(x, -z)); }
+        const h = y1 - y0, g = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: Math.max(.002, h - 2 * bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 8, curveSegments: 4 });
+        g.rotateX(-Math.PI / 2); g.translate(0, bv, 0);
+        if (bvBottom != null) { const p = g.attributes.position; for (let i = 0; i < p.count; i++) if (p.getY(i) < bv) { const t = p.getY(i) / bv, keep = bvBottom / bv; p.setY(i, bv - (bv - p.getY(i)) * keep); } p.needsUpdate = true; g.computeVertexNormals(); }
+        return worldUV(g);
+      };
+      const kind = M.kind || 'drum', hh = top - baseY;
+      if (kind === 'pillow') part(body(1, 0, hh, Math.min(hh / 2 - .004, a - .01, b - .01)), 'base', 0, baseY, 0);
+      else if (kind === 'mushroom') {
+        const capH = hh * (M.capK || .45), footS = M.footK || .55;
+        part(body(footS, 0, hh - capH + .03, .02), 'm0', 0, baseY, 0);
+        part(body(1, 0, capH, Math.min(capH / 2 - .003, .1)), 'base', 0, baseY + hh - capH, 0);
+      } else if (kind === 'arch' && M.archSoft) {   /* one puffy bridge: an upside-down U, fully rounded (Archie) */
+        const bv = .07, w = L - 2 * bv, h = hh - 2 * bv, tw = L * (M.tunnelW || .42), th = hh * (M.tunnelH || .42), r = Math.min(h * .48, w * .3), sh = new THREE.Shape();
+        sh.moveTo(-w / 2, 0); sh.lineTo(-w / 2, h - r); sh.quadraticCurveTo(-w / 2, h, -w / 2 + r, h); sh.lineTo(w / 2 - r, h); sh.quadraticCurveTo(w / 2, h, w / 2, h - r); sh.lineTo(w / 2, 0);
+        sh.lineTo(tw / 2 + bv, 0); sh.lineTo(tw / 2 + bv, th - bv - .04); sh.quadraticCurveTo(tw / 2 + bv, th - bv, tw / 2 + bv - .04, th - bv); sh.lineTo(-tw / 2 - bv + .04, th - bv); sh.quadraticCurveTo(-tw / 2 - bv, th - bv, -tw / 2 - bv, th - bv - .04); sh.lineTo(-tw / 2 - bv, 0); sh.closePath();
+        const g = new THREE.ExtrudeGeometry(sh, { depth: Math.max(.01, D - 2 * bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 8, curveSegments: 12 });
+        g.translate(0, bv, -(D - 2 * bv) / 2); worldUV(g); part(g, 'base', 0, baseY, 0);
+      } else if (kind === 'arch') {
+        const t = cm(M.archT || 12), topT = cm(M.archTop || 16);
+        [-1, 1].forEach((sd, i) => part(block(t, hh - topT + .03, D, Math.min(t / 2 - .004, .05)), 'm' + i, sd * (a - t / 2), baseY, 0));
+        part(block(L, topT, D, Math.min(topT / 2 - .004, cm(M.round ?? 6))), 'base', 0, baseY + hh - topT, 0);
+      } else part(body(1, 0, hh, Math.min(cm(M.edge ?? 5), hh / 2 - .004), M.edgeBottom != null ? cm(M.edgeBottom) : null), 'base', 0, baseY, 0);
+      if (M.piping) { const pts = []; for (let i = 0; i <= 96; i++) { const [x, z] = C(i / 96 * Math.PI * 2, 1, cm(M.edge ?? 5) * .27); pts.push(new THREE.Vector3(x, top - cm(M.edge ?? 5) * .27, z)); } part(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts, true), 160, .007, 8, true), 'base', 0, 0, 0); }
+      /* what it stands on */
+      if (M.base === 'legs') {
+        if (M.legStyle === 'plank') { const ins = cm(M.legInset || 22), xs = L > 1.3 ? [-1, 1] : [0]; xs.forEach(sg => { const p = new THREE.Mesh(easeBox(new THREE.BoxGeometry(L > 1.3 ? .04 : Math.min(L * .5, .5), LEG_H, L > 1.3 ? D * .6 : .04), .004), legMat); p.position.set(sg * (a - ins), LEG_H / 2, k * .1); p.castShadow = true; G.legs.add(p); }); }
+        else [-1, 1].forEach(sx => [-1, 1].forEach(sz => leg(sx * (a * .62), sz * (b * .62))));
+      } else if (M.base === 'wheels') [-1, 1].forEach(sx => [-1, 1].forEach(sz => { const w = new THREE.Mesh(new THREE.CylinderGeometry(.028, .028, .022, 18), footMat); w.rotation.z = Math.PI / 2; w.position.set(sx * (a - .06), .028, sz * (b - .06)); w.castShadow = true; G.legs.add(w); const st = new THREE.Mesh(new THREE.CylinderGeometry(.006, .006, .05, 8), legMat); st.position.set(sx * (a - .06), .055, sz * (b - .06)); G.legs.add(st); }));
+      else if (kind !== 'pillow' && kind !== 'arch') { const pl = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, .012, 48), footMat); pl.scale.set(a * (kind === 'mushroom' ? (M.footK || .55) : 1) - .04, 1, b * (kind === 'mushroom' ? (M.footK || .55) : 1) - .04); pl.position.y = .006; G.legs.add(pl); }
+      hotPts = { fabric: new THREE.Vector3(0, top + .01, 0), legs: new THREE.Vector3(a * .6, .03, b * .6) };
+      return { W: L, Dz: D + Math.abs(k), zc: 0 };
+    }
+
     function build() {
       Object.values(G).forEach(clear); [G.body, G.legs].forEach(gr => { gr.scale.x = 1; gr.position.x = 0; });
-      const r = M.style === 'corner' ? buildCorner() : M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
+      const r = M.style === 'pouf' ? buildPouf() : M.style === 'corner' ? buildCorner() : M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
       ao.scale.set(r.W + .8, r.Dz + .8, 1); ao.position.z = r.zc;
       buildDims(r.W, r.Dz, r.zc); applyFab();
       ext = r;
