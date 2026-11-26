@@ -1,7 +1,7 @@
 /* MODULARY / MORE – "בונים בתלת־ממד": one page, every configurator product.
    Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>.
    #mb3d data attributes: data-quote (contact URL), data-brand (title suffix), data-prices="on" to show list prices. */
-const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@3f525c1748adb5eae969fc1618547aea8e28be85/dist/';
+const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@7f9b9d832b521d339102b94c2a617879dec5c137/dist/';
 const GROUPS = [
   ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן'], ['meeting-table', 'שולחן ישיבות']]],
   ['עמדות עבודה', [['bench-desk', 'עמדות משותפות'], ['duo-bench', 'Duo Bench עם מחיצות']]],
@@ -10,6 +10,7 @@ const GROUPS = [
   ['קונסולות וספריות מתכת', [['metal-console', 'קונסולת מתכת'], ['metal-shelf', 'ספריית מתכת']]],
   ['נגרות', [['counter', 'דלפק קבלה'], ['kitchenette', 'מטבחון']]],
   ['ספות וישיבה', [['hofi', 'Hofi מערכת ישיבה'], ['agatha', 'Agatha'], ['austin', 'Austin'], ['boomer', 'Boomer'], ['break', 'Break'], ['bully', 'Bully'], ['daffy', 'Daffy'], ['dobby', 'Dobby'], ['domino', 'Domino'], ['douglas', 'Douglas'], ['ellipse', 'Ellipse'], ['elora-duo', 'Elora Duo'], ['forma', 'Forma'], ['harley', 'Harley'], ['honey', 'Honey'], ['humi', 'Humi'], ['joyce', 'Joyce'], ['juan', 'Juan'], ['julie', 'Julie'], ['lento', 'Lento'], ['lunaro', 'Lunaro'], ['onem-3-seater', 'Onem 3-Seater'], ['peanut', 'Peanut'], ['rivano', 'Rivano'], ['sorano', 'Sorano'], ['velora', 'Velora'], ['wolf', 'Wolf'], ['zorro', 'Zorro'], ['zoya', 'Zoya']]]
+  ['הדומים', [['onem-d80', 'Onem Ø80'], ['onem-d120', 'Onem Ø120'], ['onem-80x80', 'Onem 80×80'], ['onem-60x160', 'Onem 60×160'], ['onem-80x160', 'Onem 80×160'], ['onem-oval-60x180', 'Onem Oval 60×180'], ['onem-oval-80x180', 'Onem Oval 80×180'], ['archie', 'Archie'], ['atlas', 'Atlas'], ['bubble', 'Bubble'], ['caramel', 'Caramel'], ['chapo', 'Chapo'], ['checkmate', 'Checkmate'], ['cloud', 'Cloud'], ['felix', 'Felix'], ['kobi', 'Kobi'], ['nubo', 'Nubo'], ['pablo', 'Pablo'], ['pepita', 'Pepita'], ['pico', 'Pico'], ['scooter', 'Scooter'], ['sputnik', 'Sputnik']]],
 ];
 const host = document.getElementById('mb3d');
 if (host) {
@@ -30,6 +31,7 @@ if (host) {
     'ארונות ואחסון': '<rect x="8" y="8" width="32" height="32"/><rect x="8" y="8" width="16" height="16" fill="#F8DC55"/><path d="M24 8v32M8 24h32"/>',
     'קונסולות וספריות מתכת': '<rect x="10" y="20" width="28" height="4" fill="#F8DC55"/><path d="M10 6v36M38 6v36M10 8h28M10 34h28M24 8v12M18 24v10"/>',
     'נגרות': '<path d="M8 34l14-22 18 6-12 20z" fill="#F8DC55"/><path d="M22 12l6 26"/>',
+    'הדומים': '<ellipse cx="24" cy="20" rx="15" ry="6" fill="#F8DC55"/><path d="M9 20v10c0 3.3 6.7 6 15 6s15-2.7 15-6V20"/><ellipse cx="24" cy="20" rx="15" ry="6"/>',
     'ספות וישיבה': '<rect x="10" y="22" width="28" height="8" fill="#F8DC55"/><path d="M12 22v-8h24v8M6 20h4v14H6zM38 20h4v14h-4zM10 34h28M11 34v5M37 34v5"/>'
   };
   const cur = GROUPS.findIndex(g => g[1].some(p => p[0] === id));
