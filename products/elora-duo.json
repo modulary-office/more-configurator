@@ -1083,15 +1083,16 @@
     "d": 90,
     "h": 72,
     "sh": 42,
-    "backT": 22,
+    "backT": 28,
     "cushT": 13,
     "legH": 6,
-    "wrap": 0.82,
-    "armF": 0.7,
+    "wrap": 0.84,
+    "armF": 0.9,
     "backFlat": 0.4,
     "planN": 2.8,
     "legStyle": "plank",
     "legInset": 35,
-    "base": "legs"
+    "base": "legs",
+    "dropAt": 0.9
   }
 }

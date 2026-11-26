@@ -1102,13 +1102,14 @@
     "backT": 24,
     "cushT": 12,
     "legH": 8,
-    "wrap": 0.5,
-    "armF": 0.9,
-    "backFlat": 0.6,
+    "wrap": 0.3,
+    "armF": 0.95,
+    "backFlat": 0.55,
     "planN": 2.2,
     "bend": 0.14,
     "legStyle": "plank",
     "legInset": 60,
-    "base": "legs"
+    "base": "legs",
+    "dropAt": 0.85
   }
 }

@@ -278,8 +278,8 @@ export const sofa = {
         const g = new THREE.ExtrudeGeometry(new THREE.Shape(pts), { depth: Math.max(.002, h - 2 * bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 6, curveSegments: 4 });
         g.rotateX(-Math.PI / 2); g.translate(0, bv, 0); return worldUV(g);
       };
-      part(extr(0, seatY - baseY, Math.min(.05, (seatY - baseY) / 2 - .002)), 'base', 0, baseY, 0);
-      part(extr(.035, CUSH + .01, Math.min(.06, CUSH / 2 - .002)), 's0', 0, seatY - .01, 0);
+      /* the seat is one piece from the floor line to the sitting height – no separate mattress on top */
+      part(extr(0, SH - baseY, Math.min(.07, (SH - baseY) / 2 - .002)), 'base', 0, baseY, 0);
       /* back band */
       const wrap = (M.wrap ?? .8) * Math.PI, armF = M.armF ?? .6, flat = M.backFlat ?? .45, J = 96, K = 16, pos = [], uv = [], idx = [];
       const smooth = t => t * t * (3 - 2 * t);
@@ -288,7 +288,7 @@ export const sofa = {
         const sN = -1 + 2 * j / J, e = Math.abs(sN), ph = -Math.PI / 2 + sN * wrap;
         const [x, z] = C(ph), [x1, z1] = C(ph + .002), [x0, z0] = C(ph - .002);
         let nx = z1 - z0, nz = -(x1 - x0); const nl = Math.hypot(nx, nz) || 1; nx /= nl; nz /= nl; if (nx * x + nz * (z - k * .1) < 0) { nx = -nx; nz = -nz; }
-        const q = .8, fh = e < flat ? 1 : e < q ? 1 + (armF - 1) * smooth((e - flat) / (q - flat)) : armF * Math.sqrt(Math.max(0, 1 - Math.pow((e - q) / (1 - q), 2)));
+        const q = M.dropAt ?? .8, fh = q >= 1 ? (e < flat ? 1 : 1 + (armF - 1) * smooth((e - flat) / (1 - flat))) : e < flat ? 1 : e < q ? 1 + (armF - 1) * smooth((e - flat) / (q - flat)) : armF * Math.sqrt(Math.max(0, 1 - Math.pow((e - q) / (1 - q), 2)));
         const top = seatY + .03 + (H - seatY - .03) * Math.max(.02, fh), T = BT * (.7 + .3 * Math.min(1, fh)), r = Math.min(T / 2, (top - seatY) * .9), y0 = baseY + .035;
         if (prev) arc += Math.hypot(x - prev[0], z - prev[1]); prev = [x, z];
         const prof = [[-.008, y0], [-.012, (y0 + top - r) / 2]]; for (let t = 0; t <= K - 4; t++) { const th = t / (K - 4) * Math.PI; prof.push([-.008 + (T / 2 + .004) - (T / 2 + .004) * Math.cos(th), top - r + r * Math.sin(th)]); } prof.push([T, seatY - .02]);
@@ -296,6 +296,7 @@ export const sofa = {
         prof.forEach(([u, y], i) => { if (i) pl += Math.hypot(u - prof[i - 1][0], y - prof[i - 1][1]); pos.push(x - nx * u, y, z - nz * u); uv.push(arc / TILE, pl / TILE); });
       }
       const P = K;   /* points per ring */
+      if ((M.dropAt ?? .8) >= 1) [0, J].forEach(j => { for (let i = 1; i < P - 1; i++) idx.push(j * P, j * P + i, j * P + i + 1); });   /* arms cut straight: close the two ends */
       for (let j = 0; j < J; j++) for (let i = 0; i < P - 1; i++) { const A = j * P + i, B = A + 1, Cc = A + P, Dd = Cc + 1; idx.push(A, Cc, B, B, Cc, Dd); }
       const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); g.setIndex(idx); g.computeVertexNormals();
       if (g.attributes.normal.getZ((J / 2) * P + 1) > 0) { for (let i = 0; i < idx.length; i += 3) { const t = idx[i + 1]; idx[i + 1] = idx[i + 2]; idx[i + 2] = t; } g.setIndex(idx); g.computeVertexNormals(); }

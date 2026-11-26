@@ -1097,17 +1097,18 @@
   "model": {
     "style": "shell",
     "d": 82,
-    "h": 68,
+    "h": 66,
     "sh": 42,
-    "backT": 18,
+    "backT": 20,
     "cushT": 12,
     "legH": 16,
-    "wrap": 0.8,
-    "armF": 0.75,
-    "backFlat": 0.5,
-    "planN": 3.2,
+    "wrap": 0.74,
+    "armF": 1,
+    "backFlat": 0.3,
+    "planN": 4.5,
     "legStyle": "frame",
     "legInset": 45,
-    "base": "legs"
+    "base": "legs",
+    "dropAt": 1
   }
 }
