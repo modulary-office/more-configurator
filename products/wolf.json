@@ -1068,11 +1068,12 @@
     "backT": 15,
     "cushT": 12,
     "legH": 3,
-    "wrap": 0.8,
-    "armF": 0.85,
-    "backFlat": 0.5,
+    "wrap": 0.74,
+    "armF": 0.9,
+    "backFlat": 0.35,
     "planN": 2.4,
     "bend": 0.07,
-    "base": "plinth"
+    "base": "plinth",
+    "dropAt": 1
   }
 }

@@ -1093,6 +1093,7 @@
     "legStyle": "plank",
     "legInset": 35,
     "base": "legs",
-    "dropAt": 0.9
+    "dropAt": 0.9,
+    "backOnSeat": true
   }
 }

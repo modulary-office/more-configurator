@@ -292,7 +292,10 @@ export const sofa = {
         g.rotateX(-Math.PI / 2); g.translate(0, bv, 0); return worldUV(g);
       };
       /* the seat is one piece from the floor line to the sitting height – no separate mattress on top */
-      part(extr(0, SH - baseY, Math.min(.07, (SH - baseY) / 2 - .002)), 'base', 0, baseY, 0);
+      /* the back is its own body: a shell that stands on the floor line and wraps round the seat, which sits inside it
+         (backOnSeat: the back is a roll resting on top of the seat instead – Onem, Elora) */
+      const wrapSeat = !M.backOnSeat, bo = wrapSeat ? .03 : .008;
+      part(extr(wrapSeat ? .022 : 0, SH - baseY, Math.min(.07, (SH - baseY) / 2 - .002)), 'base', 0, baseY, 0);
       /* back band */
       const wrap = (M.wrap ?? .8) * Math.PI, armF = M.armF ?? .6, flat = M.backFlat ?? .45, J = 96, K = 16, pos = [], uv = [], idx = [];
       const smooth = t => t * t * (3 - 2 * t);
@@ -302,9 +305,9 @@ export const sofa = {
         const [x, z] = C(ph), [x1, z1] = C(ph + .002), [x0, z0] = C(ph - .002);
         let nx = z1 - z0, nz = -(x1 - x0); const nl = Math.hypot(nx, nz) || 1; nx /= nl; nz /= nl; if (nx * x + nz * (z - k * .1) < 0) { nx = -nx; nz = -nz; }
         const q = M.dropAt ?? .8, fh = q >= 1 ? (e < flat ? 1 : 1 + (armF - 1) * smooth((e - flat) / (1 - flat))) : e < flat ? 1 : e < q ? 1 + (armF - 1) * smooth((e - flat) / (q - flat)) : armF * Math.sqrt(Math.max(0, 1 - Math.pow((e - q) / (1 - q), 2)));
-        const top = seatY + .03 + (H - seatY - .03) * Math.max(.02, fh), T = BT * (.7 + .3 * Math.min(1, fh)), r = Math.min(T / 2, (top - seatY) * .9), y0 = baseY + .035;
+        const top = seatY + .03 + (H - seatY - .03) * Math.max(.02, fh), T = BT * (.7 + .3 * Math.min(1, fh)), r = Math.min(T / 2, (top - seatY) * .9), y0 = wrapSeat ? baseY : baseY + .035;
         if (prev) arc += Math.hypot(x - prev[0], z - prev[1]); prev = [x, z];
-        const prof = [[-.008, y0], [-.012, (y0 + top - r) / 2]]; for (let t = 0; t <= K - 4; t++) { const th = t / (K - 4) * Math.PI; prof.push([-.008 + (T / 2 + .004) - (T / 2 + .004) * Math.cos(th), top - r + r * Math.sin(th)]); } prof.push([T, seatY - .02]);
+        const prof = [[-bo, y0], [-bo - .004, (y0 + top - r) / 2]]; for (let t = 0; t <= K - 4; t++) { const th = t / (K - 4) * Math.PI; prof.push([-bo + (T / 2 + bo / 2) - (T / 2 + bo / 2) * Math.cos(th), top - r + r * Math.sin(th)]); } prof.push([T, seatY - .02]);
         let pl = 0;
         prof.forEach(([u, y], i) => { if (i) pl += Math.hypot(u - prof[i - 1][0], y - prof[i - 1][1]); pos.push(x - nx * u, y, z - nz * u); uv.push(arc / TILE, pl / TILE); });
       }

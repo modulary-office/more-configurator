@@ -1073,6 +1073,7 @@
     "dropAt": 1,
     "backFlat": 0.5,
     "planN": 2.6,
-    "base": "plinth"
+    "base": "plinth",
+    "backOnSeat": true
   }
 }
