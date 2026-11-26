@@ -15,7 +15,7 @@ const SHAPES = { straight: 'ישרה', chaiseL: 'שזלונג משמאל', chais
 const fabId = S => S['f_' + (S.fcol || 'fast')];
 const pmapGet = S => Object.fromEntries(String(S.pmap || '').split(';').filter(Boolean).map(x => x.split('=')));
 const pmapSet = (S, m) => { S.pmap = Object.entries(m).map(([k, v]) => k + '=' + v).join(';'); };
-const PART_HE = { seat: 'מושב', end: 'קצה מעוגל', base: 'בסיס', back: 'גב', armL: 'ידית שמאל', armR: 'ידית ימין', chaise: 'שזלונג' };
+const PART_HE = { head: 'משענת ראש', pocket: 'כיס צד', seat: 'מושב', end: 'קצה מעוגל', base: 'בסיס', back: 'גב', armL: 'ידית שמאל', armR: 'ידית ימין', chaise: 'שזלונג' };
 const BACKS = { photo: 'כמו בתמונה', all: 'גב לכל מודול', alt: 'גבות לסירוגין', none: 'ללא גב' };
 const partName = k => PART_HE[k] || (k.startsWith('mb') ? `גב מודול ${+k.slice(2) + 1}` : k[0] === 'm' ? `מודול ${+k.slice(1) + 1}` : k[0] === 's' ? `כרית ישיבה ${+k.slice(1) + 1}` : k.startsWith('bc') ? `כרית גב ${+k.slice(2) + 1}` : k[0] === 'p' ? `כרית נוי ${+k.slice(1) + 1}` : k);
 
@@ -40,7 +40,7 @@ export const sofa = {
         backs: BACKS[S.backs] || BACKS.photo,
         fabric: `<i style="${texCss(fab())}"></i>${S.pmode === 'part' ? 'בד לכל חלק' : fab().he}`,
         legs: M.base === 'plinth' ? 'בסיס על הרצפה' : `<i style="background:${(LEGS[S.leg] || LEGS.black).hex}"></i>${(LEGS[S.leg] || LEGS.black).he}`,
-        extra: S.pillows ? 'כריות נוי' : 'ללא'
+        extra: M.style === 'bedrest' ? (S.pocket ? 'כיס צד' : 'ללא כיס') : S.pillows ? 'כריות נוי' : 'ללא'
       }[k]),
       toast: k => {
         const f = fab();
@@ -48,15 +48,16 @@ export const sofa = {
         if ((k === 'fcol' || k.startsWith('f_')) && S.pmode === 'part' && S.psel) return [`${partName(S.psel)}: ${f.he}`, texCss(f)];
         if (k === 'fcol' || k.startsWith('f_')) return [`בד: ${f.he}`, texCss(f)];
         if (k === 'leg') return [`רגליים: ${(LEGS[S.leg] || LEGS.black).he}`];
+        if (k === 'pocket') return [S.pocket ? 'נוסף כיס צד לבקבוק ולשלט' : 'הכיס הוסר'];
         if (k === 'pillows') return [S.pillows ? 'נוספו כריות נוי' : 'הוסרו כריות הנוי'];
         return [`${S.len} × ${D()} ס״מ · ${shapeTxt()}`];
       },
-      code: () => `${product.codePrefix || 'SF'}-${S.len}${S.shape && S.shape !== 'straight' ? '-' + S.shape.toUpperCase() : ''}-${fab().code || fabId(S)}${S.pmode === 'part' && S.pmap ? '-MIX' + Object.keys(pmapGet(S)).length : ''}${M.base === 'plinth' ? '' : '-' + String(S.leg).toUpperCase()}${S.pillows ? '-P' : ''}`,
+      code: () => `${product.codePrefix || 'SF'}-${S.len}${S.shape && S.shape !== 'straight' ? '-' + S.shape.toUpperCase() : ''}-${fab().code || fabId(S)}${S.pmode === 'part' && S.pmap ? '-MIX' + Object.keys(pmapGet(S)).length : ''}${M.base === 'plinth' ? '' : '-' + String(S.leg).toUpperCase()}${S.pillows ? '-P' : ''}${M.style === 'bedrest' && S.pocket ? '-PK' : ''}`,
       summary: () => [`${product.name}, ${shapeTxt()}`, `מידות ${S.len}×${D()}×${H()} ס״מ${M.sh ? `, גובה מושב ${M.sh}` : ''}`,
         S.pmode === 'part' ? `בד בסיס: ${byId(FAB, S.pbase || fabId(S)).he}` : `בד: ${fab().he}`,
         ...(S.pmode === 'part' ? Object.entries(pmapGet(S)).sort().map(([k, v]) => `${partName(k)}: ${byId(FAB, v).he}`) : []),
         M.style === 'modules' ? `${Math.max(1, Math.round(S.len / (M.modW || 90)))} מודולים, ${BACKS[S.backs] || BACKS.photo}` : '',
-        M.base === 'plinth' ? '' : `רגליים: ${(LEGS[S.leg] || LEGS.black).he}`, S.pillows ? 'כריות נוי' : '']
+        M.base === 'plinth' ? '' : `רגליים: ${(LEGS[S.leg] || LEGS.black).he}`, S.pillows ? 'כריות נוי' : '', M.style === 'bedrest' && S.pocket ? 'כיס צד' : '']
     };
   },
 
@@ -74,8 +75,19 @@ export const sofa = {
       const it = byId(FAB, id);
       /* the swatch photos are too small to tile (mirrored, they read as a kaleidoscope), so the cloth is the swatch's colour
          over one shared seamless bouclé grain that also drives the bump */
-      const m = new THREE.MeshPhysicalMaterial({ color: it.hex, map: weave(), bumpMap: weave(), bumpScale: 1.6, roughness: .95, sheen: .7, sheenRoughness: .75, sheenColor: new THREE.Color(it.hex).lerp(new THREE.Color(0xffffff), .55).multiplyScalar(.3), envMapIntensity: .4, side: THREE.DoubleSide });
+      const cloth = M.ribs ? ribs() : weave();
+      const m = new THREE.MeshPhysicalMaterial({ color: it.hex, map: cloth, bumpMap: cloth, bumpScale: M.ribs ? 3.2 : 1.6, roughness: .95, sheen: .7, sheenRoughness: .75, sheenColor: new THREE.Color(it.hex).lerp(new THREE.Color(0xffffff), .55).multiplyScalar(.3), envMapIntensity: .4, side: THREE.DoubleSide });
       return mats[id] = m;
+    }
+    let ribsT = null;
+    function ribs() {   /* wide soft channels across the piece, like chunky corduroy */
+      if (ribsT) return ribsT;
+      const n = 256, c = document.createElement('canvas'); c.width = c.height = n; const x = c.getContext('2d'), bands = 4, bh = n / bands;
+      for (let b = 0; b < bands; b++) { const g = x.createLinearGradient(0, b * bh, 0, (b + 1) * bh); g.addColorStop(0, '#8f8f8f'); g.addColorStop(.12, '#d8d8d8'); g.addColorStop(.5, '#f4f4f4'); g.addColorStop(.88, '#d8d8d8'); g.addColorStop(1, '#8f8f8f'); x.fillStyle = g; x.fillRect(0, b * bh, n, bh); }
+      let sd = 11; const rnd = () => (sd = (sd * 16807) % 2147483647) / 2147483647;
+      for (let i = 0; i < 2600; i++) { const v = 215 + Math.round(rnd() * 40); x.fillStyle = `rgba(${v},${v},${v},.25)`; x.fillRect(rnd() * n, rnd() * n, 1.6, 1.6); }
+      ribsT = new THREE.CanvasTexture(c); ribsT.colorSpace = THREE.SRGBColorSpace; ribsT.wrapS = ribsT.wrapT = THREE.RepeatWrapping; ribsT.anisotropy = maxAniso;
+      return ribsT;
     }
     let weaveT = null;
     function weave() {
@@ -425,9 +437,27 @@ export const sofa = {
       return { W: L, Dz: D + Math.abs(k), zc: 0 };
     }
 
+    /* "bedrest": a back-rest lounger for the bed or the floor – wedge back, head roll, two arm bolsters, side pocket */
+    function buildBedrest() {
+      const W = dims.L, aW = cm(M.armW || 20), aH = cm(M.armH || 22), bT0 = cm(M.backT || 26), bT1 = cm(M.backTop || 14), rR = cm(M.rollR || 9), bH = H - rR * 1.25, bW = W - 2 * aW + .05, z0 = -D / 2;
+      const sh = new THREE.Shape(), bv = .035; sh.moveTo(0, 0); sh.lineTo(bT0 - 2 * bv, 0); sh.lineTo(bT1 - 2 * bv, bH - 2 * bv); sh.lineTo(0, bH - 2 * bv); sh.closePath();
+      const g = new THREE.ExtrudeGeometry(sh, { depth: bW - 2 * bv, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 6 });
+      g.translate(bv, bv, -(bW - 2 * bv) / 2); g.rotateY(-Math.PI / 2); g.computeVertexNormals(); worldUV(g);
+      part(g, 'back', 0, 0, z0);
+      const rg = new THREE.CapsuleGeometry(rR, Math.max(.02, bW - .06 - 2 * rR), 10, 24); rg.rotateZ(Math.PI / 2); worldUV(rg);
+      part(rg, 'head', 0, bH + rR * .35, z0 + bT1 * .62);
+      const aL = D - cm(M.armBack ?? 8);
+      [-1, 1].forEach(sd => part(block(aW, aH, aL, Math.min(aW, aH) / 2 - .012), sd < 0 ? 'armL' : 'armR', sd * (W / 2 - aW / 2), 0, z0 + cm(M.armBack ?? 8) + aL / 2));
+      if (S.pocket) { const sd = M.pocketSide === 'L' ? -1 : 1, pw = .2, ph = Math.min(.15, aH - .05);
+        part(block(.022, ph, pw, .008), 'pocket', sd * (W / 2 + .007), .03, z0 + D - aL * .42);
+        const rim = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.026, .008, pw + .004), .002), footMat); rim.position.set(sd * (W / 2 + .007), .03 + ph, z0 + D - aL * .42); G.legs.add(rim); }
+      hotPts = { fabric: new THREE.Vector3(0, bH * .6, z0 + bT0), legs: new THREE.Vector3(W / 2, aH / 2, 0) };
+      return { W, Dz: D, zc: 0 };
+    }
+
     function build() {
       Object.values(G).forEach(clear); [G.body, G.legs].forEach(gr => { gr.scale.x = 1; gr.position.x = 0; });
-      const r = M.style === 'pouf' ? buildPouf() : M.style === 'corner' ? buildCorner() : M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
+      const r = M.style === 'bedrest' ? buildBedrest() : M.style === 'pouf' ? buildPouf() : M.style === 'corner' ? buildCorner() : M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
       ao.scale.set(r.W + .8, r.Dz + .8, 1); ao.position.z = r.zc;
       buildDims(r.W, r.Dz, r.zc); applyFab();
       ext = r;
