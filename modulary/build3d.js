@@ -1,7 +1,7 @@
 /* MODULARY / MORE – "בונים בתלת־ממד": one page, every configurator product.
    Loads the shared MORE configurator engine (pinned commit) and swaps products with ?p=<id>.
    #mb3d data attributes: data-quote (contact URL), data-brand (title suffix), data-prices="on" to show list prices. */
-const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@aea3ad732aac4941e41088f4ace7e8ac80090a35/dist/';
+const ENGINE = 'https://cdn.jsdelivr.net/gh/modulary-office/more-configurator@98a336da47d6dc9969478ca4b5381e7d23d88f3c/dist/';
 const GROUPS = [
   ['שולחנות', [['office-desk', 'שולחן עבודה'], ['manager-desk', 'שולחן מנהל'], ['desk-frame', 'שלד לשולחן'], ['meeting-table', 'שולחן ישיבות']]],
   ['עמדות עבודה', [['bench-desk', 'עמדות משותפות'], ['duo-bench', 'Duo Bench עם מחיצות']]],
