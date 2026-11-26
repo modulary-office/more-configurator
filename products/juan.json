@@ -1060,13 +1060,14 @@
     "armW": 20,
     "armH": 0,
     "backT": 22,
-    "round": 6,
+    "round": 5,
     "legH": 14,
     "cushT": 14,
     "base": "plinth",
     "back": "tight",
-    "seatW": 16,
+    "seatW": 24,
     "channel": true,
-    "sidePanel": true
+    "sidePanel": true,
+    "seat": "solid"
   }
 }
