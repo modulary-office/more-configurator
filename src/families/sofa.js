@@ -15,7 +15,7 @@ const SHAPES = { straight: 'ישרה', chaiseL: 'שזלונג משמאל', chais
 const fabId = S => S['f_' + (S.fcol || 'fast')];
 const pmapGet = S => Object.fromEntries(String(S.pmap || '').split(';').filter(Boolean).map(x => x.split('=')));
 const pmapSet = (S, m) => { S.pmap = Object.entries(m).map(([k, v]) => k + '=' + v).join(';'); };
-const PART_HE = { end: 'קצה מעוגל', base: 'בסיס', back: 'גב', armL: 'ידית שמאל', armR: 'ידית ימין', chaise: 'שזלונג' };
+const PART_HE = { seat: 'מושב', end: 'קצה מעוגל', base: 'בסיס', back: 'גב', armL: 'ידית שמאל', armR: 'ידית ימין', chaise: 'שזלונג' };
 const BACKS = { photo: 'כמו בתמונה', all: 'גב לכל מודול', alt: 'גבות לסירוגין', none: 'ללא גב' };
 const partName = k => PART_HE[k] || (k.startsWith('mb') ? `גב מודול ${+k.slice(2) + 1}` : k[0] === 'm' ? `מודול ${+k.slice(1) + 1}` : k[0] === 's' ? `כרית ישיבה ${+k.slice(1) + 1}` : k.startsWith('bc') ? `כרית גב ${+k.slice(2) + 1}` : k[0] === 'p' ? `כרית נוי ${+k.slice(1) + 1}` : k);
 
@@ -29,7 +29,7 @@ export const sofa = {
     const { FAB } = lists(cat), M = product.model || {};
     const fab = () => byId(FAB, fabId(S));
     const D = () => M.d || 90, H = () => M.h || 75;
-    const shapeTxt = () => M.style === 'curved' || M.style === 'shell' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
+    const shapeTxt = () => M.style === 'corner' ? 'פינתית' : M.style === 'curved' || M.style === 'shell' ? 'מעוגלת' : SHAPES[S.shape] || SHAPES.straight;
     const run = () => S.len + (S.shape && S.shape !== 'straight' ? (M.chaiseD || 160) - D() : 0);
     const texCss = f => `background:${f.hex} url(${new URL(f.tex || '', TEX_BASE)}) center/cover`;
     return {
@@ -182,7 +182,11 @@ export const sofa = {
         const r = M.armShape === 'round' ? Math.min(aw / 2 - .005, .16) : M.armShape === 'slim' ? .02 : RND;
         part(block(aw, AH - baseY, D, r), s < 0 ? 'armL' : 'armR', s * (L / 2 - aw / 2), baseY, 0);
       });
-      if (M.sidePanel) [-1, 1].forEach(sd => part(block(.045, H + .1 - .02, D + .1, .02), sd < 0 ? 'armL' : 'armR', sd * (L / 2 + .028), .02, 0));   /* tall thin screens at both ends (Juan) */
+      if (M.sidePanel) [-1, 1].forEach(sd => {   /* tall thin screens at both ends (Juan), corners rounded in side view */
+        const ph = H + .08, pd = D + .1, pt = .045, g = new THREE.ExtrudeGeometry(rr(pd - .012, ph - .012, cm(M.panelR ?? 12)), { depth: pt - .012, bevelEnabled: true, bevelThickness: .006, bevelSize: .006, bevelSegments: 3, curveSegments: 12 });
+        g.translate(0, 0, -(pt - .012) / 2); g.rotateY(Math.PI / 2); g.computeVertexNormals(); worldUV(g);
+        part(g, sd < 0 ? 'armL' : 'armR', sd * (L / 2 + pt / 2 + .004), .02 + ph / 2, 0);
+      });   /* tall thin screens at both ends (Juan) */
       /* back: frame, and loose cushions in front of it when the model has them */
       const bx0 = -L / 2 + aw + (ch < 0 ? CW - aw : 0), bx1 = L / 2 - aw - (ch > 0 ? CW - aw : 0), bw = bx1 - bx0;
       const loose = M.back === 'cushion', frameH = loose ? H - baseY - .08 : H - baseY;
@@ -201,9 +205,9 @@ export const sofa = {
       const cw = sw / n;
       for (let i = 0; i < n; i++) {
         const x = sx0 + (i + .5) * cw;
-        if (solid) part(block(cw - .006, SH - baseY, seatD, RND), 's' + i, x, baseY, z0 + BT + seatD / 2);
+        if (solid) part(block(cw - .006, SH - baseY, seatD, RND), M.channel ? 'seat' : 's' + i, x, baseY, z0 + BT + seatD / 2);
         else part(block(cw - (M.channel ? .004 : .008), CUSH, seatD - .01, M.channel ? Math.min(cw / 2 - .006, .06) : RND * 1.4), 's' + i, x, baseY + baseH, z0 + BT + seatD / 2);
-        if (M.channel) part(block(cw - .004, H - baseY, BT, Math.min(cw / 2 - .006, .06)), 'bc' + i, x, baseY, backZ);
+        if (M.channel) part(block(cw - .004, H - baseY, BT, Math.min(cw / 2 - .006, .06)), 'back', x, baseY, backZ);
         if (loose) {
           const bh = H - SH + .02, bt = .17, m = part(block(cw - .02, bh, bt, .07), 'bc' + i, x, SH - .02, z0 + BT + bt / 2 - .02);
           m.rotation.x = -.1;
@@ -312,9 +316,52 @@ export const sofa = {
       return { W: L, Dz: D + Math.abs(k), zc: 0 };
     }
 
+    /* "corner": an L in one piece – the long run along x, a return coming forward at the right end (mirror: at the left).
+       The back is one band that follows the two outer edges and turns the corner on a radius. */
+    function buildCorner() {
+      const L = dims.L, SL = cm(M.sideL || 200), D2 = cm(M.sideD || M.d || 90), rc = cm(M.cornerR ?? 25), re = cm(M.endR ?? 12), baseY = LEG_H;
+      const x0 = -L / 2, x1 = L / 2, zb = -D / 2, zf = D / 2, zs = zb + SL;
+      const P = [[x0, zb, re], [x1, zb, rc], [x1, zs, M.sideEndR != null ? cm(M.sideEndR) : re], [x1 - D2, zs, M.sideEndR != null ? cm(M.sideEndR) : re], [x1 - D2, zf, cm(M.innerR ?? 6)], [x0, zf, re]];
+      const sh = new THREE.Shape(), n = P.length, bv = Math.min(.05, (SH - baseY) / 2 - .002);
+      P.forEach(([x, z, r], i) => {
+        const [px, pz] = P[(i + n - 1) % n], [nx, nz] = P[(i + 1) % n];
+        const la = Math.hypot(px - x, pz - z), lb = Math.hypot(nx - x, nz - z), rr1 = Math.max(.005, Math.min(r, la / 2 - .001, lb / 2 - .001));
+        const ax = x + (px - x) / la * rr1, az = z + (pz - z) / la * rr1, bx = x + (nx - x) / lb * rr1, bz = z + (nz - z) / lb * rr1;
+        if (i) sh.lineTo(ax, -az); else sh.moveTo(ax, -az);
+        sh.quadraticCurveTo(x, -z, bx, -bz);
+      });
+      sh.closePath();
+      const g = new THREE.ExtrudeGeometry(sh, { depth: Math.max(.002, SH - baseY - bv), bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelOffset: -bv, bevelSegments: 6, curveSegments: 10 });
+      g.rotateX(-Math.PI / 2); worldUV(g);
+      part(g, 'base', 0, baseY, 0);
+      /* back band along the outer edge */
+      const a0 = cm(M.backStart ?? 0), a1 = cm(M.backEnd ?? 0), path = [], N = 40;
+      const l1 = (x1 - rc) - (x0 + a0), l3 = (zs - a1) - (zb + rc);
+      for (let i = 0; i <= N; i++) path.push([x0 + a0 + l1 * i / N, zb, 0, -1]);
+      for (let i = 1; i <= 16; i++) { const t = -Math.PI / 2 + i / 16 * Math.PI / 2; path.push([x1 - rc + rc * Math.cos(t), zb + rc + rc * Math.sin(t), Math.cos(t), Math.sin(t)]); }
+      for (let i = 1; i <= N; i++) path.push([x1, zb + rc + l3 * i / N, 1, 0]);
+      let tot = 0; const cum = [0]; for (let i = 1; i < path.length; i++) { tot += Math.hypot(path[i][0] - path[i - 1][0], path[i][1] - path[i - 1][1]); cum.push(tot); }
+      const K = 16, pos = [], uv = [], idx = [], T = BT, capL = M.backRound === false ? 0 : Math.min(.22, T * 1.1);
+      path.forEach(([x, z, nx, nz], j) => {
+        const e = Math.min(cum[j], tot - cum[j]), fh = capL ? Math.sqrt(Math.max(.0004, 1 - Math.pow(Math.max(0, 1 - e / capL), 2))) : 1;
+        const top = SH - .02 + (H - SH + .02) * fh, r = Math.min(T / 2, (top - SH + .04) * .9, cm(M.backTopR ?? 99)), y0 = M.backToFloor ? baseY + .03 : SH - .03;
+        const prof = [[-.004, y0], [-.006, (y0 + top - r) / 2]]; for (let t = 0; t <= K - 4; t++) { const th = t / (K - 4) * Math.PI; prof.push([T / 2 - (T / 2 + .004) * Math.cos(th), top - r + r * Math.sin(th)]); } prof.push([T, SH - .03]);
+        let pl = 0; prof.forEach(([u, y], i) => { if (i) pl += Math.hypot(u - prof[i - 1][0], y - prof[i - 1][1]); pos.push(x - nx * u, y, z - nz * u); uv.push(cum[j] / TILE, pl / TILE); });
+      });
+      for (let j = 0; j < path.length - 1; j++) for (let i = 0; i < K - 1; i++) { const A = j * K + i, B = A + 1, C2 = A + K, D3 = C2 + 1; idx.push(A, C2, B, B, C2, D3); }
+      [0, path.length - 1].forEach(j => { for (let i = 1; i < K - 1; i++) idx.push(j * K, j * K + i, j * K + i + 1); });
+      const bg = new THREE.BufferGeometry(); bg.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3)); bg.setAttribute('uv', new THREE.Float32BufferAttribute(uv, 2)); bg.setIndex(idx); bg.computeVertexNormals();
+      if (bg.attributes.normal.getZ(20 * K + 1) > 0) { for (let i = 0; i < idx.length; i += 3) { const t = idx[i + 1]; idx[i + 1] = idx[i + 2]; idx[i + 2] = t; } bg.setIndex(idx); bg.computeVertexNormals(); }
+      part(bg, 'back', 0, 0, 0);
+      if (M.base !== 'plinth') [[x0 + .08, zb + .08], [x0 + .08, zf - .08], [x1 - .08, zb + .08], [x1 - .08, zs - .08], [x1 - D2 + .08, zs - .08], [x1 - D2 + .08, zf - .08], [(x0 + x1 - D2) / 2, zb + .08], [(x0 + x1 - D2) / 2, zf - .08]].forEach(([x, z]) => leg(x, z));
+      if (M.mirror) [G.body, G.legs].forEach(gr => { gr.scale.x = -1; });
+      hotPts = { fabric: new THREE.Vector3(0, SH + .01, 0), legs: new THREE.Vector3(x0 + .08, LEG_H / 2, zf - .08) };
+      return { W: L, Dz: Math.max(D, SL), zc: zb + Math.max(D, SL) / 2 };
+    }
+
     function build() {
-      Object.values(G).forEach(clear);
-      const r = M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
+      Object.values(G).forEach(clear); [G.body, G.legs].forEach(gr => { gr.scale.x = 1; });
+      const r = M.style === 'corner' ? buildCorner() : M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
       ao.scale.set(r.W + .8, r.Dz + .8, 1); ao.position.z = r.zc;
       buildDims(r.W, r.Dz, r.zc); applyFab();
       ext = r;

@@ -9,7 +9,7 @@
     "len": 220,
     "shape": "straight",
     "pmode": "part",
-    "pmap": "s0=luzan-9;s1=luzan-9;s2=luzan-9;s3=luzan-9;s4=luzan-9;s5=luzan-9;s6=luzan-9;s7=luzan-9;s8=luzan-9;s9=luzan-9;s10=luzan-9;s11=luzan-9;s12=luzan-9;s13=luzan-9;s14=luzan-9;s15=luzan-9;s16=luzan-9;s17=luzan-9;s18=luzan-9;s19=luzan-9;s20=luzan-9;s21=luzan-9;s22=luzan-9;s23=luzan-9;s24=luzan-9;s25=luzan-9;s26=luzan-9;s27=luzan-9;s28=luzan-9;s29=luzan-9",
+    "pmap": "seat=luzan-9",
     "psel": "",
     "pbase": "antika-9",
     "fcol": "antika",
