@@ -40,7 +40,7 @@ export const sofa = {
         backs: BACKS[S.backs] || BACKS.photo,
         fabric: `<i style="${texCss(fab())}"></i>${S.pmode === 'part' ? 'בד לכל חלק' : fab().he}`,
         legs: M.base === 'plinth' ? 'בסיס על הרצפה' : `<i style="background:${(LEGS[S.leg] || LEGS.black).hex}"></i>${(LEGS[S.leg] || LEGS.black).he}`,
-        extra: M.style === 'bedrest' ? (S.pocket ? 'כיסי צד פתוחים' : 'ללא כיסים') : S.pillows ? 'כריות נוי' : 'ללא'
+        extra: M.style === 'bedrest' ? (S.pocket ? 'כיסי צד גמישים' : 'ללא כיסים') : S.pillows ? 'כריות נוי' : 'ללא'
       }[k]),
       toast: k => {
         const f = fab();
@@ -48,7 +48,7 @@ export const sofa = {
         if ((k === 'fcol' || k.startsWith('f_')) && S.pmode === 'part' && S.psel) return [`${partName(S.psel)}: ${f.he}`, texCss(f)];
         if (k === 'fcol' || k.startsWith('f_')) return [`בד: ${f.he}`, texCss(f)];
         if (k === 'leg') return [`רגליים: ${(LEGS[S.leg] || LEGS.black).he}`];
-        if (k === 'pocket') return [S.pocket ? 'נוספו כיסים פתוחים בשני הצדדים' : 'הכיסים הוסרו'];
+        if (k === 'pocket') return [S.pocket ? 'נוספו כיסים גמישים בשני הצדדים' : 'הכיסים הוסרו'];
         if (k === 'pillows') return [S.pillows ? 'נוספו כריות נוי' : 'הוסרו כריות הנוי'];
         return [`${S.len} × ${D()} ס״מ · ${shapeTxt()}`];
       },
@@ -57,7 +57,7 @@ export const sofa = {
         S.pmode === 'part' ? `בד בסיס: ${byId(FAB, S.pbase || fabId(S)).he}` : `בד: ${fab().he}`,
         ...(S.pmode === 'part' ? Object.entries(pmapGet(S)).sort().map(([k, v]) => `${partName(k)}: ${byId(FAB, v).he}`) : []),
         M.style === 'modules' ? `${Math.max(1, Math.round(S.len / (M.modW || 90)))} מודולים, ${BACKS[S.backs] || BACKS.photo}` : '',
-        M.base === 'plinth' ? '' : `רגליים: ${(LEGS[S.leg] || LEGS.black).he}`, S.pillows ? 'כריות נוי' : '', M.style === 'bedrest' && S.pocket ? 'כיסים פתוחים בשני הצדדים: תא לבקבוק ותא לשלטים בכל צד' : '']
+        M.base === 'plinth' ? '' : `רגליים: ${(LEGS[S.leg] || LEGS.black).he}`, S.pillows ? 'כריות נוי' : '', M.style === 'bedrest' && S.pocket ? 'כיסים גמישים עם גומי בשני הצדדים, שני תאים בכל צד' : '']
     };
   },
 
@@ -456,12 +456,16 @@ export const sofa = {
       /* arms: long, flat on top (a phone stays put), only the edges eased */
       const aB = cm(M.armBack ?? 8), aL = D - aB, aR = cm(M.armR ?? 3.5);
       [-1, 1].forEach(sd => part(block(aW, aH, aL, aR, aR), sd < 0 ? 'armL' : 'armR', sd * (W / 2 - aW / 2), 0, z0 + aB + aL / 2));
-      /* open pockets, two on the outer side of each arm: a tall one for a bottle, a long one for remotes and a phone */
+      /* two open stretch pockets on the outer side of each arm */
       if (S.pocket) [-1, 1].forEach(sd => {
         const x = sd * (W / 2 + .013), zf = z0 + D;
-        [[.11, Math.min(.17, aH - .03), zf - .1], [.24, Math.min(.12, aH - .06), zf - .31]].forEach(([pw, ph, pz]) => {
-          part(block(.034, ph, pw, .01), 'pocket', x, .025, pz);
-          const mouth = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.02, .004, pw - .024), .001), footMat); mouth.position.set(x, .025 + ph + .001, pz); G.legs.add(mouth);   /* dark opening on top – no zip, no flap */
+        /* stretch pockets: thin elastic cloth that lies flat and gives to whatever goes in – bottle, game controller, remotes –
+           gathered by an elastic band along the open top */
+        [[.17, Math.min(.16, aH - .04), zf - .12], [.23, Math.min(.14, aH - .06), zf - .36]].forEach(([pw, ph, pz]) => {
+          part(block(.016, ph, pw, .007), 'pocket', x - sd * .008, .03, pz);
+          const band = new THREE.CapsuleGeometry(.0075, pw * .86, 6, 12); band.rotateX(Math.PI / 2); worldUV(band);
+          part(band, 'pocket', x - sd * .004, .03 + ph - .004, pz);
+          [-1, 0, 1].forEach(q => { const pl = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.003, ph * .55, .004), .001), footMat); pl.position.set(x + sd * .001, .03 + ph * .62, pz + q * pw * .27); G.legs.add(pl); });   /* gathers under the band */
         });
       });
       hotPts = { fabric: new THREE.Vector3(0, bH * .6, z0 + bT0), legs: new THREE.Vector3(W / 2, aH / 2, 0) };
