@@ -1100,6 +1100,7 @@
     "backEnd": 0,
     "backRound": false,
     "backTopR": 2,
-    "mirror": true
+    "mirror": true,
+    "legT": 3
   }
 }

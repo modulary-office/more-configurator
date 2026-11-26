@@ -138,7 +138,12 @@ export const sofa = {
     function leg(x, z) {
       const h = LEG_H;
       if (M.base === 'plinth') return;
-      if (M.legStyle === 'block') { const b = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.05, h, .05)), legMat); b.position.set(x, h / 2, z); b.castShadow = true; G.legs.add(b); return; }
+      if (M.legStyle === 'cone') { const m = new THREE.Mesh(new THREE.CylinderGeometry(.021, .008, h, 18), legMat); m.position.set(x, h / 2, z); m.castShadow = true; G.legs.add(m); return; }   /* tapered foot (Lento) */
+      if (M.legStyle === 'splay') {   /* round leg leaning outwards (wood or metal) */
+        const o = new THREE.Vector3(Math.sign(x) || 0, 0, Math.sign(z) || 0).normalize().multiplyScalar(h * .32), a = new THREE.Vector3(x, h, z), b2 = new THREE.Vector3(x, 0, z).add(o), dir = new THREE.Vector3().subVectors(b2, a), len = dir.length();
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(.011, .019, len, 16), legMat); m.position.copy(a).add(b2).multiplyScalar(.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize()); m.castShadow = true; G.legs.add(m); return;
+      }
+      if (M.legStyle === 'block') { const lt = cm(M.legT || 5); const b = new THREE.Mesh(easeBox(new THREE.BoxGeometry(lt, h, lt)), legMat); b.position.set(x, h / 2, z); b.castShadow = true; G.legs.add(b); return; }
       const wood = !(LEGS[S.leg] || LEGS.black).metal, m = new THREE.Mesh(new THREE.CylinderGeometry(wood ? .02 : .012, wood ? .013 : .011, h, 14), legMat);
       m.position.set(x, h / 2, z); m.castShadow = true; G.legs.add(m);
     }
@@ -274,7 +279,8 @@ export const sofa = {
       }
       if (M.base !== 'plinth') for (let i = 0; i <= 3; i++) {
         const a = -Math.PI / 2 - th / 2 + (i / 3) * th, cos = Math.cos(a), sin = Math.sin(a);
-        [Rin + .1, Rout - .1].forEach(r => leg(r * cos, cz + r * sin));
+        if (M.legStyle === 'spider') { const rm = (Rin + Rout) / 2, top = new THREE.Vector3(rm * cos, LEG_H, cz + rm * sin); [Rin + .06, Rout - .06].forEach(r => { bar(new THREE.Vector3(r * cos, 0, cz + r * sin), top, .009); const ft = new THREE.Mesh(new THREE.CylinderGeometry(.014, .014, .006, 12), footMat); ft.position.set(r * cos, .003, cz + r * sin); G.legs.add(ft); }); }
+        else [Rin + .1, Rout - .1].forEach(r => leg(r * cos, cz + r * sin));
       }
       hotPts = { fabric: new THREE.Vector3(0, SH + .01, cz - R + D * .6), legs: new THREE.Vector3(L / 2 - .1, LEG_H / 2, 0) };
       if (tail) { const xmin = -L / 2, xmax = Math.max(L / 2, tail.x + D / 2), zmin = Math.min(-(sag + D) / 2, cz + tail.z - D / 2), zmax = Math.max((sag + D) / 2, cz + tail.z + D / 2); [G.body, G.legs].forEach(gr => { gr.position.x = -(xmin + xmax) / 2; }); return { W: xmax - xmin, Dz: zmax - zmin, zc: (zmax + zmin) / 2 }; }
@@ -295,11 +301,13 @@ export const sofa = {
       /* the back is its own body: a shell that stands on the floor line and wraps round the seat, which sits inside it
          (backOnSeat: the back is a roll resting on top of the seat instead – Onem, Elora) */
       const wrapSeat = !M.backOnSeat, bo = wrapSeat ? .03 : .008;
-      part(extr(wrapSeat ? .022 : 0, SH - baseY, Math.min(.07, (SH - baseY) / 2 - .002)), 'base', 0, baseY, 0);
+      part(extr(wrapSeat ? .022 : 0, SH - baseY, Math.min(wrapSeat ? .11 : .07, (SH - baseY) / 2 - .002)), 'base', 0, baseY, 0);   /* generous edge so the seat reads as a full cushion */
       /* back band */
       const wrap = (M.wrap ?? .8) * Math.PI, armF = M.armF ?? .6, flat = M.backFlat ?? .45, J = 96, K = 16, pos = [], uv = [], idx = [];
       const smooth = t => t * t * (3 - 2 * t);
-      let arc = 0, prev = null;
+      let arc = 0, prev = null, totLen = 0;
+      { let pv = null; for (let j = 0; j <= J; j++) { const [x, z] = C(-Math.PI / 2 + (-1 + 2 * j / J) * wrap); if (pv) totLen += Math.hypot(x - pv[0], z - pv[1]); pv = [x, z]; } }
+      const roundEnd = (M.dropAt ?? .8) >= 1 && M.endRound !== false;   /* arm fronts finish in a soft half-round, not a flat cut */
       for (let j = 0; j <= J; j++) {
         const sN = -1 + 2 * j / J, e = Math.abs(sN), ph = -Math.PI / 2 + sN * wrap;
         const [x, z] = C(ph), [x1, z1] = C(ph + .002), [x0, z0] = C(ph - .002);
@@ -308,6 +316,7 @@ export const sofa = {
         const top = seatY + .03 + (H - seatY - .03) * Math.max(.02, fh), T = BT * (.7 + .3 * Math.min(1, fh)), r = Math.min(T / 2, (top - seatY) * .9), y0 = wrapSeat ? baseY : baseY + .035;
         if (prev) arc += Math.hypot(x - prev[0], z - prev[1]); prev = [x, z];
         const prof = [[-bo, y0], [-bo - .004, (y0 + top - r) / 2]]; for (let t = 0; t <= K - 4; t++) { const th = t / (K - 4) * Math.PI; prof.push([-bo + (T / 2 + bo / 2) - (T / 2 + bo / 2) * Math.cos(th), top - r + r * Math.sin(th)]); } prof.push([T, seatY - .02]);
+        if (roundEnd) { const capL = T * .55, dE = Math.min(arc, totLen - arc); if (dE < capL) { const w = Math.sqrt(Math.max(.02, 1 - Math.pow(1 - dE / capL, 2))), cc = (T - bo) / 2; prof.forEach(p => { p[0] = cc + (p[0] - cc) * w; }); } }
         let pl = 0;
         prof.forEach(([u, y], i) => { if (i) pl += Math.hypot(u - prof[i - 1][0], y - prof[i - 1][1]); pos.push(x - nx * u, y, z - nz * u); uv.push(arc / TILE, pl / TILE); });
       }
