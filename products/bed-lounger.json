@@ -986,7 +986,7 @@
   "model": {
     "style": "bedrest",
     "d": 72,
-    "h": 72,
+    "h": 60,
     "sh": 0,
     "armW": 20,
     "armH": 22,
@@ -994,7 +994,6 @@
     "backTop": 14,
     "rollR": 9,
     "armBack": 8,
-    "ribs": true,
     "kindHe": "כורסת מיטה",
     "armR": 3.5,
     "lean": 0.2,
