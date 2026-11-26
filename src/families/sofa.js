@@ -138,7 +138,12 @@ export const sofa = {
     function leg(x, z) {
       const h = LEG_H;
       if (M.base === 'plinth') return;
-      if (M.legStyle === 'block') { const b = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.05, h, .05)), legMat); b.position.set(x, h / 2, z); b.castShadow = true; G.legs.add(b); return; }
+      if (M.legStyle === 'cone') { const m = new THREE.Mesh(new THREE.CylinderGeometry(.021, .008, h, 18), legMat); m.position.set(x, h / 2, z); m.castShadow = true; G.legs.add(m); return; }   /* tapered foot (Lento) */
+      if (M.legStyle === 'splay') {   /* round leg leaning outwards (wood or metal) */
+        const o = new THREE.Vector3(Math.sign(x) || 0, 0, Math.sign(z) || 0).normalize().multiplyScalar(h * .32), a = new THREE.Vector3(x, h, z), b2 = new THREE.Vector3(x, 0, z).add(o), dir = new THREE.Vector3().subVectors(b2, a), len = dir.length();
+        const m = new THREE.Mesh(new THREE.CylinderGeometry(.011, .019, len, 16), legMat); m.position.copy(a).add(b2).multiplyScalar(.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), dir.normalize()); m.castShadow = true; G.legs.add(m); return;
+      }
+      if (M.legStyle === 'block') { const lt = cm(M.legT || 5); const b = new THREE.Mesh(easeBox(new THREE.BoxGeometry(lt, h, lt)), legMat); b.position.set(x, h / 2, z); b.castShadow = true; G.legs.add(b); return; }
       const wood = !(LEGS[S.leg] || LEGS.black).metal, m = new THREE.Mesh(new THREE.CylinderGeometry(wood ? .02 : .012, wood ? .013 : .011, h, 14), legMat);
       m.position.set(x, h / 2, z); m.castShadow = true; G.legs.add(m);
     }
@@ -274,7 +279,8 @@ export const sofa = {
       }
       if (M.base !== 'plinth') for (let i = 0; i <= 3; i++) {
         const a = -Math.PI / 2 - th / 2 + (i / 3) * th, cos = Math.cos(a), sin = Math.sin(a);
-        [Rin + .1, Rout - .1].forEach(r => leg(r * cos, cz + r * sin));
+        if (M.legStyle === 'spider') { const rm = (Rin + Rout) / 2, top = new THREE.Vector3(rm * cos, LEG_H, cz + rm * sin); [Rin + .06, Rout - .06].forEach(r => { bar(new THREE.Vector3(r * cos, 0, cz + r * sin), top, .009); const ft = new THREE.Mesh(new THREE.CylinderGeometry(.014, .014, .006, 12), footMat); ft.position.set(r * cos, .003, cz + r * sin); G.legs.add(ft); }); }
+        else [Rin + .1, Rout - .1].forEach(r => leg(r * cos, cz + r * sin));
       }
       hotPts = { fabric: new THREE.Vector3(0, SH + .01, cz - R + D * .6), legs: new THREE.Vector3(L / 2 - .1, LEG_H / 2, 0) };
       if (tail) { const xmin = -L / 2, xmax = Math.max(L / 2, tail.x + D / 2), zmin = Math.min(-(sag + D) / 2, cz + tail.z - D / 2), zmax = Math.max((sag + D) / 2, cz + tail.z + D / 2); [G.body, G.legs].forEach(gr => { gr.position.x = -(xmin + xmax) / 2; }); return { W: xmax - xmin, Dz: zmax - zmin, zc: (zmax + zmin) / 2 }; }

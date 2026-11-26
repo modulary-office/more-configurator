@@ -13,7 +13,7 @@
     "psel": "",
     "pbase": "",
     "fcol": "boss",
-    "leg": "black",
+    "leg": "chrome",
     "pillows": false,
     "f_fast": "fast-1",
     "f_solly": "solly-1",
@@ -1055,11 +1055,12 @@
     "armH": 60,
     "backT": 22,
     "round": 5,
-    "legH": 10,
+    "legH": 16,
     "cushT": 14,
     "base": "legs",
     "back": "tight",
     "seatW": 70,
-    "bow": 0.42
+    "bow": 0.42,
+    "legStyle": "spider"
   }
 }

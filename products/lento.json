@@ -1092,6 +1092,7 @@
     "legH": 18,
     "base": "legs",
     "modW": 100,
-    "backPattern": "1"
+    "backPattern": "1",
+    "legStyle": "cone"
   }
 }
