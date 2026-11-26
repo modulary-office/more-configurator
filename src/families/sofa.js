@@ -157,11 +157,11 @@ export const sofa = {
 
     function buildBlock() {
       const L = M.roundEnd ? dims.L - D / 2 : dims.L, shape = S.shape || 'straight', chaiseD = cm(M.chaiseD || 160), CW = cm(M.chaiseW || 90);
-      const arms = AH > 0, aw = arms ? AW : 0, baseY = LEG_H, baseH = Math.max(.06, SH - CUSH - baseY);
+      const arms = AH > 0, aw = arms ? AW : 0, awL = M.oneArm === 'R' ? 0 : aw, awR = M.oneArm === 'L' ? 0 : aw, baseY = LEG_H, baseH = Math.max(.06, SH - CUSH - baseY);
       const z0 = -D / 2, backZ = z0 + BT / 2, seatD = D - BT;
       /* base under the whole straight part */
       const solid = M.seat === 'solid';
-      if (!solid) part(block(L - 2 * aw + .02, baseH, D - .02, .02), 'base', 0, baseY, 0);
+      if (!solid) part(block(L - awL - awR + .02, baseH, D - .02, .02), 'base', (awL - awR) / 2, baseY, 0);
       /* chaise: an extra deep seat at one end, no back over it */
       const ch = shape === 'chaiseL' ? -1 : shape === 'chaiseR' ? 1 : 0;
       if (ch) {
@@ -170,7 +170,7 @@ export const sofa = {
       }
       /* arms (none on the chaise side) */
       if (arms) [-1, 1].forEach(s => {
-        if (s === ch) return;
+        if (s === ch || (s < 0 ? awL : awR) === 0) return;
         if (M.armShape === 'panel') {   /* wedge panel: outer face vertical, inner face leaning out towards the top */
           const h = AH - baseY, t0 = aw, t1 = Math.max(.03, aw * .4), sh = new THREE.Shape();
           sh.moveTo(0, 0); sh.lineTo(t0, 0); sh.lineTo(t1, h); sh.lineTo(0, h); sh.closePath();
@@ -188,7 +188,7 @@ export const sofa = {
         part(g, sd < 0 ? 'armL' : 'armR', sd * (L / 2 + pt / 2 + .004), .02 + ph / 2, 0);
       });   /* tall thin screens at both ends (Juan) */
       /* back: frame, and loose cushions in front of it when the model has them */
-      const bx0 = -L / 2 + aw + (ch < 0 ? CW - aw : 0), bx1 = L / 2 - aw - (ch > 0 ? CW - aw : 0), bw = bx1 - bx0;
+      const bx0 = -L / 2 + awL + (ch < 0 ? CW - awL : 0), bx1 = L / 2 - awR - (ch > 0 ? CW - awR : 0), bw = bx1 - bx0;
       const loose = M.back === 'cushion', frameH = loose ? H - baseY - .08 : H - baseY;
       if (M.back === 'panel') {   /* one leaning wedge per seat: thick at the seat, thin at the top */
         const np = Math.max(1, Math.round(bw / cm(M.seatW || 70))), pw = bw / np, h = H - baseY, t0 = BT, t1 = Math.max(.04, BT * .35);
@@ -200,7 +200,7 @@ export const sofa = {
         }
       } else if (!M.channel) part(block(bw + (arms ? .0 : 0), frameH, BT, RND), 'back', (bx0 + bx1) / 2, baseY, backZ);
       /* seat cushions over the straight part (not over the chaise) */
-      const sx0 = -L / 2 + aw + (ch < 0 ? CW - aw : 0), sx1 = L / 2 - aw - (ch > 0 ? CW - aw : 0), sw = sx1 - sx0;
+      const sx0 = -L / 2 + awL + (ch < 0 ? CW - awL : 0), sx1 = L / 2 - awR - (ch > 0 ? CW - awR : 0), sw = sx1 - sx0;
       const n = M.bench ? 1 : Math.max(1, Math.round(sw / (cm(M.seatW || 70))));
       const cw = sw / n;
       for (let i = 0; i < n; i++) {
@@ -249,14 +249,14 @@ export const sofa = {
 
     function buildCurved() {
       /* chord L, sagitta from model.bow (fraction of L) → radius */
-      const L = dims.L, bow = M.bow || .22, sag = L * bow, R = (L * L / 4 + sag * sag) / (2 * sag), th = 2 * Math.asin(Math.min(1, L / 2 / R));
+      const L = dims.L * (M.chordK || 1), bow = M.bow || .22, sag = L * bow, R = (L * L / 4 + sag * sag) / (2 * sag), th = 2 * Math.asin(Math.min(1, L / 2 / R));
       const cz = R - (sag + D) / 2;   /* circle centre in front; the arc bulges back (−z), the whole footprint centred */
       const ring = (r0, r1, a0, a1) => { const s = new THREE.Shape(); s.absarc(0, 0, r1, a0, a1, false); s.absarc(0, 0, r0, a1, a0, true); s.closePath(); return s; };
       const mkRing = (r0, r1, h, bevel) => {
         const g = new THREE.ExtrudeGeometry(ring(r0, r1, -Math.PI / 2 - th / 2, -Math.PI / 2 + th / 2), { depth: Math.max(.002, h - 2 * bevel), bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 5, curveSegments: 48 });
         g.rotateX(Math.PI / 2); g.translate(0, h - bevel, 0); return worldUV(g);
       };
-      const baseY = LEG_H, baseH = Math.max(.06, SH - CUSH - baseY), Rout = R + 0, Rin = R - D;
+      const baseY = LEG_H, baseH = Math.max(.06, SH - CUSH - baseY), Rout = R + 0, Rin = R - D; let tail = null;
       const nseg = M.segs || 1, gap = nseg > 1 ? .008 / R : 0;
       for (let i = 0; i < nseg; i++) {
         const a0 = -Math.PI / 2 - th / 2 + i * th / nseg + gap, a1 = a0 + th / nseg - 2 * gap;
@@ -264,11 +264,20 @@ export const sofa = {
         part(seg(Rin, Rout - BT + .01, SH - baseY, Math.min(RND, .06)), 's' + i, 0, baseY, cz);   /* seat in one piece down to the floor line */
         part(seg(Rout - BT, Rout, H - baseY, RND * 1.2), nseg > 1 ? 'bc' + i : 'back', 0, baseY, cz);
       }
+      if (M.sR) {   /* S shape: a second, gentler arc leaves the right end and bends the other way; the back stays on the same side */
+        const aE = -Math.PI / 2 + th / 2, Rm = R - D / 2, Rb = cm(M.sR), bx = (Rm + Rb) * Math.cos(aE), bz = (Rm + Rb) * Math.sin(aE), sweep = (dims.L - L) / Rb, b1 = aE + Math.PI, b0 = b1 - sweep;
+        const mk = (r0, r1, h, bevel) => { const g = new THREE.ExtrudeGeometry(ring(r0, r1, b0, b1), { depth: Math.max(.002, h - 2 * bevel), bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 5, curveSegments: 48 }); g.rotateX(Math.PI / 2); g.translate(0, h - bevel, 0); return worldUV(g); };
+        part(mk(Rb - D / 2 + BT - .01, Rb + D / 2, SH - baseY, Math.min(RND, .06)), 's' + nseg, bx, baseY, cz + bz);
+        part(mk(Rb - D / 2, Rb - D / 2 + BT, H - baseY, RND * 1.2), 'back', bx, baseY, cz + bz);
+        if (M.base !== 'plinth') for (let i = 1; i <= 4; i++) { const a = b1 - (i / 4) * sweep; [Rb - D / 2 + .1, Rb + D / 2 - .1].forEach(r => leg(bx + r * Math.cos(a), cz + bz + r * Math.sin(a))); }
+        tail = { x: bx + Rb * Math.cos(b0), z: bz + Rb * Math.sin(b0) };
+      }
       if (M.base !== 'plinth') for (let i = 0; i <= 3; i++) {
         const a = -Math.PI / 2 - th / 2 + (i / 3) * th, cos = Math.cos(a), sin = Math.sin(a);
         [Rin + .1, Rout - .1].forEach(r => leg(r * cos, cz + r * sin));
       }
       hotPts = { fabric: new THREE.Vector3(0, SH + .01, cz - R + D * .6), legs: new THREE.Vector3(L / 2 - .1, LEG_H / 2, 0) };
+      if (tail) { const xmin = -L / 2, xmax = Math.max(L / 2, tail.x + D / 2), zmin = Math.min(-(sag + D) / 2, cz + tail.z - D / 2), zmax = Math.max((sag + D) / 2, cz + tail.z + D / 2); [G.body, G.legs].forEach(gr => { gr.position.x = -(xmin + xmax) / 2; }); return { W: xmax - xmin, Dz: zmax - zmin, zc: (zmax + zmin) / 2 }; }
       return { W: L, Dz: sag + D, zc: 0 };
     }
 
@@ -360,7 +369,7 @@ export const sofa = {
     }
 
     function build() {
-      Object.values(G).forEach(clear); [G.body, G.legs].forEach(gr => { gr.scale.x = 1; });
+      Object.values(G).forEach(clear); [G.body, G.legs].forEach(gr => { gr.scale.x = 1; gr.position.x = 0; });
       const r = M.style === 'corner' ? buildCorner() : M.style === 'shell' ? buildShell() : M.style === 'curved' ? buildCurved() : M.style === 'modules' ? buildModules() : buildBlock();
       ao.scale.set(r.W + .8, r.Dz + .8, 1); ao.position.z = r.zc;
       buildDims(r.W, r.Dz, r.zc); applyFab();

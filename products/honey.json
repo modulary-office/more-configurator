@@ -1054,7 +1054,7 @@
     "armW": 20,
     "armH": 60,
     "backT": 22,
-    "round": 8,
+    "round": 5,
     "legH": 10,
     "cushT": 14,
     "base": "legs",
