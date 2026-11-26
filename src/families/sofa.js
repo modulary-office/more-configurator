@@ -166,8 +166,7 @@ export const sofa = {
       const ch = shape === 'chaiseL' ? -1 : shape === 'chaiseR' ? 1 : 0;
       if (ch) {
         const cx = ch * (L / 2 - CW / 2), cz = z0 + chaiseD / 2;
-        part(block(CW - .01, baseH, chaiseD, .02), 'chaise', cx, baseY, cz);
-        part(block(CW - .03, CUSH, chaiseD - .03 - (D - seatD) * 0, RND * 1.4), 'chaise', cx, baseY + baseH, cz + .01);
+        part(block(CW - .006, SH - baseY, chaiseD, RND), 'chaise', cx, baseY, cz);   /* one piece, like the seat */
       }
       /* arms (none on the chaise side) */
       if (arms) [-1, 1].forEach(s => {
@@ -183,6 +182,7 @@ export const sofa = {
         const r = M.armShape === 'round' ? Math.min(aw / 2 - .005, .16) : M.armShape === 'slim' ? .02 : RND;
         part(block(aw, AH - baseY, D, r), s < 0 ? 'armL' : 'armR', s * (L / 2 - aw / 2), baseY, 0);
       });
+      if (M.sidePanel) [-1, 1].forEach(sd => part(block(.045, H + .1 - .02, D + .1, .02), sd < 0 ? 'armL' : 'armR', sd * (L / 2 + .028), .02, 0));   /* tall thin screens at both ends (Juan) */
       /* back: frame, and loose cushions in front of it when the model has them */
       const bx0 = -L / 2 + aw + (ch < 0 ? CW - aw : 0), bx1 = L / 2 - aw - (ch > 0 ? CW - aw : 0), bw = bx1 - bx0;
       const loose = M.back === 'cushion', frameH = loose ? H - baseY - .08 : H - baseY;
@@ -231,7 +231,8 @@ export const sofa = {
 
     function buildModules() {
       /* separate upholstered cubes (Bully): a solid seat block per module, a back block on some of them */
-      const L = dims.L, n = Math.max(1, Math.round(L / cm(M.modW || 90))), w = L / n, base = .015, z0 = -D / 2;
+      const L = dims.L, n = Math.max(1, Math.round(L / cm(M.modW || 90))), w = L / n, base = M.base === 'legs' ? LEG_H : .015, z0 = -D / 2;
+      if (M.base === 'legs') { const xs = [-L / 2 + .09, L / 2 - .09]; if (L > 2.4) xs.push(0); xs.forEach(x => [z0 + .09, -z0 - .09].forEach(z => leg(x, z))); }
       const pat = S.backs === 'all' ? '1' : S.backs === 'none' ? '0' : S.backs === 'alt' ? '10' : (M.backPattern || '1');
       for (let i = 0; i < n; i++) {
         const x = -L / 2 + (i + .5) * w;
@@ -252,12 +253,11 @@ export const sofa = {
         g.rotateX(Math.PI / 2); g.translate(0, h - bevel, 0); return worldUV(g);
       };
       const baseY = LEG_H, baseH = Math.max(.06, SH - CUSH - baseY), Rout = R + 0, Rin = R - D;
-      part(mkRing(Rin, Rout, baseH, .03), 'base', 0, baseY, cz);
       const nseg = M.segs || 1, gap = nseg > 1 ? .008 / R : 0;
       for (let i = 0; i < nseg; i++) {
         const a0 = -Math.PI / 2 - th / 2 + i * th / nseg + gap, a1 = a0 + th / nseg - 2 * gap;
         const seg = (r0, r1, h, bevel) => { const g = new THREE.ExtrudeGeometry(ring(r0, r1, a0, a1), { depth: Math.max(.002, h - 2 * bevel), bevelEnabled: true, bevelThickness: bevel, bevelSize: bevel, bevelSegments: 5, curveSegments: 24 }); g.rotateX(Math.PI / 2); g.translate(0, h - bevel, 0); return worldUV(g); };
-        part(seg(Rin + .01, Rout - BT, CUSH, RND), 's' + i, 0, baseY + baseH, cz);
+        part(seg(Rin, Rout - BT + .01, SH - baseY, Math.min(RND, .06)), 's' + i, 0, baseY, cz);   /* seat in one piece down to the floor line */
         part(seg(Rout - BT, Rout, H - baseY, RND * 1.2), nseg > 1 ? 'bc' + i : 'back', 0, baseY, cz);
       }
       if (M.base !== 'plinth') for (let i = 0; i <= 3; i++) {
