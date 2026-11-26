@@ -213,6 +213,12 @@ export const cabinet = {
       for (let i = 0; i < uv.count; i++) { const f = Math.floor(i / 4), u = uv.getX(i) * U[f], v = uv.getY(i) * V[f]; if (f === 2 || f === 3) uv.setXY(i, u, v); else uv.setXY(i, v, u); }
       const m = sh(new THREE.Mesh(easeBox(g), mat)); m.position.set(x, y, z); return m;
     }
+    /* shadow gap: a near-black strip just behind a front, a little larger than it. Real doors stand 2 mm off the carcass with
+       3–4 mm between them; the dark line is what lets the eye read each door and the side panel as separate boards. */
+    const revealMat = new THREE.MeshStandardMaterial({ color: 0x0e0d0c, roughness: 1, envMapIntensity: 0 });
+    const reveal = (w, h, x, y, z) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, .0008), revealMat); m.position.set(x, y, z); m.receiveShadow = true; return m; };
+    /* the groove between two neighbouring fronts: dark from any angle, stopping 1.5 mm short of the face */
+    const groove = (w, h, d, x, y, zFace) => { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), revealMat); m.position.set(x, y, zFace - .0015 - d / 2); return m; };
     const cyl = (r, h, mat, x, y, z, seg = 16) => { const m = sh(new THREE.Mesh(new THREE.CylinderGeometry(r, r, h, seg), mat)); m.position.set(x, y, z); return m; };
 
     const G = { body: new THREE.Group(), fronts: new THREE.Group(), base: new THREE.Group(), top: new THREE.Group(), dims: new THREE.Group() };
@@ -283,16 +289,21 @@ export const cabinet = {
         if (ci > 0) G.body.add(board(t, Hin, D - .02, bm, x, y0 + t + Hin / 2, oz - .01));
         let y = y0 + t;
         c.cells.forEach((cell, ri) => {
-          const cy = y + cell.h / 2, gap = .003;
+          const cy = y + cell.h / 2, gap = .002, air = .0025;
           if (ri > 0 && (cell.k === 'open' || c.cells[ri - 1].k === 'open' || cell.k === 'glass' || c.cells[ri - 1].k === 'glass' || cell.cube)) G.body.add(board(c.w - (ci > 0 ? t / 2 : 0), t, D - .02, bm, cx, y, oz - .01));
           if (cell.k === 'door' || cell.k === 'drawer') {
-            const fw = c.w + (ci === 0 ? ts : t / 2) + (ci === cols.length - 1 ? ts : t / 2) - 2 * gap - (cols.length > 1 ? 0 : 0);
+            /* each front covers its own bay and stops 2 mm short of the bay line, so neighbours never overlap and a 4 mm joint shows */
+            const fw = c.w + (ci === 0 ? ts : 0) + (ci === cols.length - 1 ? ts : 0) - 2 * gap;
             const fwx = cx + (ci === 0 ? -ts / 2 : 0) + (ci === cols.length - 1 ? ts / 2 : 0) + (ci === 0 && ci === cols.length - 1 ? 0 : 0);
-            const fh = cell.h + (ri === 0 ? t : t / 2) + (ri === c.cells.length - 1 ? t : t / 2) - 2 * gap;
+            const fh = cell.h + (ri === 0 ? t : 0) + (ri === c.cells.length - 1 ? t : 0) - 2 * gap;
             const fy = cy + (ri === 0 ? -t / 2 : 0) + (ri === c.cells.length - 1 ? t / 2 : 0);
             const panelW = cols.length === 1 ? W - 2 * gap : fw, panelX = cols.length === 1 ? ox : fwx;
-            const p = board(panelW, fh, .018, fm, panelX, fy, zf + .009); p.userData.front = 1; G.fronts.add(p);
-            handle(G.fronts, cell.k, panelX, fy, zf + .009, panelW, fh, cell.hinge);
+            const p = board(panelW, fh, .018, fm, panelX, fy, zf + air + .009); p.userData.front = 1; G.fronts.add(p);
+            G.body.add(reveal(panelW + 2 * gap - .0006, fh + 2 * gap - .0006, panelX, fy, zf + .0006));
+            const zFace = zf + air + .018, nx = c.cells[ri + 1];
+            if (cols.length > 1 && ci < cols.length - 1) G.fronts.add(groove(2 * gap, fh + 2 * gap, air + .014, panelX + panelW / 2 + gap, fy, zFace));
+            if (nx && (nx.k === 'door' || nx.k === 'drawer')) G.fronts.add(groove(panelW, 2 * gap, air + .014, panelX, fy + fh / 2 + gap, zFace));
+            handle(G.fronts, cell.k, panelX, fy, zf + air + .009, panelW, fh, cell.hinge);
           } else if (cell.k === 'glass') {
             const fh = cell.h - .004, fw = c.w - .004;
             const gm = S.glass === 'tempered' ? glassTempered : glassMat;
@@ -392,8 +403,9 @@ export const cabinet = {
       G.body.add(board(W, ch, .004, bm, 0, pb + ch / 2, -D / 2 + .002));
       for (let i = 0; i < n; i++) {
         const cx = -W / 2 + (i + .5) * mw, fy0 = pb, fh = ch - .006;
-        if (i % 3 === 0) { for (let r = 0; r < 3; r++) { const h = fh / 3 - .003; const y = fy0 + (r + .5) * fh / 3; const p = board(mw - .004, h, .018, fm, cx, y + .003, D / 2 - .01); p.userData.front = 1; G.fronts.add(p); handle(G.fronts, 'drawer', cx, y + .003, D / 2 - .01, mw - .004, h, 'l'); } }
-        else { const p = board(mw - .004, fh, .018, fm, cx, fy0 + fh / 2 + .003, D / 2 - .01); p.userData.front = 1; G.fronts.add(p); handle(G.fronts, 'door', cx, fy0 + fh / 2 + .003, D / 2 - .01, mw - .004, fh, i % 2 ? 'r' : 'l'); }
+        if (i > 0) G.fronts.add(groove(.004, fh, .014, cx - mw / 2, fy0 + fh / 2 + .003, D / 2 - .001));
+        if (i % 3 === 0) { for (let r = 0; r < 3; r++) { const h = fh / 3 - .003; const y = fy0 + (r + .5) * fh / 3; const p = board(mw - .004, h, .018, fm, cx, y + .003, D / 2 - .01); p.userData.front = 1; G.fronts.add(p); G.body.add(reveal(mw, h + .003, cx, y + .003, D / 2 - .0215)); if (r < 2) G.fronts.add(groove(mw - .004, .003, .014, cx, y + .003 + h / 2 + .0015, D / 2 - .001)); handle(G.fronts, 'drawer', cx, y + .003, D / 2 - .01, mw - .004, h, 'l'); } }
+        else { const p = board(mw - .004, fh, .018, fm, cx, fy0 + fh / 2 + .003, D / 2 - .01); p.userData.front = 1; G.fronts.add(p); G.body.add(reveal(mw, fh + .004, cx, fy0 + fh / 2 + .003, D / 2 - .0215)); handle(G.fronts, 'door', cx, fy0 + fh / 2 + .003, D / 2 - .01, mw - .004, fh, i % 2 ? 'r' : 'l'); }
       }
       /* worktop */
       const tt = S.stone ? .02 : .038, ty = Hb - .038 + tt;
@@ -432,7 +444,8 @@ export const cabinet = {
         G.body.add(board(UL, uh, .004, bm, ux, uy + uh / 2, -D / 2 + .012));
         const nu = upperCount(S.w, S.uw), mw = UL / nu;
         for (let i = 1; i < nu; i++) G.body.add(board(t, uh - 2 * t, ud - .004, bm, ux - UL / 2 + i * mw, uy + uh / 2, uz));
-        for (let i = 0; i < nu; i++) { const cx = ux - UL / 2 + (i + .5) * mw; const p = board(mw - .008, uh - .006, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .009); p.userData.front = 1; G.fronts.add(p);
+        for (let i = 1; i < nu; i++) G.fronts.add(groove(.004, uh - .004, .014, ux - UL / 2 + i * mw, uy + uh / 2, uz + ud / 2 + .0205));
+        for (let i = 0; i < nu; i++) { const cx = ux - UL / 2 + (i + .5) * mw; const p = board(mw - .004, uh - .004, .018, fm, cx, uy + uh / 2, uz + ud / 2 + .0115); p.userData.front = 1; G.fronts.add(p); G.body.add(reveal(mw - .0006, uh - .0006, cx, uy + uh / 2, uz + ud / 2 + .0006));
           if (S.finish === 'epoxy' || S.handle === 'integral') G.fronts.add(board(mw * .8, .014, .022, metal, cx, uy + .007 + .003, uz + ud / 2 + .013)); else if (S.handle === 'bar') G.fronts.add(board(Math.min(.16, mw * .5), .012, .012, metal, cx, uy + .05, uz + ud / 2 + .026)); }
       }
       return { y0: 0 };
