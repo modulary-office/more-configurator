@@ -997,6 +997,7 @@
     "kindHe": "כורסת מיטה",
     "armR": 3.5,
     "lean": 0.2,
-    "lumbar": 5
+    "lumbar": 1.5,
+    "hollow": 3.5
   }
 }

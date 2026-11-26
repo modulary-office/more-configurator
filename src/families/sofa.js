@@ -444,7 +444,8 @@ export const sofa = {
          the whole back leans away from the sitter */
       const sh = new THREE.Shape(), bv = .035, hh = bH - 2 * bv, lum = cm(M.lumbar ?? 5);
       sh.moveTo(0, 0); sh.lineTo(bT0 - 2 * bv, 0);
-      sh.splineThru([new THREE.Vector2(bT0 - 2 * bv + lum * .7, hh * .16), new THREE.Vector2(bT0 - 2 * bv + lum, hh * .3), new THREE.Vector2(bT0 - 2 * bv - lum * .2, hh * .55), new THREE.Vector2((bT0 + bT1) / 2 - 2 * bv - lum * .5, hh * .78), new THREE.Vector2(bT1 - 2 * bv, hh)]);
+      const hol = cm(M.hollow ?? 0), lin = t => bT0 + (bT1 - bT0) * t - 2 * bv;   /* hollow: the face curves in between the lumbar and the shoulders, so the back cradles */
+      sh.splineThru([new THREE.Vector2(lin(.16) + lum * .7, hh * .16), new THREE.Vector2(lin(.3) + lum - hol * .3, hh * .3), new THREE.Vector2(lin(.55) - hol, hh * .55), new THREE.Vector2(lin(.78) - hol * .6, hh * .78), new THREE.Vector2(bT1 - 2 * bv, hh)]);
       sh.lineTo(0, hh); sh.closePath();
       const g = new THREE.ExtrudeGeometry(sh, { depth: bW - 2 * bv, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 6, curveSegments: 20 });
       g.translate(bv, bv, -(bW - 2 * bv) / 2); g.rotateY(-Math.PI / 2); g.rotateX(-lean); g.computeVertexNormals(); worldUV(g);
