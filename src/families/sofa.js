@@ -15,7 +15,7 @@ const SHAPES = { straight: 'ישרה', chaiseL: 'שזלונג משמאל', chais
 const fabId = S => S['f_' + (S.fcol || 'fast')];
 const pmapGet = S => Object.fromEntries(String(S.pmap || '').split(';').filter(Boolean).map(x => x.split('=')));
 const pmapSet = (S, m) => { S.pmap = Object.entries(m).map(([k, v]) => k + '=' + v).join(';'); };
-const PART_HE = { head: 'משענת ראש', pocket: 'כיס צד', seat: 'מושב', end: 'קצה מעוגל', base: 'בסיס', back: 'גב', armL: 'ידית שמאל', armR: 'ידית ימין', chaise: 'שזלונג' };
+const PART_HE = { head: 'משענת ראש', pocket: 'כיסי צד', seat: 'מושב', end: 'קצה מעוגל', base: 'בסיס', back: 'גב', armL: 'ידית שמאל', armR: 'ידית ימין', chaise: 'שזלונג' };
 const BACKS = { photo: 'כמו בתמונה', all: 'גב לכל מודול', alt: 'גבות לסירוגין', none: 'ללא גב' };
 const partName = k => PART_HE[k] || (k.startsWith('mb') ? `גב מודול ${+k.slice(2) + 1}` : k[0] === 'm' ? `מודול ${+k.slice(1) + 1}` : k[0] === 's' ? `כרית ישיבה ${+k.slice(1) + 1}` : k.startsWith('bc') ? `כרית גב ${+k.slice(2) + 1}` : k[0] === 'p' ? `כרית נוי ${+k.slice(1) + 1}` : k);
 
@@ -40,7 +40,7 @@ export const sofa = {
         backs: BACKS[S.backs] || BACKS.photo,
         fabric: `<i style="${texCss(fab())}"></i>${S.pmode === 'part' ? 'בד לכל חלק' : fab().he}`,
         legs: M.base === 'plinth' ? 'בסיס על הרצפה' : `<i style="background:${(LEGS[S.leg] || LEGS.black).hex}"></i>${(LEGS[S.leg] || LEGS.black).he}`,
-        extra: M.style === 'bedrest' ? (S.pocket ? 'כיס צד' : 'ללא כיס') : S.pillows ? 'כריות נוי' : 'ללא'
+        extra: M.style === 'bedrest' ? (S.pocket ? 'כיסי צד פתוחים' : 'ללא כיסים') : S.pillows ? 'כריות נוי' : 'ללא'
       }[k]),
       toast: k => {
         const f = fab();
@@ -48,7 +48,7 @@ export const sofa = {
         if ((k === 'fcol' || k.startsWith('f_')) && S.pmode === 'part' && S.psel) return [`${partName(S.psel)}: ${f.he}`, texCss(f)];
         if (k === 'fcol' || k.startsWith('f_')) return [`בד: ${f.he}`, texCss(f)];
         if (k === 'leg') return [`רגליים: ${(LEGS[S.leg] || LEGS.black).he}`];
-        if (k === 'pocket') return [S.pocket ? 'נוסף כיס צד לבקבוק ולשלט' : 'הכיס הוסר'];
+        if (k === 'pocket') return [S.pocket ? 'נוספו כיסים פתוחים בשני הצדדים' : 'הכיסים הוסרו'];
         if (k === 'pillows') return [S.pillows ? 'נוספו כריות נוי' : 'הוסרו כריות הנוי'];
         return [`${S.len} × ${D()} ס״מ · ${shapeTxt()}`];
       },
@@ -57,7 +57,7 @@ export const sofa = {
         S.pmode === 'part' ? `בד בסיס: ${byId(FAB, S.pbase || fabId(S)).he}` : `בד: ${fab().he}`,
         ...(S.pmode === 'part' ? Object.entries(pmapGet(S)).sort().map(([k, v]) => `${partName(k)}: ${byId(FAB, v).he}`) : []),
         M.style === 'modules' ? `${Math.max(1, Math.round(S.len / (M.modW || 90)))} מודולים, ${BACKS[S.backs] || BACKS.photo}` : '',
-        M.base === 'plinth' ? '' : `רגליים: ${(LEGS[S.leg] || LEGS.black).he}`, S.pillows ? 'כריות נוי' : '', M.style === 'bedrest' && S.pocket ? 'כיס צד' : '']
+        M.base === 'plinth' ? '' : `רגליים: ${(LEGS[S.leg] || LEGS.black).he}`, S.pillows ? 'כריות נוי' : '', M.style === 'bedrest' && S.pocket ? 'כיסים פתוחים בשני הצדדים: תא לבקבוק ותא לשלטים בכל צד' : '']
     };
   },
 
@@ -439,20 +439,33 @@ export const sofa = {
 
     /* "bedrest": a back-rest lounger for the bed or the floor – wedge back, head roll, two arm bolsters, side pocket */
     function buildBedrest() {
-      const W = dims.L, aW = cm(M.armW || 20), aH = cm(M.armH || 22), bT0 = cm(M.backT || 26), bT1 = cm(M.backTop || 14), rR = cm(M.rollR || 9), bH = H - rR * 1.25, bW = W - 2 * aW + .05, z0 = -D / 2;
-      const sh = new THREE.Shape(), bv = .035; sh.moveTo(0, 0); sh.lineTo(bT0 - 2 * bv, 0); sh.lineTo(bT1 - 2 * bv, bH - 2 * bv); sh.lineTo(0, bH - 2 * bv); sh.closePath();
-      const g = new THREE.ExtrudeGeometry(sh, { depth: bW - 2 * bv, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 6 });
-      g.translate(bv, bv, -(bW - 2 * bv) / 2); g.rotateY(-Math.PI / 2); g.computeVertexNormals(); worldUV(g);
+      const W = dims.L, aW = cm(M.armW || 20), aH = cm(M.armH || 22), bT0 = cm(M.backT || 26), bT1 = cm(M.backTop || 14), rR = cm(M.rollR || 9), bH = H - rR * 1.25, bW = W - 2 * aW + .05, z0 = -D / 2, lean = M.lean ?? .2;
+      /* back: side profile follows the spine – a lumbar swell low down, a hollow behind the shoulder blades, then it thins to the top;
+         the whole back leans away from the sitter */
+      const sh = new THREE.Shape(), bv = .035, hh = bH - 2 * bv, lum = cm(M.lumbar ?? 5);
+      sh.moveTo(0, 0); sh.lineTo(bT0 - 2 * bv, 0);
+      sh.splineThru([new THREE.Vector2(bT0 - 2 * bv + lum * .7, hh * .16), new THREE.Vector2(bT0 - 2 * bv + lum, hh * .3), new THREE.Vector2(bT0 - 2 * bv - lum * .2, hh * .55), new THREE.Vector2((bT0 + bT1) / 2 - 2 * bv - lum * .5, hh * .78), new THREE.Vector2(bT1 - 2 * bv, hh)]);
+      sh.lineTo(0, hh); sh.closePath();
+      const g = new THREE.ExtrudeGeometry(sh, { depth: bW - 2 * bv, bevelEnabled: true, bevelThickness: bv, bevelSize: bv, bevelSegments: 6, curveSegments: 20 });
+      g.translate(bv, bv, -(bW - 2 * bv) / 2); g.rotateY(-Math.PI / 2); g.rotateX(-lean); g.computeVertexNormals(); worldUV(g);
       part(g, 'back', 0, 0, z0);
       const rg = new THREE.CapsuleGeometry(rR, Math.max(.02, bW - .06 - 2 * rR), 10, 24); rg.rotateZ(Math.PI / 2); worldUV(rg);
-      part(rg, 'head', 0, bH + rR * .35, z0 + bT1 * .62);
-      const aL = D - cm(M.armBack ?? 8);
-      [-1, 1].forEach(sd => part(block(aW, aH, aL, Math.min(aW, aH) / 2 - .012), sd < 0 ? 'armL' : 'armR', sd * (W / 2 - aW / 2), 0, z0 + cm(M.armBack ?? 8) + aL / 2));
-      if (S.pocket) { const sd = M.pocketSide === 'L' ? -1 : 1, pw = .2, ph = Math.min(.15, aH - .05);
-        part(block(.022, ph, pw, .008), 'pocket', sd * (W / 2 + .007), .03, z0 + D - aL * .42);
-        const rim = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.026, .008, pw + .004), .002), footMat); rim.position.set(sd * (W / 2 + .007), .03 + ph, z0 + D - aL * .42); G.legs.add(rim); }
+      const ty = bH + rR * .35, tz = bT1 * .62;
+      part(rg, 'head', 0, ty * Math.cos(lean) + tz * Math.sin(lean), z0 - ty * Math.sin(lean) + tz * Math.cos(lean));
+      /* arms: long, flat on top (a phone stays put), only the edges eased */
+      const aB = cm(M.armBack ?? 8), aL = D - aB, aR = cm(M.armR ?? 3.5);
+      [-1, 1].forEach(sd => part(block(aW, aH, aL, aR, aR), sd < 0 ? 'armL' : 'armR', sd * (W / 2 - aW / 2), 0, z0 + aB + aL / 2));
+      /* open pockets, two on the outer side of each arm: a tall one for a bottle, a long one for remotes and a phone */
+      if (S.pocket) [-1, 1].forEach(sd => {
+        const x = sd * (W / 2 + .013), zf = z0 + D;
+        [[.11, Math.min(.17, aH - .03), zf - .1], [.24, Math.min(.12, aH - .06), zf - .31]].forEach(([pw, ph, pz]) => {
+          part(block(.034, ph, pw, .01), 'pocket', x, .025, pz);
+          const mouth = new THREE.Mesh(easeBox(new THREE.BoxGeometry(.02, .004, pw - .024), .001), footMat); mouth.position.set(x, .025 + ph + .001, pz); G.legs.add(mouth);   /* dark opening on top – no zip, no flap */
+        });
+      });
       hotPts = { fabric: new THREE.Vector3(0, bH * .6, z0 + bT0), legs: new THREE.Vector3(W / 2, aH / 2, 0) };
-      return { W, Dz: D, zc: 0 };
+      const back = bH * Math.sin(lean) + rR;
+      return { W: W + (S.pocket ? .07 : 0), Dz: D + back, zc: -back / 2 };
     }
 
     function build() {
